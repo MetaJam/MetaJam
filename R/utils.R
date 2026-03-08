@@ -42,7 +42,7 @@ asHtml <- function(...) {
 
   # Container style (Outer Box)
   divCss <- "
-    background-color: #fff;
+    background-color: #f8f9fa;
     border: 1px solid #e9ecef;
     border-radius: 4px;
     padding: 15px;
@@ -51,11 +51,11 @@ asHtml <- function(...) {
   # Text style (Inner Pre)
   # Uses a premium font stack with fallback to system monospace
   preCss <- "
-    font-family: 'Consolas', 'Source Code Pro', 'Fira Code', 'JetBrains Mono', 'Roboto Mono', 
-    'Cascadia Code', , ui-monospace, SFMono-Regular, 
-    Menlo , 'DejaVu Sans Mono';
+    font-family: 'Fira Code', 'JetBrains Mono', 'Roboto Mono', 
+    'Cascadia Code', 'Source Code Pro', ui-monospace, SFMono-Regular, 
+    Menlo, Consolas, 'DejaVu Sans Mono', monospace;
     font-size: 13.5px;
-    font-weight: 250;
+    font-weight: 500;
     color: #333333;
     line-height: 1.5;
     white-space: pre;

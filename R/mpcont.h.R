@@ -447,7 +447,7 @@ mpcontResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Image$new(
                 options=options,
                 name="meta_regression_plot",
-                width=700,
+                width=800,
                 height=500,
                 renderFun=".meta_reg_plot_func",
                 visible="(MetaRegressionCovariate)",
