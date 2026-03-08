@@ -69,7 +69,7 @@ asHtml <- function(...) {
   # 2. Structure: DIV (Box) containing PRE (Text)
   htmlContent <- paste0(
     "<style>
-      .jmv-results-html:has(.metaport-output) { width: 100% !important; }
+      .jmv-results-html:has(.metaport-output) { width: max-content !important; }
     </style>
     <div class='metaport-output' style=\"",
     divCss,
