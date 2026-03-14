@@ -156,7 +156,7 @@ options:
     default: 0.95
 
   - name: showSummary
-    title: Show Summary Output
+    title: Show Meta-Analysis Summary
     type: Bool
     default: true
 

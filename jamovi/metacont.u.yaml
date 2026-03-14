@@ -55,11 +55,13 @@ children:
     label: Meta-Analysis
     collapsed: false
     children:
-      - type: ComboBox
-        name: sm
-      - type: ComboBox
-        name: methodSmd
-        enable: (sm:smd)
+      - type: LayoutBox
+        children:
+          - type: ComboBox
+            name: sm
+          - type: ComboBox
+            name: methodSmd
+            enable: (sm:smd)
       - type: CheckBox
         name: random
       - type: CheckBox
@@ -73,11 +75,13 @@ children:
         enable: (methodRandomCi:HK)
       - type: CheckBox
         name: prediction
-      - type: TextBox
-        name: confidenceLevel
-        format: number
-        width: normal
-        suffix: "%"
+      - type: LayoutBox
+        children:
+          - type: TextBox
+            name: confidenceLevel
+            format: number
+            width: normal
+            suffix: "%"
       - type: CheckBox
         name: showSummary
 
@@ -87,12 +91,14 @@ children:
     children:
       - type: CheckBox
         name: forestPlot
-      - type: ComboBox
-        name: forestLayout
-        enable: (forestPlot)
-      - type: ComboBox
-        name: sortBy
-        enable: (forestPlot)
+      - type: LayoutBox
+        children:
+          - type: ComboBox
+            name: forestLayout
+            enable: (forestPlot)
+          - type: ComboBox
+            name: sortBy
+            enable: (forestPlot)
       - type: LayoutBox
         fitToGrid: true
         children:

@@ -9,7 +9,7 @@ metaContClass <- R6::R6Class(
         for (opt in required) {
           if (is.null(self$options[[opt]])) return()
         }
-        
+
         data <- self$data
         if (is.null(data) || nrow(data) == 0) {
           data <- self$readDataset()
@@ -25,7 +25,7 @@ metaContClass <- R6::R6Class(
     .init = function() {
       initForestPlot(self$results$plot, self$model, self$options)
       if (self$options$showSummary) {
-        self$results$text$setContent(asHtml(title = "Overall Meta-Analysis Results"))
+        self$results$text$setContent(asHtml(title = "Meta-Analysis Summary"))
       }
     },
 
@@ -36,7 +36,10 @@ metaContClass <- R6::R6Class(
 
       # Overall results
       if (self$options$showSummary) {
-        self$results$text$setContent(asHtml(summary(self$model), title = "Overall Meta-Analysis Results"))
+        self$results$text$setContent(asHtml(
+          summary(self$model),
+          title = "Meta-Analysis Summary"
+        ))
       }
     },
 
