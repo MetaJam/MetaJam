@@ -6,11 +6,16 @@
 #'
 #' @param ... Expressions to be evaluated. Their output is captured via
 #'   `capture.output`.
-#' @param title Optional string to add a native-looking jamovi `<h2>` title 
-#'   above the html container. 
+#' @param title Optional string to add a native-looking jamovi `<h2>` title
+#'   above the html container.
 #' @return A string containing the styled HTML.
 #' @noRd
 asHtml <- function(..., title = NULL) {
+  # Temporarily increase width to prevent console-like line wrapping for long
+  # text
+  old_opts <- options(width = 10000)
+  on.exit(options(old_opts), add = TRUE)
+
   # Capture the printed output of the expression(s)
   text <- capture.output(...)
   text <- paste0(text, collapse = "\n")
