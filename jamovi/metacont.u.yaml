@@ -1,6 +1,6 @@
 name: metaCont
 title: Continuous Meta-Analysis
-jus: '3.0'
+jus: "3.0"
 stage: 0
 compilerMode: tame
 children:
@@ -54,25 +54,30 @@ children:
   - type: CollapseBox
     label: Meta-Analysis
     collapsed: false
+    stretchFactor: 1
     children:
       - type: LayoutBox
         children:
           - type: ComboBox
             name: sm
+      - type: LayoutBox
+        children:
           - type: ComboBox
             name: methodSmd
             enable: (sm:smd)
-      - type: CheckBox
-        name: random
-      - type: CheckBox
-        name: common
-      - type: ComboBox
-        name: methodTau
-      - type: ComboBox
-        name: methodRandomCi
-      - type: ComboBox
-        name: adhocHaknCi
-        enable: (methodRandomCi:HK)
+      - type: LayoutBox
+        children:
+          - type: ComboBox
+            name: model
+      - type: LayoutBox
+        children:
+          - type: ComboBox
+            name: methodTau
+      - type: LayoutBox
+        children:
+          - type: ComboBox
+            name: methodRandomCi
+            enable: (!model:common)
       - type: CheckBox
         name: prediction
       - type: LayoutBox
@@ -88,6 +93,7 @@ children:
   - type: CollapseBox
     label: Forest Plot
     collapsed: true
+    stretchFactor: 1
     children:
       - type: CheckBox
         name: forestPlot

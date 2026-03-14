@@ -14,6 +14,7 @@ metaContClass <- R6::R6Class(
         if (is.null(data) || nrow(data) == 0) {
           data <- self$readDataset()
         }
+
         private$.model <- computeContModel(data, self$options)
       }
       private$.model
@@ -44,16 +45,8 @@ metaContClass <- R6::R6Class(
     },
 
     .forestPlot = function(image, ...) {
-      if (is.null(self$model)) {
-        return(FALSE)
-      }
-
-      grid::grid.newpage()
-      grid::grid.rect(gp = grid::gpar(fill = "white", col = NA))
-
-      model <- self$model
-      eval(buildForestExpr(model, self$options))
-
+      if (is.null(self$model)) return(FALSE)
+      renderContForest(self$model, self$options)
       TRUE
     }
   )

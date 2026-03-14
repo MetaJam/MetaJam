@@ -15,13 +15,11 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             nC = NULL,
             sm = "md",
             methodSmd = "Hedges",
-            random = TRUE,
-            common = TRUE,
+            model = "both",
             methodTau = "REML",
             methodRandomCi = "classic",
-            adhocHaknCi = "none",
             prediction = FALSE,
-            confidenceLevel = 0.95,
+            confidenceLevel = 95,
             showSummary = TRUE,
             forestPlot = TRUE,
             forestLayout = "meta",
@@ -103,21 +101,21 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "Cohen",
                     "Glass"),
                 default="Hedges")
-            private$..random <- jmvcore::OptionBool$new(
-                "random",
-                random,
-                default=TRUE)
-            private$..common <- jmvcore::OptionBool$new(
-                "common",
-                common,
-                default=TRUE)
+            private$..model <- jmvcore::OptionList$new(
+                "model",
+                model,
+                options=list(
+                    "both",
+                    "random",
+                    "common"),
+                default="both")
             private$..methodTau <- jmvcore::OptionList$new(
                 "methodTau",
                 methodTau,
                 options=list(
                     "REML",
-                    "DL",
                     "PM",
+                    "DL",
                     "ML",
                     "HS",
                     "SJ",
@@ -131,15 +129,6 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "classic",
                     "HK"),
                 default="classic")
-            private$..adhocHaknCi <- jmvcore::OptionList$new(
-                "adhocHaknCi",
-                adhocHaknCi,
-                options=list(
-                    "none",
-                    "se",
-                    "IQR",
-                    "ci"),
-                default="none")
             private$..prediction <- jmvcore::OptionBool$new(
                 "prediction",
                 prediction,
@@ -147,7 +136,9 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..confidenceLevel <- jmvcore::OptionNumber$new(
                 "confidenceLevel",
                 confidenceLevel,
-                default=0.95)
+                min=50,
+                max=99.9,
+                default=95)
             private$..showSummary <- jmvcore::OptionBool$new(
                 "showSummary",
                 showSummary,
@@ -201,11 +192,9 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..nC)
             self$.addOption(private$..sm)
             self$.addOption(private$..methodSmd)
-            self$.addOption(private$..random)
-            self$.addOption(private$..common)
+            self$.addOption(private$..model)
             self$.addOption(private$..methodTau)
             self$.addOption(private$..methodRandomCi)
-            self$.addOption(private$..adhocHaknCi)
             self$.addOption(private$..prediction)
             self$.addOption(private$..confidenceLevel)
             self$.addOption(private$..showSummary)
@@ -227,11 +216,9 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         nC = function() private$..nC$value,
         sm = function() private$..sm$value,
         methodSmd = function() private$..methodSmd$value,
-        random = function() private$..random$value,
-        common = function() private$..common$value,
+        model = function() private$..model$value,
         methodTau = function() private$..methodTau$value,
         methodRandomCi = function() private$..methodRandomCi$value,
-        adhocHaknCi = function() private$..adhocHaknCi$value,
         prediction = function() private$..prediction$value,
         confidenceLevel = function() private$..confidenceLevel$value,
         showSummary = function() private$..showSummary$value,
@@ -252,11 +239,9 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..nC = NA,
         ..sm = NA,
         ..methodSmd = NA,
-        ..random = NA,
-        ..common = NA,
+        ..model = NA,
         ..methodTau = NA,
         ..methodRandomCi = NA,
-        ..adhocHaknCi = NA,
         ..prediction = NA,
         ..confidenceLevel = NA,
         ..showSummary = NA,
@@ -306,9 +291,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "methodTau",
                     "methodSmd",
                     "methodRandomCi",
-                    "adhocHaknCi",
-                    "random",
-                    "common",
+                    "model",
                     "prediction",
                     "confidenceLevel",
                     "forestLayout",
@@ -354,11 +337,9 @@ metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param nC .
 #' @param sm .
 #' @param methodSmd .
-#' @param random .
-#' @param common .
+#' @param model .
 #' @param methodTau .
 #' @param methodRandomCi .
-#' @param adhocHaknCi .
 #' @param prediction .
 #' @param confidenceLevel .
 #' @param showSummary .
@@ -387,13 +368,11 @@ metaCont <- function(
     nC,
     sm = "md",
     methodSmd = "Hedges",
-    random = TRUE,
-    common = TRUE,
+    model = "both",
     methodTau = "REML",
     methodRandomCi = "classic",
-    adhocHaknCi = "none",
     prediction = FALSE,
-    confidenceLevel = 0.95,
+    confidenceLevel = 95,
     showSummary = TRUE,
     forestPlot = TRUE,
     forestLayout = "meta",
@@ -435,11 +414,9 @@ metaCont <- function(
         nC = nC,
         sm = sm,
         methodSmd = methodSmd,
-        random = random,
-        common = common,
+        model = model,
         methodTau = methodTau,
         methodRandomCi = methodRandomCi,
-        adhocHaknCi = adhocHaknCi,
         prediction = prediction,
         confidenceLevel = confidenceLevel,
         showSummary = showSummary,

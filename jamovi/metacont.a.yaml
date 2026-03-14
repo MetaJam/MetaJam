@@ -89,15 +89,17 @@ options:
         name: Glass
     default: Hedges
 
-  - name: random
-    title: Random Effects
-    type: Bool
-    default: true
-
-  - name: common
-    title: Common Effect
-    type: Bool
-    default: true
+  - name: model
+    title: Model
+    type: List
+    options:
+      - title: Random & Common
+        name: both
+      - title: Random effects
+        name: random
+      - title: Common effect
+        name: common
+    default: both
 
   - name: methodTau
     title: Heterogeneity Estimator
@@ -105,10 +107,10 @@ options:
     options:
       - title: Restricted Maximum-Likelihood
         name: REML
-      - title: DerSimonian-Laird
-        name: DL
       - title: Paule-Mandel
         name: PM
+      - title: DerSimonian-Laird
+        name: DL
       - title: Maximum-Likelihood
         name: ML
       - title: Hunter-Schmidt
@@ -125,25 +127,11 @@ options:
     title: Random Effects CI Method
     type: List
     options:
-      - title: Classic (Wald-type)
+      - title: Classic
         name: classic
       - title: Hartung-Knapp
         name: HK
     default: classic
-
-  - name: adhocHaknCi
-    title: Ad-hoc Variance Correction
-    type: List
-    options:
-      - title: None
-        name: none
-      - title: Correct using SE
-        name: se
-      - title: Correct using IQR
-        name: IQR
-      - title: Correct using CI
-        name: ci
-    default: none
 
   - name: prediction
     title: Prediction Interval
@@ -153,7 +141,9 @@ options:
   - name: confidenceLevel
     title: Confidence Level
     type: Number
-    default: 0.95
+    min: 50
+    max: 99.9
+    default: 95
 
   - name: showSummary
     title: Show Meta-Analysis Summary
@@ -206,11 +196,11 @@ options:
     default: ''
 
   - name: labelE
-    title: Label (Experimental)
+    title: Experimental Label
     type: String
     default: Experimental
 
   - name: labelC
-    title: Label (Control)
+    title: Control Label
     type: String
     default: Control

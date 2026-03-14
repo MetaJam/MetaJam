@@ -26,9 +26,7 @@ items:
       - methodTau
       - methodSmd
       - methodRandomCi
-      - adhocHaknCi
-      - random
-      - common
+      - model
       - prediction
       - confidenceLevel
       - forestLayout

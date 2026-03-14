@@ -13,11 +13,11 @@ computeContModel <- function(data, options) {
 
   # Extract and convert columns
   mean.e <- jmvcore::toNumeric(data[[options$meanE]])
-  sd.e   <- jmvcore::toNumeric(data[[options$sdE]])
-  n.e    <- jmvcore::toNumeric(data[[options$nE]])
+  sd.e <- jmvcore::toNumeric(data[[options$sdE]])
+  n.e <- jmvcore::toNumeric(data[[options$nE]])
   mean.c <- jmvcore::toNumeric(data[[options$meanC]])
-  sd.c   <- jmvcore::toNumeric(data[[options$sdC]])
-  n.c    <- jmvcore::toNumeric(data[[options$nC]])
+  sd.c <- jmvcore::toNumeric(data[[options$sdC]])
+  n.c <- jmvcore::toNumeric(data[[options$nC]])
 
   # Optional study labels
   studlab <- NULL
@@ -26,29 +26,51 @@ computeContModel <- function(data, options) {
   }
 
   # Confidence / prediction level (shared)
-  level <- options$confidenceLevel
-
-  # Ad-hoc correction: map jamovi "none" to meta's ""
-  adhoc <- if (options$adhocHaknCi == "none") "" else options$adhocHaknCi
+  level <- options$confidenceLevel / 100
 
   # Fit model
   meta::metacont(
-    n.e             = n.e,
-    mean.e          = mean.e,
-    sd.e            = sd.e,
-    n.c             = n.c,
-    mean.c          = mean.c,
-    sd.c            = sd.c,
-    studlab         = studlab,
-    sm              = options$sm,
-    method.tau      = options$methodTau,
-    method.smd      = options$methodSmd,
-    common          = options$common,
-    random          = options$random,
-    prediction      = options$prediction,
-    level.ma        = level,
-    level.predict   = level,
-    method.random.ci = options$methodRandomCi,
-    adhoc.hakn.ci   = adhoc
+    n.e = n.e,
+    mean.e = mean.e,
+    sd.e = sd.e,
+    n.c = n.c,
+    mean.c = mean.c,
+    sd.c = sd.c,
+    studlab = studlab,
+    sm = options$sm,
+    method.tau = options$methodTau,
+    method.smd = options$methodSmd,
+    common = options$model %in% c("both", "common"),
+    random = options$model %in% c("both", "random"),
+    prediction = options$prediction,
+    level = level,
+    level.ma = level,
+    level.predict = level,
+    method.random.ci = options$methodRandomCi
   )
+}
+
+
+#' Render a Metacont-Specific Forest Plot
+#'
+#' Adds metacont-specific column label attachments (so the group header
+#' spans the Mean / SD / N columns) and delegates to `renderForest()`.
+#'
+#' @param model A `metacont` object.
+#' @param options A Jamovi options object.
+#' @return The (invisible) return value of `meta::forest()`.
+#' @noRd
+renderContForest <- function(model, options) {
+  if (options$forestLayout %in% c("meta", "RevMan5")) {
+    renderForest(
+      model,
+      options,
+      label.e.attach = c("n.e", "mean.e", "sd.e"),
+      label.c.attach = c("n.c", "mean.c", "sd.c"),
+      just.label.e = "center",
+      just.label.c = "center"
+    )
+  } else {
+    renderForest(model, options)
+  }
 }
