@@ -121,6 +121,9 @@ updateSubgroupVisibility <- function(options, results, model) {
 #' @param subgroupModel A `meta` object with subgroup results, or `NULL`.
 #' @noRd
 populateSubgroupText <- function(textResult, subgroupModel) {
+  if (!textResult$visible) {
+    return()
+  }
   if (is.null(subgroupModel)) {
     return()
   }

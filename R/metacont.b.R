@@ -48,7 +48,12 @@ metaContClass <- R6::R6Class(
     },
 
     .run = function() {
-      if (is.null(self$model)) {
+      if (
+        !hasRequiredVars(
+          self$options,
+          c("meanE", "sdE", "nE", "meanC", "sdC", "nC")
+        )
+      ) {
         return()
       }
 

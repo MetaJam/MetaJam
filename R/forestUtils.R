@@ -105,9 +105,6 @@ convertToPx <- function(x, unit) {
 #' @return `NULL` invisibly. Called for side effects (`setSize()`).
 #' @noRd
 initForestPlot <- function(image, model, options, width = 800, ...) {
-  if (image$isFilled()) {
-    return()
-  }
   if (!image$visible) {
     return()
   }
