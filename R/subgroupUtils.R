@@ -75,7 +75,11 @@ buildSubgroupForestOptions <- function(options) {
     forestWidthAdjust = options$subgroupForestWidthAdjust,
     forestWidthUnit = options$subgroupForestWidthUnit,
     forestHeightAdjust = options$subgroupForestHeightAdjust,
-    forestHeightUnit = options$subgroupForestHeightUnit
+    forestHeightUnit = options$subgroupForestHeightUnit,
+    forestTestOverall = options$subgroupForestTestOverall,
+    forestDetails = options$subgroupForestDetails,
+    forestPrintI2Ci = options$subgroupForestPrintI2Ci,
+    forestPrintTau2Ci = options$subgroupForestPrintTau2Ci
   )
 }
 

@@ -29,7 +29,10 @@ renderForest <- function(model, options, ...) {
     label.right = options$labelRight,
     colgap = colgap,
     colgap.forest = colgap.forest,
-    test.overall = TRUE,
+    test.overall = options$forestTestOverall,
+    details = options$forestDetails,
+    print.I2.ci = options$forestPrintI2Ci,
+    print.tau2.ci = options$forestPrintTau2Ci,
     ...
   )
 

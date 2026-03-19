@@ -159,11 +159,11 @@ options:
     title: ""
     type: List
     options:
-      - title: Basic
-        name: basic
-      - title: Advanced
-        name: advanced
-    default: basic
+      - title: Appearance
+        name: appearance
+      - title: Dimensions
+        name: dimensions
+    default: appearance
 
   - name: forestLayout
     title: Layout
@@ -194,6 +194,26 @@ options:
       - title: Weight (Descending)
         name: weightDesc
     default: none
+
+  - name: forestTestOverall
+    title: Test for Overall Effect
+    type: Bool
+    default: false
+
+  - name: forestDetails
+    title: Method Details
+    type: Bool
+    default: false
+
+  - name: forestPrintI2Ci
+    title: I² Confidence Interval
+    type: Bool
+    default: false
+
+  - name: forestPrintTau2Ci
+    title: τ² Confidence Interval
+    type: Bool
+    default: false
 
   - name: labelE
     title: Experimental Label
@@ -355,14 +375,14 @@ options:
     title: ""
     type: List
     options:
-      - title: Basic
-        name: basic
-      - title: Advanced
-        name: advanced
-    default: basic
+      - title: Appearance
+        name: appearance
+      - title: Dimensions
+        name: dimensions
+    default: appearance
 
   - name: printSubgroupName
-    title: Print Subgroup Variable Name
+    title: Subgroup Variable Name
     type: Bool
     default: true
 
@@ -397,6 +417,36 @@ options:
       - title: Weight (Descending)
         name: weightDesc
     default: none
+
+  - name: subgroupForestTestSubgroup
+    title: Test for Subgroup Differences
+    type: Bool
+    default: true
+
+  - name: subgroupForestTestEffect
+    title: Test Effect per Subgroup
+    type: Bool
+    default: false
+
+  - name: subgroupForestTestOverall
+    title: Test for Overall Effect
+    type: Bool
+    default: false
+
+  - name: subgroupForestPrintI2Ci
+    title: I² Confidence Interval
+    type: Bool
+    default: false
+
+  - name: subgroupForestPrintTau2Ci
+    title: τ² Confidence Interval
+    type: Bool
+    default: false
+
+  - name: subgroupForestDetails
+    title: Method Details
+    type: Bool
+    default: false
 
   - name: subgroupLabelE
     title: Experimental Label

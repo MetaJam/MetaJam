@@ -36,7 +36,8 @@ metaContClass <- R6::R6Class(
         self$results$subgroupPlot,
         self$subgroupModel,
         buildContSubgroupForestOptions(self$options),
-        test.effect.subgroup = TRUE,
+        test.effect.subgroup = self$options$subgroupForestTestEffect,
+        test.subgroup = self$options$subgroupForestTestSubgroup,
         subgroup.name = self$options$subgroupVariable,
         print.subgroup.name = self$options$printSubgroupName
       )
@@ -88,7 +89,8 @@ metaContClass <- R6::R6Class(
       renderContForest(
         self$subgroupModel,
         buildContSubgroupForestOptions(self$options),
-        test.effect.subgroup = TRUE,
+        test.effect.subgroup = self$options$subgroupForestTestEffect,
+        test.subgroup = self$options$subgroupForestTestSubgroup,
         subgroup.name = self$options$subgroupVariable,
         print.subgroup.name = self$options$printSubgroupName
       )

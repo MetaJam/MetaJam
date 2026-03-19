@@ -63,6 +63,10 @@ items:
       - colgapUnit
       - colgapForest
       - colgapForestUnit
+      - forestTestOverall
+      - forestDetails
+      - forestPrintI2Ci
+      - forestPrintTau2Ci
     refs:
       - metaPackage
 
@@ -133,5 +137,11 @@ items:
       - subgroupColgapUnit
       - subgroupColgapForest
       - subgroupColgapForestUnit
+      - subgroupForestTestSubgroup
+      - subgroupForestTestEffect
+      - subgroupForestTestOverall
+      - subgroupForestPrintI2Ci
+      - subgroupForestPrintTau2Ci
+      - subgroupForestDetails
     refs:
       - metaPackage

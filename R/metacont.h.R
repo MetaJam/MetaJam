@@ -22,9 +22,13 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             confidenceLevel = 95,
             showSummary = TRUE,
             forestPlot = TRUE,
-            forestMode = "basic",
+            forestMode = "appearance",
             forestLayout = "meta",
             sortBy = "none",
+            forestTestOverall = FALSE,
+            forestDetails = FALSE,
+            forestPrintI2Ci = FALSE,
+            forestPrintTau2Ci = FALSE,
             labelE = "Experimental",
             labelC = "Control",
             labelLeft = "",
@@ -47,10 +51,16 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             predictionSubgroup = FALSE,
             showSubgroupSummary = TRUE,
             subgroupForestPlot = TRUE,
-            subgroupForestMode = "basic",
+            subgroupForestMode = "appearance",
             printSubgroupName = TRUE,
             subgroupForestLayout = "meta",
             subgroupSortBy = "none",
+            subgroupForestTestSubgroup = TRUE,
+            subgroupForestTestEffect = FALSE,
+            subgroupForestTestOverall = FALSE,
+            subgroupForestPrintI2Ci = FALSE,
+            subgroupForestPrintTau2Ci = FALSE,
+            subgroupForestDetails = FALSE,
             subgroupLabelE = "Experimental",
             subgroupLabelC = "Control",
             subgroupLabelLeft = "",
@@ -191,9 +201,9 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "forestMode",
                 forestMode,
                 options=list(
-                    "basic",
-                    "advanced"),
-                default="basic")
+                    "appearance",
+                    "dimensions"),
+                default="appearance")
             private$..forestLayout <- jmvcore::OptionList$new(
                 "forestLayout",
                 forestLayout,
@@ -213,6 +223,22 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "weightAsc",
                     "weightDesc"),
                 default="none")
+            private$..forestTestOverall <- jmvcore::OptionBool$new(
+                "forestTestOverall",
+                forestTestOverall,
+                default=FALSE)
+            private$..forestDetails <- jmvcore::OptionBool$new(
+                "forestDetails",
+                forestDetails,
+                default=FALSE)
+            private$..forestPrintI2Ci <- jmvcore::OptionBool$new(
+                "forestPrintI2Ci",
+                forestPrintI2Ci,
+                default=FALSE)
+            private$..forestPrintTau2Ci <- jmvcore::OptionBool$new(
+                "forestPrintTau2Ci",
+                forestPrintTau2Ci,
+                default=FALSE)
             private$..labelE <- jmvcore::OptionString$new(
                 "labelE",
                 labelE,
@@ -335,9 +361,9 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "subgroupForestMode",
                 subgroupForestMode,
                 options=list(
-                    "basic",
-                    "advanced"),
-                default="basic")
+                    "appearance",
+                    "dimensions"),
+                default="appearance")
             private$..printSubgroupName <- jmvcore::OptionBool$new(
                 "printSubgroupName",
                 printSubgroupName,
@@ -362,6 +388,30 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "weightAsc",
                     "weightDesc"),
                 default="none")
+            private$..subgroupForestTestSubgroup <- jmvcore::OptionBool$new(
+                "subgroupForestTestSubgroup",
+                subgroupForestTestSubgroup,
+                default=TRUE)
+            private$..subgroupForestTestEffect <- jmvcore::OptionBool$new(
+                "subgroupForestTestEffect",
+                subgroupForestTestEffect,
+                default=FALSE)
+            private$..subgroupForestTestOverall <- jmvcore::OptionBool$new(
+                "subgroupForestTestOverall",
+                subgroupForestTestOverall,
+                default=FALSE)
+            private$..subgroupForestPrintI2Ci <- jmvcore::OptionBool$new(
+                "subgroupForestPrintI2Ci",
+                subgroupForestPrintI2Ci,
+                default=FALSE)
+            private$..subgroupForestPrintTau2Ci <- jmvcore::OptionBool$new(
+                "subgroupForestPrintTau2Ci",
+                subgroupForestPrintTau2Ci,
+                default=FALSE)
+            private$..subgroupForestDetails <- jmvcore::OptionBool$new(
+                "subgroupForestDetails",
+                subgroupForestDetails,
+                default=FALSE)
             private$..subgroupLabelE <- jmvcore::OptionString$new(
                 "subgroupLabelE",
                 subgroupLabelE,
@@ -475,6 +525,10 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..forestMode)
             self$.addOption(private$..forestLayout)
             self$.addOption(private$..sortBy)
+            self$.addOption(private$..forestTestOverall)
+            self$.addOption(private$..forestDetails)
+            self$.addOption(private$..forestPrintI2Ci)
+            self$.addOption(private$..forestPrintTau2Ci)
             self$.addOption(private$..labelE)
             self$.addOption(private$..labelC)
             self$.addOption(private$..labelLeft)
@@ -501,6 +555,12 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..printSubgroupName)
             self$.addOption(private$..subgroupForestLayout)
             self$.addOption(private$..subgroupSortBy)
+            self$.addOption(private$..subgroupForestTestSubgroup)
+            self$.addOption(private$..subgroupForestTestEffect)
+            self$.addOption(private$..subgroupForestTestOverall)
+            self$.addOption(private$..subgroupForestPrintI2Ci)
+            self$.addOption(private$..subgroupForestPrintTau2Ci)
+            self$.addOption(private$..subgroupForestDetails)
             self$.addOption(private$..subgroupLabelE)
             self$.addOption(private$..subgroupLabelC)
             self$.addOption(private$..subgroupLabelLeft)
@@ -539,6 +599,10 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         forestMode = function() private$..forestMode$value,
         forestLayout = function() private$..forestLayout$value,
         sortBy = function() private$..sortBy$value,
+        forestTestOverall = function() private$..forestTestOverall$value,
+        forestDetails = function() private$..forestDetails$value,
+        forestPrintI2Ci = function() private$..forestPrintI2Ci$value,
+        forestPrintTau2Ci = function() private$..forestPrintTau2Ci$value,
         labelE = function() private$..labelE$value,
         labelC = function() private$..labelC$value,
         labelLeft = function() private$..labelLeft$value,
@@ -565,6 +629,12 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         printSubgroupName = function() private$..printSubgroupName$value,
         subgroupForestLayout = function() private$..subgroupForestLayout$value,
         subgroupSortBy = function() private$..subgroupSortBy$value,
+        subgroupForestTestSubgroup = function() private$..subgroupForestTestSubgroup$value,
+        subgroupForestTestEffect = function() private$..subgroupForestTestEffect$value,
+        subgroupForestTestOverall = function() private$..subgroupForestTestOverall$value,
+        subgroupForestPrintI2Ci = function() private$..subgroupForestPrintI2Ci$value,
+        subgroupForestPrintTau2Ci = function() private$..subgroupForestPrintTau2Ci$value,
+        subgroupForestDetails = function() private$..subgroupForestDetails$value,
         subgroupLabelE = function() private$..subgroupLabelE$value,
         subgroupLabelC = function() private$..subgroupLabelC$value,
         subgroupLabelLeft = function() private$..subgroupLabelLeft$value,
@@ -602,6 +672,10 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..forestMode = NA,
         ..forestLayout = NA,
         ..sortBy = NA,
+        ..forestTestOverall = NA,
+        ..forestDetails = NA,
+        ..forestPrintI2Ci = NA,
+        ..forestPrintTau2Ci = NA,
         ..labelE = NA,
         ..labelC = NA,
         ..labelLeft = NA,
@@ -628,6 +702,12 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..printSubgroupName = NA,
         ..subgroupForestLayout = NA,
         ..subgroupSortBy = NA,
+        ..subgroupForestTestSubgroup = NA,
+        ..subgroupForestTestEffect = NA,
+        ..subgroupForestTestOverall = NA,
+        ..subgroupForestPrintI2Ci = NA,
+        ..subgroupForestPrintTau2Ci = NA,
+        ..subgroupForestDetails = NA,
         ..subgroupLabelE = NA,
         ..subgroupLabelC = NA,
         ..subgroupLabelLeft = NA,
@@ -722,7 +802,11 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "colgap",
                     "colgapUnit",
                     "colgapForest",
-                    "colgapForestUnit"),
+                    "colgapForestUnit",
+                    "forestTestOverall",
+                    "forestDetails",
+                    "forestPrintI2Ci",
+                    "forestPrintTau2Ci"),
                 refs=list(
                     "metaPackage")))
             self$add(jmvcore::Html$new(
@@ -792,7 +876,13 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "subgroupColgap",
                     "subgroupColgapUnit",
                     "subgroupColgapForest",
-                    "subgroupColgapForestUnit"),
+                    "subgroupColgapForestUnit",
+                    "subgroupForestTestSubgroup",
+                    "subgroupForestTestEffect",
+                    "subgroupForestTestOverall",
+                    "subgroupForestPrintI2Ci",
+                    "subgroupForestPrintTau2Ci",
+                    "subgroupForestDetails"),
                 refs=list(
                     "metaPackage")))}))
 
@@ -840,6 +930,10 @@ metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param forestMode .
 #' @param forestLayout .
 #' @param sortBy .
+#' @param forestTestOverall .
+#' @param forestDetails .
+#' @param forestPrintI2Ci .
+#' @param forestPrintTau2Ci .
 #' @param labelE .
 #' @param labelC .
 #' @param labelLeft .
@@ -866,6 +960,12 @@ metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param printSubgroupName .
 #' @param subgroupForestLayout .
 #' @param subgroupSortBy .
+#' @param subgroupForestTestSubgroup .
+#' @param subgroupForestTestEffect .
+#' @param subgroupForestTestOverall .
+#' @param subgroupForestPrintI2Ci .
+#' @param subgroupForestPrintTau2Ci .
+#' @param subgroupForestDetails .
 #' @param subgroupLabelE .
 #' @param subgroupLabelC .
 #' @param subgroupLabelLeft .
@@ -910,9 +1010,13 @@ metaCont <- function(
     confidenceLevel = 95,
     showSummary = TRUE,
     forestPlot = TRUE,
-    forestMode = "basic",
+    forestMode = "appearance",
     forestLayout = "meta",
     sortBy = "none",
+    forestTestOverall = FALSE,
+    forestDetails = FALSE,
+    forestPrintI2Ci = FALSE,
+    forestPrintTau2Ci = FALSE,
     labelE = "Experimental",
     labelC = "Control",
     labelLeft = "",
@@ -935,10 +1039,16 @@ metaCont <- function(
     predictionSubgroup = FALSE,
     showSubgroupSummary = TRUE,
     subgroupForestPlot = TRUE,
-    subgroupForestMode = "basic",
+    subgroupForestMode = "appearance",
     printSubgroupName = TRUE,
     subgroupForestLayout = "meta",
     subgroupSortBy = "none",
+    subgroupForestTestSubgroup = TRUE,
+    subgroupForestTestEffect = FALSE,
+    subgroupForestTestOverall = FALSE,
+    subgroupForestPrintI2Ci = FALSE,
+    subgroupForestPrintTau2Ci = FALSE,
+    subgroupForestDetails = FALSE,
     subgroupLabelE = "Experimental",
     subgroupLabelC = "Control",
     subgroupLabelLeft = "",
@@ -1001,6 +1111,10 @@ metaCont <- function(
         forestMode = forestMode,
         forestLayout = forestLayout,
         sortBy = sortBy,
+        forestTestOverall = forestTestOverall,
+        forestDetails = forestDetails,
+        forestPrintI2Ci = forestPrintI2Ci,
+        forestPrintTau2Ci = forestPrintTau2Ci,
         labelE = labelE,
         labelC = labelC,
         labelLeft = labelLeft,
@@ -1027,6 +1141,12 @@ metaCont <- function(
         printSubgroupName = printSubgroupName,
         subgroupForestLayout = subgroupForestLayout,
         subgroupSortBy = subgroupSortBy,
+        subgroupForestTestSubgroup = subgroupForestTestSubgroup,
+        subgroupForestTestEffect = subgroupForestTestEffect,
+        subgroupForestTestOverall = subgroupForestTestOverall,
+        subgroupForestPrintI2Ci = subgroupForestPrintI2Ci,
+        subgroupForestPrintTau2Ci = subgroupForestPrintTau2Ci,
+        subgroupForestDetails = subgroupForestDetails,
         subgroupLabelE = subgroupLabelE,
         subgroupLabelC = subgroupLabelC,
         subgroupLabelLeft = subgroupLabelLeft,

@@ -100,7 +100,7 @@ children:
             enable: (forestPlot)
             children:
               - type: Content
-                name: basic
+                name: appearance
                 children:
                   - type: LayoutBox
                     children:
@@ -110,6 +110,33 @@ children:
                       - type: ComboBox
                         name: sortBy
                         enable: (forestPlot)
+                  - type: LayoutBox
+                    fitToGrid: true
+                    children:
+                      - type: CheckBox
+                        name: forestTestOverall
+                        enable: (forestPlot)
+                        cell:
+                          row: 0
+                          column: 0
+                      - type: CheckBox
+                        name: forestPrintI2Ci
+                        enable: (forestPlot)
+                        cell:
+                          row: 0
+                          column: 1
+                      - type: CheckBox
+                        name: forestDetails
+                        enable: (forestPlot)
+                        cell:
+                          row: 1
+                          column: 0
+                      - type: CheckBox
+                        name: forestPrintTau2Ci
+                        enable: (forestPlot)
+                        cell:
+                          row: 1
+                          column: 1
                   - type: LayoutBox
                     fitToGrid: true
                     children:
@@ -146,7 +173,7 @@ children:
                           row: 1
                           column: 1
               - type: Content
-                name: advanced
+                name: dimensions
                 children:
                   - type: LayoutBox
                     fitToGrid: true
@@ -289,7 +316,7 @@ children:
               ui['subgroupForestPlot'].value();})
             children:
               - type: Content
-                name: basic
+                name: appearance
                 children:
                   - type: LayoutBox
                     children:
@@ -308,6 +335,57 @@ children:
                         enable: >
                           ({return !!ui['subgroupVariable'].value() &&
                           ui['subgroupForestPlot'].value();})
+                  - type: LayoutBox
+                    fitToGrid: true
+                    children:
+                      - type: CheckBox
+                        name: subgroupForestTestSubgroup
+                        enable: >
+                          ({return !!ui['subgroupVariable'].value() &&
+                          ui['subgroupForestPlot'].value();})
+                        cell:
+                          row: 0
+                          column: 0
+                      - type: CheckBox
+                        name: subgroupForestPrintI2Ci
+                        enable: >
+                          ({return !!ui['subgroupVariable'].value() &&
+                          ui['subgroupForestPlot'].value();})
+                        cell:
+                          row: 0
+                          column: 1
+                      - type: CheckBox
+                        name: subgroupForestTestEffect
+                        enable: >
+                          ({return !!ui['subgroupVariable'].value() &&
+                          ui['subgroupForestPlot'].value();})
+                        cell:
+                          row: 1
+                          column: 0
+                      - type: CheckBox
+                        name: subgroupForestPrintTau2Ci
+                        enable: >
+                          ({return !!ui['subgroupVariable'].value() &&
+                          ui['subgroupForestPlot'].value();})
+                        cell:
+                          row: 1
+                          column: 1
+                      - type: CheckBox
+                        name: subgroupForestTestOverall
+                        enable: >
+                          ({return !!ui['subgroupVariable'].value() &&
+                          ui['subgroupForestPlot'].value();})
+                        cell:
+                          row: 2
+                          column: 0
+                      - type: CheckBox
+                        name: subgroupForestDetails
+                        enable: >
+                          ({return !!ui['subgroupVariable'].value() &&
+                          ui['subgroupForestPlot'].value();})
+                        cell:
+                          row: 2
+                          column: 1
                   - type: LayoutBox
                     fitToGrid: true
                     children:
@@ -352,7 +430,7 @@ children:
                           row: 1
                           column: 1
               - type: Content
-                name: advanced
+                name: dimensions
                 children:
                   - type: LayoutBox
                     fitToGrid: true
