@@ -76,7 +76,7 @@ renderForest <- function(model, options, ...) {
 #' @param ... Extra arguments forwarded to `renderForest()`.
 #' @return The calculated height in points.
 #' @noRd
-calcForestHeight <- function(model, options, ...) {
+calcForestHeight <- function(model, options, renderFn = renderForest, ...) {
   oldDev <- grDevices::dev.cur()
   grDevices::pdf(file = NULL)
   on.exit({
@@ -84,7 +84,7 @@ calcForestHeight <- function(model, options, ...) {
     if (oldDev > 1) grDevices::dev.set(oldDev)
   })
 
-  res <- renderForest(model, options, ...)
+  res <- renderFn(model, options, ...)
   res$figheight$total_height * 72
 }
 
@@ -107,7 +107,7 @@ convertToPx <- function(x, unit) {
 #' @param ... Extra arguments forwarded to `calcForestHeight()`.
 #' @return `NULL` invisibly. Called for side effects (`setSize()`).
 #' @noRd
-initForestPlot <- function(image, model, options, width = 800, ...) {
+initForestPlot <- function(image, model, options, renderFn = renderForest, width = 800, ...) {
   if (!image$visible) {
     return()
   }
@@ -115,7 +115,7 @@ initForestPlot <- function(image, model, options, width = 800, ...) {
     return()
   }
 
-  height <- calcForestHeight(model, options, ...)
+  height <- calcForestHeight(model, options, renderFn = renderFn, ...)
 
   w_adj <- convertToPx(options$forestWidthAdjust, options$forestWidthUnit)
   h_adj <- convertToPx(options$forestHeightAdjust, options$forestHeightUnit)

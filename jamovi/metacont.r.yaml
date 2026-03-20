@@ -145,3 +145,67 @@ items:
       - subgroupForestDetails
     refs:
       - metaPackage
+
+  - name: leaveOneOutText
+    type: Html
+    visible: false
+    clearWith:
+      - studyLabel
+      - meanE
+      - sdE
+      - nE
+      - meanC
+      - sdC
+      - nC
+      - sm
+      - methodSmd
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - leaveOneOutPrediction
+    refs:
+      - metaPackage
+
+  - name: leaveOneOutPlot
+    title: Leave-One-Out Forest Plot
+    type: Image
+    renderFun: .leaveOneOutForestPlot
+    visible: false
+    clearWith:
+      - studyLabel
+      - meanE
+      - sdE
+      - nE
+      - meanC
+      - sdC
+      - nC
+      - sm
+      - methodSmd
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - leaveOneOutPrediction
+      - leaveOneOutForestLayout
+      - leaveOneOutSortBy
+      - leaveOneOutLabelLeft
+      - leaveOneOutLabelRight
+      - leaveOneOutForestWidthAdjust
+      - leaveOneOutForestWidthUnit
+      - leaveOneOutForestHeightAdjust
+      - leaveOneOutForestHeightUnit
+      - leaveOneOutXlimMode
+      - leaveOneOutXlimLower
+      - leaveOneOutXlimUpper
+      - leaveOneOutAddrowsMode
+      - leaveOneOutAddrowsBelowOverall
+      - leaveOneOutColgap
+      - leaveOneOutColgapUnit
+      - leaveOneOutColgapForest
+      - leaveOneOutColgapForestUnit
+      - leaveOneOutForestDetails
+    refs:
+      - metaPackage

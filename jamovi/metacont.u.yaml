@@ -97,7 +97,6 @@ children:
             name: forestPlot
           - type: ModeSelector
             name: forestMode
-            enable: (forestPlot)
             children:
               - type: Content
                 name: appearance
@@ -289,7 +288,6 @@ children:
                 name: subgroupVariable
                 maxItemCount: 1
                 isTarget: true
-
       - type: Label
         label: Analysis Settings
         children:
@@ -302,7 +300,6 @@ children:
           - type: CheckBox
             name: showSubgroupSummary
             enable: ({return !!ui['subgroupVariable'].value();})
-
       - type: Label
         label: Forest Plot
         children:
@@ -311,9 +308,6 @@ children:
             enable: ({return !!ui['subgroupVariable'].value();})
           - type: ModeSelector
             name: subgroupForestMode
-            enable: >
-              ({return !!ui['subgroupVariable'].value() &&
-              ui['subgroupForestPlot'].value();})
             children:
               - type: Content
                 name: appearance
@@ -556,6 +550,168 @@ children:
                         enable: >
                           ({return !!ui['subgroupVariable'].value() &&
                           ui['subgroupForestPlot'].value();})
+                        cell:
+                          row: 0
+                          column: 3
+
+  - type: CollapseBox
+    label: Leave-One-Out Analysis
+    collapsed: true
+    stretchFactor: 1
+    children:
+      - type: Label
+        label: Analysis Settings
+        children:
+          - type: CheckBox
+            name: leaveOneOut
+          - type: CheckBox
+            name: leaveOneOutPrediction
+            enable: (leaveOneOut)
+          - type: CheckBox
+            name: showLeaveOneOutSummary
+            enable: (leaveOneOut)
+      - type: Label
+        label: Forest Plot
+        children:
+          - type: CheckBox
+            name: leaveOneOutForestPlot
+            enable: (leaveOneOut)
+          - type: ModeSelector
+            name: leaveOneOutForestMode
+            children:
+              - type: Content
+                name: appearance
+                children:
+                  - type: LayoutBox
+                    children:
+                      - type: ComboBox
+                        name: leaveOneOutForestLayout
+                        enable: (leaveOneOut && leaveOneOutForestPlot)
+                      - type: ComboBox
+                        name: leaveOneOutSortBy
+                        enable: (leaveOneOut && leaveOneOutForestPlot)
+                  - type: LayoutBox
+                    children:
+                      - type: CheckBox
+                        name: leaveOneOutForestDetails
+                        enable: (leaveOneOut && leaveOneOutForestPlot)
+                  - type: LayoutBox
+                    fitToGrid: true
+                    children:
+                      - type: TextBox
+                        name: leaveOneOutLabelLeft
+                        format: string
+                        enable: (leaveOneOut && leaveOneOutForestPlot)
+                        width: large
+                        cell:
+                          row: 0
+                          column: 0
+                      - type: TextBox
+                        name: leaveOneOutLabelRight
+                        format: string
+                        enable: (leaveOneOut && leaveOneOutForestPlot)
+                        width: large
+                        cell:
+                          row: 0
+                          column: 1
+              - type: Content
+                name: dimensions
+                children:
+                  - type: LayoutBox
+                    fitToGrid: true
+                    children:
+                      - type: TextBox
+                        name: leaveOneOutForestWidthAdjust
+                        format: number
+                        enable: (leaveOneOut && leaveOneOutForestPlot)
+                        cell:
+                          row: 0
+                          column: 0
+                      - type: ComboBox
+                        name: leaveOneOutForestWidthUnit
+                        enable: (leaveOneOut && leaveOneOutForestPlot)
+                        cell:
+                          row: 0
+                          column: 1
+                      - type: TextBox
+                        name: leaveOneOutForestHeightAdjust
+                        format: number
+                        enable: (leaveOneOut && leaveOneOutForestPlot)
+                        cell:
+                          row: 0
+                          column: 2
+                      - type: ComboBox
+                        name: leaveOneOutForestHeightUnit
+                        enable: (leaveOneOut && leaveOneOutForestPlot)
+                        cell:
+                          row: 0
+                          column: 3
+                  - type: LayoutBox
+                    fitToGrid: true
+                    children:
+                      - type: ComboBox
+                        name: leaveOneOutXlimMode
+                        enable: (leaveOneOut && leaveOneOutForestPlot)
+                        cell:
+                          row: 0
+                          column: 0
+                      - type: TextBox
+                        name: leaveOneOutXlimLower
+                        format: number
+                        enable: (leaveOneOut && leaveOneOutForestPlot && leaveOneOutXlimMode:custom)
+                        cell:
+                          row: 0
+                          column: 1
+                      - type: TextBox
+                        name: leaveOneOutXlimUpper
+                        format: number
+                        enable: (leaveOneOut && leaveOneOutForestPlot && leaveOneOutXlimMode:custom)
+                        cell:
+                          row: 0
+                          column: 2
+                  - type: LayoutBox
+                    fitToGrid: true
+                    children:
+                      - type: ComboBox
+                        name: leaveOneOutAddrowsMode
+                        enable: (leaveOneOut && leaveOneOutForestPlot)
+                        cell:
+                          row: 0
+                          column: 0
+                      - type: TextBox
+                        name: leaveOneOutAddrowsBelowOverall
+                        format: number
+                        suffix: rows
+                        enable: (leaveOneOut && leaveOneOutForestPlot && leaveOneOutAddrowsMode:custom)
+                        cell:
+                          row: 0
+                          column: 1
+                  - type: LayoutBox
+                    fitToGrid: true
+                    children:
+                      - type: TextBox
+                        name: leaveOneOutColgap
+                        format: number
+                        enable: (leaveOneOut && leaveOneOutForestPlot)
+                        cell:
+                          row: 0
+                          column: 0
+                      - type: ComboBox
+                        name: leaveOneOutColgapUnit
+                        enable: (leaveOneOut && leaveOneOutForestPlot)
+                        cell:
+                          row: 0
+                          column: 1
+                      - type: TextBox
+                        name: leaveOneOutColgapForest
+                        format: number
+                        enable: (leaveOneOut && leaveOneOutForestPlot)
+                        cell:
+                          row: 0
+                          column: 2
+                      - type: ComboBox
+                        name: leaveOneOutColgapForestUnit
+                        enable: (leaveOneOut && leaveOneOutForestPlot)
                         cell:
                           row: 0
                           column: 3

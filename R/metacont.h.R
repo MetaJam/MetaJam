@@ -77,7 +77,30 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             subgroupColgap = 2,
             subgroupColgapUnit = "mm",
             subgroupColgapForest = 2,
-            subgroupColgapForestUnit = "mm", ...) {
+            subgroupColgapForestUnit = "mm",
+            leaveOneOut = FALSE,
+            leaveOneOutPrediction = FALSE,
+            showLeaveOneOutSummary = TRUE,
+            leaveOneOutForestPlot = TRUE,
+            leaveOneOutForestMode = "appearance",
+            leaveOneOutForestLayout = "meta",
+            leaveOneOutSortBy = "none",
+            leaveOneOutForestDetails = FALSE,
+            leaveOneOutLabelLeft = "",
+            leaveOneOutLabelRight = "",
+            leaveOneOutForestWidthAdjust = 0,
+            leaveOneOutForestWidthUnit = "mm",
+            leaveOneOutForestHeightAdjust = 0,
+            leaveOneOutForestHeightUnit = "mm",
+            leaveOneOutXlimMode = "auto",
+            leaveOneOutXlimLower = -20,
+            leaveOneOutXlimUpper = 20,
+            leaveOneOutAddrowsMode = "auto",
+            leaveOneOutAddrowsBelowOverall = 0,
+            leaveOneOutColgap = 2,
+            leaveOneOutColgapUnit = "mm",
+            leaveOneOutColgapForest = 2,
+            leaveOneOutColgapForestUnit = "mm", ...) {
 
             super$initialize(
                 package="MetaPort",
@@ -505,6 +528,139 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "cm",
                     "inch"),
                 default="mm")
+            private$..leaveOneOut <- jmvcore::OptionBool$new(
+                "leaveOneOut",
+                leaveOneOut,
+                default=FALSE)
+            private$..leaveOneOutPrediction <- jmvcore::OptionBool$new(
+                "leaveOneOutPrediction",
+                leaveOneOutPrediction,
+                default=FALSE)
+            private$..showLeaveOneOutSummary <- jmvcore::OptionBool$new(
+                "showLeaveOneOutSummary",
+                showLeaveOneOutSummary,
+                default=TRUE)
+            private$..leaveOneOutForestPlot <- jmvcore::OptionBool$new(
+                "leaveOneOutForestPlot",
+                leaveOneOutForestPlot,
+                default=TRUE)
+            private$..leaveOneOutForestMode <- jmvcore::OptionList$new(
+                "leaveOneOutForestMode",
+                leaveOneOutForestMode,
+                options=list(
+                    "appearance",
+                    "dimensions"),
+                default="appearance")
+            private$..leaveOneOutForestLayout <- jmvcore::OptionList$new(
+                "leaveOneOutForestLayout",
+                leaveOneOutForestLayout,
+                options=list(
+                    "meta",
+                    "RevMan5",
+                    "JAMA",
+                    "BMJ"),
+                default="meta")
+            private$..leaveOneOutSortBy <- jmvcore::OptionList$new(
+                "leaveOneOutSortBy",
+                leaveOneOutSortBy,
+                options=list(
+                    "none",
+                    "effectAsc",
+                    "effectDesc",
+                    "i2Asc",
+                    "i2Desc",
+                    "tau2Asc",
+                    "tau2Desc"),
+                default="none")
+            private$..leaveOneOutForestDetails <- jmvcore::OptionBool$new(
+                "leaveOneOutForestDetails",
+                leaveOneOutForestDetails,
+                default=FALSE)
+            private$..leaveOneOutLabelLeft <- jmvcore::OptionString$new(
+                "leaveOneOutLabelLeft",
+                leaveOneOutLabelLeft,
+                default="")
+            private$..leaveOneOutLabelRight <- jmvcore::OptionString$new(
+                "leaveOneOutLabelRight",
+                leaveOneOutLabelRight,
+                default="")
+            private$..leaveOneOutForestWidthAdjust <- jmvcore::OptionNumber$new(
+                "leaveOneOutForestWidthAdjust",
+                leaveOneOutForestWidthAdjust,
+                default=0)
+            private$..leaveOneOutForestWidthUnit <- jmvcore::OptionList$new(
+                "leaveOneOutForestWidthUnit",
+                leaveOneOutForestWidthUnit,
+                options=list(
+                    "mm",
+                    "cm",
+                    "inch"),
+                default="mm")
+            private$..leaveOneOutForestHeightAdjust <- jmvcore::OptionNumber$new(
+                "leaveOneOutForestHeightAdjust",
+                leaveOneOutForestHeightAdjust,
+                default=0)
+            private$..leaveOneOutForestHeightUnit <- jmvcore::OptionList$new(
+                "leaveOneOutForestHeightUnit",
+                leaveOneOutForestHeightUnit,
+                options=list(
+                    "mm",
+                    "cm",
+                    "inch"),
+                default="mm")
+            private$..leaveOneOutXlimMode <- jmvcore::OptionList$new(
+                "leaveOneOutXlimMode",
+                leaveOneOutXlimMode,
+                options=list(
+                    "auto",
+                    "custom"),
+                default="auto")
+            private$..leaveOneOutXlimLower <- jmvcore::OptionNumber$new(
+                "leaveOneOutXlimLower",
+                leaveOneOutXlimLower,
+                default=-20)
+            private$..leaveOneOutXlimUpper <- jmvcore::OptionNumber$new(
+                "leaveOneOutXlimUpper",
+                leaveOneOutXlimUpper,
+                default=20)
+            private$..leaveOneOutAddrowsMode <- jmvcore::OptionList$new(
+                "leaveOneOutAddrowsMode",
+                leaveOneOutAddrowsMode,
+                options=list(
+                    "auto",
+                    "custom"),
+                default="auto")
+            private$..leaveOneOutAddrowsBelowOverall <- jmvcore::OptionInteger$new(
+                "leaveOneOutAddrowsBelowOverall",
+                leaveOneOutAddrowsBelowOverall,
+                min=0,
+                default=0)
+            private$..leaveOneOutColgap <- jmvcore::OptionNumber$new(
+                "leaveOneOutColgap",
+                leaveOneOutColgap,
+                min=0,
+                default=2)
+            private$..leaveOneOutColgapUnit <- jmvcore::OptionList$new(
+                "leaveOneOutColgapUnit",
+                leaveOneOutColgapUnit,
+                options=list(
+                    "mm",
+                    "cm",
+                    "inch"),
+                default="mm")
+            private$..leaveOneOutColgapForest <- jmvcore::OptionNumber$new(
+                "leaveOneOutColgapForest",
+                leaveOneOutColgapForest,
+                min=0,
+                default=2)
+            private$..leaveOneOutColgapForestUnit <- jmvcore::OptionList$new(
+                "leaveOneOutColgapForestUnit",
+                leaveOneOutColgapForestUnit,
+                options=list(
+                    "mm",
+                    "cm",
+                    "inch"),
+                default="mm")
 
             self$.addOption(private$..studyLabel)
             self$.addOption(private$..meanE)
@@ -578,6 +734,29 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..subgroupColgapUnit)
             self$.addOption(private$..subgroupColgapForest)
             self$.addOption(private$..subgroupColgapForestUnit)
+            self$.addOption(private$..leaveOneOut)
+            self$.addOption(private$..leaveOneOutPrediction)
+            self$.addOption(private$..showLeaveOneOutSummary)
+            self$.addOption(private$..leaveOneOutForestPlot)
+            self$.addOption(private$..leaveOneOutForestMode)
+            self$.addOption(private$..leaveOneOutForestLayout)
+            self$.addOption(private$..leaveOneOutSortBy)
+            self$.addOption(private$..leaveOneOutForestDetails)
+            self$.addOption(private$..leaveOneOutLabelLeft)
+            self$.addOption(private$..leaveOneOutLabelRight)
+            self$.addOption(private$..leaveOneOutForestWidthAdjust)
+            self$.addOption(private$..leaveOneOutForestWidthUnit)
+            self$.addOption(private$..leaveOneOutForestHeightAdjust)
+            self$.addOption(private$..leaveOneOutForestHeightUnit)
+            self$.addOption(private$..leaveOneOutXlimMode)
+            self$.addOption(private$..leaveOneOutXlimLower)
+            self$.addOption(private$..leaveOneOutXlimUpper)
+            self$.addOption(private$..leaveOneOutAddrowsMode)
+            self$.addOption(private$..leaveOneOutAddrowsBelowOverall)
+            self$.addOption(private$..leaveOneOutColgap)
+            self$.addOption(private$..leaveOneOutColgapUnit)
+            self$.addOption(private$..leaveOneOutColgapForest)
+            self$.addOption(private$..leaveOneOutColgapForestUnit)
         }),
     active = list(
         studyLabel = function() private$..studyLabel$value,
@@ -651,7 +830,30 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         subgroupColgap = function() private$..subgroupColgap$value,
         subgroupColgapUnit = function() private$..subgroupColgapUnit$value,
         subgroupColgapForest = function() private$..subgroupColgapForest$value,
-        subgroupColgapForestUnit = function() private$..subgroupColgapForestUnit$value),
+        subgroupColgapForestUnit = function() private$..subgroupColgapForestUnit$value,
+        leaveOneOut = function() private$..leaveOneOut$value,
+        leaveOneOutPrediction = function() private$..leaveOneOutPrediction$value,
+        showLeaveOneOutSummary = function() private$..showLeaveOneOutSummary$value,
+        leaveOneOutForestPlot = function() private$..leaveOneOutForestPlot$value,
+        leaveOneOutForestMode = function() private$..leaveOneOutForestMode$value,
+        leaveOneOutForestLayout = function() private$..leaveOneOutForestLayout$value,
+        leaveOneOutSortBy = function() private$..leaveOneOutSortBy$value,
+        leaveOneOutForestDetails = function() private$..leaveOneOutForestDetails$value,
+        leaveOneOutLabelLeft = function() private$..leaveOneOutLabelLeft$value,
+        leaveOneOutLabelRight = function() private$..leaveOneOutLabelRight$value,
+        leaveOneOutForestWidthAdjust = function() private$..leaveOneOutForestWidthAdjust$value,
+        leaveOneOutForestWidthUnit = function() private$..leaveOneOutForestWidthUnit$value,
+        leaveOneOutForestHeightAdjust = function() private$..leaveOneOutForestHeightAdjust$value,
+        leaveOneOutForestHeightUnit = function() private$..leaveOneOutForestHeightUnit$value,
+        leaveOneOutXlimMode = function() private$..leaveOneOutXlimMode$value,
+        leaveOneOutXlimLower = function() private$..leaveOneOutXlimLower$value,
+        leaveOneOutXlimUpper = function() private$..leaveOneOutXlimUpper$value,
+        leaveOneOutAddrowsMode = function() private$..leaveOneOutAddrowsMode$value,
+        leaveOneOutAddrowsBelowOverall = function() private$..leaveOneOutAddrowsBelowOverall$value,
+        leaveOneOutColgap = function() private$..leaveOneOutColgap$value,
+        leaveOneOutColgapUnit = function() private$..leaveOneOutColgapUnit$value,
+        leaveOneOutColgapForest = function() private$..leaveOneOutColgapForest$value,
+        leaveOneOutColgapForestUnit = function() private$..leaveOneOutColgapForestUnit$value),
     private = list(
         ..studyLabel = NA,
         ..meanE = NA,
@@ -724,7 +926,30 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..subgroupColgap = NA,
         ..subgroupColgapUnit = NA,
         ..subgroupColgapForest = NA,
-        ..subgroupColgapForestUnit = NA)
+        ..subgroupColgapForestUnit = NA,
+        ..leaveOneOut = NA,
+        ..leaveOneOutPrediction = NA,
+        ..showLeaveOneOutSummary = NA,
+        ..leaveOneOutForestPlot = NA,
+        ..leaveOneOutForestMode = NA,
+        ..leaveOneOutForestLayout = NA,
+        ..leaveOneOutSortBy = NA,
+        ..leaveOneOutForestDetails = NA,
+        ..leaveOneOutLabelLeft = NA,
+        ..leaveOneOutLabelRight = NA,
+        ..leaveOneOutForestWidthAdjust = NA,
+        ..leaveOneOutForestWidthUnit = NA,
+        ..leaveOneOutForestHeightAdjust = NA,
+        ..leaveOneOutForestHeightUnit = NA,
+        ..leaveOneOutXlimMode = NA,
+        ..leaveOneOutXlimLower = NA,
+        ..leaveOneOutXlimUpper = NA,
+        ..leaveOneOutAddrowsMode = NA,
+        ..leaveOneOutAddrowsBelowOverall = NA,
+        ..leaveOneOutColgap = NA,
+        ..leaveOneOutColgapUnit = NA,
+        ..leaveOneOutColgapForest = NA,
+        ..leaveOneOutColgapForestUnit = NA)
 )
 
 metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -734,7 +959,9 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         text = function() private$.items[["text"]],
         plot = function() private$.items[["plot"]],
         subgroupText = function() private$.items[["subgroupText"]],
-        subgroupPlot = function() private$.items[["subgroupPlot"]]),
+        subgroupPlot = function() private$.items[["subgroupPlot"]],
+        leaveOneOutText = function() private$.items[["leaveOneOutText"]],
+        leaveOneOutPlot = function() private$.items[["leaveOneOutPlot"]]),
     private = list(),
     public=list(
         initialize=function(options) {
@@ -884,6 +1111,70 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "subgroupForestPrintTau2Ci",
                     "subgroupForestDetails"),
                 refs=list(
+                    "metaPackage")))
+            self$add(jmvcore::Html$new(
+                options=options,
+                name="leaveOneOutText",
+                visible=FALSE,
+                clearWith=list(
+                    "studyLabel",
+                    "meanE",
+                    "sdE",
+                    "nE",
+                    "meanC",
+                    "sdC",
+                    "nC",
+                    "sm",
+                    "methodSmd",
+                    "model",
+                    "methodTau",
+                    "methodRandomCi",
+                    "prediction",
+                    "confidenceLevel",
+                    "leaveOneOutPrediction"),
+                refs=list(
+                    "metaPackage")))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="leaveOneOutPlot",
+                title="Leave-One-Out Forest Plot",
+                renderFun=".leaveOneOutForestPlot",
+                visible=FALSE,
+                clearWith=list(
+                    "studyLabel",
+                    "meanE",
+                    "sdE",
+                    "nE",
+                    "meanC",
+                    "sdC",
+                    "nC",
+                    "sm",
+                    "methodSmd",
+                    "model",
+                    "methodTau",
+                    "methodRandomCi",
+                    "prediction",
+                    "confidenceLevel",
+                    "leaveOneOutPrediction",
+                    "leaveOneOutForestLayout",
+                    "leaveOneOutSortBy",
+                    "leaveOneOutLabelLeft",
+                    "leaveOneOutLabelRight",
+                    "leaveOneOutForestWidthAdjust",
+                    "leaveOneOutForestWidthUnit",
+                    "leaveOneOutForestHeightAdjust",
+                    "leaveOneOutForestHeightUnit",
+                    "leaveOneOutXlimMode",
+                    "leaveOneOutXlimLower",
+                    "leaveOneOutXlimUpper",
+                    "leaveOneOutAddrowsMode",
+                    "leaveOneOutAddrowsBelowOverall",
+                    "leaveOneOutColgap",
+                    "leaveOneOutColgapUnit",
+                    "leaveOneOutColgapForest",
+                    "leaveOneOutColgapForestUnit",
+                    "leaveOneOutForestDetails"),
+                refs=list(
                     "metaPackage")))}))
 
 metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -983,12 +1274,37 @@ metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param subgroupColgapUnit .
 #' @param subgroupColgapForest .
 #' @param subgroupColgapForestUnit .
+#' @param leaveOneOut .
+#' @param leaveOneOutPrediction .
+#' @param showLeaveOneOutSummary .
+#' @param leaveOneOutForestPlot .
+#' @param leaveOneOutForestMode .
+#' @param leaveOneOutForestLayout .
+#' @param leaveOneOutSortBy .
+#' @param leaveOneOutForestDetails .
+#' @param leaveOneOutLabelLeft .
+#' @param leaveOneOutLabelRight .
+#' @param leaveOneOutForestWidthAdjust .
+#' @param leaveOneOutForestWidthUnit .
+#' @param leaveOneOutForestHeightAdjust .
+#' @param leaveOneOutForestHeightUnit .
+#' @param leaveOneOutXlimMode .
+#' @param leaveOneOutXlimLower .
+#' @param leaveOneOutXlimUpper .
+#' @param leaveOneOutAddrowsMode .
+#' @param leaveOneOutAddrowsBelowOverall .
+#' @param leaveOneOutColgap .
+#' @param leaveOneOutColgapUnit .
+#' @param leaveOneOutColgapForest .
+#' @param leaveOneOutColgapForestUnit .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$text} \tab \tab \tab \tab \tab a html \cr
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$subgroupText} \tab \tab \tab \tab \tab a html \cr
 #'   \code{results$subgroupPlot} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$leaveOneOutText} \tab \tab \tab \tab \tab a html \cr
+#'   \code{results$leaveOneOutPlot} \tab \tab \tab \tab \tab an image \cr
 #' }
 #'
 #' @export
@@ -1065,7 +1381,30 @@ metaCont <- function(
     subgroupColgap = 2,
     subgroupColgapUnit = "mm",
     subgroupColgapForest = 2,
-    subgroupColgapForestUnit = "mm") {
+    subgroupColgapForestUnit = "mm",
+    leaveOneOut = FALSE,
+    leaveOneOutPrediction = FALSE,
+    showLeaveOneOutSummary = TRUE,
+    leaveOneOutForestPlot = TRUE,
+    leaveOneOutForestMode = "appearance",
+    leaveOneOutForestLayout = "meta",
+    leaveOneOutSortBy = "none",
+    leaveOneOutForestDetails = FALSE,
+    leaveOneOutLabelLeft = "",
+    leaveOneOutLabelRight = "",
+    leaveOneOutForestWidthAdjust = 0,
+    leaveOneOutForestWidthUnit = "mm",
+    leaveOneOutForestHeightAdjust = 0,
+    leaveOneOutForestHeightUnit = "mm",
+    leaveOneOutXlimMode = "auto",
+    leaveOneOutXlimLower = -20,
+    leaveOneOutXlimUpper = 20,
+    leaveOneOutAddrowsMode = "auto",
+    leaveOneOutAddrowsBelowOverall = 0,
+    leaveOneOutColgap = 2,
+    leaveOneOutColgapUnit = "mm",
+    leaveOneOutColgapForest = 2,
+    leaveOneOutColgapForestUnit = "mm") {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("metaCont requires jmvcore to be installed (restart may be required)")
@@ -1163,7 +1502,30 @@ metaCont <- function(
         subgroupColgap = subgroupColgap,
         subgroupColgapUnit = subgroupColgapUnit,
         subgroupColgapForest = subgroupColgapForest,
-        subgroupColgapForestUnit = subgroupColgapForestUnit)
+        subgroupColgapForestUnit = subgroupColgapForestUnit,
+        leaveOneOut = leaveOneOut,
+        leaveOneOutPrediction = leaveOneOutPrediction,
+        showLeaveOneOutSummary = showLeaveOneOutSummary,
+        leaveOneOutForestPlot = leaveOneOutForestPlot,
+        leaveOneOutForestMode = leaveOneOutForestMode,
+        leaveOneOutForestLayout = leaveOneOutForestLayout,
+        leaveOneOutSortBy = leaveOneOutSortBy,
+        leaveOneOutForestDetails = leaveOneOutForestDetails,
+        leaveOneOutLabelLeft = leaveOneOutLabelLeft,
+        leaveOneOutLabelRight = leaveOneOutLabelRight,
+        leaveOneOutForestWidthAdjust = leaveOneOutForestWidthAdjust,
+        leaveOneOutForestWidthUnit = leaveOneOutForestWidthUnit,
+        leaveOneOutForestHeightAdjust = leaveOneOutForestHeightAdjust,
+        leaveOneOutForestHeightUnit = leaveOneOutForestHeightUnit,
+        leaveOneOutXlimMode = leaveOneOutXlimMode,
+        leaveOneOutXlimLower = leaveOneOutXlimLower,
+        leaveOneOutXlimUpper = leaveOneOutXlimUpper,
+        leaveOneOutAddrowsMode = leaveOneOutAddrowsMode,
+        leaveOneOutAddrowsBelowOverall = leaveOneOutAddrowsBelowOverall,
+        leaveOneOutColgap = leaveOneOutColgap,
+        leaveOneOutColgapUnit = leaveOneOutColgapUnit,
+        leaveOneOutColgapForest = leaveOneOutColgapForest,
+        leaveOneOutColgapForestUnit = leaveOneOutColgapForestUnit)
 
     analysis <- metaContClass$new(
         options = options,

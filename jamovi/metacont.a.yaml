@@ -573,3 +573,188 @@ options:
       - title: in
         name: inch
     default: mm
+
+  - name: leaveOneOut
+    title: Conduct Leave-One-Out Analysis
+    type: Bool
+    default: false
+
+  - name: leaveOneOutPrediction
+    title: Prediction Interval
+    type: Bool
+    default: false
+
+  - name: showLeaveOneOutSummary
+    title: Show Leave-One-Out Summary
+    type: Bool
+    default: true
+
+  - name: leaveOneOutForestPlot
+    title: Forest Plot
+    type: Bool
+    default: true
+
+  - name: leaveOneOutForestMode
+    title: ""
+    type: List
+    options:
+      - title: Appearance
+        name: appearance
+      - title: Dimensions
+        name: dimensions
+    default: appearance
+
+  - name: leaveOneOutForestLayout
+    title: Layout
+    type: List
+    options:
+      - title: Default
+        name: meta
+      - title: RevMan 5
+        name: RevMan5
+      - title: JAMA
+        name: JAMA
+      - title: BMJ
+        name: BMJ
+    default: meta
+
+  - name: leaveOneOutSortBy
+    title: Sort Studies
+    type: List
+    options:
+      - title: Original Order
+        name: none
+      - title: Effect Size (Ascending)
+        name: effectAsc
+      - title: Effect Size (Descending)
+        name: effectDesc
+      - title: I² (Ascending)
+        name: i2Asc
+      - title: I² (Descending)
+        name: i2Desc
+      - title: Tau² (Ascending)
+        name: tau2Asc
+      - title: Tau² (Descending)
+        name: tau2Desc
+    default: none
+
+  - name: leaveOneOutForestDetails
+    title: Method Details
+    type: Bool
+    default: false
+
+  - name: leaveOneOutLabelLeft
+    title: Left Side Label
+    type: String
+    default: ""
+
+  - name: leaveOneOutLabelRight
+    title: Right Side Label
+    type: String
+    default: ""
+
+  - name: leaveOneOutForestWidthAdjust
+    title: Width Adjustment (+/-)
+    type: Number
+    default: 0
+
+  - name: leaveOneOutForestWidthUnit
+    title: ""
+    type: List
+    options:
+      - title: mm
+        name: mm
+      - title: cm
+        name: cm
+      - title: in
+        name: inch
+    default: mm
+
+  - name: leaveOneOutForestHeightAdjust
+    title: Height Adjustment (+/-)
+    type: Number
+    default: 0
+
+  - name: leaveOneOutForestHeightUnit
+    title: ""
+    type: List
+    options:
+      - title: mm
+        name: mm
+      - title: cm
+        name: cm
+      - title: in
+        name: inch
+    default: mm
+
+  - name: leaveOneOutXlimMode
+    title: X-Axis Limits
+    type: List
+    options:
+      - title: Auto
+        name: auto
+      - title: Custom
+        name: custom
+    default: auto
+
+  - name: leaveOneOutXlimLower
+    title: Lower Limit
+    type: Number
+    default: -20
+
+  - name: leaveOneOutXlimUpper
+    title: Upper Limit
+    type: Number
+    default: 20
+
+  - name: leaveOneOutAddrowsMode
+    title: Space Above Footnotes
+    type: List
+    options:
+      - title: Auto
+        name: auto
+      - title: Custom
+        name: custom
+    default: auto
+
+  - name: leaveOneOutAddrowsBelowOverall
+    title: ""
+    type: Integer
+    min: 0
+    default: 0
+
+  - name: leaveOneOutColgap
+    title: Space Between Columns
+    type: Number
+    min: 0
+    default: 2
+
+  - name: leaveOneOutColgapUnit
+    title: ""
+    type: List
+    options:
+      - title: mm
+        name: mm
+      - title: cm
+        name: cm
+      - title: in
+        name: inch
+    default: mm
+
+  - name: leaveOneOutColgapForest
+    title: Space Around Plot
+    type: Number
+    min: 0
+    default: 2
+
+  - name: leaveOneOutColgapForestUnit
+    title: ""
+    type: List
+    options:
+      - title: mm
+        name: mm
+      - title: cm
+        name: cm
+      - title: in
+        name: inch
+    default: mm
