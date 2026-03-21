@@ -7,7 +7,9 @@
 #' @return A `metainf` object, or `NULL` if model is NULL.
 #' @noRd
 computeLeaveOneOutModel <- function(model, options) {
-  if (is.null(model)) return()
+  if (is.null(model)) {
+    return()
+  }
   meta::metainf(model, prediction = options$leaveOneOutPrediction)
 }
 
@@ -63,12 +65,12 @@ renderLeaveOneOutForest <- function(leaveOneOutModel, options) {
   if (options$leaveOneOutSortBy != "none") {
     args$sortvar <- switch(
       options$leaveOneOutSortBy,
-      effectAsc  =  leaveOneOutModel$TE,
+      effectAsc = leaveOneOutModel$TE,
       effectDesc = -leaveOneOutModel$TE,
-      i2Asc      =  leaveOneOutModel$I2,
-      i2Desc     = -leaveOneOutModel$I2,
-      tau2Asc    =  leaveOneOutModel$tau2,
-      tau2Desc   = -leaveOneOutModel$tau2
+      i2Asc = leaveOneOutModel$I2,
+      i2Desc = -leaveOneOutModel$I2,
+      tau2Asc = leaveOneOutModel$tau2,
+      tau2Desc = -leaveOneOutModel$tau2
     )
   }
 
@@ -94,8 +96,12 @@ renderLeaveOneOutForest <- function(leaveOneOutModel, options) {
 #' @param requiredVars Character vector of option names that must be assigned.
 #' @noRd
 initLeaveOneOutText <- function(textResult, options, requiredVars) {
-  if (!textResult$visible) return()
-  if (textResult$isFilled()) return()
+  if (!textResult$visible) {
+    return()
+  }
+  if (textResult$isFilled()) {
+    return()
+  }
   if (!hasRequiredVars(options, requiredVars)) {
     textResult$setContent(asHtml(title = "Leave-One-Out Summary"))
   }
@@ -110,8 +116,12 @@ initLeaveOneOutText <- function(textResult, options, requiredVars) {
 #' @param leaveOneOutModel A `metainf` object.
 #' @noRd
 populateLeaveOneOutText <- function(textResult, leaveOneOutModel) {
-  if (!textResult$visible) return()
-  if (textResult$isFilled()) return()
+  if (!textResult$visible) {
+    return()
+  }
+  if (textResult$isFilled()) {
+    return()
+  }
   textResult$setContent(
     asHtml(summary(leaveOneOutModel), title = "Leave-One-Out Summary")
   )

@@ -1,14 +1,26 @@
 #' Compute a Continuous Outcome Meta-Analysis Model
 #'
-#' Standalone helper that creates a `meta::metacont` object from Jamovi
-#' options. Designed to be reused across multiple analysis classes.
+#' Self-contained helper that guards for required options, loads data,
+#' and creates a `meta::metacont` object. Designed to be called directly
+#' from the active binding in the `.b.R` class.
 #'
-#' @param data A data frame (typically `self$data`).
-#' @param options A Jamovi options object with the required fields.
+#' @param analysis The jamovi analysis object (`self`).
 #' @return A `meta::metacont` object, or `NULL` if required columns are
 #'   missing.
 #' @noRd
-computeContModel <- function(data, options) {
+computeContModel <- function(analysis) {
+  required <- c("meanE", "sdE", "nE", "meanC", "sdC", "nC")
+  options <- analysis$options
+  data <- analysis$data
+
+  if (!hasRequiredVars(options, required)) {
+    return()
+  }
+
+  if (is.null(data) || nrow(data) == 0) {
+    data <- analysis$readDataset()
+  }
+
   # Extract and convert columns
   mean.e <- jmvcore::toNumeric(data[[options$meanE]])
   sd.e <- jmvcore::toNumeric(data[[options$sdE]])

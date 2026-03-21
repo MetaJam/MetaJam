@@ -10,8 +10,12 @@
 #' @return An updated `meta` object with subgroup results, or `NULL`.
 #' @noRd
 computeSubgroupModel <- function(model, options) {
-  if (is.null(model)) return()
-  if (is.null(options$subgroupVariable)) return()
+  if (is.null(model)) {
+    return()
+  }
+  if (is.null(options$subgroupVariable)) {
+    return()
+  }
   subgroup <- model$data[[options$subgroupVariable]]
   update(
     model,

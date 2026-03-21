@@ -5,11 +5,7 @@ metaContClass <- R6::R6Class(
   active = list(
     model = function() {
       if (is.null(private$.model)) {
-        private$.model <- resolveModel(
-          self,
-          c("meanE", "sdE", "nE", "meanC", "sdC", "nC"),
-          computeContModel
-        )
+        private$.model <- computeContModel(self)
       }
       private$.model
     },
@@ -17,7 +13,8 @@ metaContClass <- R6::R6Class(
     subgroupModel = function() {
       if (is.null(private$.subgroupModel)) {
         private$.subgroupModel <- computeSubgroupModel(
-          self$model, self$options
+          self$model,
+          self$options
         )
       }
       private$.subgroupModel
@@ -26,7 +23,8 @@ metaContClass <- R6::R6Class(
     leaveOneOutModel = function() {
       if (is.null(private$.leaveOneOutModel)) {
         private$.leaveOneOutModel <- computeLeaveOneOutModel(
-          self$model, self$options
+          self$model,
+          self$options
         )
       }
       private$.leaveOneOutModel

@@ -16,27 +16,6 @@ hasRequiredVars <- function(options, vars) {
 }
 
 
-#' Resolve the Primary Model (If All Required Options Are Set)
-#'
-#' Encapsulates the shared active-binding workflow used by every analysis
-#' type: guard that required options are assigned, ensure data is loaded,
-#' then delegate to a type-specific compute function.
-#'
-#' @param analysis The jamovi analysis object (`self`).
-#' @param required Character vector of option names that must be assigned.
-#' @param computeFn A function `f(data, options)` that returns a `meta` object.
-#' @return A `meta` object, or `NULL` if required options are missing.
-#' @noRd
-resolveModel <- function(analysis, required, computeFn) {
-  if (!hasRequiredVars(analysis$options, required)) return()
-  data <- analysis$data
-  if (is.null(data) || nrow(data) == 0) {
-    data <- analysis$readDataset()
-  }
-  computeFn(data, analysis$options)
-}
-
-
 #' Initialize the Main Text Skeleton
 #'
 #' Called from `.run()` to show a titled HTML placeholder before the

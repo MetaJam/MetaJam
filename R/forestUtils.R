@@ -107,7 +107,14 @@ convertToPx <- function(x, unit) {
 #' @param ... Extra arguments forwarded to `calcForestHeight()`.
 #' @return `NULL` invisibly. Called for side effects (`setSize()`).
 #' @noRd
-initForestPlot <- function(image, model, options, renderFn = renderForest, width = 800, ...) {
+initForestPlot <- function(
+  image,
+  model,
+  options,
+  renderFn = renderForest,
+  width = 800,
+  ...
+) {
   if (!image$visible) {
     return()
   }
