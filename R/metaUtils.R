@@ -16,25 +16,6 @@ hasRequiredVars <- function(options, vars) {
 }
 
 
-#' Load and Resolve Analysis Data
-#'
-#' Extracts the data frame from a jamovi analysis object, falling
-#' back to `readDataset()` if needed. Designed to be called from
-#' a `dataProcessed` active binding in the `.b.R` class so that
-#' data resolution happens once per analysis run.
-#'
-#' @param analysis The jamovi analysis object (`self`).
-#' @return A data frame.
-#' @noRd
-processData <- function(analysis) {
-  data <- analysis$data
-  if (is.null(data) || nrow(data) == 0) {
-    data <- analysis$readDataset()
-  }
-  data
-}
-
-
 #' Initialize the Main Text Skeleton
 #'
 #' Called from `.run()` to show a titled HTML placeholder before the

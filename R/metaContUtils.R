@@ -1,48 +1,58 @@
 #' Compute a Continuous Outcome Meta-Analysis Model
 #'
-#' Self-contained helper that guards for required options and
-#' creates a `meta::metacont` object. Uses pre-resolved data from
-#' the `dataProcessed` active binding — no `data=` is passed to
-#' `metacont()` to avoid NSE name collisions.
+#' Self-contained helper that loads data from the analysis object,
+#' curates all numeric columns (core + moderator covariates), and
+#' creates a `meta::metacont` object.
 #'
-#' @param data A data frame from the `dataProcessed` active binding.
-#' @param options The jamovi options object.
+#' Passing `data=` ensures that `model$data` retains all original
+#' columns — downstream consumers (`computeSubgroupModel`,
+#' `computeMetaRegModel`) can read moderator and subgroup columns
+#' directly from `model$data`.
+#'
+#' @param analysis The jamovi analysis object (`self`).
 #' @return A `meta::metacont` object, or `NULL` if required columns are
 #'   missing.
 #' @noRd
-computeContModel <- function(data, options) {
+computeContModel <- function(analysis) {
+  options <- analysis$options
   required <- c("meanE", "sdE", "nE", "meanC", "sdC", "nC")
 
   if (!hasRequiredVars(options, required)) {
     return()
   }
 
-  # Extract and convert columns
-  mean.e <- jmvcore::toNumeric(data[[options$meanE]])
-  sd.e <- jmvcore::toNumeric(data[[options$sdE]])
-  n.e <- jmvcore::toNumeric(data[[options$nE]])
-  mean.c <- jmvcore::toNumeric(data[[options$meanC]])
-  sd.c <- jmvcore::toNumeric(data[[options$sdC]])
-  n.c <- jmvcore::toNumeric(data[[options$nC]])
+  # Load data (inlined from former processData)
+  data <- analysis$data
+  if (is.null(data) || nrow(data) == 0) {
+    data <- analysis$readDataset()
+  }
 
-  # Optional study labels
-  studlab <- NULL
-  if (!is.null(options$studyLabel)) {
-    studlab <- data[[options$studyLabel]]
+  # Curate numeric columns: core vars + moderator covariates
+  numericVars <- c(
+    options$meanE,
+    options$sdE,
+    options$nE,
+    options$meanC,
+    options$sdC,
+    options$nC,
+    options$metaRegCovs
+  )
+  for (var in numericVars) {
+    data[[var]] <- jmvcore::toNumeric(data[[var]])
   }
 
   # Confidence / prediction level (shared)
   level <- options$confidenceLevel / 100
 
-  # Fit model — no data= argument to avoid NSE clash
-  meta::metacont(
-    n.e = n.e,
-    mean.e = mean.e,
-    sd.e = sd.e,
-    n.c = n.c,
-    mean.c = mean.c,
-    sd.c = sd.c,
-    studlab = studlab,
+  # Build metacont() call with column names as symbols via do.call()
+  args <- list(
+    n.e = as.name(options$nE),
+    mean.e = as.name(options$meanE),
+    sd.e = as.name(options$sdE),
+    n.c = as.name(options$nC),
+    mean.c = as.name(options$meanC),
+    sd.c = as.name(options$sdC),
+    data = data,
     sm = options$sm,
     method.tau = options$methodTau,
     method.smd = options$methodSmd,
@@ -54,6 +64,12 @@ computeContModel <- function(data, options) {
     level.predict = level,
     method.random.ci = options$methodRandomCi
   )
+
+  if (!is.null(options$studyLabel)) {
+    args$studlab <- as.name(options$studyLabel)
+  }
+
+  do.call(meta::metacont, args)
 }
 
 

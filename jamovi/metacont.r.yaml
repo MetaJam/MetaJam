@@ -146,6 +146,31 @@ items:
     refs:
       - metaPackage
 
+  - name: metaRegText
+    type: Html
+    visible: false
+    clearWith:
+      - studyLabel
+      - meanE
+      - sdE
+      - nE
+      - meanC
+      - sdC
+      - nC
+      - sm
+      - methodSmd
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - metaRegCovs
+      - metaRegFactors
+      - metaRegTerms
+      - metaRegIntercept
+    refs:
+      - metaPackage
+
   - name: leaveOneOutText
     type: Html
     visible: false

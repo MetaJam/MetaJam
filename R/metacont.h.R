@@ -78,6 +78,11 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             subgroupColgapUnit = "mm",
             subgroupColgapForest = 2,
             subgroupColgapForestUnit = "mm",
+            metaRegCovs = NULL,
+            metaRegFactors = NULL,
+            metaRegTerms = NULL,
+            metaRegIntercept = TRUE,
+            showMetaRegSummary = TRUE,
             leaveOneOut = FALSE,
             leaveOneOutPrediction = FALSE,
             showLeaveOneOutSummary = TRUE,
@@ -528,6 +533,31 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "cm",
                     "inch"),
                 default="mm")
+            private$..metaRegCovs <- jmvcore::OptionVariables$new(
+                "metaRegCovs",
+                metaRegCovs,
+                suggested=list(
+                    "continuous"),
+                permitted=list(
+                    "numeric"))
+            private$..metaRegFactors <- jmvcore::OptionVariables$new(
+                "metaRegFactors",
+                metaRegFactors,
+                suggested=list(
+                    "nominal"),
+                permitted=list(
+                    "factor"))
+            private$..metaRegTerms <- jmvcore::OptionTerms$new(
+                "metaRegTerms",
+                metaRegTerms)
+            private$..metaRegIntercept <- jmvcore::OptionBool$new(
+                "metaRegIntercept",
+                metaRegIntercept,
+                default=TRUE)
+            private$..showMetaRegSummary <- jmvcore::OptionBool$new(
+                "showMetaRegSummary",
+                showMetaRegSummary,
+                default=TRUE)
             private$..leaveOneOut <- jmvcore::OptionBool$new(
                 "leaveOneOut",
                 leaveOneOut,
@@ -734,6 +764,11 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..subgroupColgapUnit)
             self$.addOption(private$..subgroupColgapForest)
             self$.addOption(private$..subgroupColgapForestUnit)
+            self$.addOption(private$..metaRegCovs)
+            self$.addOption(private$..metaRegFactors)
+            self$.addOption(private$..metaRegTerms)
+            self$.addOption(private$..metaRegIntercept)
+            self$.addOption(private$..showMetaRegSummary)
             self$.addOption(private$..leaveOneOut)
             self$.addOption(private$..leaveOneOutPrediction)
             self$.addOption(private$..showLeaveOneOutSummary)
@@ -831,6 +866,11 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         subgroupColgapUnit = function() private$..subgroupColgapUnit$value,
         subgroupColgapForest = function() private$..subgroupColgapForest$value,
         subgroupColgapForestUnit = function() private$..subgroupColgapForestUnit$value,
+        metaRegCovs = function() private$..metaRegCovs$value,
+        metaRegFactors = function() private$..metaRegFactors$value,
+        metaRegTerms = function() private$..metaRegTerms$value,
+        metaRegIntercept = function() private$..metaRegIntercept$value,
+        showMetaRegSummary = function() private$..showMetaRegSummary$value,
         leaveOneOut = function() private$..leaveOneOut$value,
         leaveOneOutPrediction = function() private$..leaveOneOutPrediction$value,
         showLeaveOneOutSummary = function() private$..showLeaveOneOutSummary$value,
@@ -927,6 +967,11 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..subgroupColgapUnit = NA,
         ..subgroupColgapForest = NA,
         ..subgroupColgapForestUnit = NA,
+        ..metaRegCovs = NA,
+        ..metaRegFactors = NA,
+        ..metaRegTerms = NA,
+        ..metaRegIntercept = NA,
+        ..showMetaRegSummary = NA,
         ..leaveOneOut = NA,
         ..leaveOneOutPrediction = NA,
         ..showLeaveOneOutSummary = NA,
@@ -960,6 +1005,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         plot = function() private$.items[["plot"]],
         subgroupText = function() private$.items[["subgroupText"]],
         subgroupPlot = function() private$.items[["subgroupPlot"]],
+        metaRegText = function() private$.items[["metaRegText"]],
         leaveOneOutText = function() private$.items[["leaveOneOutText"]],
         leaveOneOutPlot = function() private$.items[["leaveOneOutPlot"]]),
     private = list(),
@@ -1110,6 +1156,31 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "subgroupForestPrintI2Ci",
                     "subgroupForestPrintTau2Ci",
                     "subgroupForestDetails"),
+                refs=list(
+                    "metaPackage")))
+            self$add(jmvcore::Html$new(
+                options=options,
+                name="metaRegText",
+                visible=FALSE,
+                clearWith=list(
+                    "studyLabel",
+                    "meanE",
+                    "sdE",
+                    "nE",
+                    "meanC",
+                    "sdC",
+                    "nC",
+                    "sm",
+                    "methodSmd",
+                    "model",
+                    "methodTau",
+                    "methodRandomCi",
+                    "prediction",
+                    "confidenceLevel",
+                    "metaRegCovs",
+                    "metaRegFactors",
+                    "metaRegTerms",
+                    "metaRegIntercept"),
                 refs=list(
                     "metaPackage")))
             self$add(jmvcore::Html$new(
@@ -1274,6 +1345,11 @@ metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param subgroupColgapUnit .
 #' @param subgroupColgapForest .
 #' @param subgroupColgapForestUnit .
+#' @param metaRegCovs .
+#' @param metaRegFactors .
+#' @param metaRegTerms .
+#' @param metaRegIntercept .
+#' @param showMetaRegSummary .
 #' @param leaveOneOut .
 #' @param leaveOneOutPrediction .
 #' @param showLeaveOneOutSummary .
@@ -1303,6 +1379,7 @@ metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$subgroupText} \tab \tab \tab \tab \tab a html \cr
 #'   \code{results$subgroupPlot} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$metaRegText} \tab \tab \tab \tab \tab a html \cr
 #'   \code{results$leaveOneOutText} \tab \tab \tab \tab \tab a html \cr
 #'   \code{results$leaveOneOutPlot} \tab \tab \tab \tab \tab an image \cr
 #' }
@@ -1382,6 +1459,11 @@ metaCont <- function(
     subgroupColgapUnit = "mm",
     subgroupColgapForest = 2,
     subgroupColgapForestUnit = "mm",
+    metaRegCovs,
+    metaRegFactors,
+    metaRegTerms,
+    metaRegIntercept = TRUE,
+    showMetaRegSummary = TRUE,
     leaveOneOut = FALSE,
     leaveOneOutPrediction = FALSE,
     showLeaveOneOutSummary = TRUE,
@@ -1417,6 +1499,8 @@ metaCont <- function(
     if ( ! missing(sdC)) sdC <- jmvcore::resolveQuo(jmvcore::enquo(sdC))
     if ( ! missing(nC)) nC <- jmvcore::resolveQuo(jmvcore::enquo(nC))
     if ( ! missing(subgroupVariable)) subgroupVariable <- jmvcore::resolveQuo(jmvcore::enquo(subgroupVariable))
+    if ( ! missing(metaRegCovs)) metaRegCovs <- jmvcore::resolveQuo(jmvcore::enquo(metaRegCovs))
+    if ( ! missing(metaRegFactors)) metaRegFactors <- jmvcore::resolveQuo(jmvcore::enquo(metaRegFactors))
     if (missing(data))
         data <- jmvcore::marshalData(
             parent.frame(),
@@ -1427,8 +1511,12 @@ metaCont <- function(
             `if`( ! missing(meanC), meanC, NULL),
             `if`( ! missing(sdC), sdC, NULL),
             `if`( ! missing(nC), nC, NULL),
-            `if`( ! missing(subgroupVariable), subgroupVariable, NULL))
+            `if`( ! missing(subgroupVariable), subgroupVariable, NULL),
+            `if`( ! missing(metaRegCovs), metaRegCovs, NULL),
+            `if`( ! missing(metaRegFactors), metaRegFactors, NULL))
 
+    for (v in metaRegFactors) if (v %in% names(data)) data[[v]] <- as.factor(data[[v]])
+    if (inherits(metaRegTerms, "formula")) metaRegTerms <- jmvcore::decomposeFormula(metaRegTerms)
 
     options <- metaContOptions$new(
         studyLabel = studyLabel,
@@ -1503,6 +1591,11 @@ metaCont <- function(
         subgroupColgapUnit = subgroupColgapUnit,
         subgroupColgapForest = subgroupColgapForest,
         subgroupColgapForestUnit = subgroupColgapForestUnit,
+        metaRegCovs = metaRegCovs,
+        metaRegFactors = metaRegFactors,
+        metaRegTerms = metaRegTerms,
+        metaRegIntercept = metaRegIntercept,
+        showMetaRegSummary = showMetaRegSummary,
         leaveOneOut = leaveOneOut,
         leaveOneOutPrediction = leaveOneOutPrediction,
         showLeaveOneOutSummary = showLeaveOneOutSummary,

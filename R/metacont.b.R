@@ -3,16 +3,9 @@ metaContClass <- R6::R6Class(
   inherit = metaContBase,
 
   active = list(
-    dataProcessed = function() {
-      if (is.null(private$.dataProcessed)) {
-        private$.dataProcessed <- processData(self)
-      }
-      private$.dataProcessed
-    },
-
     model = function() {
       if (is.null(private$.model)) {
-        private$.model <- computeContModel(self$dataProcessed, self$options)
+        private$.model <- computeContModel(self)
       }
       private$.model
     },
@@ -21,11 +14,20 @@ metaContClass <- R6::R6Class(
       if (is.null(private$.subgroupModel)) {
         private$.subgroupModel <- computeSubgroupModel(
           self$model,
-          self$dataProcessed,
           self$options
         )
       }
       private$.subgroupModel
+    },
+
+    metaRegModel = function() {
+      if (is.null(private$.metaRegModel)) {
+        private$.metaRegModel <- computeMetaRegModel(
+          self$model,
+          self$options
+        )
+      }
+      private$.metaRegModel
     },
 
     leaveOneOutModel = function() {
@@ -40,10 +42,10 @@ metaContClass <- R6::R6Class(
   ),
 
   private = list(
-    .dataProcessed = NULL,
     .model = NULL,
     .subgroupModel = NULL,
     .leaveOneOutModel = NULL,
+    .metaRegModel = NULL,
 
     .init = function() {
       # Main results
@@ -60,6 +62,9 @@ metaContClass <- R6::R6Class(
         subgroup.name = self$options$subgroupVariable,
         print.subgroup.name = self$options$printSubgroupName
       )
+
+      # Meta-regression results
+      updateMetaRegVisibility(self$options, self$results)
 
       # Leave-one-out results
       updateLeaveOneOutVisibility(self$options, self$results)
@@ -85,6 +90,11 @@ metaContClass <- R6::R6Class(
         self$options,
         c("meanE", "sdE", "nE", "meanC", "sdC", "nC")
       )
+      initMetaRegText(
+        self$results$metaRegText,
+        self$options,
+        c("meanE", "sdE", "nE", "meanC", "sdC", "nC")
+      )
       initLeaveOneOutText(
         self$results$leaveOneOutText,
         self$options,
@@ -104,6 +114,10 @@ metaContClass <- R6::R6Class(
       populateSubgroupText(
         self$results$subgroupText,
         self$subgroupModel
+      )
+      populateMetaRegText(
+        self$results$metaRegText,
+        self$metaRegModel
       )
       populateLeaveOneOutText(
         self$results$leaveOneOutText,

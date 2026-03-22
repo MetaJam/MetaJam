@@ -574,6 +574,36 @@ options:
         name: inch
     default: mm
 
+  - name: metaRegCovs
+    title: Covariates
+    type: Variables
+    suggested:
+      - continuous
+    permitted:
+      - numeric
+
+  - name: metaRegFactors
+    title: Factors
+    type: Variables
+    suggested:
+      - nominal
+    permitted:
+      - factor
+
+  - name: metaRegTerms
+    title: Model Terms
+    type: Terms
+
+  - name: metaRegIntercept
+    title: Intercept
+    type: Bool
+    default: true
+
+  - name: showMetaRegSummary
+    title: Show Meta-Regression Summary
+    type: Bool
+    default: true
+
   - name: leaveOneOut
     title: Conduct Leave-One-Out Analysis
     type: Bool
