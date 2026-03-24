@@ -90,11 +90,9 @@ children:
       - type: CheckBox
         name: showSummary
 
-      - type: Label
-        label: Forest Plot
+      - type: CheckBox
+        name: forestPlot
         children:
-          - type: CheckBox
-            name: forestPlot
           - type: ModeSelector
             name: forestMode
             children:
@@ -288,24 +286,19 @@ children:
                 name: subgroupVariable
                 maxItemCount: 1
                 isTarget: true
-      - type: Label
-        label: Analysis Settings
+      - type: CheckBox
+        name: tauCommon
+        enable: ({return !!ui['subgroupVariable'].value();})
+      - type: CheckBox
+        name: predictionSubgroup
+        enable: ({return !!ui['subgroupVariable'].value();})
+      - type: CheckBox
+        name: showSubgroupSummary
+        enable: ({return !!ui['subgroupVariable'].value();})
+      - type: CheckBox
+        name: subgroupForestPlot
+        enable: ({return !!ui['subgroupVariable'].value();})
         children:
-          - type: CheckBox
-            name: tauCommon
-            enable: ({return !!ui['subgroupVariable'].value();})
-          - type: CheckBox
-            name: predictionSubgroup
-            enable: ({return !!ui['subgroupVariable'].value();})
-          - type: CheckBox
-            name: showSubgroupSummary
-            enable: ({return !!ui['subgroupVariable'].value();})
-      - type: Label
-        label: Forest Plot
-        children:
-          - type: CheckBox
-            name: subgroupForestPlot
-            enable: ({return !!ui['subgroupVariable'].value();})
           - type: ModeSelector
             name: subgroupForestMode
             children:
@@ -573,28 +566,32 @@ children:
               - type: VariablesListBox
                 name: metaRegFactors
                 isTarget: true
-      - type: Supplier
-        name: metaRegModelSupplier
-        label: Predictors
-        persistentItems: true
+      - type: Label
+        label: Model Builder
         stretchFactor: 1
-        format: term
-        higherOrders: true
         children:
-          - type: TargetLayoutBox
-            transferAction: interactions
+          - type: Supplier
+            name: metaRegModelSupplier
+            label: Predictors
+            persistentItems: true
+            stretchFactor: 1
+            format: term
+            higherOrders: true
             children:
-              - type: ListBox
-                name: metaRegTerms
-                valueFilter: unique
-                isTarget: true
-                template:
-                  type: TermLabel
-              - type: CheckBox
-                name: metaRegIntercept
-                enable: >
-                  ({return (ui['metaRegCovs'].value() || []).length > 0 ||
-                  (ui['metaRegFactors'].value() || []).length > 0;})
+              - type: TargetLayoutBox
+                transferAction: interactions
+                children:
+                  - type: ListBox
+                    name: metaRegTerms
+                    valueFilter: unique
+                    isTarget: true
+                    template:
+                      type: TermLabel
+                  - type: CheckBox
+                    name: metaRegIntercept
+                    enable: >
+                      ({return (ui['metaRegCovs'].value() || []).length > 0 ||
+                      (ui['metaRegFactors'].value() || []).length > 0;})
       - type: CheckBox
         name: showMetaRegSummary
         enable: >
@@ -624,23 +621,18 @@ children:
     collapsed: true
     stretchFactor: 1
     children:
-      - type: Label
-        label: Analysis Settings
+      - type: CheckBox
+        name: leaveOneOut
+      - type: CheckBox
+        name: leaveOneOutPrediction
+        enable: (leaveOneOut)
+      - type: CheckBox
+        name: showLeaveOneOutSummary
+        enable: (leaveOneOut)
+      - type: CheckBox
+        name: leaveOneOutForestPlot
+        enable: (leaveOneOut)
         children:
-          - type: CheckBox
-            name: leaveOneOut
-          - type: CheckBox
-            name: leaveOneOutPrediction
-            enable: (leaveOneOut)
-          - type: CheckBox
-            name: showLeaveOneOutSummary
-            enable: (leaveOneOut)
-      - type: Label
-        label: Forest Plot
-        children:
-          - type: CheckBox
-            name: leaveOneOutForestPlot
-            enable: (leaveOneOut)
           - type: ModeSelector
             name: leaveOneOutForestMode
             children:

@@ -404,10 +404,10 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 subgroupForestLayout,
                 options=list(
                     "meta",
+                    "subgroup",
                     "RevMan5",
                     "JAMA",
-                    "BMJ",
-                    "subgroup"),
+                    "BMJ"),
                 default="meta")
             private$..subgroupSortBy <- jmvcore::OptionList$new(
                 "subgroupSortBy",

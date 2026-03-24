@@ -78,7 +78,7 @@ options:
     default: md
 
   - name: methodSmd
-    title: SMD Method
+    title: SMD Type
     type: List
     options:
       - title: Hedges' g
@@ -95,9 +95,9 @@ options:
     options:
       - title: Random & Common
         name: both
-      - title: Random effects
+      - title: Random Effects
         name: random
-      - title: Common effect
+      - title: Common Effect
         name: common
     default: both
 
@@ -146,7 +146,7 @@ options:
     default: 95
 
   - name: showSummary
-    title: Show Meta-Analysis Summary
+    title: Summary
     type: Bool
     default: true
 
@@ -166,7 +166,7 @@ options:
     default: appearance
 
   - name: forestLayout
-    title: Layout
+    title: Theme
     type: List
     options:
       - title: Default
@@ -180,7 +180,7 @@ options:
     default: meta
 
   - name: sortBy
-    title: Sort Studies
+    title: Sort By
     type: List
     options:
       - title: Original Order
@@ -196,12 +196,12 @@ options:
     default: none
 
   - name: forestTestOverall
-    title: Test for Overall Effect
+    title: Overall Effect Test
     type: Bool
     default: false
 
   - name: forestDetails
-    title: Method Details
+    title: Analysis Details
     type: Bool
     default: false
 
@@ -211,7 +211,7 @@ options:
     default: false
 
   - name: forestPrintTau2Ci
-    title: τ² Confidence Interval
+    title: Tau² Confidence Interval
     type: Bool
     default: false
 
@@ -226,12 +226,12 @@ options:
     default: Control
 
   - name: labelLeft
-    title: Left Side Label
+    title: X-Axis Left Label
     type: String
     default: ""
 
   - name: labelRight
-    title: Right Side Label
+    title: X-Axis Right Label
     type: String
     default: ""
 
@@ -352,17 +352,17 @@ options:
       - id
 
   - name: tauCommon
-    title: Common τ² Across Subgroups
+    title: Assume Common Tau² Across Subgroups
     type: Bool
     default: false
 
   - name: predictionSubgroup
-    title: Prediction Interval per Subgroup
+    title: Subgroup Prediction Intervals
     type: Bool
     default: false
 
   - name: showSubgroupSummary
-    title: Show Subgroup Summary
+    title: Summary
     type: Bool
     default: true
 
@@ -387,23 +387,23 @@ options:
     default: true
 
   - name: subgroupForestLayout
-    title: Layout
+    title: Theme
     type: List
     options:
       - title: Default
         name: meta
+      - title: Subgroup
+        name: subgroup
       - title: RevMan 5
         name: RevMan5
       - title: JAMA
         name: JAMA
       - title: BMJ
         name: BMJ
-      - title: Subgroup
-        name: subgroup
     default: meta
 
   - name: subgroupSortBy
-    title: Sort Studies
+    title: Sort By
     type: List
     options:
       - title: Original Order
@@ -419,17 +419,17 @@ options:
     default: none
 
   - name: subgroupForestTestSubgroup
-    title: Test for Subgroup Differences
+    title: Subgroup Differences Test
     type: Bool
     default: true
 
   - name: subgroupForestTestEffect
-    title: Test Effect per Subgroup
+    title: Subgroup Effect Tests
     type: Bool
     default: false
 
   - name: subgroupForestTestOverall
-    title: Test for Overall Effect
+    title: Overall Effect Test
     type: Bool
     default: false
 
@@ -439,12 +439,12 @@ options:
     default: false
 
   - name: subgroupForestPrintTau2Ci
-    title: τ² Confidence Interval
+    title: Tau² Confidence Interval
     type: Bool
     default: false
 
   - name: subgroupForestDetails
-    title: Method Details
+    title: Analysis Details
     type: Bool
     default: false
 
@@ -459,12 +459,12 @@ options:
     default: Control
 
   - name: subgroupLabelLeft
-    title: Left Side Label
+    title: X-Axis Left Label
     type: String
     default: ""
 
   - name: subgroupLabelRight
-    title: Right Side Label
+    title: X-Axis Right Label
     type: String
     default: ""
 
@@ -600,7 +600,7 @@ options:
     default: true
 
   - name: showMetaRegSummary
-    title: Show Meta-Regression Summary
+    title: Summary
     type: Bool
     default: true
 
@@ -620,7 +620,7 @@ options:
     default: false
 
   - name: leaveOneOut
-    title: Conduct Leave-One-Out Analysis
+    title: Leave-One-Out Analysis
     type: Bool
     default: false
 
@@ -630,7 +630,7 @@ options:
     default: false
 
   - name: showLeaveOneOutSummary
-    title: Show Leave-One-Out Summary
+    title: Summary
     type: Bool
     default: true
 
@@ -650,7 +650,7 @@ options:
     default: appearance
 
   - name: leaveOneOutForestLayout
-    title: Layout
+    title: Theme
     type: List
     options:
       - title: Default
@@ -664,7 +664,7 @@ options:
     default: meta
 
   - name: leaveOneOutSortBy
-    title: Sort Studies
+    title: Sort By
     type: List
     options:
       - title: Original Order
@@ -684,17 +684,17 @@ options:
     default: none
 
   - name: leaveOneOutForestDetails
-    title: Method Details
+    title: Analysis Details
     type: Bool
     default: false
 
   - name: leaveOneOutLabelLeft
-    title: Left Side Label
+    title: X-Axis Left Label
     type: String
     default: ""
 
   - name: leaveOneOutLabelRight
-    title: Right Side Label
+    title: X-Axis Right Label
     type: String
     default: ""
 
