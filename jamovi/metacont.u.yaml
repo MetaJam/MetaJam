@@ -772,3 +772,38 @@ children:
                         cell:
                           row: 0
                           column: 3
+
+  - type: CollapseBox
+    label: Publication Bias
+    collapsed: true
+    stretchFactor: 1
+    children:
+      - type: ModeSelector
+        name: pubBiasMode
+        children:
+          - type: Content
+            name: funnelPlot
+            children:
+              - type: CheckBox
+                name: funnelPlot
+                children:
+                  - type: CheckBox
+                    name: funnelStudlab
+                    enable: (funnelPlot)
+                  - type: CheckBox
+                    name: funnelContour
+                    enable: (funnelPlot)
+                    children:
+                      - type: CheckBox
+                        name: funnelLegend
+                        enable: (funnelPlot && funnelContour)
+                        children:
+                          - type: ComboBox
+                            name: funnelLegendPos
+                            enable: (funnelPlot && funnelContour && funnelLegend)
+          - type: Content
+            name: trimFill
+            children: []
+          - type: Content
+            name: lfkIndex
+            children: []

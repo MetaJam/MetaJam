@@ -803,3 +803,45 @@ options:
       - title: in
         name: inch
     default: mm
+
+  - name: pubBiasMode
+    title: ""
+    type: List
+    options:
+      - title: Funnel Plot
+        name: funnelPlot
+      - title: Trim and Fill
+        name: trimFill
+      - title: LFK Index
+        name: lfkIndex
+    default: funnelPlot
+
+  - name: funnelPlot
+    title: Funnel Plot
+    type: Bool
+    default: false
+
+  - name: funnelStudlab
+    title: Study Labels
+    type: Bool
+    default: false
+
+  - name: funnelContour
+    title: Contour-Enhanced
+    type: Bool
+    default: false
+
+  - name: funnelLegend
+    title: Legend
+    type: Bool
+    default: true
+
+  - name: funnelLegendPos
+    title: Position
+    type: List
+    options:
+      - title: Top Left
+        name: topleft
+      - title: Top Right
+        name: topright
+    default: topleft

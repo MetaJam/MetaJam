@@ -264,3 +264,32 @@ items:
       - leaveOneOutForestDetails
     refs:
       - metaPackage
+
+  - name: funnelPlotImage
+    title: Funnel Plot
+    type: Image
+    width: 700
+    height: 500
+    renderFun: .funnelPlot
+    visible: false
+    clearWith:
+      - studyLabel
+      - meanE
+      - sdE
+      - nE
+      - meanC
+      - sdC
+      - nC
+      - sm
+      - methodSmd
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - funnelStudlab
+      - funnelContour
+      - funnelLegend
+      - funnelLegendPos
+    refs:
+      - metaPackage

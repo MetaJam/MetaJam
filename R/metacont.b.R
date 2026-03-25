@@ -75,6 +75,9 @@ metaContClass <- R6::R6Class(
         self$options,
         renderFn = renderLeaveOneOutForest
       )
+
+      # Publication bias results
+      updatePubBiasVisibility(self$options, self$results)
     },
 
     .run = function() {
@@ -162,6 +165,14 @@ metaContClass <- R6::R6Class(
         return(FALSE)
       }
       renderLeaveOneOutForest(self$leaveOneOutModel, self$options)
+      TRUE
+    },
+
+    .funnelPlot = function(image, ...) {
+      if (is.null(self$model)) {
+        return(FALSE)
+      }
+      renderFunnelPlot(self$model, self$options)
       TRUE
     }
   )
