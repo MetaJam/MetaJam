@@ -12,12 +12,6 @@ description: >-
   More about what it does (maybe more than one line) Use four spaces when
   indenting paragraphs within the Description.
 analyses:
-  - title: Meta-analysis of continuous outcome data
-    name: mpcont
-    ns: MetaPort
-    category: analyses
-    menuGroup: MetaPort
-    menuTitle: Meta-analysis of continuous outcome data
   - title: Continuous Meta-Analysis
     name: metaCont
     ns: MetaPort
@@ -26,6 +20,6 @@ analyses:
     menuTitle: Continuous Meta-Analysis
 usesNative: true
 minApp: 1.0.8
-build-time: '2026-03-25T16:23:36.030Z'
+build-time: '2026-03-25T16:36:43.287Z'
 
 ...
