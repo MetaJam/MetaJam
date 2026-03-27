@@ -294,3 +294,50 @@ items:
       - funnelLegendCex
     refs:
       - metaPackage
+
+  - name: asymmetryTestText
+    type: Html
+    visible: false
+    clearWith:
+      - studyLabel
+      - meanE
+      - sdE
+      - nE
+      - meanC
+      - sdC
+      - nC
+      - sm
+      - methodSmd
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - asymmetryMethod
+    refs:
+      - metaPackage
+
+  - name: asymmetryPlotImage
+    type: Image
+    width: 700
+    height: 500
+    renderFun: .asymmetryPlot
+    visible: false
+    clearWith:
+      - studyLabel
+      - meanE
+      - sdE
+      - nE
+      - meanC
+      - sdC
+      - nC
+      - sm
+      - methodSmd
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - asymmetryMethod
+    refs:
+      - metaPackage

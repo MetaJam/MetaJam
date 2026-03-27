@@ -115,7 +115,11 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             funnelContour = FALSE,
             funnelLegend = TRUE,
             funnelLegendPos = "topright",
-            funnelLegendCex = 100, ...) {
+            funnelLegendCex = 100,
+            asymmetryTest = FALSE,
+            asymmetryMethod = "Egger",
+            showAsymmetrySummary = TRUE,
+            asymmetryPlot = FALSE, ...) {
 
             super$initialize(
                 package="MetaPort",
@@ -750,6 +754,27 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 min=50,
                 max=200,
                 default=100)
+            private$..asymmetryTest <- jmvcore::OptionBool$new(
+                "asymmetryTest",
+                asymmetryTest,
+                default=FALSE)
+            private$..asymmetryMethod <- jmvcore::OptionList$new(
+                "asymmetryMethod",
+                asymmetryMethod,
+                options=list(
+                    "Egger",
+                    "Begg",
+                    "Thompson",
+                    "Pustejovsky"),
+                default="Egger")
+            private$..showAsymmetrySummary <- jmvcore::OptionBool$new(
+                "showAsymmetrySummary",
+                showAsymmetrySummary,
+                default=TRUE)
+            private$..asymmetryPlot <- jmvcore::OptionBool$new(
+                "asymmetryPlot",
+                asymmetryPlot,
+                default=FALSE)
 
             self$.addOption(private$..studyLabel)
             self$.addOption(private$..meanE)
@@ -861,6 +886,10 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..funnelLegend)
             self$.addOption(private$..funnelLegendPos)
             self$.addOption(private$..funnelLegendCex)
+            self$.addOption(private$..asymmetryTest)
+            self$.addOption(private$..asymmetryMethod)
+            self$.addOption(private$..showAsymmetrySummary)
+            self$.addOption(private$..asymmetryPlot)
         }),
     active = list(
         studyLabel = function() private$..studyLabel$value,
@@ -972,7 +1001,11 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         funnelContour = function() private$..funnelContour$value,
         funnelLegend = function() private$..funnelLegend$value,
         funnelLegendPos = function() private$..funnelLegendPos$value,
-        funnelLegendCex = function() private$..funnelLegendCex$value),
+        funnelLegendCex = function() private$..funnelLegendCex$value,
+        asymmetryTest = function() private$..asymmetryTest$value,
+        asymmetryMethod = function() private$..asymmetryMethod$value,
+        showAsymmetrySummary = function() private$..showAsymmetrySummary$value,
+        asymmetryPlot = function() private$..asymmetryPlot$value),
     private = list(
         ..studyLabel = NA,
         ..meanE = NA,
@@ -1083,7 +1116,11 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..funnelContour = NA,
         ..funnelLegend = NA,
         ..funnelLegendPos = NA,
-        ..funnelLegendCex = NA)
+        ..funnelLegendCex = NA,
+        ..asymmetryTest = NA,
+        ..asymmetryMethod = NA,
+        ..showAsymmetrySummary = NA,
+        ..asymmetryPlot = NA)
 )
 
 metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -1098,7 +1135,9 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         bubblePlot = function() private$.items[["bubblePlot"]],
         leaveOneOutText = function() private$.items[["leaveOneOutText"]],
         leaveOneOutPlot = function() private$.items[["leaveOneOutPlot"]],
-        funnelPlotImage = function() private$.items[["funnelPlotImage"]]),
+        funnelPlotImage = function() private$.items[["funnelPlotImage"]],
+        asymmetryTestText = function() private$.items[["asymmetryTestText"]],
+        asymmetryPlotImage = function() private$.items[["asymmetryPlotImage"]]),
     private = list(),
     public=list(
         initialize=function(options) {
@@ -1397,6 +1436,53 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "funnelLegendPos",
                     "funnelLegendCex"),
                 refs=list(
+                    "metaPackage")))
+            self$add(jmvcore::Html$new(
+                options=options,
+                name="asymmetryTestText",
+                visible=FALSE,
+                clearWith=list(
+                    "studyLabel",
+                    "meanE",
+                    "sdE",
+                    "nE",
+                    "meanC",
+                    "sdC",
+                    "nC",
+                    "sm",
+                    "methodSmd",
+                    "model",
+                    "methodTau",
+                    "methodRandomCi",
+                    "prediction",
+                    "confidenceLevel",
+                    "asymmetryMethod"),
+                refs=list(
+                    "metaPackage")))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="asymmetryPlotImage",
+                width=700,
+                height=500,
+                renderFun=".asymmetryPlot",
+                visible=FALSE,
+                clearWith=list(
+                    "studyLabel",
+                    "meanE",
+                    "sdE",
+                    "nE",
+                    "meanC",
+                    "sdC",
+                    "nC",
+                    "sm",
+                    "methodSmd",
+                    "model",
+                    "methodTau",
+                    "methodRandomCi",
+                    "prediction",
+                    "confidenceLevel",
+                    "asymmetryMethod"),
+                refs=list(
                     "metaPackage")))}))
 
 metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -1534,6 +1620,10 @@ metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param funnelLegend .
 #' @param funnelLegendPos .
 #' @param funnelLegendCex .
+#' @param asymmetryTest .
+#' @param asymmetryMethod .
+#' @param showAsymmetrySummary .
+#' @param asymmetryPlot .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$text} \tab \tab \tab \tab \tab a html \cr
@@ -1545,6 +1635,8 @@ metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'   \code{results$leaveOneOutText} \tab \tab \tab \tab \tab a html \cr
 #'   \code{results$leaveOneOutPlot} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$funnelPlotImage} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$asymmetryTestText} \tab \tab \tab \tab \tab a html \cr
+#'   \code{results$asymmetryPlotImage} \tab \tab \tab \tab \tab an image \cr
 #' }
 #'
 #' @export
@@ -1659,7 +1751,11 @@ metaCont <- function(
     funnelContour = FALSE,
     funnelLegend = TRUE,
     funnelLegendPos = "topright",
-    funnelLegendCex = 100) {
+    funnelLegendCex = 100,
+    asymmetryTest = FALSE,
+    asymmetryMethod = "Egger",
+    showAsymmetrySummary = TRUE,
+    asymmetryPlot = FALSE) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("metaCont requires jmvcore to be installed (restart may be required)")
@@ -1801,7 +1897,11 @@ metaCont <- function(
         funnelContour = funnelContour,
         funnelLegend = funnelLegend,
         funnelLegendPos = funnelLegendPos,
-        funnelLegendCex = funnelLegendCex)
+        funnelLegendCex = funnelLegendCex,
+        asymmetryTest = asymmetryTest,
+        asymmetryMethod = asymmetryMethod,
+        showAsymmetrySummary = showAsymmetrySummary,
+        asymmetryPlot = asymmetryPlot)
 
     analysis <- metaContClass$new(
         options = options,

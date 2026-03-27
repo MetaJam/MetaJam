@@ -806,6 +806,18 @@ children:
                             format: number
                             suffix: "%"
                             enable: (funnelPlot && funnelContour && funnelLegend)
+              - type: CheckBox
+                name: asymmetryTest
+                children:
+                  - type: ComboBox
+                    name: asymmetryMethod
+                    enable: (asymmetryTest)
+                  - type: CheckBox
+                    name: showAsymmetrySummary
+                    enable: (asymmetryTest)
+                  - type: CheckBox
+                    name: asymmetryPlot
+                    enable: (asymmetryTest && !(asymmetryMethod:Pustejovsky))
           - type: Content
             name: trimFill
             children: []

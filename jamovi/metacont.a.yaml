@@ -852,3 +852,32 @@ options:
     min: 50
     max: 200
     default: 100
+
+  - name: asymmetryTest
+    title: Test for Funnel Plot Asymmetry
+    type: Bool
+    default: false
+
+  - name: asymmetryMethod
+    title: Method
+    type: List
+    options:
+      - title: Egger
+        name: Egger
+      - title: Begg
+        name: Begg
+      - title: Thompson
+        name: Thompson
+      - title: Pustejovsky (SMD only)
+        name: Pustejovsky
+    default: Egger
+
+  - name: showAsymmetrySummary
+    title: Summary
+    type: Bool
+    default: true
+
+  - name: asymmetryPlot
+    title: Plot
+    type: Bool
+    default: false

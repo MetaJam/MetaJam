@@ -104,6 +104,11 @@ metaContClass <- R6::R6Class(
         self$options,
         c("meanE", "sdE", "nE", "meanC", "sdC", "nC")
       )
+      initAsymmetryTestText(
+        self$results$asymmetryTestText,
+        self$options,
+        c("meanE", "sdE", "nE", "meanC", "sdC", "nC")
+      )
 
       if (
         !hasRequiredVars(
@@ -126,6 +131,11 @@ metaContClass <- R6::R6Class(
       populateLeaveOneOutText(
         self$results$leaveOneOutText,
         self$leaveOneOutModel
+      )
+      populateAsymmetryTestText(
+        self$results$asymmetryTestText,
+        self$model,
+        self$options
       )
     },
 
@@ -173,6 +183,14 @@ metaContClass <- R6::R6Class(
         return(FALSE)
       }
       renderFunnelPlot(self$model, self$options)
+      TRUE
+    },
+
+    .asymmetryPlot = function(image, ...) {
+      if (is.null(self$model)) {
+        return(FALSE)
+      }
+      renderAsymmetryPlot(self$model, self$options)
       TRUE
     }
   )
