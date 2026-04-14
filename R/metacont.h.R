@@ -33,10 +33,6 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             labelC = "Control",
             labelLeft = "",
             labelRight = "",
-            forestWidthAdjust = 0,
-            forestWidthUnit = "mm",
-            forestHeightAdjust = 0,
-            forestHeightUnit = "mm",
             xlimMode = "auto",
             xlimLower = -20,
             xlimUpper = 20,
@@ -65,10 +61,6 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             subgroupLabelC = "Control",
             subgroupLabelLeft = "",
             subgroupLabelRight = "",
-            subgroupForestWidthAdjust = 0,
-            subgroupForestWidthUnit = "mm",
-            subgroupForestHeightAdjust = 0,
-            subgroupForestHeightUnit = "mm",
             subgroupXlimMode = "auto",
             subgroupXlimLower = -20,
             subgroupXlimUpper = 20,
@@ -96,10 +88,6 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             leaveOneOutForestDetails = FALSE,
             leaveOneOutLabelLeft = "",
             leaveOneOutLabelRight = "",
-            leaveOneOutForestWidthAdjust = 0,
-            leaveOneOutForestWidthUnit = "mm",
-            leaveOneOutForestHeightAdjust = 0,
-            leaveOneOutForestHeightUnit = "mm",
             leaveOneOutXlimMode = "auto",
             leaveOneOutXlimLower = -20,
             leaveOneOutXlimUpper = 20,
@@ -297,30 +285,6 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "labelRight",
                 labelRight,
                 default="")
-            private$..forestWidthAdjust <- jmvcore::OptionNumber$new(
-                "forestWidthAdjust",
-                forestWidthAdjust,
-                default=0)
-            private$..forestWidthUnit <- jmvcore::OptionList$new(
-                "forestWidthUnit",
-                forestWidthUnit,
-                options=list(
-                    "mm",
-                    "cm",
-                    "inch"),
-                default="mm")
-            private$..forestHeightAdjust <- jmvcore::OptionNumber$new(
-                "forestHeightAdjust",
-                forestHeightAdjust,
-                default=0)
-            private$..forestHeightUnit <- jmvcore::OptionList$new(
-                "forestHeightUnit",
-                forestHeightUnit,
-                options=list(
-                    "mm",
-                    "cm",
-                    "inch"),
-                default="mm")
             private$..xlimMode <- jmvcore::OptionList$new(
                 "xlimMode",
                 xlimMode,
@@ -470,30 +434,6 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "subgroupLabelRight",
                 subgroupLabelRight,
                 default="")
-            private$..subgroupForestWidthAdjust <- jmvcore::OptionNumber$new(
-                "subgroupForestWidthAdjust",
-                subgroupForestWidthAdjust,
-                default=0)
-            private$..subgroupForestWidthUnit <- jmvcore::OptionList$new(
-                "subgroupForestWidthUnit",
-                subgroupForestWidthUnit,
-                options=list(
-                    "mm",
-                    "cm",
-                    "inch"),
-                default="mm")
-            private$..subgroupForestHeightAdjust <- jmvcore::OptionNumber$new(
-                "subgroupForestHeightAdjust",
-                subgroupForestHeightAdjust,
-                default=0)
-            private$..subgroupForestHeightUnit <- jmvcore::OptionList$new(
-                "subgroupForestHeightUnit",
-                subgroupForestHeightUnit,
-                options=list(
-                    "mm",
-                    "cm",
-                    "inch"),
-                default="mm")
             private$..subgroupXlimMode <- jmvcore::OptionList$new(
                 "subgroupXlimMode",
                 subgroupXlimMode,
@@ -640,30 +580,6 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "leaveOneOutLabelRight",
                 leaveOneOutLabelRight,
                 default="")
-            private$..leaveOneOutForestWidthAdjust <- jmvcore::OptionNumber$new(
-                "leaveOneOutForestWidthAdjust",
-                leaveOneOutForestWidthAdjust,
-                default=0)
-            private$..leaveOneOutForestWidthUnit <- jmvcore::OptionList$new(
-                "leaveOneOutForestWidthUnit",
-                leaveOneOutForestWidthUnit,
-                options=list(
-                    "mm",
-                    "cm",
-                    "inch"),
-                default="mm")
-            private$..leaveOneOutForestHeightAdjust <- jmvcore::OptionNumber$new(
-                "leaveOneOutForestHeightAdjust",
-                leaveOneOutForestHeightAdjust,
-                default=0)
-            private$..leaveOneOutForestHeightUnit <- jmvcore::OptionList$new(
-                "leaveOneOutForestHeightUnit",
-                leaveOneOutForestHeightUnit,
-                options=list(
-                    "mm",
-                    "cm",
-                    "inch"),
-                default="mm")
             private$..leaveOneOutXlimMode <- jmvcore::OptionList$new(
                 "leaveOneOutXlimMode",
                 leaveOneOutXlimMode,
@@ -803,10 +719,6 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..labelC)
             self$.addOption(private$..labelLeft)
             self$.addOption(private$..labelRight)
-            self$.addOption(private$..forestWidthAdjust)
-            self$.addOption(private$..forestWidthUnit)
-            self$.addOption(private$..forestHeightAdjust)
-            self$.addOption(private$..forestHeightUnit)
             self$.addOption(private$..xlimMode)
             self$.addOption(private$..xlimLower)
             self$.addOption(private$..xlimUpper)
@@ -835,10 +747,6 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..subgroupLabelC)
             self$.addOption(private$..subgroupLabelLeft)
             self$.addOption(private$..subgroupLabelRight)
-            self$.addOption(private$..subgroupForestWidthAdjust)
-            self$.addOption(private$..subgroupForestWidthUnit)
-            self$.addOption(private$..subgroupForestHeightAdjust)
-            self$.addOption(private$..subgroupForestHeightUnit)
             self$.addOption(private$..subgroupXlimMode)
             self$.addOption(private$..subgroupXlimLower)
             self$.addOption(private$..subgroupXlimUpper)
@@ -866,10 +774,6 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..leaveOneOutForestDetails)
             self$.addOption(private$..leaveOneOutLabelLeft)
             self$.addOption(private$..leaveOneOutLabelRight)
-            self$.addOption(private$..leaveOneOutForestWidthAdjust)
-            self$.addOption(private$..leaveOneOutForestWidthUnit)
-            self$.addOption(private$..leaveOneOutForestHeightAdjust)
-            self$.addOption(private$..leaveOneOutForestHeightUnit)
             self$.addOption(private$..leaveOneOutXlimMode)
             self$.addOption(private$..leaveOneOutXlimLower)
             self$.addOption(private$..leaveOneOutXlimUpper)
@@ -919,10 +823,6 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         labelC = function() private$..labelC$value,
         labelLeft = function() private$..labelLeft$value,
         labelRight = function() private$..labelRight$value,
-        forestWidthAdjust = function() private$..forestWidthAdjust$value,
-        forestWidthUnit = function() private$..forestWidthUnit$value,
-        forestHeightAdjust = function() private$..forestHeightAdjust$value,
-        forestHeightUnit = function() private$..forestHeightUnit$value,
         xlimMode = function() private$..xlimMode$value,
         xlimLower = function() private$..xlimLower$value,
         xlimUpper = function() private$..xlimUpper$value,
@@ -951,10 +851,6 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         subgroupLabelC = function() private$..subgroupLabelC$value,
         subgroupLabelLeft = function() private$..subgroupLabelLeft$value,
         subgroupLabelRight = function() private$..subgroupLabelRight$value,
-        subgroupForestWidthAdjust = function() private$..subgroupForestWidthAdjust$value,
-        subgroupForestWidthUnit = function() private$..subgroupForestWidthUnit$value,
-        subgroupForestHeightAdjust = function() private$..subgroupForestHeightAdjust$value,
-        subgroupForestHeightUnit = function() private$..subgroupForestHeightUnit$value,
         subgroupXlimMode = function() private$..subgroupXlimMode$value,
         subgroupXlimLower = function() private$..subgroupXlimLower$value,
         subgroupXlimUpper = function() private$..subgroupXlimUpper$value,
@@ -982,10 +878,6 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         leaveOneOutForestDetails = function() private$..leaveOneOutForestDetails$value,
         leaveOneOutLabelLeft = function() private$..leaveOneOutLabelLeft$value,
         leaveOneOutLabelRight = function() private$..leaveOneOutLabelRight$value,
-        leaveOneOutForestWidthAdjust = function() private$..leaveOneOutForestWidthAdjust$value,
-        leaveOneOutForestWidthUnit = function() private$..leaveOneOutForestWidthUnit$value,
-        leaveOneOutForestHeightAdjust = function() private$..leaveOneOutForestHeightAdjust$value,
-        leaveOneOutForestHeightUnit = function() private$..leaveOneOutForestHeightUnit$value,
         leaveOneOutXlimMode = function() private$..leaveOneOutXlimMode$value,
         leaveOneOutXlimLower = function() private$..leaveOneOutXlimLower$value,
         leaveOneOutXlimUpper = function() private$..leaveOneOutXlimUpper$value,
@@ -1034,10 +926,6 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..labelC = NA,
         ..labelLeft = NA,
         ..labelRight = NA,
-        ..forestWidthAdjust = NA,
-        ..forestWidthUnit = NA,
-        ..forestHeightAdjust = NA,
-        ..forestHeightUnit = NA,
         ..xlimMode = NA,
         ..xlimLower = NA,
         ..xlimUpper = NA,
@@ -1066,10 +954,6 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..subgroupLabelC = NA,
         ..subgroupLabelLeft = NA,
         ..subgroupLabelRight = NA,
-        ..subgroupForestWidthAdjust = NA,
-        ..subgroupForestWidthUnit = NA,
-        ..subgroupForestHeightAdjust = NA,
-        ..subgroupForestHeightUnit = NA,
         ..subgroupXlimMode = NA,
         ..subgroupXlimLower = NA,
         ..subgroupXlimUpper = NA,
@@ -1097,10 +981,6 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..leaveOneOutForestDetails = NA,
         ..leaveOneOutLabelLeft = NA,
         ..leaveOneOutLabelRight = NA,
-        ..leaveOneOutForestWidthAdjust = NA,
-        ..leaveOneOutForestWidthUnit = NA,
-        ..leaveOneOutForestHeightAdjust = NA,
-        ..leaveOneOutForestHeightUnit = NA,
         ..leaveOneOutXlimMode = NA,
         ..leaveOneOutXlimLower = NA,
         ..leaveOneOutXlimUpper = NA,
@@ -1193,10 +1073,6 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "labelC",
                     "labelLeft",
                     "labelRight",
-                    "forestWidthAdjust",
-                    "forestWidthUnit",
-                    "forestHeightAdjust",
-                    "forestHeightUnit",
                     "xlimMode",
                     "xlimLower",
                     "xlimUpper",
@@ -1267,10 +1143,6 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "subgroupLabelC",
                     "subgroupLabelLeft",
                     "subgroupLabelRight",
-                    "subgroupForestWidthAdjust",
-                    "subgroupForestWidthUnit",
-                    "subgroupForestHeightAdjust",
-                    "subgroupForestHeightUnit",
                     "subgroupXlimMode",
                     "subgroupXlimLower",
                     "subgroupXlimUpper",
@@ -1391,10 +1263,6 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "leaveOneOutSortBy",
                     "leaveOneOutLabelLeft",
                     "leaveOneOutLabelRight",
-                    "leaveOneOutForestWidthAdjust",
-                    "leaveOneOutForestWidthUnit",
-                    "leaveOneOutForestHeightAdjust",
-                    "leaveOneOutForestHeightUnit",
                     "leaveOneOutXlimMode",
                     "leaveOneOutXlimLower",
                     "leaveOneOutXlimUpper",
@@ -1537,10 +1405,6 @@ metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param labelC .
 #' @param labelLeft .
 #' @param labelRight .
-#' @param forestWidthAdjust .
-#' @param forestWidthUnit .
-#' @param forestHeightAdjust .
-#' @param forestHeightUnit .
 #' @param xlimMode .
 #' @param xlimLower .
 #' @param xlimUpper .
@@ -1569,10 +1433,6 @@ metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param subgroupLabelC .
 #' @param subgroupLabelLeft .
 #' @param subgroupLabelRight .
-#' @param subgroupForestWidthAdjust .
-#' @param subgroupForestWidthUnit .
-#' @param subgroupForestHeightAdjust .
-#' @param subgroupForestHeightUnit .
 #' @param subgroupXlimMode .
 #' @param subgroupXlimLower .
 #' @param subgroupXlimUpper .
@@ -1600,10 +1460,6 @@ metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param leaveOneOutForestDetails .
 #' @param leaveOneOutLabelLeft .
 #' @param leaveOneOutLabelRight .
-#' @param leaveOneOutForestWidthAdjust .
-#' @param leaveOneOutForestWidthUnit .
-#' @param leaveOneOutForestHeightAdjust .
-#' @param leaveOneOutForestHeightUnit .
 #' @param leaveOneOutXlimMode .
 #' @param leaveOneOutXlimLower .
 #' @param leaveOneOutXlimUpper .
@@ -1669,10 +1525,6 @@ metaCont <- function(
     labelC = "Control",
     labelLeft = "",
     labelRight = "",
-    forestWidthAdjust = 0,
-    forestWidthUnit = "mm",
-    forestHeightAdjust = 0,
-    forestHeightUnit = "mm",
     xlimMode = "auto",
     xlimLower = -20,
     xlimUpper = 20,
@@ -1701,10 +1553,6 @@ metaCont <- function(
     subgroupLabelC = "Control",
     subgroupLabelLeft = "",
     subgroupLabelRight = "",
-    subgroupForestWidthAdjust = 0,
-    subgroupForestWidthUnit = "mm",
-    subgroupForestHeightAdjust = 0,
-    subgroupForestHeightUnit = "mm",
     subgroupXlimMode = "auto",
     subgroupXlimLower = -20,
     subgroupXlimUpper = 20,
@@ -1732,10 +1580,6 @@ metaCont <- function(
     leaveOneOutForestDetails = FALSE,
     leaveOneOutLabelLeft = "",
     leaveOneOutLabelRight = "",
-    leaveOneOutForestWidthAdjust = 0,
-    leaveOneOutForestWidthUnit = "mm",
-    leaveOneOutForestHeightAdjust = 0,
-    leaveOneOutForestHeightUnit = "mm",
     leaveOneOutXlimMode = "auto",
     leaveOneOutXlimLower = -20,
     leaveOneOutXlimUpper = 20,
@@ -1815,10 +1659,6 @@ metaCont <- function(
         labelC = labelC,
         labelLeft = labelLeft,
         labelRight = labelRight,
-        forestWidthAdjust = forestWidthAdjust,
-        forestWidthUnit = forestWidthUnit,
-        forestHeightAdjust = forestHeightAdjust,
-        forestHeightUnit = forestHeightUnit,
         xlimMode = xlimMode,
         xlimLower = xlimLower,
         xlimUpper = xlimUpper,
@@ -1847,10 +1687,6 @@ metaCont <- function(
         subgroupLabelC = subgroupLabelC,
         subgroupLabelLeft = subgroupLabelLeft,
         subgroupLabelRight = subgroupLabelRight,
-        subgroupForestWidthAdjust = subgroupForestWidthAdjust,
-        subgroupForestWidthUnit = subgroupForestWidthUnit,
-        subgroupForestHeightAdjust = subgroupForestHeightAdjust,
-        subgroupForestHeightUnit = subgroupForestHeightUnit,
         subgroupXlimMode = subgroupXlimMode,
         subgroupXlimLower = subgroupXlimLower,
         subgroupXlimUpper = subgroupXlimUpper,
@@ -1878,10 +1714,6 @@ metaCont <- function(
         leaveOneOutForestDetails = leaveOneOutForestDetails,
         leaveOneOutLabelLeft = leaveOneOutLabelLeft,
         leaveOneOutLabelRight = leaveOneOutLabelRight,
-        leaveOneOutForestWidthAdjust = leaveOneOutForestWidthAdjust,
-        leaveOneOutForestWidthUnit = leaveOneOutForestWidthUnit,
-        leaveOneOutForestHeightAdjust = leaveOneOutForestHeightAdjust,
-        leaveOneOutForestHeightUnit = leaveOneOutForestHeightUnit,
         leaveOneOutXlimMode = leaveOneOutXlimMode,
         leaveOneOutXlimLower = leaveOneOutXlimLower,
         leaveOneOutXlimUpper = leaveOneOutXlimUpper,

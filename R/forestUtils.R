@@ -62,17 +62,29 @@ renderForest <- function(model, options, ...) {
   do.call(meta::forest, args)
 }
 
-#' Calculate Height for Forest Plot
+#' Calculate Forest Plot Dimensions
 #'
-#' Runs forest plot rendering in a null PDF device to measure the
-#' required height without actually drawing anything visible.
+#' Renders the forest plot in a null PDF device and extracts the true
+#' width and height from `meta`'s internal grid layout.
+#'
+#' `meta::forest()` constructs a [grid::grid.layout()] with exact
+#' column widths (measured from text grobs) and uniform row heights.
+#' The `figheight` value returned by `meta::forest()` is only a
+#' heuristic row-count estimate (via the internal `gh()` function)
+#' used to size file devices before the layout exists; the grid
+#' layout captured here is the authoritative source of dimensions.
+#'
+#' A small padding is added to account for elements that extend
+#' beyond the grid layout (x-axis tick labels, floating labels such
+#' as `label.left` / `label.right`).
 #'
 #' @param model A `meta` object.
 #' @param options A Jamovi options object with forest-related fields.
-#' @param ... Extra arguments forwarded to `renderForest()`.
-#' @return The calculated height in points.
+#' @param renderFn Render function (default `renderForest`).
+#' @param ... Extra arguments forwarded to `renderFn()`.
+#' @return A list with `width` and `height` in inches.
 #' @noRd
-calcForestHeight <- function(model, options, renderFn = renderForest, ...) {
+calcForestDims <- function(model, options, renderFn = renderForest, ...) {
   oldDev <- grDevices::dev.cur()
   grDevices::pdf(file = NULL)
   on.exit({
@@ -80,27 +92,37 @@ calcForestHeight <- function(model, options, renderFn = renderForest, ...) {
     if (oldDev > 1) grDevices::dev.set(oldDev)
   })
 
-  res <- renderFn(model, options, ...)
-  res$figheight$total_height * 72
-}
+  gtree <- grid::grid.grabExpr(renderFn(model, options, ...))
 
-#' Convert Plot Adjustment Unit to Pixels (jamovi uses 72 dpi)
-#' @noRd
-convertToPx <- function(x, unit) {
-  x / c(inch = 1, cm = 2.54, mm = 25.4)[unit] * 72
+  # The main viewport's layout sits at the vpTree parent
+  layout <- gtree$childrenvp[[1]]$parent$layout
+
+  width <- grid::convertWidth(
+    sum(layout$widths),
+    "inches",
+    valueOnly = TRUE
+  )
+  height <- grid::convertHeight(
+    sum(rep(layout$heights, layout$nrow)),
+    "inches",
+    valueOnly = TRUE
+  )
+
+  list(width = width + 0.3, height = height + 0.8)
 }
 
 #' Initialize a Forest Plot Image (Shared .init() Helper)
 #'
 #' Handles the full sizing workflow for any forest-type image:
-#' checks guards, calculates height, and calls `setSize()`.
+#' checks guards, extracts accurate dimensions from the grid layout,
+#' and calls `setSize()`.
 #' Designed to be called from `.init()` across all meta-analysis types.
 #'
 #' @param image A jamovi Image result element (e.g., `self$results$plot`).
 #' @param model A `meta` object. If `NULL`, the function returns early.
 #' @param options A Jamovi options object with forest-related fields.
-#' @param width Plot width in pixels (default 800).
-#' @param ... Extra arguments forwarded to `calcForestHeight()`.
+#' @param renderFn Render function (default `renderForest`).
+#' @param ... Extra arguments forwarded to `calcForestDims()`.
 #' @return `NULL` invisibly. Called for side effects (`setSize()`).
 #' @noRd
 initForestPlot <- function(
@@ -108,23 +130,17 @@ initForestPlot <- function(
   model,
   options,
   renderFn = renderForest,
-  width = 800,
   ...
 ) {
-  if (!image$visible) {
-    return()
-  }
-  if (is.null(model)) {
+  if (!image$visible || is.null(model)) {
     return()
   }
 
-  height <- calcForestHeight(model, options, renderFn = renderFn, ...)
+  dims <- calcForestDims(model, options, renderFn = renderFn, ...)
 
-  w_adj <- convertToPx(options$forestWidthAdjust, options$forestWidthUnit)
-  h_adj <- convertToPx(options$forestHeightAdjust, options$forestHeightUnit)
-
-  final_width <- width + w_adj
-  final_height <- height + h_adj
-
-  image$setSize(width = final_width, height = final_height)
+  # Jamovi renders images at 72 DPI; convert inches → pixels
+  image$setSize(
+    width = dims$width * 72,
+    height = dims$height * 72
+  )
 }

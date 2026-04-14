@@ -235,40 +235,6 @@ options:
     type: String
     default: ""
 
-  - name: forestWidthAdjust
-    title: Width Adjustment (+/-)
-    type: Number
-    default: 0
-
-  - name: forestWidthUnit
-    title: ""
-    type: List
-    options:
-      - title: mm
-        name: mm
-      - title: cm
-        name: cm
-      - title: in
-        name: inch
-    default: mm
-
-  - name: forestHeightAdjust
-    title: Height Adjustment (+/-)
-    type: Number
-    default: 0
-
-  - name: forestHeightUnit
-    title: ""
-    type: List
-    options:
-      - title: mm
-        name: mm
-      - title: cm
-        name: cm
-      - title: in
-        name: inch
-    default: mm
-
   - name: xlimMode
     title: X-Axis Limits
     type: List
@@ -468,40 +434,6 @@ options:
     type: String
     default: ""
 
-  - name: subgroupForestWidthAdjust
-    title: Width Adjustment (+/-)
-    type: Number
-    default: 0
-
-  - name: subgroupForestWidthUnit
-    title: ""
-    type: List
-    options:
-      - title: mm
-        name: mm
-      - title: cm
-        name: cm
-      - title: in
-        name: inch
-    default: mm
-
-  - name: subgroupForestHeightAdjust
-    title: Height Adjustment (+/-)
-    type: Number
-    default: 0
-
-  - name: subgroupForestHeightUnit
-    title: ""
-    type: List
-    options:
-      - title: mm
-        name: mm
-      - title: cm
-        name: cm
-      - title: in
-        name: inch
-    default: mm
-
   - name: subgroupXlimMode
     title: X-Axis Limits
     type: List
@@ -697,40 +629,6 @@ options:
     title: X-Axis Right Label
     type: String
     default: ""
-
-  - name: leaveOneOutForestWidthAdjust
-    title: Width Adjustment (+/-)
-    type: Number
-    default: 0
-
-  - name: leaveOneOutForestWidthUnit
-    title: ""
-    type: List
-    options:
-      - title: mm
-        name: mm
-      - title: cm
-        name: cm
-      - title: in
-        name: inch
-    default: mm
-
-  - name: leaveOneOutForestHeightAdjust
-    title: Height Adjustment (+/-)
-    type: Number
-    default: 0
-
-  - name: leaveOneOutForestHeightUnit
-    title: ""
-    type: List
-    options:
-      - title: mm
-        name: mm
-      - title: cm
-        name: cm
-      - title: in
-        name: inch
-    default: mm
 
   - name: leaveOneOutXlimMode
     title: X-Axis Limits

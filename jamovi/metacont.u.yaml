@@ -175,35 +175,6 @@ children:
                   - type: LayoutBox
                     fitToGrid: true
                     children:
-                      - type: TextBox
-                        name: forestWidthAdjust
-                        format: number
-                        enable: (forestPlot)
-                        cell:
-                          row: 0
-                          column: 0
-                      - type: ComboBox
-                        name: forestWidthUnit
-                        enable: (forestPlot)
-                        cell:
-                          row: 0
-                          column: 1
-                      - type: TextBox
-                        name: forestHeightAdjust
-                        format: number
-                        enable: (forestPlot)
-                        cell:
-                          row: 0
-                          column: 2
-                      - type: ComboBox
-                        name: forestHeightUnit
-                        enable: (forestPlot)
-                        cell:
-                          row: 0
-                          column: 3
-                  - type: LayoutBox
-                    fitToGrid: true
-                    children:
                       - type: ComboBox
                         name: xlimMode
                         enable: (forestPlot)
@@ -422,43 +393,6 @@ children:
                   - type: LayoutBox
                     fitToGrid: true
                     children:
-                      - type: TextBox
-                        name: subgroupForestWidthAdjust
-                        format: number
-                        enable: >
-                          ({return !!ui['subgroupVariable'].value() &&
-                          ui['subgroupForestPlot'].value();})
-                        cell:
-                          row: 0
-                          column: 0
-                      - type: ComboBox
-                        name: subgroupForestWidthUnit
-                        enable: >
-                          ({return !!ui['subgroupVariable'].value() &&
-                          ui['subgroupForestPlot'].value();})
-                        cell:
-                          row: 0
-                          column: 1
-                      - type: TextBox
-                        name: subgroupForestHeightAdjust
-                        format: number
-                        enable: >
-                          ({return !!ui['subgroupVariable'].value() &&
-                          ui['subgroupForestPlot'].value();})
-                        cell:
-                          row: 0
-                          column: 2
-                      - type: ComboBox
-                        name: subgroupForestHeightUnit
-                        enable: >
-                          ({return !!ui['subgroupVariable'].value() &&
-                          ui['subgroupForestPlot'].value();})
-                        cell:
-                          row: 0
-                          column: 3
-                  - type: LayoutBox
-                    fitToGrid: true
-                    children:
                       - type: ComboBox
                         name: subgroupXlimMode
                         enable: >
@@ -674,35 +608,6 @@ children:
               - type: Content
                 name: dimensions
                 children:
-                  - type: LayoutBox
-                    fitToGrid: true
-                    children:
-                      - type: TextBox
-                        name: leaveOneOutForestWidthAdjust
-                        format: number
-                        enable: (leaveOneOut && leaveOneOutForestPlot)
-                        cell:
-                          row: 0
-                          column: 0
-                      - type: ComboBox
-                        name: leaveOneOutForestWidthUnit
-                        enable: (leaveOneOut && leaveOneOutForestPlot)
-                        cell:
-                          row: 0
-                          column: 1
-                      - type: TextBox
-                        name: leaveOneOutForestHeightAdjust
-                        format: number
-                        enable: (leaveOneOut && leaveOneOutForestPlot)
-                        cell:
-                          row: 0
-                          column: 2
-                      - type: ComboBox
-                        name: leaveOneOutForestHeightUnit
-                        enable: (leaveOneOut && leaveOneOutForestPlot)
-                        cell:
-                          row: 0
-                          column: 3
                   - type: LayoutBox
                     fitToGrid: true
                     children:
