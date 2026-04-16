@@ -97,7 +97,7 @@ children:
             name: forestMode
             children:
               - type: Content
-                name: appearance
+                name: general
                 children:
                   - type: LayoutBox
                     children:
@@ -274,7 +274,7 @@ children:
             name: subgroupForestMode
             children:
               - type: Content
-                name: appearance
+                name: general
                 children:
                   - type: LayoutBox
                     children:
@@ -571,7 +571,7 @@ children:
             name: leaveOneOutForestMode
             children:
               - type: Content
-                name: appearance
+                name: general
                 children:
                   - type: LayoutBox
                     children:

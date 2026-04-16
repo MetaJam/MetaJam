@@ -22,7 +22,7 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             confidenceLevel = 95,
             showSummary = TRUE,
             forestPlot = TRUE,
-            forestMode = "appearance",
+            forestMode = "general",
             forestLayout = "meta",
             sortBy = "none",
             forestTestOverall = FALSE,
@@ -47,7 +47,7 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             predictionSubgroup = FALSE,
             showSubgroupSummary = TRUE,
             subgroupForestPlot = TRUE,
-            subgroupForestMode = "appearance",
+            subgroupForestMode = "general",
             printSubgroupName = TRUE,
             subgroupForestLayout = "meta",
             subgroupSortBy = "none",
@@ -82,7 +82,7 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             leaveOneOutPrediction = FALSE,
             showLeaveOneOutSummary = TRUE,
             leaveOneOutForestPlot = TRUE,
-            leaveOneOutForestMode = "appearance",
+            leaveOneOutForestMode = "general",
             leaveOneOutForestLayout = "meta",
             leaveOneOutSortBy = "none",
             leaveOneOutForestDetails = FALSE,
@@ -231,9 +231,9 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "forestMode",
                 forestMode,
                 options=list(
-                    "appearance",
+                    "general",
                     "dimensions"),
-                default="appearance")
+                default="general")
             private$..forestLayout <- jmvcore::OptionList$new(
                 "forestLayout",
                 forestLayout,
@@ -367,9 +367,9 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "subgroupForestMode",
                 subgroupForestMode,
                 options=list(
-                    "appearance",
+                    "general",
                     "dimensions"),
-                default="appearance")
+                default="general")
             private$..printSubgroupName <- jmvcore::OptionBool$new(
                 "printSubgroupName",
                 printSubgroupName,
@@ -544,9 +544,9 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "leaveOneOutForestMode",
                 leaveOneOutForestMode,
                 options=list(
-                    "appearance",
+                    "general",
                     "dimensions"),
-                default="appearance")
+                default="general")
             private$..leaveOneOutForestLayout <- jmvcore::OptionList$new(
                 "leaveOneOutForestLayout",
                 leaveOneOutForestLayout,
@@ -1514,7 +1514,7 @@ metaCont <- function(
     confidenceLevel = 95,
     showSummary = TRUE,
     forestPlot = TRUE,
-    forestMode = "appearance",
+    forestMode = "general",
     forestLayout = "meta",
     sortBy = "none",
     forestTestOverall = FALSE,
@@ -1539,7 +1539,7 @@ metaCont <- function(
     predictionSubgroup = FALSE,
     showSubgroupSummary = TRUE,
     subgroupForestPlot = TRUE,
-    subgroupForestMode = "appearance",
+    subgroupForestMode = "general",
     printSubgroupName = TRUE,
     subgroupForestLayout = "meta",
     subgroupSortBy = "none",
@@ -1574,7 +1574,7 @@ metaCont <- function(
     leaveOneOutPrediction = FALSE,
     showLeaveOneOutSummary = TRUE,
     leaveOneOutForestPlot = TRUE,
-    leaveOneOutForestMode = "appearance",
+    leaveOneOutForestMode = "general",
     leaveOneOutForestLayout = "meta",
     leaveOneOutSortBy = "none",
     leaveOneOutForestDetails = FALSE,

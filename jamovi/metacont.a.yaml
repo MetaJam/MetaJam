@@ -9,7 +9,7 @@ options:
     type: Data
 
   - name: studyLabel
-    title: Study Labels
+    title: Study Label
     type: Variable
     suggested:
       - nominal
@@ -66,19 +66,19 @@ options:
       - numeric
 
   - name: sm
-    title: Summary Measure
+    title: Summary measure
     type: List
     options:
-      - title: Mean Difference (MD)
+      - title: Mean difference (MD)
         name: md
-      - title: Standardised Mean Difference (SMD)
+      - title: Standardised mean difference (SMD)
         name: smd
-      - title: Ratio of Means (ROM)
+      - title: Ratio of means (ROM)
         name: rom
     default: md
 
   - name: methodSmd
-    title: SMD Type
+    title: SMD type
     type: List
     options:
       - title: Hedges' g
@@ -93,25 +93,25 @@ options:
     title: Model
     type: List
     options:
-      - title: Random & Common
+      - title: Random & common
         name: both
-      - title: Random Effects
+      - title: Random effects
         name: random
-      - title: Common Effect
+      - title: Common effect
         name: common
     default: both
 
   - name: methodTau
-    title: Heterogeneity Estimator
+    title: Heterogeneity estimator
     type: List
     options:
-      - title: Restricted Maximum-Likelihood
+      - title: Restricted maximum-likelihood
         name: REML
       - title: Paule-Mandel
         name: PM
       - title: DerSimonian-Laird
         name: DL
-      - title: Maximum-Likelihood
+      - title: Maximum-likelihood
         name: ML
       - title: Hunter-Schmidt
         name: HS
@@ -124,7 +124,7 @@ options:
     default: REML
 
   - name: methodRandomCi
-    title: Random Effects CI Method
+    title: Random effects CI method
     type: List
     options:
       - title: Classic
@@ -134,12 +134,12 @@ options:
     default: classic
 
   - name: prediction
-    title: Prediction Interval
+    title: Prediction interval
     type: Bool
     default: false
 
   - name: confidenceLevel
-    title: Confidence Level
+    title: Confidence level
     type: Number
     min: 50
     max: 99.9
@@ -151,7 +151,7 @@ options:
     default: true
 
   - name: forestPlot
-    title: Forest Plot
+    title: Forest plot
     type: Bool
     default: true
 
@@ -159,11 +159,11 @@ options:
     title: ""
     type: List
     options:
-      - title: Appearance
-        name: appearance
+      - title: General
+        name: general
       - title: Dimensions
         name: dimensions
-    default: appearance
+    default: general
 
   - name: forestLayout
     title: Theme
@@ -180,63 +180,63 @@ options:
     default: meta
 
   - name: sortBy
-    title: Sort By
+    title: Sort by
     type: List
     options:
-      - title: Original Order
+      - title: Original order
         name: none
-      - title: Effect Size (Ascending)
+      - title: Effect size (ascending)
         name: effectAsc
-      - title: Effect Size (Descending)
+      - title: Effect size (descending)
         name: effectDesc
-      - title: Weight (Ascending)
+      - title: Weight (ascending)
         name: weightAsc
-      - title: Weight (Descending)
+      - title: Weight (descending)
         name: weightDesc
     default: none
 
   - name: forestTestOverall
-    title: Overall Effect Test
+    title: Overall effect test
     type: Bool
     default: false
 
   - name: forestDetails
-    title: Analysis Details
+    title: Analysis details
     type: Bool
     default: false
 
   - name: forestPrintI2Ci
-    title: I² Confidence Interval
+    title: I² confidence interval
     type: Bool
     default: false
 
   - name: forestPrintTau2Ci
-    title: Tau² Confidence Interval
+    title: Tau² confidence interval
     type: Bool
     default: false
 
   - name: labelE
-    title: Experimental Label
+    title: Experimental label
     type: String
     default: Experimental
 
   - name: labelC
-    title: Control Label
+    title: Control label
     type: String
     default: Control
 
   - name: labelLeft
-    title: X-Axis Left Label
+    title: X-axis left label
     type: String
     default: ""
 
   - name: labelRight
-    title: X-Axis Right Label
+    title: X-axis right label
     type: String
     default: ""
 
   - name: xlimMode
-    title: X-Axis Limits
+    title: X-axis limits
     type: List
     options:
       - title: Auto
@@ -246,17 +246,17 @@ options:
     default: auto
 
   - name: xlimLower
-    title: Lower Limit
+    title: Lower limit
     type: Number
     default: -20
 
   - name: xlimUpper
-    title: Upper Limit
+    title: Upper limit
     type: Number
     default: 20
 
   - name: addrowsMode
-    title: Space Above Footnotes
+    title: Space above footnotes
     type: List
     options:
       - title: Auto
@@ -272,7 +272,7 @@ options:
     default: 0
 
   - name: colgap
-    title: Space Between Columns
+    title: Space between columns
     type: Number
     min: 0
     default: 2
@@ -290,7 +290,7 @@ options:
     default: mm
 
   - name: colgapForest
-    title: Space Around Plot
+    title: Space around plot
     type: Number
     min: 0
     default: 2
@@ -318,12 +318,12 @@ options:
       - id
 
   - name: tauCommon
-    title: Assume Common Tau² Across Subgroups
+    title: Assume common Tau² across subgroups
     type: Bool
     default: false
 
   - name: predictionSubgroup
-    title: Subgroup Prediction Intervals
+    title: Subgroup prediction interval
     type: Bool
     default: false
 
@@ -333,7 +333,7 @@ options:
     default: true
 
   - name: subgroupForestPlot
-    title: Forest Plot
+    title: Forest plot
     type: Bool
     default: true
 
@@ -341,14 +341,14 @@ options:
     title: ""
     type: List
     options:
-      - title: Appearance
-        name: appearance
+      - title: General
+        name: general
       - title: Dimensions
         name: dimensions
-    default: appearance
+    default: general
 
   - name: printSubgroupName
-    title: Subgroup Variable Name
+    title: Subgroup Variable name
     type: Bool
     default: true
 
@@ -369,73 +369,73 @@ options:
     default: meta
 
   - name: subgroupSortBy
-    title: Sort By
+    title: Sort by
     type: List
     options:
-      - title: Original Order
+      - title: Original order
         name: none
-      - title: Effect Size (Ascending)
+      - title: Effect size (ascending)
         name: effectAsc
-      - title: Effect Size (Descending)
+      - title: Effect size (descending)
         name: effectDesc
-      - title: Weight (Ascending)
+      - title: Weight (ascending)
         name: weightAsc
-      - title: Weight (Descending)
+      - title: Weight (descending)
         name: weightDesc
     default: none
 
   - name: subgroupForestTestSubgroup
-    title: Subgroup Differences Test
+    title: Subgroup differences test
     type: Bool
     default: true
 
   - name: subgroupForestTestEffect
-    title: Subgroup Effect Tests
+    title: Subgroup effect test
     type: Bool
     default: false
 
   - name: subgroupForestTestOverall
-    title: Overall Effect Test
+    title: Overall effect test
     type: Bool
     default: false
 
   - name: subgroupForestPrintI2Ci
-    title: I² Confidence Interval
+    title: I² confidence interval
     type: Bool
     default: false
 
   - name: subgroupForestPrintTau2Ci
-    title: Tau² Confidence Interval
+    title: Tau² confidence interval
     type: Bool
     default: false
 
   - name: subgroupForestDetails
-    title: Analysis Details
+    title: Analysis details
     type: Bool
     default: false
 
   - name: subgroupLabelE
-    title: Experimental Label
+    title: Experimental label
     type: String
     default: Experimental
 
   - name: subgroupLabelC
-    title: Control Label
+    title: Control label
     type: String
     default: Control
 
   - name: subgroupLabelLeft
-    title: X-Axis Left Label
+    title: X-axis left label
     type: String
     default: ""
 
   - name: subgroupLabelRight
-    title: X-Axis Right Label
+    title: X-axis right label
     type: String
     default: ""
 
   - name: subgroupXlimMode
-    title: X-Axis Limits
+    title: X-axis limits
     type: List
     options:
       - title: Auto
@@ -445,17 +445,17 @@ options:
     default: auto
 
   - name: subgroupXlimLower
-    title: Lower Limit
+    title: Lower limit
     type: Number
     default: -20
 
   - name: subgroupXlimUpper
-    title: Upper Limit
+    title: Upper limit
     type: Number
     default: 20
 
   - name: subgroupAddrowsMode
-    title: Space Above Footnotes
+    title: Space above footnotes
     type: List
     options:
       - title: Auto
@@ -471,7 +471,7 @@ options:
     default: 0
 
   - name: subgroupColgap
-    title: Space Between Columns
+    title: Space between columns
     type: Number
     min: 0
     default: 2
@@ -489,7 +489,7 @@ options:
     default: mm
 
   - name: subgroupColgapForest
-    title: Space Around Plot
+    title: Space around plot
     type: Number
     min: 0
     default: 2
@@ -523,7 +523,7 @@ options:
       - factor
 
   - name: metaRegTerms
-    title: Model Terms
+    title: Model terms
     type: Terms
 
   - name: metaRegIntercept
@@ -537,27 +537,27 @@ options:
     default: true
 
   - name: bubblePlot
-    title: Bubble Plot
+    title: Bubble plot
     type: Bool
     default: false
 
   - name: bubbleRegline
-    title: Regression Line
+    title: Regression line
     type: Bool
     default: true
 
   - name: bubbleStudyLabel
-    title: Study Labels
+    title: Study labels
     type: Bool
     default: false
 
   - name: leaveOneOut
-    title: Leave-One-Out Analysis
+    title: Leave-one-out analysis
     type: Bool
     default: false
 
   - name: leaveOneOutPrediction
-    title: Prediction Interval
+    title: Prediction interval
     type: Bool
     default: false
 
@@ -567,7 +567,7 @@ options:
     default: true
 
   - name: leaveOneOutForestPlot
-    title: Forest Plot
+    title: Forest plot
     type: Bool
     default: true
 
@@ -575,11 +575,11 @@ options:
     title: ""
     type: List
     options:
-      - title: Appearance
-        name: appearance
+      - title: General
+        name: general
       - title: Dimensions
         name: dimensions
-    default: appearance
+    default: general
 
   - name: leaveOneOutForestLayout
     title: Theme
@@ -596,42 +596,42 @@ options:
     default: meta
 
   - name: leaveOneOutSortBy
-    title: Sort By
+    title: Sort by
     type: List
     options:
-      - title: Original Order
+      - title: Original order
         name: none
-      - title: Effect Size (Ascending)
+      - title: Effect size (ascending)
         name: effectAsc
-      - title: Effect Size (Descending)
+      - title: Effect size (descending)
         name: effectDesc
-      - title: I² (Ascending)
+      - title: I² (ascending)
         name: i2Asc
-      - title: I² (Descending)
+      - title: I² (descending)
         name: i2Desc
-      - title: Tau² (Ascending)
+      - title: Tau² (ascending)
         name: tau2Asc
-      - title: Tau² (Descending)
+      - title: Tau² (descending)
         name: tau2Desc
     default: none
 
   - name: leaveOneOutForestDetails
-    title: Analysis Details
+    title: Analysis details
     type: Bool
     default: false
 
   - name: leaveOneOutLabelLeft
-    title: X-Axis Left Label
+    title: X-axis left label
     type: String
     default: ""
 
   - name: leaveOneOutLabelRight
-    title: X-Axis Right Label
+    title: X-axis right label
     type: String
     default: ""
 
   - name: leaveOneOutXlimMode
-    title: X-Axis Limits
+    title: X-axis limits
     type: List
     options:
       - title: Auto
@@ -641,17 +641,17 @@ options:
     default: auto
 
   - name: leaveOneOutXlimLower
-    title: Lower Limit
+    title: Lower limit
     type: Number
     default: -20
 
   - name: leaveOneOutXlimUpper
-    title: Upper Limit
+    title: Upper limit
     type: Number
     default: 20
 
   - name: leaveOneOutAddrowsMode
-    title: Space Above Footnotes
+    title: Space above footnotes
     type: List
     options:
       - title: Auto
@@ -667,7 +667,7 @@ options:
     default: 0
 
   - name: leaveOneOutColgap
-    title: Space Between Columns
+    title: Space between columns
     type: Number
     min: 0
     default: 2
@@ -685,7 +685,7 @@ options:
     default: mm
 
   - name: leaveOneOutColgapForest
-    title: Space Around Plot
+    title: Space around plot
     type: Number
     min: 0
     default: 2
@@ -706,26 +706,26 @@ options:
     title: ""
     type: List
     options:
-      - title: Funnel Plot
+      - title: Funnel plot
         name: funnelPlot
-      - title: Trim and Fill
+      - title: Trim and fill
         name: trimFill
-      - title: LFK Index
+      - title: LFK index
         name: lfkIndex
     default: funnelPlot
 
   - name: funnelPlot
-    title: Funnel Plot
+    title: Funnel plot
     type: Bool
     default: false
 
   - name: funnelStudyLabel
-    title: Study Labels
+    title: Study labels
     type: Bool
     default: false
 
   - name: funnelContour
-    title: Contour-Enhanced
+    title: Contour-enhanced
     type: Bool
     default: false
 
@@ -738,9 +738,9 @@ options:
     title: Position
     type: List
     options:
-      - title: Top Right
+      - title: Top right
         name: topright
-      - title: Top Left
+      - title: Top left
         name: topleft
     default: topright
 
@@ -752,7 +752,7 @@ options:
     default: 100
 
   - name: asymmetryTest
-    title: Test for Funnel Plot Asymmetry
+    title: Test for funnel plot asymmetry
     type: Bool
     default: false
 
