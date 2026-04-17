@@ -236,17 +236,17 @@ options:
     default: ""
 
   - name: xlimCustom
-    title: Custom x-axis limits
+    title: Custom x-axis range
     type: Bool
     default: false
 
   - name: xlimLower
-    title: Lower limit
+    title: Minimum
     type: Number
     default: -20
 
   - name: xlimUpper
-    title: Upper limit
+    title: Maximum
     type: Number
     default: 20
 
@@ -425,17 +425,17 @@ options:
     default: ""
 
   - name: subgroupXlimCustom
-    title: Custom x-axis limits
+    title: Custom x-axis range
     type: Bool
     default: false
 
   - name: subgroupXlimLower
-    title: Lower limit
+    title: Minimum
     type: Number
     default: -20
 
   - name: subgroupXlimUpper
-    title: Upper limit
+    title: Maximum
     type: Number
     default: 20
 
@@ -611,17 +611,17 @@ options:
     default: ""
 
   - name: leaveOneOutXlimCustom
-    title: Custom x-axis limits
+    title: Custom x-axis range
     type: Bool
     default: false
 
   - name: leaveOneOutXlimLower
-    title: Lower limit
+    title: Minimum
     type: Number
     default: -20
 
   - name: leaveOneOutXlimUpper
-    title: Upper limit
+    title: Maximum
     type: Number
     default: 20
 

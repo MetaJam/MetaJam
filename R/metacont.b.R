@@ -60,7 +60,9 @@ metaContClass <- R6::R6Class(
         test.effect.subgroup = self$options$subgroupForestTestEffect,
         test.subgroup = self$options$subgroupForestTestSubgroup,
         subgroup.name = self$options$subgroupVariable,
-        print.subgroup.name = self$options$printSubgroupName
+        print.subgroup.name = self$options$printSubgroupName,
+        calcwidth.hetstat = self$options$subgroupForestLayout == "subgroup",
+        calcwidth.tests = self$options$subgroupForestLayout == "subgroup"
       )
 
       # Meta-regression results
@@ -157,7 +159,9 @@ metaContClass <- R6::R6Class(
         test.effect.subgroup = self$options$subgroupForestTestEffect,
         test.subgroup = self$options$subgroupForestTestSubgroup,
         subgroup.name = self$options$subgroupVariable,
-        print.subgroup.name = self$options$printSubgroupName
+        print.subgroup.name = self$options$printSubgroupName,
+        calcwidth.hetstat = self$options$subgroupForestLayout == "subgroup",
+        calcwidth.tests = self$options$subgroupForestLayout == "subgroup"
       )
       TRUE
     },
