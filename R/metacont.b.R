@@ -48,38 +48,42 @@ metaContClass <- R6::R6Class(
     .metaRegModel = NULL,
 
     .init = function() {
-      # Main results
-      initForestPlot(self$results$plot, self$model, self$options)
-
-      # Subgroup results
+      # Visibility only — no model computation, no sizing
       updateSubgroupVisibility(self$options, self$results)
-      initForestPlot(
-        self$results$subgroupPlot,
-        self$subgroupModel,
-        buildContSubgroupForestOptions(self$options),
-        test.effect.subgroup = self$options$subgroupForestTestEffect,
-        test.subgroup = self$options$subgroupForestTestSubgroup,
-        subgroup.name = self$options$subgroupVariable,
-        print.subgroup.name = self$options$printSubgroupName,
-        calcwidth.hetstat = self$options$subgroupForestLayout == "subgroup",
-        calcwidth.tests = self$options$subgroupForestLayout == "subgroup"
-      )
-
-      # Meta-regression results
       updateMetaRegVisibility(self$options, self$results)
       updateBubblePlotVisibility(self$options, self$results)
-
-      # Leave-one-out results
       updateLeaveOneOutVisibility(self$options, self$results)
-      initForestPlot(
-        self$results$leaveOneOutPlot,
-        self$leaveOneOutModel,
-        self$options,
-        renderFn = renderLeaveOneOutForest
-      )
-
-      # Publication bias results
       updatePubBiasVisibility(self$options, self$results)
+    },
+
+    .postInit = function() {
+      # Apply cached dimensions for plots preserved by clearWith.
+      size <- self$results$plotSizeCache$state
+      if (
+        !is.null(size) &&
+          self$results$plot$visible &&
+          self$results$plot$isFilled()
+      ) {
+        self$results$plot$setSize(size$w, size$h)
+      }
+
+      size <- self$results$subgroupPlotSizeCache$state
+      if (
+        !is.null(size) &&
+          self$results$subgroupPlot$visible &&
+          self$results$subgroupPlot$isFilled()
+      ) {
+        self$results$subgroupPlot$setSize(size$w, size$h)
+      }
+
+      size <- self$results$leaveOneOutPlotSizeCache$state
+      if (
+        !is.null(size) &&
+          self$results$leaveOneOutPlot$visible &&
+          self$results$leaveOneOutPlot$isFilled()
+      ) {
+        self$results$leaveOneOutPlot$setSize(size$w, size$h)
+      }
     },
 
     .run = function() {
@@ -120,6 +124,35 @@ metaContClass <- R6::R6Class(
       ) {
         return()
       }
+
+      # Compute forest plot dimensions and cache for .postInit()
+      updateForestSize(
+        image = self$results$plot,
+        model = self$model,
+        options = self$options,
+        sizeCache = self$results$plotSizeCache
+      )
+
+      updateForestSize(
+        image = self$results$subgroupPlot,
+        model = self$subgroupModel,
+        options = buildContSubgroupForestOptions(self$options),
+        sizeCache = self$results$subgroupPlotSizeCache,
+        test.effect.subgroup = self$options$subgroupForestTestEffect,
+        test.subgroup = self$options$subgroupForestTestSubgroup,
+        subgroup.name = self$options$subgroupVariable,
+        print.subgroup.name = self$options$printSubgroupName,
+        calcwidth.hetstat = self$options$subgroupForestLayout == "subgroup",
+        calcwidth.tests = self$options$subgroupForestLayout == "subgroup"
+      )
+
+      updateForestSize(
+        image = self$results$leaveOneOutPlot,
+        model = self$leaveOneOutModel,
+        options = self$options,
+        sizeCache = self$results$leaveOneOutPlotSizeCache,
+        renderFn = renderLeaveOneOutForest
+      )
 
       populateMainText(self$results$text, self$model)
       populateSubgroupText(

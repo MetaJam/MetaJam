@@ -24,6 +24,12 @@ items:
     refs:
       - metaPackage
 
+  - name: plotSizeCache
+    type: Group
+    visible: false
+    clearWith: []
+    items: []
+
   - name: plot
     title: Forest Plot
     type: Image
@@ -89,6 +95,12 @@ items:
       - predictionSubgroup
     refs:
       - metaPackage
+
+  - name: subgroupPlotSizeCache
+    type: Group
+    visible: false
+    clearWith: []
+    items: []
 
   - name: subgroupPlot
     title: Subgroup Forest Plot
@@ -214,6 +226,12 @@ items:
       - leaveOneOutPrediction
     refs:
       - metaPackage
+
+  - name: leaveOneOutPlotSizeCache
+    type: Group
+    visible: false
+    clearWith: []
+    items: []
 
   - name: leaveOneOutPlot
     title: Leave-One-Out Forest Plot

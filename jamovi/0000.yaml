@@ -19,6 +19,6 @@ analyses:
     menuGroup: MetaJam
     menuTitle: Continuous Meta-Analysis
 usesNative: true
-minApp: 1.0.8
+minApp: 2.7.27
 
 ...

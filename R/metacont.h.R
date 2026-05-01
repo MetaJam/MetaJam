@@ -990,12 +990,15 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     inherit = jmvcore::Group,
     active = list(
         text = function() private$.items[["text"]],
+        plotSizeCache = function() private$.items[["plotSizeCache"]],
         plot = function() private$.items[["plot"]],
         subgroupText = function() private$.items[["subgroupText"]],
+        subgroupPlotSizeCache = function() private$.items[["subgroupPlotSizeCache"]],
         subgroupPlot = function() private$.items[["subgroupPlot"]],
         metaRegText = function() private$.items[["metaRegText"]],
         bubblePlot = function() private$.items[["bubblePlot"]],
         leaveOneOutText = function() private$.items[["leaveOneOutText"]],
+        leaveOneOutPlotSizeCache = function() private$.items[["leaveOneOutPlotSizeCache"]],
         leaveOneOutPlot = function() private$.items[["leaveOneOutPlot"]],
         funnelPlotImage = function() private$.items[["funnelPlotImage"]],
         asymmetryTestText = function() private$.items[["asymmetryTestText"]],
@@ -1028,6 +1031,17 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "confidenceLevel"),
                 refs=list(
                     "metaPackage")))
+            self$add(R6::R6Class(
+                inherit = jmvcore::Group,
+                active = list(),
+                private = list(),
+                public=list(
+                    initialize=function(options) {
+                        super$initialize(
+                            options=options,
+                            name="plotSizeCache",
+                            title="no title",
+                            clearWith=list())}))$new(options=options))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot",
@@ -1094,6 +1108,17 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "predictionSubgroup"),
                 refs=list(
                     "metaPackage")))
+            self$add(R6::R6Class(
+                inherit = jmvcore::Group,
+                active = list(),
+                private = list(),
+                public=list(
+                    initialize=function(options) {
+                        super$initialize(
+                            options=options,
+                            name="subgroupPlotSizeCache",
+                            title="no title",
+                            clearWith=list())}))$new(options=options))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="subgroupPlot",
@@ -1219,6 +1244,17 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "leaveOneOutPrediction"),
                 refs=list(
                     "metaPackage")))
+            self$add(R6::R6Class(
+                inherit = jmvcore::Group,
+                active = list(),
+                private = list(),
+                public=list(
+                    initialize=function(options) {
+                        super$initialize(
+                            options=options,
+                            name="leaveOneOutPlotSizeCache",
+                            title="no title",
+                            clearWith=list())}))$new(options=options))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="leaveOneOutPlot",

@@ -111,36 +111,39 @@ calcForestDims <- function(model, options, renderFn = renderForest, ...) {
   list(width = width + 0.3, height = height + 0.8)
 }
 
-#' Initialize a Forest Plot Image (Shared .init() Helper)
+#' Update Forest Plot Size and Cache Dimensions
 #'
-#' Handles the full sizing workflow for any forest-type image:
-#' checks guards, extracts accurate dimensions from the grid layout,
-#' and calls `setSize()`.
-#' Designed to be called from `.init()` across all meta-analysis types.
+#' Calculates accurate dimensions for a forest-type image, applies them
+#' via `setSize()`, and persists them in a hidden cache element so that
+#' `.postInit()` can restore the size without recomputing.
+#'
+#' Designed to be called from `.run()` — NOT from `.init()`.
 #'
 #' @param image A jamovi Image result element (e.g., `self$results$plot`).
 #' @param model A `meta` object. If `NULL`, the function returns early.
 #' @param options A Jamovi options object with forest-related fields.
+#' @param sizeCache A hidden Group result element with `clearWith: []`
+#'   used to persist the dimensions across engine requests.
 #' @param renderFn Render function (default `renderForest`).
 #' @param ... Extra arguments forwarded to `calcForestDims()`.
-#' @return `NULL` invisibly. Called for side effects (`setSize()`).
+#' @return `NULL` invisibly. Called for side effects (`setSize`,
+#'   `setState`).
 #' @noRd
-initForestPlot <- function(
+updateForestSize <- function(
   image,
   model,
   options,
+  sizeCache,
   renderFn = renderForest,
   ...
 ) {
-  if (!image$visible || is.null(model)) {
+  if (!image$visible || image$isFilled() || is.null(model)) {
     return()
   }
 
   dims <- calcForestDims(model, options, renderFn = renderFn, ...)
-
-  # Jamovi renders images at 72 DPI; convert inches → pixels
-  image$setSize(
-    width = dims$width * 72,
-    height = dims$height * 72
-  )
+  w <- dims$width * 72
+  h <- dims$height * 72
+  image$setSize(width = w, height = h)
+  sizeCache$setState(list(w = w, h = h))
 }
