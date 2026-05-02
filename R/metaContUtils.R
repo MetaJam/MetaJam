@@ -20,11 +20,8 @@ buildContArgs <- function(analysis) {
     return()
   }
 
-  # Load data
+  # Data
   data <- analysis$data
-  if (is.null(data) || nrow(data) == 0) {
-    data <- analysis$readDataset()
-  }
 
   # Curate numeric columns: core vars + moderator covariates
   # (options$metaRegCovs is NULL when unset — c() drops NULL)

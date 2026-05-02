@@ -16,6 +16,52 @@ hasRequiredVars <- function(options, vars) {
 }
 
 
+#' Get or Compute a Cached Model
+#'
+#' Shared caching logic for analysis active bindings. Checks the
+#' results element's serialized state first (cross-cycle cache via
+#' `clearWith`). If the cache is empty, evaluates the `model`
+#' argument (lazily) and stores it via `setState()` for future cycles.
+#'
+#' @param cacheElement A results element whose `clearWith` lists only
+#'   model-affecting options (e.g., `self$results$text`).
+#' @param model An expression that computes the model. Thanks to R's
+#'   lazy evaluation, this is only evaluated on a cache miss.
+#' @return The model object, or `NULL` if computation returned `NULL`.
+#' @noRd
+getCachedModel <- function(cacheElement, model) {
+  cached <- cacheElement$state
+  if (!is.null(cached)) {
+    return(cached)
+  }
+
+  if (!is.null(model)) {
+    cacheElement$setState(model)
+  }
+  model
+}
+
+
+#' Apply Cached Plot Dimensions
+#'
+#' Shared `.postInit()` helper. Restores plot dimensions from a hidden
+#' `clearWith: []` cache element. Skips when the cache is empty (first
+#' run), the plot is hidden, or `clearWith` cleared it (`isFilled()`
+#' is FALSE). Essential for correct save/export sizing since
+#' `fromProtoBuf()` does not restore `widthM`/`heightM`.
+#'
+#' @param image An Image result element (e.g., `self$results$plot`).
+#' @param sizeCache A Group result element with `clearWith: []`
+#'   (e.g., `self$results$plotSizeCache`).
+#' @noRd
+applyCachedSize <- function(image, sizeCache) {
+  size <- sizeCache$state
+  if (!is.null(size) && image$visible && image$isFilled()) {
+    image$setSize(size$w, size$h)
+  }
+}
+
+
 #' Initialize the Main Text Skeleton
 #'
 #' Called from `.run()` to show a titled HTML placeholder before the
