@@ -72,10 +72,7 @@ renderFunnelPlot <- function(model, options) {
 #' @param requiredVars Character vector of required option names.
 #' @noRd
 initAsymmetryTestText <- function(textResult, options, requiredVars) {
-  if (!textResult$visible) {
-    return()
-  }
-  if (textResult$isFilled()) {
+  if (!textResult$visible || textResult$isFilled()) {
     return()
   }
   if (!hasRequiredVars(options, requiredVars)) {
@@ -97,10 +94,7 @@ initAsymmetryTestText <- function(textResult, options, requiredVars) {
 #' @param options Jamovi options object.
 #' @noRd
 populateAsymmetryTestText <- function(textResult, model, options) {
-  if (!textResult$visible) {
-    return()
-  }
-  if (textResult$isFilled()) {
+  if (!textResult$visible || textResult$isFilled()) {
     return()
   }
 

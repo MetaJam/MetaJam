@@ -32,10 +32,7 @@ hasRequiredVars <- function(options, vars) {
 #'   assigned for the model to compute.
 #' @noRd
 initMainText <- function(textResult, options, requiredVars) {
-  if (!textResult$visible) {
-    return()
-  }
-  if (textResult$isFilled()) {
+  if (!textResult$visible || textResult$isFilled()) {
     return()
   }
   if (!hasRequiredVars(options, requiredVars)) {
@@ -54,10 +51,7 @@ initMainText <- function(textResult, options, requiredVars) {
 #' @param model A `meta` object (must not be `NULL`).
 #' @noRd
 populateMainText <- function(textResult, model) {
-  if (!textResult$visible) {
-    return()
-  }
-  if (textResult$isFilled()) {
+  if (!textResult$visible || textResult$isFilled()) {
     return()
   }
   textResult$setContent(asHtml(summary(model), title = "Meta-Analysis Summary"))

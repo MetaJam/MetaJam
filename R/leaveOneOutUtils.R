@@ -1,3 +1,19 @@
+#' Update Leave-One-Out Result Visibility
+#'
+#' Sets visibility of leave-one-out text and plot results based on the
+#' master toggle and per-output checkboxes. Called from `.init()` to
+#' avoid flashing.
+#'
+#' @param options The `self$options` object.
+#' @param results The `self$results` object.
+#' @noRd
+updateLeaveOneOutVisibility <- function(options, results) {
+  active <- options$leaveOneOut
+  results$leaveOneOutText$setVisible(active && options$showLeaveOneOutSummary)
+  results$leaveOneOutPlot$setVisible(active && options$leaveOneOutForestPlot)
+}
+
+
 #' Compute a Leave-One-Out Model
 #'
 #' Analysis-agnostic: works with any `meta` object (metacont, metabin, etc.).
@@ -14,19 +30,39 @@ computeLeaveOneOutModel <- function(model, options) {
 }
 
 
-#' Update Leave-One-Out Result Visibility
+#' Initialize the Leave-One-Out Text Skeleton
 #'
-#' Sets visibility of leave-one-out text and plot results based on the
-#' master toggle and per-output checkboxes. Called from `.init()` to
-#' avoid flashing.
+#' Called from `.run()` to show a titled HTML placeholder before the
+#' model is available. Same pattern as `initSubgroupText()`.
 #'
+#' @param textResult Html result element.
 #' @param options The `self$options` object.
-#' @param results The `self$results` object.
+#' @param requiredVars Character vector of option names that must be assigned.
 #' @noRd
-updateLeaveOneOutVisibility <- function(options, results) {
-  active <- options$leaveOneOut
-  results$leaveOneOutText$setVisible(active && options$showLeaveOneOutSummary)
-  results$leaveOneOutPlot$setVisible(active && options$leaveOneOutForestPlot)
+initLeaveOneOutText <- function(textResult, options, requiredVars) {
+  if (!textResult$visible || textResult$isFilled()) {
+    return()
+  }
+  if (!hasRequiredVars(options, requiredVars)) {
+    textResult$setContent(asHtml(title = "Leave-One-Out Summary"))
+  }
+}
+
+
+#' Populate the Leave-One-Out Text
+#'
+#' Called from `.run()` when the leave-one-out model is available.
+#'
+#' @param textResult Html result element.
+#' @param leaveOneOutModel A `metainf` object.
+#' @noRd
+populateLeaveOneOutText <- function(textResult, leaveOneOutModel) {
+  if (!textResult$visible || textResult$isFilled()) {
+    return()
+  }
+  textResult$setContent(
+    asHtml(summary(leaveOneOutModel), title = "Leave-One-Out Summary")
+  )
 }
 
 
@@ -79,46 +115,4 @@ renderLeaveOneOutForest <- function(leaveOneOutModel, options) {
   }
 
   do.call(meta::forest, args)
-}
-
-
-#' Initialize the Leave-One-Out Text Skeleton
-#'
-#' Called from `.run()` to show a titled HTML placeholder before the
-#' model is available. Same pattern as `initSubgroupText()`.
-#'
-#' @param textResult Html result element.
-#' @param options The `self$options` object.
-#' @param requiredVars Character vector of option names that must be assigned.
-#' @noRd
-initLeaveOneOutText <- function(textResult, options, requiredVars) {
-  if (!textResult$visible) {
-    return()
-  }
-  if (textResult$isFilled()) {
-    return()
-  }
-  if (!hasRequiredVars(options, requiredVars)) {
-    textResult$setContent(asHtml(title = "Leave-One-Out Summary"))
-  }
-}
-
-
-#' Populate the Leave-One-Out Text
-#'
-#' Called from `.run()` when the leave-one-out model is available.
-#'
-#' @param textResult Html result element.
-#' @param leaveOneOutModel A `metainf` object.
-#' @noRd
-populateLeaveOneOutText <- function(textResult, leaveOneOutModel) {
-  if (!textResult$visible) {
-    return()
-  }
-  if (textResult$isFilled()) {
-    return()
-  }
-  textResult$setContent(
-    asHtml(summary(leaveOneOutModel), title = "Leave-One-Out Summary")
-  )
 }

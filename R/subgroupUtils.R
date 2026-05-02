@@ -1,66 +1,3 @@
-#' Compute a Subgroup Meta-Analysis Model
-#'
-#' Analysis-agnostic: works with any `meta` object (metacont, metabin, etc.).
-#' Extracts the subgroup column from `model$data` and updates the
-#' model with subgroup information via `update.meta()`.
-#'
-#' @param model A `meta` object (must have been created with `data=`).
-#' @param options A Jamovi options object with `subgroupVariable`,
-#'   `tauCommon`, and `predictionSubgroup`.
-#' @return An updated `meta` object with subgroup results, or `NULL`.
-#' @noRd
-computeSubgroupModel <- function(model, options) {
-  if (is.null(model)) {
-    return()
-  }
-  if (is.null(options$subgroupVariable)) {
-    return()
-  }
-  args <- list(
-    model,
-    subgroup = as.name(options$subgroupVariable),
-    tau.common = options$tauCommon,
-    prediction.subgroup = options$predictionSubgroup
-  )
-  do.call(update, args)
-}
-
-
-#' Build a Virtual-Options Object for Subgroup Forest Rendering
-#'
-#' Maps subgroup-prefixed option names to the standard names that
-#' `renderForest()` expects. This avoids duplicating `renderForest` logic.
-#'
-#' Analysis-type-specific labels (e.g., `labelE`, `labelC` for two-group
-#' analyses) are NOT included here — add them in your `.b.R` before
-#' calling the type-specific render wrapper.
-#'
-#' @param options A Jamovi options object.
-#' @return A named list mirroring the standard forest option names.
-#' @noRd
-buildSubgroupForestOptions <- function(options) {
-  list(
-    forestLayout = options$subgroupForestLayout,
-    sortBy = options$subgroupSortBy,
-    labelLeft = options$subgroupLabelLeft,
-    labelRight = options$subgroupLabelRight,
-    colgap = options$subgroupColgap,
-    colgapUnit = options$subgroupColgapUnit,
-    colgapForest = options$subgroupColgapForest,
-    colgapForestUnit = options$subgroupColgapForestUnit,
-    xlimCustom = options$subgroupXlimCustom,
-    xlimLower = options$subgroupXlimLower,
-    xlimUpper = options$subgroupXlimUpper,
-    addrowsCustom = options$subgroupAddrowsCustom,
-    addrowsBelowOverall = options$subgroupAddrowsBelowOverall,
-    forestTestOverall = options$subgroupForestTestOverall,
-    forestDetails = options$subgroupForestDetails,
-    forestPrintI2Ci = options$subgroupForestPrintI2Ci,
-    forestPrintTau2Ci = options$subgroupForestPrintTau2Ci
-  )
-}
-
-
 #' Update Subgroup Result Visibility
 #'
 #' Sets visibility of subgroup text and plot results based on whether
@@ -93,10 +30,7 @@ updateSubgroupVisibility <- function(options, results) {
 #'   assigned for the model to compute.
 #' @noRd
 initSubgroupText <- function(textResult, options, requiredVars) {
-  if (!textResult$visible) {
-    return()
-  }
-  if (textResult$isFilled()) {
+  if (!textResult$visible || textResult$isFilled()) {
     return()
   }
   if (!hasRequiredVars(options, requiredVars)) {
@@ -123,13 +57,65 @@ initSubgroupText <- function(textResult, options, requiredVars) {
 #' @param subgroupModel A `meta` object with subgroup results.
 #' @noRd
 populateSubgroupText <- function(textResult, subgroupModel) {
-  if (!textResult$visible) {
-    return()
-  }
-  if (textResult$isFilled()) {
+  if (!textResult$visible || textResult$isFilled()) {
     return()
   }
   textResult$setContent(
     asHtml(summary(subgroupModel), title = "Subgroup Analysis Summary")
+  )
+}
+
+
+#' Render a Subgroup Forest Plot
+#'
+#' Generic helper that draws a subgroup `meta::forest()` plot. Maps
+#' subgroup-prefixed Jamovi options to the standard option names that
+#' `renderForest()` expects, then delegates. Subgroup-specific
+#' `forest.meta` arguments (test.effect.subgroup, calcwidth.*, etc.)
+#' are injected alongside any analysis-specific `...` arguments.
+#'
+#' Analysis-specific wrappers (e.g. `renderContSubgroupForest`) should
+#' call this after injecting any type-specific arguments into `...`
+#' (e.g. `label.e`, `label.c`, `label.e.attach`).
+#'
+#' @param model A `meta` object with subgroup results.
+#' @param options A Jamovi options object with `subgroup*` fields.
+#' @param ... Extra arguments forwarded to `renderForest()` and then
+#'   `meta::forest()`. Used by analysis-specific wrappers for
+#'   type-specific args.
+#' @return The (invisible) return value of `meta::forest()`.
+#' @noRd
+renderSubgroupForest <- function(model, options, ...) {
+  # Map subgroup-prefixed options → standard option names for renderForest()
+  mapped <- list(
+    forestLayout = options$subgroupForestLayout,
+    sortBy = options$subgroupSortBy,
+    labelLeft = options$subgroupLabelLeft,
+    labelRight = options$subgroupLabelRight,
+    colgap = options$subgroupColgap,
+    colgapUnit = options$subgroupColgapUnit,
+    colgapForest = options$subgroupColgapForest,
+    colgapForestUnit = options$subgroupColgapForestUnit,
+    forestTestOverall = options$subgroupForestTestOverall,
+    forestDetails = options$subgroupForestDetails,
+    forestPrintI2Ci = options$subgroupForestPrintI2Ci,
+    forestPrintTau2Ci = options$subgroupForestPrintTau2Ci,
+    xlimCustom = options$subgroupXlimCustom,
+    xlimLower = options$subgroupXlimLower,
+    xlimUpper = options$subgroupXlimUpper,
+    addrowsCustom = options$subgroupAddrowsCustom,
+    addrowsBelowOverall = options$subgroupAddrowsBelowOverall
+  )
+
+  renderForest(
+    model,
+    mapped,
+    test.effect.subgroup = options$subgroupForestTestEffect,
+    test.subgroup = options$subgroupForestTestSubgroup,
+    subgroup.name = options$subgroupVariable,
+    print.subgroup.name = options$printSubgroupName,
+    calcwidth.hetstat = options$subgroupForestLayout == "subgroup",
+    calcwidth.tests = options$subgroupForestLayout == "subgroup",
+    ...
   )
 }

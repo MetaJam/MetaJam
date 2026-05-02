@@ -1,3 +1,35 @@
+#' Update Meta-Regression Result Visibility
+#'
+#' Sets visibility of meta-regression text based on whether the user has
+#' assigned at least one covariate or factor and the summary checkbox is on.
+#' Called from `.init()` to avoid flashing.
+#'
+#' @param options The `self$options` object.
+#' @param results The `self$results` object.
+#' @noRd
+updateMetaRegVisibility <- function(options, results) {
+  hasMetaRegVars <-
+    length(options$metaRegCovs) > 0 || length(options$metaRegFactors) > 0
+  results$metaRegText$setVisible(hasMetaRegVars && options$showMetaRegSummary)
+}
+
+
+#' Update Bubble Plot Visibility
+#'
+#' Sets visibility of the bubble plot based on whether the user has assigned at
+#' least one covariate or factor, has model terms, and the bubble plot checkbox
+#' is on. Called from `.init()`.
+#'
+#' @param options The `self$options` object.
+#' @param results The `self$results` object.
+#' @noRd
+updateBubblePlotVisibility <- function(options, results) {
+  hasMetaRegVars <-
+    length(options$metaRegCovs) > 0 || length(options$metaRegFactors) > 0
+  results$bubblePlot$setVisible(hasMetaRegVars && options$bubblePlot)
+}
+
+
 #' Compute a Meta-Regression Model
 #'
 #' Analysis-agnostic: works with any `meta` object (metacont, metabin, etc.).
@@ -26,22 +58,6 @@ computeMetaRegModel <- function(model, options) {
 }
 
 
-#' Update Meta-Regression Result Visibility
-#'
-#' Sets visibility of meta-regression text based on whether the user has
-#' assigned at least one covariate or factor and the summary checkbox is on.
-#' Called from `.init()` to avoid flashing.
-#'
-#' @param options The `self$options` object.
-#' @param results The `self$results` object.
-#' @noRd
-updateMetaRegVisibility <- function(options, results) {
-  hasMetaRegVars <-
-    length(options$metaRegCovs) > 0 || length(options$metaRegFactors) > 0
-  results$metaRegText$setVisible(hasMetaRegVars && options$showMetaRegSummary)
-}
-
-
 #' Initialize the Meta-Regression Text Skeleton
 #'
 #' Called from `.run()` to show a titled HTML placeholder before the model is
@@ -52,10 +68,7 @@ updateMetaRegVisibility <- function(options, results) {
 #' @param requiredVars Character vector of option names that must be assigned.
 #' @noRd
 initMetaRegText <- function(textResult, options, requiredVars) {
-  if (!textResult$visible) {
-    return()
-  }
-  if (textResult$isFilled()) {
+  if (!textResult$visible || textResult$isFilled()) {
     return()
   }
   if (
@@ -114,22 +127,6 @@ populateMetaRegText <- function(textResult, metaRegModel) {
 }
 
 
-#' Update Bubble Plot Visibility
-#'
-#' Sets visibility of the bubble plot based on whether the user has assigned at
-#' least one covariate or factor, has model terms, and the bubble plot checkbox
-#' is on. Called from `.init()`.
-#'
-#' @param options The `self$options` object.
-#' @param results The `self$results` object.
-#' @noRd
-updateBubblePlotVisibility <- function(options, results) {
-  hasMetaRegVars <-
-    length(options$metaRegCovs) > 0 || length(options$metaRegFactors) > 0
-  results$bubblePlot$setVisible(hasMetaRegVars && options$bubblePlot)
-}
-
-
 #' Render the Bubble Plot via meta::bubble()
 #'
 #' Draws a bubble plot for a meta-regression model using meta's own bubble
@@ -145,7 +142,7 @@ updateBubblePlotVisibility <- function(options, results) {
 renderBubblePlot <- function(metaRegModel, options) {
   meta::bubble(
     metaRegModel,
-    regline  = options$bubbleRegline,
-    studlab  = options$bubbleStudyLabel
+    regline = options$bubbleRegline,
+    studlab = options$bubbleStudyLabel
   )
 }

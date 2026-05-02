@@ -12,10 +12,7 @@ metaContClass <- R6::R6Class(
 
     subgroupModel = function() {
       if (is.null(private$.subgroupModel)) {
-        private$.subgroupModel <- computeSubgroupModel(
-          self$model,
-          self$options
-        )
+        private$.subgroupModel <- computeContSubgroupModel(self)
       }
       private$.subgroupModel
     },
@@ -46,6 +43,7 @@ metaContClass <- R6::R6Class(
     .subgroupModel = NULL,
     .leaveOneOutModel = NULL,
     .metaRegModel = NULL,
+    .requiredVars = c("meanE", "sdE", "nE", "meanC", "sdC", "nC"),
 
     .init = function() {
       # Visibility only — no model computation, no sizing
@@ -93,35 +91,30 @@ metaContClass <- R6::R6Class(
       initMainText(
         self$results$text,
         self$options,
-        c("meanE", "sdE", "nE", "meanC", "sdC", "nC")
+        private$.requiredVars
       )
       initSubgroupText(
         self$results$subgroupText,
         self$options,
-        c("meanE", "sdE", "nE", "meanC", "sdC", "nC")
+        private$.requiredVars
       )
       initMetaRegText(
         self$results$metaRegText,
         self$options,
-        c("meanE", "sdE", "nE", "meanC", "sdC", "nC")
+        private$.requiredVars
       )
       initLeaveOneOutText(
         self$results$leaveOneOutText,
         self$options,
-        c("meanE", "sdE", "nE", "meanC", "sdC", "nC")
+        private$.requiredVars
       )
       initAsymmetryTestText(
         self$results$asymmetryTestText,
         self$options,
-        c("meanE", "sdE", "nE", "meanC", "sdC", "nC")
+        private$.requiredVars
       )
 
-      if (
-        !hasRequiredVars(
-          self$options,
-          c("meanE", "sdE", "nE", "meanC", "sdC", "nC")
-        )
-      ) {
+      if (!hasRequiredVars(self$options, private$.requiredVars)) {
         return()
       }
 
@@ -136,14 +129,9 @@ metaContClass <- R6::R6Class(
       updateForestSize(
         image = self$results$subgroupPlot,
         model = self$subgroupModel,
-        options = buildContSubgroupForestOptions(self$options),
+        options = self$options,
         sizeCache = self$results$subgroupPlotSizeCache,
-        test.effect.subgroup = self$options$subgroupForestTestEffect,
-        test.subgroup = self$options$subgroupForestTestSubgroup,
-        subgroup.name = self$options$subgroupVariable,
-        print.subgroup.name = self$options$printSubgroupName,
-        calcwidth.hetstat = self$options$subgroupForestLayout == "subgroup",
-        calcwidth.tests = self$options$subgroupForestLayout == "subgroup"
+        renderFn = renderContSubgroupForest
       )
 
       updateForestSize(
@@ -186,16 +174,7 @@ metaContClass <- R6::R6Class(
       if (is.null(self$subgroupModel)) {
         return(FALSE)
       }
-      renderContForest(
-        self$subgroupModel,
-        buildContSubgroupForestOptions(self$options),
-        test.effect.subgroup = self$options$subgroupForestTestEffect,
-        test.subgroup = self$options$subgroupForestTestSubgroup,
-        subgroup.name = self$options$subgroupVariable,
-        print.subgroup.name = self$options$printSubgroupName,
-        calcwidth.hetstat = self$options$subgroupForestLayout == "subgroup",
-        calcwidth.tests = self$options$subgroupForestLayout == "subgroup"
-      )
+      renderContSubgroupForest(self$subgroupModel, self$options)
       TRUE
     },
 

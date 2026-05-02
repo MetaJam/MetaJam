@@ -1,19 +1,18 @@
-#' Compute a Continuous Outcome Meta-Analysis Model
+#' Build Common metacont() Arguments
 #'
-#' Self-contained helper that loads data from the analysis object,
-#' curates all numeric columns (core + moderator covariates), and
-#' creates a `meta::metacont` object.
+#' Loads data from the analysis object, curates numeric columns, and
+#' returns the argument list ready for `meta::metacont()`. Shared by
+#' `computeContModel()` and `computeContSubgroupModel()`.
 #'
 #' Passing `data=` ensures that `model$data` retains all original
-#' columns — downstream consumers (`computeSubgroupModel`,
-#' `computeMetaRegModel`) can read moderator and subgroup columns
-#' directly from `model$data`.
+#' columns — downstream consumers (`computeMetaRegModel`) can read
+#' moderator columns directly from `model$data`.
 #'
 #' @param analysis The jamovi analysis object (`self`).
-#' @return A `meta::metacont` object, or `NULL` if required columns are
-#'   missing.
+#' @return A named list of arguments for `meta::metacont()`, or `NULL`
+#'   if required columns are missing.
 #' @noRd
-computeContModel <- function(analysis) {
+buildContArgs <- function(analysis) {
   options <- analysis$options
   required <- c("meanE", "sdE", "nE", "meanC", "sdC", "nC")
 
@@ -21,13 +20,14 @@ computeContModel <- function(analysis) {
     return()
   }
 
-  # Load data (inlined from former processData)
+  # Load data
   data <- analysis$data
   if (is.null(data) || nrow(data) == 0) {
     data <- analysis$readDataset()
   }
 
   # Curate numeric columns: core vars + moderator covariates
+  # (options$metaRegCovs is NULL when unset — c() drops NULL)
   numericVars <- c(
     options$meanE,
     options$sdE,
@@ -44,7 +44,6 @@ computeContModel <- function(analysis) {
   # Confidence / prediction level (shared)
   level <- options$confidenceLevel / 100
 
-  # Build metacont() call with column names as symbols via do.call()
   args <- list(
     n.e = as.name(options$nE),
     mean.e = as.name(options$meanE),
@@ -69,23 +68,54 @@ computeContModel <- function(analysis) {
     args$studlab <- as.name(options$studyLabel)
   }
 
+  args
+}
+
+
+#' Compute a Continuous Outcome Meta-Analysis Model
+#'
+#' Builds the shared argument list via `buildContArgs()` (with moderator
+#' covariates included) and calls `meta::metacont()`.
+#'
+#' @param analysis The jamovi analysis object (`self`).
+#' @return A `meta::metacont` object, or `NULL` if required columns are
+#'   missing.
+#' @noRd
+computeContModel <- function(analysis) {
+  args <- buildContArgs(analysis)
+  if (is.null(args)) {
+    return()
+  }
+
   do.call(meta::metacont, args)
 }
 
 
-#' Build Subgroup Forest Options with Metacont Labels
+#' Compute a Continuous Outcome Subgroup Meta-Analysis Model
 #'
-#' Wraps `buildSubgroupForestOptions()` and injects the Experimental/Control
-#' group labels specific to continuous outcome analyses.
+#' Builds the shared argument list via `buildContArgs()` and adds
+#' subgroup-specific arguments. Calls `meta::metacont()` directly
+#' with `subgroup=` — completely independent of the main model,
+#' avoiding the cost of `update.meta()`.
 #'
-#' @param options A Jamovi options object.
-#' @return A named list ready for `renderContForest()`.
+#' @param analysis The jamovi analysis object (`self`).
+#' @return A `meta::metacont` object with subgroup results, or `NULL`.
 #' @noRd
-buildContSubgroupForestOptions <- function(options) {
-  opts <- buildSubgroupForestOptions(options)
-  opts$labelE <- options$subgroupLabelE
-  opts$labelC <- options$subgroupLabelC
-  opts
+computeContSubgroupModel <- function(analysis) {
+  if (is.null(analysis$options$subgroupVariable)) {
+    return()
+  }
+
+  args <- buildContArgs(analysis)
+  if (is.null(args)) {
+    return()
+  }
+
+  args$subgroup <- as.name(analysis$options$subgroupVariable)
+  args$tau.common <- analysis$options$tauCommon
+  args$prediction.subgroup <- analysis$options$predictionSubgroup
+
+  do.call(meta::metacont, args)
 }
 
 
@@ -96,12 +126,9 @@ buildContSubgroupForestOptions <- function(options) {
 #'
 #' @param model A `metacont` object.
 #' @param options A Jamovi options object.
-#' @param ... Additional arguments forwarded to `renderForest()` and
-#'   ultimately `meta::forest()`. Used by subgroup plots to pass
-#'   `test.effect.subgroup` and `print.subgroup.name`.
 #' @return The (invisible) return value of `meta::forest()`.
 #' @noRd
-renderContForest <- function(model, options, ...) {
+renderContForest <- function(model, options) {
   if (options$forestLayout %in% c("meta", "RevMan5")) {
     renderForest(
       model,
@@ -111,16 +138,47 @@ renderContForest <- function(model, options, ...) {
       label.e.attach = c("n.e", "mean.e", "sd.e"),
       label.c.attach = c("n.c", "mean.c", "sd.c"),
       just.label.e = "center",
-      just.label.c = "center",
-      ...
+      just.label.c = "center"
     )
   } else {
     renderForest(
       model,
       options,
       label.e = options$labelE,
-      label.c = options$labelC,
-      ...
+      label.c = options$labelC
+    )
+  }
+}
+
+
+#' Render a Metacont Subgroup Forest Plot
+#'
+#' Adds metacont-specific column label attachments (so the group header
+#' spans the Mean / SD / N columns) and delegates to
+#' `renderSubgroupForest()`.
+#'
+#' @param model A `metacont` object with subgroup results.
+#' @param options A Jamovi options object with `subgroup*` fields.
+#' @return The (invisible) return value of `meta::forest()`.
+#' @noRd
+renderContSubgroupForest <- function(model, options) {
+  if (options$subgroupForestLayout %in% c("meta", "RevMan5")) {
+    renderSubgroupForest(
+      model,
+      options,
+      label.e = options$subgroupLabelE,
+      label.c = options$subgroupLabelC,
+      label.e.attach = c("n.e", "mean.e", "sd.e"),
+      label.c.attach = c("n.c", "mean.c", "sd.c"),
+      just.label.e = "center",
+      just.label.c = "center"
+    )
+  } else {
+    renderSubgroupForest(
+      model,
+      options,
+      label.e = options$subgroupLabelE,
+      label.c = options$subgroupLabelC
     )
   }
 }
