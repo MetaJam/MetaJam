@@ -1,8 +1,7 @@
-#' Update Meta-Regression Result Visibility
+#' Update Meta-Regression Array Visibility
 #'
-#' Sets visibility of meta-regression text based on whether the user has
-#' assigned at least one covariate or factor and the summary checkbox is on.
-#' Called from `.init()` to avoid flashing.
+#' Sets visibility of the meta-regression Array and its items based on
+#' whether variables and blocks are assigned. Called from `.init()`.
 #'
 #' @param options The `self$options` object.
 #' @param results The `self$results` object.
@@ -10,72 +9,102 @@
 updateMetaRegVisibility <- function(options, results) {
   hasMetaRegVars <-
     length(options$metaRegCovs) > 0 || length(options$metaRegFactors) > 0
-  results$metaRegText$setVisible(hasMetaRegVars && options$showMetaRegSummary)
+  blocks <- options$metaRegBlocks
+  hasAnyTerms <- any(vapply(blocks, function(b) length(b) > 0, logical(1)))
+
+  # Show the Array container when vars are assigned
+  results$metaRegModels$setVisible(hasMetaRegVars && hasAnyTerms)
 }
 
 
-#' Update Bubble Plot Visibility
+#' Initialize Meta-Regression Array Items
 #'
-#' Sets visibility of the bubble plot based on whether the user has assigned at
-#' least one covariate or factor, has model terms, and the bubble plot checkbox
-#' is on. Called from `.init()`.
+#' Adds one group per block to the `metaRegModels` Array and sets
+#' the title + visibility for each. Called from `.init()`.
 #'
 #' @param options The `self$options` object.
 #' @param results The `self$results` object.
 #' @noRd
-updateBubblePlotVisibility <- function(options, results) {
+initMetaRegModelItems <- function(options, results) {
   hasMetaRegVars <-
     length(options$metaRegCovs) > 0 || length(options$metaRegFactors) > 0
-  results$bubblePlot$setVisible(hasMetaRegVars && options$bubblePlot)
+  blocks <- options$metaRegBlocks
+  modelsArray <- results$metaRegModels
+
+  for (i in seq_along(blocks)) {
+    modelsArray$addItem(key = i)
+    group <- modelsArray$get(key = i)
+
+    # Build a human-readable formula title
+    blockTerms <- blocks[[i]]
+    formulaLabel <- getModelFormulaLabel(blockTerms)
+    group$setTitle(paste0("Model ", i, ": ", formulaLabel))
+
+    # Per-model text visibility
+    hasTerms <- length(blockTerms) > 0
+    group$metaRegText$setVisible(
+      hasMetaRegVars && hasTerms && options$showMetaRegSummary
+    )
+
+    # Per-model bubble plot visibility
+    group$bubblePlot$setVisible(
+      hasMetaRegVars && hasTerms && options$bubblePlot
+    )
+  }
 }
 
 
-#' Compute a Meta-Regression Model
+#' Build a Human-Readable Formula Label from Block Terms
 #'
-#' Analysis-agnostic: works with any `meta` object (metacont, metabin, etc.).
-#' Builds a formula from the terms list and calls `meta::metareg()`. Moderator
-#' columns are expected to already exist in `model$data` (ensured by passing
-#' `data=` when creating the meta object).
+#' Converts a block's terms list to a formula string like "~ age + sex +
+#' age:sex". Uses `jmvcore::stringifyTerm()` to format each term.
+#'
+#' @param blockTerms A list of term vectors (from `options$metaRegBlocks[[i]]`).
+#' @return A character string like "~ age + sex".
+#' @noRd
+getModelFormulaLabel <- function(blockTerms) {
+  if (length(blockTerms) == 0) {
+    return("~ (empty)")
+  }
+  termStrings <- vapply(
+    blockTerms,
+    function(t) jmvcore::stringifyTerm(t, raise = TRUE),
+    character(1)
+  )
+  paste0("~ ", paste(termStrings, collapse = " + "))
+}
+
+
+#' Compute Meta-Regression Models for All Blocks
+#'
+#' Iterates over `options$metaRegBlocks`, building a formula for each non-empty
+#' block and calling `meta::metareg()`. Returns a named list of models.
 #'
 #' @param model A `meta` object (must have been created with `data=`).
-#' @param options The jamovi options object (needs `metaRegTerms`,
-#'   `metaRegIntercept`).
-#' @return A `metareg` object, or `NULL` if model or terms are empty.
+#' @param options The jamovi options object.
+#' @return A list of `metareg` objects (NULL entries for empty blocks).
 #' @noRd
-computeMetaRegModel <- function(model, options) {
+computeMetaRegModels <- function(model, options) {
   if (is.null(model)) {
-    return()
+    return(list())
   }
 
-  terms <- options$metaRegTerms
-  if (length(terms) == 0) {
-    return()
+  blocks <- options$metaRegBlocks
+  models <- vector("list", length(blocks))
+
+  for (i in seq_along(blocks)) {
+    terms <- blocks[[i]]
+    if (length(terms) == 0) next
+
+    composed <- jmvcore::composeTerms(terms)
+    formula <- as.formula(paste("~", paste(composed, collapse = " + ")))
+    models[[i]] <- tryCatch(
+      meta::metareg(model, formula, intercept = options$metaRegIntercept),
+      error = function(e) NULL
+    )
   }
 
-  composed <- jmvcore::composeTerms(terms)
-  formula <- as.formula(paste("~", paste(composed, collapse = " + ")))
-  meta::metareg(model, formula, intercept = options$metaRegIntercept)
-}
-
-
-#' Initialize the Meta-Regression Text Skeleton
-#'
-#' Called from `.run()` to show a titled HTML placeholder before the model is
-#' available. Same pattern as `initLeaveOneOutText()`.
-#'
-#' @param textResult Html result element.
-#' @param options The `self$options` object.
-#' @param requiredVars Character vector of option names that must be assigned.
-#' @noRd
-initMetaRegText <- function(textResult, options, requiredVars) {
-  if (!textResult$visible || textResult$isFilled()) {
-    return()
-  }
-  if (
-    !hasRequiredVars(options, requiredVars) || length(options$metaRegTerms) == 0
-  ) {
-    textResult$setContent(asHtml(title = "Meta-Regression Summary"))
-  }
+  models
 }
 
 
@@ -100,30 +129,39 @@ getMetaRegScaleLabel <- function(metaRegModel) {
 }
 
 
-#' Populate the Meta-Regression Text
+#' Populate Meta-Regression Text for All Models
 #'
-#' Called from `.run()` when the meta-regression model is available.
+#' Called from `.run()` when meta-regression models are available.
 #'
-#' @param textResult Html result element.
-#' @param metaRegModel A `metareg` object.
+#' @param modelsArray The `metaRegModels` Array result element.
+#' @param metaRegModels A list of `metareg` objects.
+#' @param options The `self$options` object.
 #' @noRd
-populateMetaRegText <- function(textResult, metaRegModel) {
-  if (!textResult$visible || textResult$isFilled()) {
-    return()
-  }
+populateMetaRegTexts <- function(modelsArray, metaRegModels, options) {
+  if (length(metaRegModels) == 0) return()
+  blocks <- options$metaRegBlocks
+  for (i in seq_along(blocks)) {
+    if (i > length(metaRegModels)) next
+    group <- modelsArray$get(key = i)
+    if (is.null(group)) next
+    textResult <- group$metaRegText
+    if (!textResult$visible) next
 
-  scaleLabel <- getMetaRegScaleLabel(metaRegModel)
-  textResult$setContent(
-    asHtml(
-      summary(metaRegModel),
-      cat(
-        "\nNote: Estimates and confidence intervals are on the",
-        scaleLabel,
-        "scale."
-      ),
-      title = "Meta-Regression Summary"
+    metaRegModel <- metaRegModels[[i]]
+    if (is.null(metaRegModel)) next
+
+    scaleLabel <- getMetaRegScaleLabel(metaRegModel)
+    textResult$setContent(
+      asHtml(
+        summary(metaRegModel),
+        cat(
+          "\nNote: Estimates and confidence intervals are on the",
+          scaleLabel,
+          "scale."
+        )
+      )
     )
-  )
+  }
 }
 
 
@@ -137,6 +175,7 @@ populateMetaRegText <- function(textResult, metaRegModel) {
 #' shows as it show one for every group against the reference. Try to see what
 #' we gonna do with this the same for multivariables.
 #'
+#' @param metaRegModel A `metareg` object from image$state.
 #' @param options The `self$options` object.
 #' @noRd
 renderBubblePlot <- function(metaRegModel, options) {

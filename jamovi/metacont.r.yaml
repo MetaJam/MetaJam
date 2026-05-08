@@ -150,60 +150,70 @@ items:
     refs:
       - metaPackage
 
-  - name: metaRegText
-    type: Html
+  - name: metaRegModels
+    title: Meta-Regression
+    type: Array
+    hideHeadingOnlyChild: true
     visible: false
     clearWith:
-      - studyLabel
-      - meanE
-      - sdE
-      - nE
-      - meanC
-      - sdC
-      - nC
-      - sm
-      - methodSmd
-      - model
-      - methodTau
-      - methodRandomCi
-      - prediction
-      - confidenceLevel
-      - metaRegCovs
-      - metaRegFactors
-      - metaRegTerms
-      - metaRegIntercept
-    refs:
-      - metaPackage
+      - metaRegBlocks
+    template:
+      title: ''
+      type: Group
+      items:
+        - name: metaRegText
+          type: Html
+          visible: false
+          clearWith:
+            - studyLabel
+            - meanE
+            - sdE
+            - nE
+            - meanC
+            - sdC
+            - nC
+            - sm
+            - methodSmd
+            - model
+            - methodTau
+            - methodRandomCi
+            - prediction
+            - confidenceLevel
+            - metaRegCovs
+            - metaRegFactors
+            - metaRegBlocks
+            - metaRegIntercept
+          refs:
+            - metaPackage
 
-  - name: bubblePlot
-    title: Bubble Plot
-    type: Image
-    width: 800
-    height: 500
-    renderFun: .bubblePlot
-    visible: false
-    clearWith:
-      - studyLabel
-      - meanE
-      - sdE
-      - nE
-      - meanC
-      - sdC
-      - nC
-      - sm
-      - methodSmd
-      - model
-      - methodTau
-      - methodRandomCi
-      - confidenceLevel
-      - metaRegCovs
-      - metaRegFactors
-      - metaRegTerms
-      - metaRegIntercept
-      - bubbleRegline
-      - bubbleStudyLabel
-    refs:
-      - metaPackage
+        - name: bubblePlot
+          type: Image
+          width: 800
+          height: 500
+          renderFun: .bubblePlot
+          visible: false
+          clearWith:
+            - studyLabel
+            - meanE
+            - sdE
+            - nE
+            - meanC
+            - sdC
+            - nC
+            - sm
+            - methodSmd
+            - model
+            - methodTau
+            - methodRandomCi
+            - confidenceLevel
+            - metaRegCovs
+            - metaRegFactors
+            - metaRegBlocks
+            - metaRegIntercept
+            - bubbleRegline
+            - bubbleStudyLabel
+          refs:
+            - metaPackage
 
   - name: leaveOneOutText
     type: Html

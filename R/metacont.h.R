@@ -72,7 +72,8 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             subgroupColgapForestUnit = "mm",
             metaRegCovs = NULL,
             metaRegFactors = NULL,
-            metaRegTerms = NULL,
+            metaRegBlocks = list(
+                list()),
             metaRegIntercept = TRUE,
             showMetaRegSummary = TRUE,
             bubblePlot = FALSE,
@@ -489,9 +490,14 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "nominal"),
                 permitted=list(
                     "factor"))
-            private$..metaRegTerms <- jmvcore::OptionTerms$new(
-                "metaRegTerms",
-                metaRegTerms)
+            private$..metaRegBlocks <- jmvcore::OptionArray$new(
+                "metaRegBlocks",
+                metaRegBlocks,
+                default=list(
+                    list()),
+                template=jmvcore::OptionTerms$new(
+                    "metaRegBlocks",
+                    NULL))
             private$..metaRegIntercept <- jmvcore::OptionBool$new(
                 "metaRegIntercept",
                 metaRegIntercept,
@@ -740,7 +746,7 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..subgroupColgapForestUnit)
             self$.addOption(private$..metaRegCovs)
             self$.addOption(private$..metaRegFactors)
-            self$.addOption(private$..metaRegTerms)
+            self$.addOption(private$..metaRegBlocks)
             self$.addOption(private$..metaRegIntercept)
             self$.addOption(private$..showMetaRegSummary)
             self$.addOption(private$..bubblePlot)
@@ -844,7 +850,7 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         subgroupColgapForestUnit = function() private$..subgroupColgapForestUnit$value,
         metaRegCovs = function() private$..metaRegCovs$value,
         metaRegFactors = function() private$..metaRegFactors$value,
-        metaRegTerms = function() private$..metaRegTerms$value,
+        metaRegBlocks = function() private$..metaRegBlocks$value,
         metaRegIntercept = function() private$..metaRegIntercept$value,
         showMetaRegSummary = function() private$..showMetaRegSummary$value,
         bubblePlot = function() private$..bubblePlot$value,
@@ -947,7 +953,7 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..subgroupColgapForestUnit = NA,
         ..metaRegCovs = NA,
         ..metaRegFactors = NA,
-        ..metaRegTerms = NA,
+        ..metaRegBlocks = NA,
         ..metaRegIntercept = NA,
         ..showMetaRegSummary = NA,
         ..bubblePlot = NA,
@@ -995,8 +1001,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         subgroupText = function() private$.items[["subgroupText"]],
         subgroupPlotSizeCache = function() private$.items[["subgroupPlotSizeCache"]],
         subgroupPlot = function() private$.items[["subgroupPlot"]],
-        metaRegText = function() private$.items[["metaRegText"]],
-        bubblePlot = function() private$.items[["bubblePlot"]],
+        metaRegModels = function() private$.items[["metaRegModels"]],
         leaveOneOutText = function() private$.items[["leaveOneOutText"]],
         leaveOneOutPlotSizeCache = function() private$.items[["leaveOneOutPlotSizeCache"]],
         leaveOneOutPlot = function() private$.items[["leaveOneOutPlot"]],
@@ -1167,61 +1172,80 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "subgroupForestDetails"),
                 refs=list(
                     "metaPackage")))
-            self$add(jmvcore::Html$new(
+            self$add(jmvcore::Array$new(
                 options=options,
-                name="metaRegText",
+                name="metaRegModels",
+                title="Meta-Regression",
+                hideHeadingOnlyChild=TRUE,
                 visible=FALSE,
                 clearWith=list(
-                    "studyLabel",
-                    "meanE",
-                    "sdE",
-                    "nE",
-                    "meanC",
-                    "sdC",
-                    "nC",
-                    "sm",
-                    "methodSmd",
-                    "model",
-                    "methodTau",
-                    "methodRandomCi",
-                    "prediction",
-                    "confidenceLevel",
-                    "metaRegCovs",
-                    "metaRegFactors",
-                    "metaRegTerms",
-                    "metaRegIntercept"),
-                refs=list(
-                    "metaPackage")))
-            self$add(jmvcore::Image$new(
-                options=options,
-                name="bubblePlot",
-                title="Bubble Plot",
-                width=800,
-                height=500,
-                renderFun=".bubblePlot",
-                visible=FALSE,
-                clearWith=list(
-                    "studyLabel",
-                    "meanE",
-                    "sdE",
-                    "nE",
-                    "meanC",
-                    "sdC",
-                    "nC",
-                    "sm",
-                    "methodSmd",
-                    "model",
-                    "methodTau",
-                    "methodRandomCi",
-                    "confidenceLevel",
-                    "metaRegCovs",
-                    "metaRegFactors",
-                    "metaRegTerms",
-                    "metaRegIntercept",
-                    "bubbleRegline",
-                    "bubbleStudyLabel"),
-                refs=list(
-                    "metaPackage")))
+                    "metaRegBlocks"),
+                template=R6::R6Class(
+                    inherit = jmvcore::Group,
+                    active = list(
+                        metaRegText = function() private$.items[["metaRegText"]],
+                        bubblePlot = function() private$.items[["bubblePlot"]]),
+                    private = list(),
+                    public=list(
+                        initialize=function(options) {
+                            super$initialize(
+                                options=options,
+                                name="undefined",
+                                title="")
+                            self$add(jmvcore::Html$new(
+                                options=options,
+                                name="metaRegText",
+                                visible=FALSE,
+                                clearWith=list(
+                                    "studyLabel",
+                                    "meanE",
+                                    "sdE",
+                                    "nE",
+                                    "meanC",
+                                    "sdC",
+                                    "nC",
+                                    "sm",
+                                    "methodSmd",
+                                    "model",
+                                    "methodTau",
+                                    "methodRandomCi",
+                                    "prediction",
+                                    "confidenceLevel",
+                                    "metaRegCovs",
+                                    "metaRegFactors",
+                                    "metaRegBlocks",
+                                    "metaRegIntercept"),
+                                refs=list(
+                                    "metaPackage")))
+                            self$add(jmvcore::Image$new(
+                                options=options,
+                                name="bubblePlot",
+                                width=800,
+                                height=500,
+                                renderFun=".bubblePlot",
+                                visible=FALSE,
+                                clearWith=list(
+                                    "studyLabel",
+                                    "meanE",
+                                    "sdE",
+                                    "nE",
+                                    "meanC",
+                                    "sdC",
+                                    "nC",
+                                    "sm",
+                                    "methodSmd",
+                                    "model",
+                                    "methodTau",
+                                    "methodRandomCi",
+                                    "confidenceLevel",
+                                    "metaRegCovs",
+                                    "metaRegFactors",
+                                    "metaRegBlocks",
+                                    "metaRegIntercept",
+                                    "bubbleRegline",
+                                    "bubbleStudyLabel"),
+                                refs=list(
+                                    "metaPackage")))}))$new(options=options)))
             self$add(jmvcore::Html$new(
                 options=options,
                 name="leaveOneOutText",
@@ -1462,7 +1486,7 @@ metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param subgroupColgapForestUnit .
 #' @param metaRegCovs .
 #' @param metaRegFactors .
-#' @param metaRegTerms .
+#' @param metaRegBlocks .
 #' @param metaRegIntercept .
 #' @param showMetaRegSummary .
 #' @param bubblePlot .
@@ -1504,8 +1528,7 @@ metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$subgroupText} \tab \tab \tab \tab \tab a html \cr
 #'   \code{results$subgroupPlot} \tab \tab \tab \tab \tab an image \cr
-#'   \code{results$metaRegText} \tab \tab \tab \tab \tab a html \cr
-#'   \code{results$bubblePlot} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$metaRegModels} \tab \tab \tab \tab \tab an array of groups \cr
 #'   \code{results$leaveOneOutText} \tab \tab \tab \tab \tab a html \cr
 #'   \code{results$leaveOneOutPlot} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$funnelPlotImage} \tab \tab \tab \tab \tab an image \cr
@@ -1582,7 +1605,8 @@ metaCont <- function(
     subgroupColgapForestUnit = "mm",
     metaRegCovs,
     metaRegFactors,
-    metaRegTerms,
+    metaRegBlocks = list(
+                list()),
     metaRegIntercept = TRUE,
     showMetaRegSummary = TRUE,
     bubblePlot = FALSE,
@@ -1647,7 +1671,6 @@ metaCont <- function(
             `if`( ! missing(metaRegFactors), metaRegFactors, NULL))
 
     for (v in metaRegFactors) if (v %in% names(data)) data[[v]] <- as.factor(data[[v]])
-    if (inherits(metaRegTerms, "formula")) metaRegTerms <- jmvcore::decomposeFormula(metaRegTerms)
 
     options <- metaContOptions$new(
         studyLabel = studyLabel,
@@ -1716,7 +1739,7 @@ metaCont <- function(
         subgroupColgapForestUnit = subgroupColgapForestUnit,
         metaRegCovs = metaRegCovs,
         metaRegFactors = metaRegFactors,
-        metaRegTerms = metaRegTerms,
+        metaRegBlocks = metaRegBlocks,
         metaRegIntercept = metaRegIntercept,
         showMetaRegSummary = showMetaRegSummary,
         bubblePlot = bubblePlot,

@@ -23,14 +23,13 @@ metaContClass <- R6::R6Class(
       private$.subgroupModel
     },
 
-    metaRegModel = function() {
-      if (is.null(private$.metaRegModel)) {
-        private$.metaRegModel <- getCachedModel(
-          self$results$metaRegText,
-          computeMetaRegModel(self$model, self$options)
+    metaRegModels = function() {
+      if (is.null(private$.metaRegModels)) {
+        private$.metaRegModels <- computeMetaRegModels(
+          self$model, self$options
         )
       }
-      private$.metaRegModel
+      private$.metaRegModels
     },
 
     leaveOneOutModel = function() {
@@ -47,7 +46,7 @@ metaContClass <- R6::R6Class(
   private = list(
     .model = NULL,
     .subgroupModel = NULL,
-    .metaRegModel = NULL,
+    .metaRegModels = NULL,
     .leaveOneOutModel = NULL,
     .requiredVars = c("meanE", "sdE", "nE", "meanC", "sdC", "nC"),
 
@@ -55,7 +54,7 @@ metaContClass <- R6::R6Class(
       # Visibility only — no model computation, no sizing
       updateSubgroupVisibility(self$options, self$results)
       updateMetaRegVisibility(self$options, self$results)
-      updateBubblePlotVisibility(self$options, self$results)
+      initMetaRegModelItems(self$options, self$results)
       updateLeaveOneOutVisibility(self$options, self$results)
       updatePubBiasVisibility(self$options, self$results)
     },
@@ -87,11 +86,8 @@ metaContClass <- R6::R6Class(
         self$options,
         private$.requiredVars
       )
-      initMetaRegText(
-        self$results$metaRegText,
-        self$options,
-        private$.requiredVars
-      )
+
+
       initLeaveOneOutText(
         self$results$leaveOneOutText,
         self$options,
@@ -136,10 +132,12 @@ metaContClass <- R6::R6Class(
         self$results$subgroupText,
         self$subgroupModel
       )
-      populateMetaRegText(
-        self$results$metaRegText,
-        self$metaRegModel
+      populateMetaRegTexts(
+        self$results$metaRegModels,
+        self$metaRegModels,
+        self$options
       )
+
       populateLeaveOneOutText(
         self$results$leaveOneOutText,
         self$leaveOneOutModel
@@ -168,10 +166,11 @@ metaContClass <- R6::R6Class(
     },
 
     .bubblePlot = function(image, ...) {
-      if (is.null(self$metaRegModel)) {
-        return(FALSE)
-      }
-      renderBubblePlot(self$metaRegModel, self$options)
+      i <- image$parent$key
+      if (is.null(i) || i > length(self$metaRegModels)) return(FALSE)
+      metaRegModel <- self$metaRegModels[[i]]
+      if (is.null(metaRegModel)) return(FALSE)
+      renderBubblePlot(metaRegModel, self$options)
       TRUE
     },
 

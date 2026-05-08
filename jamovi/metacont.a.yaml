@@ -502,9 +502,12 @@ options:
     permitted:
       - factor
 
-  - name: metaRegTerms
-    title: Model terms
-    type: Terms
+  - name: metaRegBlocks
+    title: Models
+    type: Array
+    default: [[]]
+    template:
+        type: Terms
 
   - name: metaRegIntercept
     title: Intercept

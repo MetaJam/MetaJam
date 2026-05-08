@@ -496,11 +496,29 @@ children:
                 transferAction: interactions
                 children:
                   - type: ListBox
-                    name: metaRegTerms
-                    valueFilter: unique
-                    isTarget: true
+                    name: metaRegBlocks
+                    height: normal
+                    addButton: Add New Model
+                    selectable: true
+                    templateName: metareg-block-template
                     template:
-                      type: TermLabel
+                      type: LayoutBox
+                      margin: normal
+                      targetArea: true
+                      children:
+                        - type: Label
+                          label: Model 1
+                          name: blockName
+                          stretchFactor: 1
+                          margin: normal
+                        - type: ListBox
+                          name: blockList
+                          isTarget: true
+                          valueFilter: unique
+                          height: auto
+                          ghostText: drag variables here
+                          template:
+                            type: TermLabel
                   - type: CheckBox
                     name: metaRegIntercept
                     enable: >

@@ -1,13 +1,13 @@
 /**
- * Shared model builder logic for meta-regression.
+ * Shared model builder logic for meta-regression blocks.
  *
- * Keeps the metaRegModelSupplier and metaRegTerms controls in sync
+ * Keeps the metaRegModelSupplier and metaRegBlocks controls in sync
  * with the metaRegCovs and metaRegFactors variable slots.
  *
  * When the user adds or removes a variable, this function:
  *   1. Updates the Supplier so the user can drag variables into terms
- *   2. Auto-adds main effects for newly added variables
- *   3. Removes terms whose source variable was removed
+ *   2. Auto-adds main effects for newly added variables to the selected block
+ *   3. Removes terms whose source variable was removed from ALL blocks
  *
  * Uses the `utils` and `FormatDef` globals that jamovi injects into
  * every module's JS context (both jus 2.0 and 3.0).
@@ -35,56 +35,100 @@ const updateModelTerms = function (ui, context) {
     FormatDef.variable,
   );
 
-  const terms = utils.clone(ui.metaRegTerms.value(), []);
+  let blocks = utils.clone(ui.metaRegBlocks.value(), []);
   let changed = false;
 
-  // 4. Remove terms that contain any removed variable
+  // 4. Remove terms that contain any removed variable — from ALL blocks
   for (let i = 0; i < diff.removed.length; i++) {
-    for (let j = terms.length - 1; j >= 0; j--) {
-      if (FormatDef.term.contains(terms[j], diff.removed[i])) {
-        terms.splice(j, 1);
-        changed = true;
+    for (let b = 0; b < blocks.length; b++) {
+      if (blocks[b] === null) blocks[b] = [];
+      for (let j = blocks[b].length - 1; j >= 0; j--) {
+        if (FormatDef.term.contains(blocks[b][j], diff.removed[i])) {
+          blocks[b].splice(j, 1);
+          changed = true;
+        }
       }
     }
   }
 
-  // 5. Auto-add main effects for newly added variables
-  for (let i = 0; i < diff.added.length; i++) {
-    const newTerm = [diff.added[i]];
-    if (!utils.listContains(terms, newTerm, FormatDef.term)) {
-      terms.push(newTerm);
+  // 5. Auto-add main effects for newly added variables to the SELECTED block
+  //    (Pattern from jmv linreg.events.js lines 152-159)
+  let selectedRows = ui.metaRegBlocks.getSelectedRowIndices();
+  if (selectedRows.length > 0) {
+    let targetBlock = selectedRows[selectedRows.length - 1];
+    if (blocks[targetBlock] === null) blocks[targetBlock] = [];
+    for (let i = 0; i < diff.added.length; i++) {
+      blocks[targetBlock].push([diff.added[i]]);
+    }
+    changed = changed || diff.added.length > 0;
+  }
+
+  // 6. Sort terms within each block by length (main effects before interactions)
+  for (let b = 0; b < blocks.length; b++) {
+    if (blocks[b] && utils.sortArraysByLength(blocks[b])) {
       changed = true;
     }
   }
 
-  // 6. Sort terms by length (main effects before interactions)
-  if (utils.sortArraysByLength(terms)) {
-    changed = true;
-  }
-
   if (changed) {
-    ui.metaRegTerms.setValue(terms);
+    ui.metaRegBlocks.setValue(blocks);
   }
 };
 
 /**
- * Re-sort terms after manual drag/drop inside the ListBox.
+ * Relabel block headers: "Model 1", "Model 2", etc.
  *
- * Without this, the user can drag an interaction (e.g. ["age","sex"])
- * above its constituent main effects — violating the hierarchy principle.
- * Call this from the terms ListBox's `_changed` handler.
+ * @param {Object} list - The blocks ListBox control.
+ */
+const updateModelLabels = function (list) {
+  list.applyToItems(0, function (item, index) {
+    item.controls[0].setPropertyValue("label", "Model " + (index + 1));
+  });
+};
+
+/**
+ * Replace null blocks with empty arrays.
+ *
+ * When a new block is added, it starts as null. This converts it to []
+ * so downstream code doesn't crash.
+ *
+ * @param {Object} ui      - The UI controls object.
+ * @param {Object} context - The View instance.
+ */
+const checkForNullBlocks = function (ui, context) {
+  let changed = false;
+  let blocks = utils.clone(ui.metaRegBlocks.value(), []);
+  for (let b = 0; b < blocks.length; b++) {
+    if (blocks[b] === null) {
+      changed = true;
+      blocks[b] = [];
+    }
+  }
+  if (changed) {
+    ui.metaRegBlocks.setValue(blocks);
+  }
+};
+
+/**
+ * Sort terms within each block after manual drag/drop inside a block ListBox.
  *
  * @param {Object} ui - The UI controls object.
  */
-const enforceTermOrder = function (ui) {
-  const terms = utils.clone(ui.metaRegTerms.value(), []);
-  if (utils.sortArraysByLength(terms)) {
-    ui.metaRegTerms.setValue(terms);
+const enforceBlockTermOrder = function (ui) {
+  let blocks = utils.clone(ui.metaRegBlocks.value(), []);
+  let changed = false;
+  for (let b = 0; b < blocks.length; b++) {
+    if (blocks[b] && utils.sortArraysByLength(blocks[b])) {
+      changed = true;
+    }
+  }
+  if (changed) {
+    ui.metaRegBlocks.setValue(blocks);
   }
 };
 
 /**
- * Enable or disable the meta-regression Supplier and ListBox.
+ * Enable or disable the meta-regression Supplier and blocks ListBox.
  *
  * Enabled when at least one covariate or factor is assigned.
  * Toggles the disabled-list CSS class directly since ListBox enable
@@ -98,7 +142,13 @@ const updateEnableState = function (ui) {
     (ui.metaRegFactors.value() || []).length > 0;
   const method = hasVars ? "remove" : "add";
   ui.metaRegModelSupplier.el.classList[method]("disabled-list");
-  ui.metaRegTerms.el.classList[method]("disabled-list");
+  ui.metaRegBlocks.el.classList[method]("disabled-list");
 };
 
-module.exports = { updateModelTerms, enforceTermOrder, updateEnableState };
+module.exports = {
+  updateModelTerms,
+  updateModelLabels,
+  checkForNullBlocks,
+  enforceBlockTermOrder,
+  updateEnableState,
+};
