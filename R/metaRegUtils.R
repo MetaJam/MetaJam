@@ -1,33 +1,13 @@
-#' Update Meta-Regression Array Visibility
-#'
-#' Sets visibility of the meta-regression Array and its items based on
-#' whether variables and blocks are assigned. Called from `.init()`.
-#'
-#' @param options The `self$options` object.
-#' @param results The `self$results` object.
-#' @noRd
-updateMetaRegVisibility <- function(options, results) {
-  hasMetaRegVars <-
-    length(options$metaRegCovs) > 0 || length(options$metaRegFactors) > 0
-  blocks <- options$metaRegBlocks
-  hasAnyTerms <- any(vapply(blocks, function(b) length(b) > 0, logical(1)))
-
-  # Show the Array container when vars are assigned
-  results$metaRegModels$setVisible(hasMetaRegVars && hasAnyTerms)
-}
-
-
 #' Initialize Meta-Regression Array Items
 #'
 #' Adds one group per block to the `metaRegModels` Array and sets
-#' the title + visibility for each. Called from `.init()`.
+#' the title. Visibility is handled declaratively via .r.yaml bindings.
+#' Called from `.init()`.
 #'
 #' @param options The `self$options` object.
 #' @param results The `self$results` object.
 #' @noRd
 initMetaRegModelItems <- function(options, results) {
-  hasMetaRegVars <-
-    length(options$metaRegCovs) > 0 || length(options$metaRegFactors) > 0
   blocks <- options$metaRegBlocks
   modelsArray <- results$metaRegModels
 
@@ -35,50 +15,24 @@ initMetaRegModelItems <- function(options, results) {
     modelsArray$addItem(key = i)
     group <- modelsArray$get(key = i)
 
-    # Build a human-readable formula title
-    blockTerms <- blocks[[i]]
-    formulaLabel <- getModelFormulaLabel(blockTerms)
-    group$setTitle(paste0("Model ", i, ": ", formulaLabel))
-
-    # Per-model text visibility
-    hasTerms <- length(blockTerms) > 0
-    group$metaRegText$setVisible(
-      hasMetaRegVars && hasTerms && options$showMetaRegSummary
-    )
-
-    # Per-model bubble plot visibility
-    group$bubblePlot$setVisible(
-      hasMetaRegVars && hasTerms && options$bubblePlot
-    )
+    # Build formula label inline: "Model 1: ~ age + sex"
+    terms <- blocks[[i]]
+    label <- if (length(terms) == 0) {
+      "~ (empty)"
+    } else {
+      termStrs <- vapply(terms, function(t) jmvcore::stringifyTerm(t, raise = TRUE), character(1))
+      paste0("~ ", paste(termStrs, collapse = " + "))
+    }
+    group$setTitle(paste0("Model ", i, ": ", label))
   }
-}
-
-
-#' Build a Human-Readable Formula Label from Block Terms
-#'
-#' Converts a block's terms list to a formula string like "~ age + sex +
-#' age:sex". Uses `jmvcore::stringifyTerm()` to format each term.
-#'
-#' @param blockTerms A list of term vectors (from `options$metaRegBlocks[[i]]`).
-#' @return A character string like "~ age + sex".
-#' @noRd
-getModelFormulaLabel <- function(blockTerms) {
-  if (length(blockTerms) == 0) {
-    return("~ (empty)")
-  }
-  termStrings <- vapply(
-    blockTerms,
-    function(t) jmvcore::stringifyTerm(t, raise = TRUE),
-    character(1)
-  )
-  paste0("~ ", paste(termStrings, collapse = " + "))
 }
 
 
 #' Compute Meta-Regression Models for All Blocks
 #'
-#' Iterates over `options$metaRegBlocks`, building a formula for each non-empty
-#' block and calling `meta::metareg()`. Returns a named list of models.
+#' Iterates over `options$metaRegBlocks`, building a formula for each
+#' block and calling `meta::metareg()`. Returns a list of models
+#' (NULL entries for empty blocks).
 #'
 #' @param model A `meta` object (must have been created with `data=`).
 #' @param options The jamovi options object.
@@ -98,9 +52,8 @@ computeMetaRegModels <- function(model, options) {
 
     composed <- jmvcore::composeTerms(terms)
     formula <- as.formula(paste("~", paste(composed, collapse = " + ")))
-    models[[i]] <- tryCatch(
-      meta::metareg(model, formula, intercept = options$metaRegIntercept),
-      error = function(e) NULL
+    models[[i]] <- meta::metareg(
+      model, formula, intercept = options$metaRegIntercept
     )
   }
 
@@ -138,17 +91,13 @@ getMetaRegScaleLabel <- function(metaRegModel) {
 #' @param options The `self$options` object.
 #' @noRd
 populateMetaRegTexts <- function(modelsArray, metaRegModels, options) {
-  if (length(metaRegModels) == 0) return()
-  blocks <- options$metaRegBlocks
-  for (i in seq_along(blocks)) {
-    if (i > length(metaRegModels)) next
-    group <- modelsArray$get(key = i)
-    if (is.null(group)) next
-    textResult <- group$metaRegText
-    if (!textResult$visible) next
-
+  for (i in seq_along(metaRegModels)) {
     metaRegModel <- metaRegModels[[i]]
     if (is.null(metaRegModel)) next
+
+    group <- modelsArray$get(key = i)
+    textResult <- group$metaRegText
+    if (!textResult$visible) next
 
     scaleLabel <- getMetaRegScaleLabel(metaRegModel)
     textResult$setContent(

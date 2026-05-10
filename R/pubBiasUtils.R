@@ -1,24 +1,3 @@
-#' Update Publication Bias Result Visibility
-#'
-#' Sets visibility of publication bias results based on per-output
-#' checkboxes. Called from `.init()` to avoid flashing.
-#'
-#' @param options The `self$options` object.
-#' @param results The `self$results` object.
-#' @noRd
-updatePubBiasVisibility <- function(options, results) {
-  results$funnelPlotImage$setVisible(options$funnelPlot)
-  results$asymmetryTestText$setVisible(
-    options$asymmetryTest && options$showAsymmetrySummary
-  )
-  results$asymmetryPlotImage$setVisible(
-    options$asymmetryTest &&
-      options$asymmetryPlot &&
-      options$asymmetryMethod != "Pustejovsky"
-  )
-}
-
-
 #' Render Funnel Plot for Publication Bias
 #'
 #' Draws a standard or contour-enhanced funnel plot using `meta::funnel()`.

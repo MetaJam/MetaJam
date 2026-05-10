@@ -1092,7 +1092,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Html$new(
                 options=options,
                 name="subgroupText",
-                visible=FALSE,
+                visible="(length(subgroupVariable) > 0 && showSubgroupSummary)",
                 clearWith=list(
                     "studyLabel",
                     "meanE",
@@ -1129,7 +1129,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 name="subgroupPlot",
                 title="Subgroup Forest Plot",
                 renderFun=".subgroupForestPlot",
-                visible=FALSE,
+                visible="(length(subgroupVariable) > 0 && subgroupForestPlot)",
                 clearWith=list(
                     "studyLabel",
                     "meanE",
@@ -1177,7 +1177,6 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 name="metaRegModels",
                 title="Meta-Regression",
                 hideHeadingOnlyChild=TRUE,
-                visible=FALSE,
                 clearWith=list(
                     "metaRegBlocks"),
                 template=R6::R6Class(
@@ -1195,7 +1194,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                             self$add(jmvcore::Html$new(
                                 options=options,
                                 name="metaRegText",
-                                visible=FALSE,
+                                visible="(showMetaRegSummary && (length(metaRegCovs) > 0 || length(metaRegFactors) > 0))",
                                 clearWith=list(
                                     "studyLabel",
                                     "meanE",
@@ -1223,7 +1222,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                                 width=800,
                                 height=500,
                                 renderFun=".bubblePlot",
-                                visible=FALSE,
+                                visible="(bubblePlot && (length(metaRegCovs) > 0 || length(metaRegFactors) > 0))",
                                 clearWith=list(
                                     "studyLabel",
                                     "meanE",
@@ -1249,7 +1248,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Html$new(
                 options=options,
                 name="leaveOneOutText",
-                visible=FALSE,
+                visible="(leaveOneOut && showLeaveOneOutSummary)",
                 clearWith=list(
                     "studyLabel",
                     "meanE",
@@ -1284,7 +1283,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 name="leaveOneOutPlot",
                 title="Leave-One-Out Forest Plot",
                 renderFun=".leaveOneOutForestPlot",
-                visible=FALSE,
+                visible="(leaveOneOut && leaveOneOutForestPlot)",
                 clearWith=list(
                     "studyLabel",
                     "meanE",
@@ -1324,7 +1323,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 width=700,
                 height=500,
                 renderFun=".funnelPlot",
-                visible=FALSE,
+                visible="(funnelPlot)",
                 clearWith=list(
                     "studyLabel",
                     "meanE",
@@ -1350,7 +1349,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Html$new(
                 options=options,
                 name="asymmetryTestText",
-                visible=FALSE,
+                visible="(asymmetryTest && showAsymmetrySummary)",
                 clearWith=list(
                     "studyLabel",
                     "meanE",
@@ -1375,7 +1374,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 width=700,
                 height=500,
                 renderFun=".asymmetryPlot",
-                visible=FALSE,
+                visible="(asymmetryTest && asymmetryPlot && asymmetryMethod != \"Pustejovsky\")",
                 clearWith=list(
                     "studyLabel",
                     "meanE",

@@ -1,19 +1,3 @@
-#' Update Leave-One-Out Result Visibility
-#'
-#' Sets visibility of leave-one-out text and plot results based on the
-#' master toggle and per-output checkboxes. Called from `.init()` to
-#' avoid flashing.
-#'
-#' @param options The `self$options` object.
-#' @param results The `self$results` object.
-#' @noRd
-updateLeaveOneOutVisibility <- function(options, results) {
-  active <- options$leaveOneOut
-  results$leaveOneOutText$setVisible(active && options$showLeaveOneOutSummary)
-  results$leaveOneOutPlot$setVisible(active && options$leaveOneOutForestPlot)
-}
-
-
 #' Compute a Leave-One-Out Model
 #'
 #' Analysis-agnostic: works with any `meta` object (metacont, metabin, etc.).

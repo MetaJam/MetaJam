@@ -74,7 +74,7 @@ items:
 
   - name: subgroupText
     type: Html
-    visible: false
+    visible: (length(subgroupVariable) > 0 && showSubgroupSummary)
     clearWith:
       - studyLabel
       - meanE
@@ -106,7 +106,7 @@ items:
     title: Subgroup Forest Plot
     type: Image
     renderFun: .subgroupForestPlot
-    visible: false
+    visible: (length(subgroupVariable) > 0 && subgroupForestPlot)
     clearWith:
       - studyLabel
       - meanE
@@ -154,7 +154,6 @@ items:
     title: Meta-Regression
     type: Array
     hideHeadingOnlyChild: true
-    visible: false
     clearWith:
       - metaRegBlocks
     template:
@@ -163,7 +162,7 @@ items:
       items:
         - name: metaRegText
           type: Html
-          visible: false
+          visible: (showMetaRegSummary && (length(metaRegCovs) > 0 || length(metaRegFactors) > 0))
           clearWith:
             - studyLabel
             - meanE
@@ -191,7 +190,7 @@ items:
           width: 800
           height: 500
           renderFun: .bubblePlot
-          visible: false
+          visible: (bubblePlot && (length(metaRegCovs) > 0 || length(metaRegFactors) > 0))
           clearWith:
             - studyLabel
             - meanE
@@ -217,7 +216,7 @@ items:
 
   - name: leaveOneOutText
     type: Html
-    visible: false
+    visible: (leaveOneOut && showLeaveOneOutSummary)
     clearWith:
       - studyLabel
       - meanE
@@ -247,7 +246,7 @@ items:
     title: Leave-One-Out Forest Plot
     type: Image
     renderFun: .leaveOneOutForestPlot
-    visible: false
+    visible: (leaveOneOut && leaveOneOutForestPlot)
     clearWith:
       - studyLabel
       - meanE
@@ -287,7 +286,7 @@ items:
     width: 700
     height: 500
     renderFun: .funnelPlot
-    visible: false
+    visible: (funnelPlot)
     clearWith:
       - studyLabel
       - meanE
@@ -313,7 +312,7 @@ items:
 
   - name: asymmetryTestText
     type: Html
-    visible: false
+    visible: (asymmetryTest && showAsymmetrySummary)
     clearWith:
       - studyLabel
       - meanE
@@ -338,7 +337,7 @@ items:
     width: 700
     height: 500
     renderFun: .asymmetryPlot
-    visible: false
+    visible: (asymmetryTest && asymmetryPlot && asymmetryMethod != "Pustejovsky")
     clearWith:
       - studyLabel
       - meanE

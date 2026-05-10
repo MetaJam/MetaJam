@@ -51,12 +51,7 @@ metaContClass <- R6::R6Class(
     .requiredVars = c("meanE", "sdE", "nE", "meanC", "sdC", "nC"),
 
     .init = function() {
-      # Visibility only — no model computation, no sizing
-      updateSubgroupVisibility(self$options, self$results)
-      updateMetaRegVisibility(self$options, self$results)
       initMetaRegModelItems(self$options, self$results)
-      updateLeaveOneOutVisibility(self$options, self$results)
-      updatePubBiasVisibility(self$options, self$results)
     },
 
     .postInit = function() {

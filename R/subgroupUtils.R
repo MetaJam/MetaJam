@@ -1,20 +1,3 @@
-#' Update Subgroup Result Visibility
-#'
-#' Sets visibility of subgroup text and plot results based on whether
-#' the subgroup variable is supplied and the corresponding checkboxes
-#' are on. Called from `.init()` to avoid flashing.
-#'
-#' @param options The `self$options` object from a jamovi analysis.
-#' @param results The `self$results` object from a jamovi analysis.
-#' @noRd
-updateSubgroupVisibility <- function(options, results) {
-  hasSubgroup <- !is.null(options$subgroupVariable)
-
-  results$subgroupText$setVisible(hasSubgroup && options$showSubgroupSummary)
-  results$subgroupPlot$setVisible(hasSubgroup && options$subgroupForestPlot)
-}
-
-
 #' Initialize the Subgroup Text Skeleton
 #'
 #' Called from `.run()` to show a titled HTML placeholder before the
