@@ -715,6 +715,10 @@ options:
         name: topright
       - title: Top left
         name: topleft
+      - title: Bottom right
+        name: bottomright
+      - title: Bottom left
+        name: bottomleft
     default: topright
 
   - name: funnelLegendCex

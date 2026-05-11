@@ -650,7 +650,9 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 funnelLegendPos,
                 options=list(
                     "topright",
-                    "topleft"),
+                    "topleft",
+                    "bottomright",
+                    "bottomleft"),
                 default="topright")
             private$..funnelLegendCex <- jmvcore::OptionNumber$new(
                 "funnelLegendCex",

@@ -84,7 +84,10 @@ renderLeaveOneOutForest <- function(leaveOneOutModel, options) {
     label.right = options$leaveOneOutLabelRight,
     colgap = colgap,
     colgap.forest = colgap.forest,
-    details = options$leaveOneOutForestDetails
+    details = options$leaveOneOutForestDetails,
+    # Use superscript column headers for I2 and Tau2 in leave-one-out plots
+    label.tau2 = "Tau\u00b2",
+    label.I2 = "I\u00b2"
   )
 
   # Sort by leave-one-out result columns (I², τ²)
