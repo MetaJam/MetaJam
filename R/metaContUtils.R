@@ -23,20 +23,16 @@ buildContArgs <- function(analysis) {
   # Data
   data <- analysis$data
 
-  # Curate numeric columns: core vars + moderator covariates
-  # (options$metaRegCovs is NULL when unset — c() drops NULL)
+  # Curate numeric columns: core vars
   numericVars <- c(
     options$meanE,
     options$sdE,
     options$nE,
     options$meanC,
     options$sdC,
-    options$nC,
-    options$metaRegCovs
+    options$nC
   )
-  for (var in numericVars) {
-    data[[var]] <- jmvcore::toNumeric(data[[var]])
-  }
+  data[numericVars] <- lapply(data[numericVars], jmvcore::toNumeric)
 
   # Confidence / prediction level (shared)
   level <- options$confidenceLevel / 100

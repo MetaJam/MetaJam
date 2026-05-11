@@ -26,7 +26,9 @@ metaContClass <- R6::R6Class(
     metaRegModels = function() {
       if (is.null(private$.metaRegModels)) {
         private$.metaRegModels <- computeMetaRegModels(
-          self$model, self$options
+          self$data,
+          self$model,
+          self$options
         )
       }
       private$.metaRegModels
@@ -81,7 +83,6 @@ metaContClass <- R6::R6Class(
         self$options,
         private$.requiredVars
       )
-
 
       initLeaveOneOutText(
         self$results$leaveOneOutText,
@@ -162,9 +163,13 @@ metaContClass <- R6::R6Class(
 
     .bubblePlot = function(image, ...) {
       i <- image$parent$key
-      if (is.null(i) || i > length(self$metaRegModels)) return(FALSE)
+      if (is.null(i) || i > length(self$metaRegModels)) {
+        return(FALSE)
+      }
       metaRegModel <- self$metaRegModels[[i]]
-      if (is.null(metaRegModel)) return(FALSE)
+      if (is.null(metaRegModel)) {
+        return(FALSE)
+      }
       renderBubblePlot(metaRegModel, self$options)
       TRUE
     },

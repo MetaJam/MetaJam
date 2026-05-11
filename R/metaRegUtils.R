@@ -20,7 +20,11 @@ initMetaRegModelItems <- function(options, results) {
     label <- if (length(terms) == 0) {
       "~ (empty)"
     } else {
-      termStrs <- vapply(terms, function(t) jmvcore::stringifyTerm(t, raise = TRUE), character(1))
+      termStrs <- vapply(
+        terms,
+        function(t) jmvcore::stringifyTerm(t, raise = TRUE),
+        character(1)
+      )
       paste0("~ ", paste(termStrs, collapse = " + "))
     }
     group$setTitle(paste0("Model ", i, ": ", label))
@@ -34,13 +38,29 @@ initMetaRegModelItems <- function(options, results) {
 #' block and calling `meta::metareg()`. Returns a list of models
 #' (NULL entries for empty blocks).
 #'
+#' @param data The raw data from jamovi (`self$data`).
 #' @param model A `meta` object (must have been created with `data=`).
 #' @param options The jamovi options object.
 #' @return A list of `metareg` objects (NULL entries for empty blocks).
 #' @noRd
-computeMetaRegModels <- function(model, options) {
+computeMetaRegModels <- function(data, model, options) {
   if (is.null(model)) {
     return(list())
+  }
+
+  # Ensure meta regression covariates are numeric before appending
+  data[options$metaRegCovs] <- lapply(
+    data[options$metaRegCovs],
+    jmvcore::toNumeric
+  )
+
+  # Safely append missing columns from Jamovi data into model data
+  # We give priority to meta's internal columns (.exclude, .subgroup, etc.)
+  # TODO: We may use base64 encoding for user column names in the future to
+  # completely avoid any collisions with `meta`'s internal dot-prefixed columns.
+  missing_cols <- setdiff(names(data), names(model$data))
+  if (length(missing_cols) > 0) {
+    model$data[missing_cols] <- data[missing_cols]
   }
 
   blocks <- options$metaRegBlocks
@@ -48,12 +68,16 @@ computeMetaRegModels <- function(model, options) {
 
   for (i in seq_along(blocks)) {
     terms <- blocks[[i]]
-    if (length(terms) == 0) next
+    if (length(terms) == 0) {
+      next
+    }
 
     composed <- jmvcore::composeTerms(terms)
     formula <- as.formula(paste("~", paste(composed, collapse = " + ")))
     models[[i]] <- meta::metareg(
-      model, formula, intercept = options$metaRegIntercept
+      model,
+      formula,
+      intercept = options$metaRegIntercept
     )
   }
 
@@ -93,11 +117,15 @@ getMetaRegScaleLabel <- function(metaRegModel) {
 populateMetaRegTexts <- function(modelsArray, metaRegModels, options) {
   for (i in seq_along(metaRegModels)) {
     metaRegModel <- metaRegModels[[i]]
-    if (is.null(metaRegModel)) next
+    if (is.null(metaRegModel)) {
+      next
+    }
 
     group <- modelsArray$get(key = i)
     textResult <- group$metaRegText
-    if (!textResult$visible) next
+    if (!textResult$visible) {
+      next
+    }
 
     scaleLabel <- getMetaRegScaleLabel(metaRegModel)
     textResult$setContent(
