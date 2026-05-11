@@ -1,10 +1,9 @@
 #' Initialize the Subgroup Text Skeleton
 #'
-#' Called from `.run()` to show a titled HTML placeholder before the
+#' Called from `.init()` to show a titled HTML placeholder before the
 #' subgroup model is available. Uses `hasRequiredVars()` instead of
 #' checking the model directly to avoid forcing the subgroupModel
-#' (and thus the main model) active binding. The `isFilled()` guard
-#' preserves the clearWith optimization.
+#' (and thus the main model) active binding.
 #'
 #' @param textResult Html result element
 #'   (e.g., `self$results$subgroupText`).
@@ -13,7 +12,7 @@
 #'   assigned for the model to compute.
 #' @noRd
 initSubgroupText <- function(textResult, options, requiredVars) {
-  if (!textResult$visible || textResult$isFilled()) {
+  if (!textResult$visible) {
     return()
   }
   if (!hasRequiredVars(options, requiredVars)) {

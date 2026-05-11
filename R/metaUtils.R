@@ -64,13 +64,10 @@ applyCachedSize <- function(image, sizeCache) {
 
 #' Initialize the Main Text Skeleton
 #'
-#' Called from `.run()` to show a titled HTML placeholder before the
+#' Called from `.init()` to show a titled HTML placeholder before the
 #' model is available (e.g., when required variables are not yet assigned).
 #' Uses `hasRequiredVars()` instead of checking the model directly to
-#' avoid forcing the model active binding. The `isFilled()` guard
-#' preserves the clearWith optimization — when a non-model option
-#' changed, the previous content is still valid and this function
-#' exits immediately.
+#' avoid forcing the model active binding.
 #'
 #' @param textResult Html result element (e.g., `self$results$text`).
 #' @param options The `self$options` object from a jamovi analysis.
@@ -78,7 +75,7 @@ applyCachedSize <- function(image, sizeCache) {
 #'   assigned for the model to compute.
 #' @noRd
 initMainText <- function(textResult, options, requiredVars) {
-  if (!textResult$visible || textResult$isFilled()) {
+  if (!textResult$visible) {
     return()
   }
   if (!hasRequiredVars(options, requiredVars)) {

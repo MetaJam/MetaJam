@@ -54,6 +54,28 @@ metaContClass <- R6::R6Class(
 
     .init = function() {
       initMetaRegModelItems(self$options, self$results)
+
+      # Initialize text skeletons
+      initMainText(
+        self$results$text,
+        self$options,
+        private$.requiredVars
+      )
+      initSubgroupText(
+        self$results$subgroupText,
+        self$options,
+        private$.requiredVars
+      )
+      initLeaveOneOutText(
+        self$results$leaveOneOutText,
+        self$options,
+        private$.requiredVars
+      )
+      initAsymmetryTestText(
+        self$results$asymmetryTestText,
+        self$options,
+        private$.requiredVars
+      )
     },
 
     .postInit = function() {
@@ -70,31 +92,6 @@ metaContClass <- R6::R6Class(
     },
 
     .run = function() {
-      # Initialize text skeletons (before hasRequiredVars so placeholders
-      # show even when variables aren't assigned yet). isFilled() guards
-      # inside these functions skip when clearWith didn't invalidate.
-      initMainText(
-        self$results$text,
-        self$options,
-        private$.requiredVars
-      )
-      initSubgroupText(
-        self$results$subgroupText,
-        self$options,
-        private$.requiredVars
-      )
-
-      initLeaveOneOutText(
-        self$results$leaveOneOutText,
-        self$options,
-        private$.requiredVars
-      )
-      initAsymmetryTestText(
-        self$results$asymmetryTestText,
-        self$options,
-        private$.requiredVars
-      )
-
       if (!hasRequiredVars(self$options, private$.requiredVars)) {
         return()
       }

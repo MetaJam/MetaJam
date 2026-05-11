@@ -43,7 +43,7 @@ renderFunnelPlot <- function(model, options) {
 
 #' Initialize the Asymmetry Test Text Skeleton
 #'
-#' Called from `.run()` to show a titled HTML placeholder before the
+#' Called from `.init()` to show a titled HTML placeholder before the
 #' model is available. Follows the same pattern as other init functions.
 #'
 #' @param textResult Html result element.
@@ -51,7 +51,7 @@ renderFunnelPlot <- function(model, options) {
 #' @param requiredVars Character vector of required option names.
 #' @noRd
 initAsymmetryTestText <- function(textResult, options, requiredVars) {
-  if (!textResult$visible || textResult$isFilled()) {
+  if (!textResult$visible) {
     return()
   }
   if (!hasRequiredVars(options, requiredVars)) {

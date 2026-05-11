@@ -16,7 +16,7 @@ computeLeaveOneOutModel <- function(model, options) {
 
 #' Initialize the Leave-One-Out Text Skeleton
 #'
-#' Called from `.run()` to show a titled HTML placeholder before the
+#' Called from `.init()` to show a titled HTML placeholder before the
 #' model is available. Same pattern as `initSubgroupText()`.
 #'
 #' @param textResult Html result element.
@@ -24,7 +24,7 @@ computeLeaveOneOutModel <- function(model, options) {
 #' @param requiredVars Character vector of option names that must be assigned.
 #' @noRd
 initLeaveOneOutText <- function(textResult, options, requiredVars) {
-  if (!textResult$visible || textResult$isFilled()) {
+  if (!textResult$visible) {
     return()
   }
   if (!hasRequiredVars(options, requiredVars)) {
