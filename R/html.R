@@ -8,9 +8,12 @@
 #'   `capture.output`.
 #' @param title Optional string to add a table-caption-style title above the
 #'   content. Styled to match jamovi's native table titles.
+#' @param modifier Optional callback function. If provided, the captured text
+#'   (as a character vector) is passed to this function before being collapsed
+#'   into a single string. Useful for stripping redundant headers from R output.
 #' @return A string containing the styled HTML.
 #' @noRd
-asHtml <- function(..., title = NULL) {
+asHtml <- function(..., title = NULL, modifier = NULL) {
   # Temporarily increase width to prevent console-like line wrapping for long
   # text
   old_opts <- options(width = 10000)
@@ -18,6 +21,11 @@ asHtml <- function(..., title = NULL) {
 
   # Capture the printed output of the expression(s)
   text <- capture.output(...)
+  
+  if (!is.null(modifier)) {
+    text <- modifier(text)
+  }
+  
   text <- paste0(text, collapse = "\n")
 
   # Build optional title styled to match jamovi table titles visually.

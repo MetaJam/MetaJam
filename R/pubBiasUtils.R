@@ -41,6 +41,21 @@ renderFunnelPlot <- function(model, options) {
 }
 
 
+#' Get the Publication Bias Test Title
+#'
+#' Maps the selected asymmetry method to the exact title used by the meta package.
+#'
+#' @param method The asymmetry method string.
+#' @return A character string representing the test title.
+#' @noRd
+getAsymmetryTestTitle <- function(method) {
+  if (method == "Begg") {
+    return("Rank correlation test of funnel plot asymmetry")
+  }
+  return("Linear regression test of funnel plot asymmetry")
+}
+
+
 #' Initialize the Asymmetry Test Text Skeleton
 #'
 #' Called from `.init()` to show a titled HTML placeholder before the
@@ -55,8 +70,9 @@ initAsymmetryTestText <- function(textResult, options, requiredVars) {
     return()
   }
   if (!hasRequiredVars(options, requiredVars)) {
+    title <- getAsymmetryTestTitle(options$asymmetryMethod)
     textResult$setContent(
-      asHtml(title = "Test for Funnel Plot Asymmetry")
+      asHtml(title = title)
     )
   }
 }
@@ -94,10 +110,21 @@ populateAsymmetryTestText <- function(textResult, model, options) {
     k.min = 3
   )
 
+  title <- getAsymmetryTestTitle(methodBias)
+
   textResult$setContent(
-    asHtml(print(biasResult), title = "Test for Funnel Plot Asymmetry")
+    asHtml(
+      print(biasResult),
+      title = title,
+      modifier = function(out) {
+        if (length(out) > 0 && grepl("test of funnel plot asymmetry$", out[1])) {
+          return(out[-c(1, 2)])
+        }
+        return(out)
+      }
+    )
   )
-}
+  }
 
 
 #' Render the Asymmetry Test Plot

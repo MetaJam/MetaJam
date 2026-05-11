@@ -44,8 +44,18 @@ populateLeaveOneOutText <- function(textResult, leaveOneOutModel) {
   if (!textResult$visible || textResult$isFilled()) {
     return()
   }
+
   textResult$setContent(
-    asHtml(summary(leaveOneOutModel), title = "Leave-One-Out Summary")
+    asHtml(
+      summary(leaveOneOutModel),
+      title = "Leave-One-Out Summary",
+      modifier = function(out) {
+        if (length(out) > 0 && out[1] == "Leave-one-out meta-analysis") {
+          return(out[-c(1, 2)])
+        }
+        return(out)
+      }
+    )
   )
 }
 
