@@ -188,7 +188,7 @@ items:
         - name: bubblePlot
           title: Bubble Plot
           type: Image
-          width: 800
+          width: 700
           height: 500
           renderFun: .bubblePlot
           visible: (bubblePlot && (length(metaRegCovs) > 0 || length(metaRegFactors) > 0))
@@ -284,7 +284,7 @@ items:
   - name: funnelPlotImage
     title: Funnel Plot
     type: Image
-    width: 700
+    width: 550
     height: 500
     renderFun: .funnelPlot
     visible: (funnelPlot)
@@ -335,7 +335,7 @@ items:
 
   - name: asymmetryPlotImage
     type: Image
-    width: 700
+    width: 550
     height: 500
     renderFun: .asymmetryPlot
     visible: (asymmetryTest && asymmetryPlot && asymmetryMethod != "Pustejovsky")
