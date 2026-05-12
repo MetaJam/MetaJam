@@ -75,12 +75,21 @@ buildContArgs <- function(analysis) {
 #'   missing.
 #' @noRd
 computeContModel <- function(analysis) {
+  # Cross-cycle cache (restored via clearWith)
+  cached <- analysis$results$text$state
+  if (!is.null(cached)) {
+    return(cached)
+  }
+
   args <- buildContArgs(analysis)
   if (is.null(args)) {
     return()
   }
 
-  do.call(meta::metacont, args)
+  model <- do.call(meta::metacont, args)
+  # Cache for next cycle
+  analysis$results$text$setState(model)
+  model
 }
 
 
@@ -95,6 +104,12 @@ computeContModel <- function(analysis) {
 #' @return A `meta::metacont` object with subgroup results, or `NULL`.
 #' @noRd
 computeContSubgroupModel <- function(analysis) {
+  # Cross-cycle cache (restored via clearWith)
+  cached <- analysis$results$subgroupText$state
+  if (!is.null(cached)) {
+    return(cached)
+  }
+
   if (is.null(analysis$options$subgroupVariable)) {
     return()
   }
@@ -108,7 +123,10 @@ computeContSubgroupModel <- function(analysis) {
   args$tau.common <- analysis$options$tauCommon
   args$prediction.subgroup <- analysis$options$predictionSubgroup
 
-  do.call(meta::metacont, args)
+  model <- do.call(meta::metacont, args)
+  # Cache for next cycle
+  analysis$results$subgroupText$setState(model)
+  model
 }
 
 

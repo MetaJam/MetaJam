@@ -4,48 +4,39 @@ metaContClass <- R6::R6Class(
 
   active = list(
     model = function() {
-      if (is.null(private$.model)) {
-        private$.model <- getCachedModel(
-          self$results$text,
-          computeContModel(self)
-        )
+      if (isFALSE(private$.model)) {
+        private$.model <- computeContModel(self)
       }
       private$.model
     },
 
     subgroupModel = function() {
-      if (is.null(private$.subgroupModel)) {
-        private$.subgroupModel <- getCachedModel(
-          self$results$subgroupText,
-          computeContSubgroupModel(self)
-        )
+      if (isFALSE(private$.subgroupModel)) {
+        private$.subgroupModel <- computeContSubgroupModel(self)
       }
       private$.subgroupModel
     },
 
     metaRegModels = function() {
-      if (is.null(private$.metaRegModels)) {
+      if (isFALSE(private$.metaRegModels)) {
         private$.metaRegModels <- computeMetaRegModels(self)
       }
       private$.metaRegModels
     },
 
     leaveOneOutModel = function() {
-      if (is.null(private$.leaveOneOutModel)) {
-        private$.leaveOneOutModel <- getCachedModel(
-          self$results$leaveOneOutText,
-          computeLeaveOneOutModel(self$model, self$options)
-        )
+      if (isFALSE(private$.leaveOneOutModel)) {
+        private$.leaveOneOutModel <- computeLeaveOneOutModel(self)
       }
       private$.leaveOneOutModel
     }
   ),
 
   private = list(
-    .model = NULL,
-    .subgroupModel = NULL,
-    .metaRegModels = NULL,
-    .leaveOneOutModel = NULL,
+    .model = FALSE,
+    .subgroupModel = FALSE,
+    .metaRegModels = FALSE,
+    .leaveOneOutModel = FALSE,
     .requiredVars = c("meanE", "sdE", "nE", "meanC", "sdC", "nC"),
 
     .init = function() {

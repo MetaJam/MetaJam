@@ -51,16 +51,17 @@ initMetaRegModels <- function(modelsArray, options, requiredVars) {
 #'
 #' Iterates over `options$metaRegBlocks`, building a formula for each
 #' block and calling `meta::metareg()`. Returns a list of models
-#' (NULL entries for empty blocks). Uses `getCachedModel` on the corresponding
-#' `metaRegText` results element to cache computation between UI updates.
+#' (NULL entries for empty blocks). Cross-cycle caching is performed
+#' per-block via the corresponding `metaRegText` results element.
 #'
 #' @param self The jamovi analysis object (`self`).
-#' @return A list of `metareg` objects (NULL entries for empty blocks).
+#' @return A list of `metareg` objects (NULL entries for empty blocks),
+#'   or `NULL` if the main model is not available.
 #' @noRd
 computeMetaRegModels <- function(self) {
   model <- self$model
   if (is.null(model)) {
-    return(list())
+    return()
   }
 
   options <- self$options
@@ -93,15 +94,22 @@ computeMetaRegModels <- function(self) {
 
     cacheElement <- modelsArray$get(key = i)$metaRegText
 
-    models[[i]] <- getCachedModel(cacheElement, {
-      composed <- jmvcore::composeTerms(terms)
-      formula <- as.formula(paste("~", paste(composed, collapse = " + ")))
-      meta::metareg(
-        model,
-        formula,
-        intercept = options$metaRegIntercept
-      )
-    })
+    # Cross-cycle cache (restored via clearWith)
+    cached <- cacheElement$state
+    if (!is.null(cached)) {
+      models[[i]] <- cached
+      next
+    }
+
+    composed <- jmvcore::composeTerms(terms)
+    formula <- as.formula(paste("~", paste(composed, collapse = " + ")))
+    models[[i]] <- meta::metareg(
+      model,
+      formula,
+      intercept = options$metaRegIntercept
+    )
+    # Cache for next cycle
+    cacheElement$setState(models[[i]])
   }
 
   models

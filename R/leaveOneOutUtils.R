@@ -2,15 +2,27 @@
 #'
 #' Analysis-agnostic: works with any `meta` object (metacont, metabin, etc.).
 #'
-#' @param model A `meta` object.
-#' @param options A Jamovi options object with `leaveOneOutPrediction`.
+#' @param self The jamovi analysis object.
 #' @return A `metainf` object, or `NULL` if model is NULL.
 #' @noRd
-computeLeaveOneOutModel <- function(model, options) {
-  if (is.null(model)) {
+computeLeaveOneOutModel <- function(self) {
+  # Cross-cycle cache (restored via clearWith)
+  cached <- self$results$leaveOneOutText$state
+  if (!is.null(cached)) {
+    return(cached)
+  }
+
+  if (is.null(self$model)) {
     return()
   }
-  meta::metainf(model, prediction = options$leaveOneOutPrediction)
+
+  result <- meta::metainf(
+    self$model,
+    prediction = self$options$leaveOneOutPrediction
+  )
+  # Cache for next cycle
+  self$results$leaveOneOutText$setState(result)
+  result
 }
 
 
