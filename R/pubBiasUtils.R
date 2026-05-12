@@ -66,10 +66,7 @@ getAsymmetryTestTitle <- function(method) {
 #' @param requiredVars Character vector of required option names.
 #' @noRd
 initAsymmetryTestText <- function(textResult, options, requiredVars) {
-  if (!textResult$visible) {
-    return()
-  }
-  if (!hasRequiredVars(options, requiredVars)) {
+  if (textResult$visible && !hasRequiredVars(options, requiredVars)) {
     title <- getAsymmetryTestTitle(options$asymmetryMethod)
     textResult$setContent(
       asHtml(title = title)

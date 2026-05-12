@@ -75,10 +75,7 @@ applyCachedSize <- function(image, sizeCache) {
 #'   assigned for the model to compute.
 #' @noRd
 initMainText <- function(textResult, options, requiredVars) {
-  if (!textResult$visible) {
-    return()
-  }
-  if (!hasRequiredVars(options, requiredVars)) {
+  if (textResult$visible && !hasRequiredVars(options, requiredVars)) {
     textResult$setContent(asHtml(title = "Meta-Analysis Summary"))
   }
 }

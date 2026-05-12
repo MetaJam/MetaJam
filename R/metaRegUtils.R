@@ -15,34 +15,33 @@ initMetaRegModels <- function(modelsArray, options, requiredVars) {
   hasVars <- hasRequiredVars(options, requiredVars)
 
   for (i in seq_along(blocks)) {
+    # 1. Initialize array items
     modelsArray$addItem(key = i)
     group <- modelsArray$get(key = i)
     terms <- blocks[[i]]
 
-    # Build suffix: " (Model 1)" or " (Model 1: ~ age + sex)"
+    # 2. Build and set group title
     if (length(terms) == 0) {
-      suffix <- paste0(" (Model ", i, ")")
+      title <- paste0("Meta-Regression - Model ", i)
     } else {
-      termStrs <- vapply(
+      termStrings <- vapply(
         terms,
         function(t) jmvcore::stringifyTerm(t, raise = TRUE),
         character(1)
       )
-      suffix <- paste0(
-        " (Model ",
+      title <- paste0(
+        "Meta-Regression - Model ",
         i,
         ": ~ ",
-        paste(termStrs, collapse = " + "),
-        ")"
+        paste(termStrings, collapse = " + ")
       )
     }
 
-    group$setTitle(paste0("Meta-Regression", suffix))
+    group$setTitle(title)
 
-    # Set text placeholder with title when vars missing or block empty
-    textResult <- group$metaRegText
-    if (textResult$visible && (!hasVars || length(terms) == 0)) {
-      textResult$setContent(asHtml(title = "Model Summary"))
+    # 3. Set text placeholder when vars missing or block empty
+    if (group$metaRegText$visible && (!hasVars || length(terms) == 0)) {
+      group$metaRegText$setContent(asHtml(title = "Model Summary"))
     }
   }
 }

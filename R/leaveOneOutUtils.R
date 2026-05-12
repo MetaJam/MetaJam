@@ -24,10 +24,7 @@ computeLeaveOneOutModel <- function(model, options) {
 #' @param requiredVars Character vector of option names that must be assigned.
 #' @noRd
 initLeaveOneOutText <- function(textResult, options, requiredVars) {
-  if (!textResult$visible) {
-    return()
-  }
-  if (!hasRequiredVars(options, requiredVars)) {
+  if (textResult$visible && !hasRequiredVars(options, requiredVars)) {
     textResult$setContent(asHtml(title = "Leave-One-Out Summary"))
   }
 }
