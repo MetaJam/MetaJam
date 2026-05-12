@@ -25,11 +25,7 @@ metaContClass <- R6::R6Class(
 
     metaRegModels = function() {
       if (is.null(private$.metaRegModels)) {
-        private$.metaRegModels <- computeMetaRegModels(
-          self$data,
-          self$model,
-          self$options
-        )
+        private$.metaRegModels <- computeMetaRegModels(self)
       }
       private$.metaRegModels
     },

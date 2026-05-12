@@ -51,17 +51,20 @@ initMetaRegModels <- function(modelsArray, options, requiredVars) {
 #'
 #' Iterates over `options$metaRegBlocks`, building a formula for each
 #' block and calling `meta::metareg()`. Returns a list of models
-#' (NULL entries for empty blocks).
+#' (NULL entries for empty blocks). Uses `getCachedModel` on the corresponding
+#' `metaRegText` results element to cache computation between UI updates.
 #'
-#' @param data The raw data from jamovi (`self$data`).
-#' @param model A `meta` object (must have been created with `data=`).
-#' @param options The jamovi options object.
+#' @param self The jamovi analysis object (`self`).
 #' @return A list of `metareg` objects (NULL entries for empty blocks).
 #' @noRd
-computeMetaRegModels <- function(data, model, options) {
+computeMetaRegModels <- function(self) {
+  model <- self$model
   if (is.null(model)) {
     return(list())
   }
+
+  options <- self$options
+  data <- self$data
 
   # Ensure meta regression covariates are numeric before appending
   data[options$metaRegCovs] <- lapply(
@@ -80,6 +83,7 @@ computeMetaRegModels <- function(data, model, options) {
 
   blocks <- options$metaRegBlocks
   models <- vector("list", length(blocks))
+  modelsArray <- self$results$metaRegModels
 
   for (i in seq_along(blocks)) {
     terms <- blocks[[i]]
@@ -87,13 +91,17 @@ computeMetaRegModels <- function(data, model, options) {
       next
     }
 
-    composed <- jmvcore::composeTerms(terms)
-    formula <- as.formula(paste("~", paste(composed, collapse = " + ")))
-    models[[i]] <- meta::metareg(
-      model,
-      formula,
-      intercept = options$metaRegIntercept
-    )
+    cacheElement <- modelsArray$get(key = i)$metaRegText
+
+    models[[i]] <- getCachedModel(cacheElement, {
+      composed <- jmvcore::composeTerms(terms)
+      formula <- as.formula(paste("~", paste(composed, collapse = " + ")))
+      meta::metareg(
+        model,
+        formula,
+        intercept = options$metaRegIntercept
+      )
+    })
   }
 
   models
