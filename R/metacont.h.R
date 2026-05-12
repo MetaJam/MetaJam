@@ -1177,7 +1177,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Array$new(
                 options=options,
                 name="metaRegModels",
-                title="Meta-Regression",
+                title="",
                 hideHeadingOnlyChild=TRUE,
                 clearWith=list(
                     "metaRegBlocks"),
@@ -1221,6 +1221,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                             self$add(jmvcore::Image$new(
                                 options=options,
                                 name="bubblePlot",
+                                title="Bubble Plot",
                                 width=800,
                                 height=500,
                                 renderFun=".bubblePlot",

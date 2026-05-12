@@ -53,7 +53,11 @@ metaContClass <- R6::R6Class(
     .requiredVars = c("meanE", "sdE", "nE", "meanC", "sdC", "nC"),
 
     .init = function() {
-      initMetaRegModelItems(self$options, self$results)
+      initMetaRegModels(
+        self$results$metaRegModels,
+        self$options,
+        private$.requiredVars
+      )
 
       # Initialize text skeletons
       initMainText(

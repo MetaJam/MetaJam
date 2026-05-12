@@ -1,33 +1,49 @@
-#' Initialize Meta-Regression Array Items
+#' Initialize Meta-Regression Models
 #'
 #' Adds one group per block to the `metaRegModels` Array and sets
-#' the title. Visibility is handled declaratively via .r.yaml bindings.
-#' Called from `.init()`.
+#' dynamic Group titles. When required variables are missing or a
+#' block is empty, a title-only placeholder is set on the text
+#' element (same pattern as `initSubgroupText()`).
 #'
+#' @param modelsArray The `metaRegModels` Array result element.
 #' @param options The `self$options` object.
-#' @param results The `self$results` object.
+#' @param requiredVars Character vector of option names that must be
+#'   assigned for the model to compute.
 #' @noRd
-initMetaRegModelItems <- function(options, results) {
+initMetaRegModels <- function(modelsArray, options, requiredVars) {
   blocks <- options$metaRegBlocks
-  modelsArray <- results$metaRegModels
+  hasVars <- hasRequiredVars(options, requiredVars)
 
   for (i in seq_along(blocks)) {
     modelsArray$addItem(key = i)
     group <- modelsArray$get(key = i)
-
-    # Build formula label inline: "Model 1: ~ age + sex"
     terms <- blocks[[i]]
-    label <- if (length(terms) == 0) {
-      "~ (empty)"
+
+    # Build suffix: " (Model 1)" or " (Model 1: ~ age + sex)"
+    if (length(terms) == 0) {
+      suffix <- paste0(" (Model ", i, ")")
     } else {
       termStrs <- vapply(
         terms,
         function(t) jmvcore::stringifyTerm(t, raise = TRUE),
         character(1)
       )
-      paste0("~ ", paste(termStrs, collapse = " + "))
+      suffix <- paste0(
+        " (Model ",
+        i,
+        ": ~ ",
+        paste(termStrs, collapse = " + "),
+        ")"
+      )
     }
-    group$setTitle(paste0("Model ", i, ": ", label))
+
+    group$setTitle(paste0("Meta-Regression", suffix))
+
+    # Set text placeholder with title when vars missing or block empty
+    textResult <- group$metaRegText
+    if (textResult$visible && (!hasVars || length(terms) == 0)) {
+      textResult$setContent(asHtml(title = "Model Summary"))
+    }
   }
 }
 
@@ -135,7 +151,8 @@ populateMetaRegTexts <- function(modelsArray, metaRegModels, options) {
           "\nNote: Estimates and confidence intervals are on the",
           scaleLabel,
           "scale."
-        )
+        ),
+        title = "Model Summary"
       )
     )
   }

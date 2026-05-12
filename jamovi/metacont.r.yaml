@@ -151,7 +151,7 @@ items:
       - metaPackage
 
   - name: metaRegModels
-    title: Meta-Regression
+    title: ''
     type: Array
     hideHeadingOnlyChild: true
     clearWith:
@@ -186,6 +186,7 @@ items:
             - metaPackage
 
         - name: bubblePlot
+          title: Bubble Plot
           type: Image
           width: 800
           height: 500
