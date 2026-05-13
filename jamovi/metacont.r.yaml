@@ -155,7 +155,24 @@ items:
     type: Array
     hideHeadingOnlyChild: true
     clearWith:
+      - studyLabel
+      - meanE
+      - sdE
+      - nE
+      - meanC
+      - sdC
+      - nC
+      - sm
+      - methodSmd
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - metaRegCovs
+      - metaRegFactors
       - metaRegBlocks
+      - metaRegIntercept
     template:
       title: ''
       type: Group
@@ -163,25 +180,7 @@ items:
         - name: metaRegText
           type: Html
           visible: (showMetaRegSummary && (length(metaRegCovs) > 0 || length(metaRegFactors) > 0))
-          clearWith:
-            - studyLabel
-            - meanE
-            - sdE
-            - nE
-            - meanC
-            - sdC
-            - nC
-            - sm
-            - methodSmd
-            - model
-            - methodTau
-            - methodRandomCi
-            - prediction
-            - confidenceLevel
-            - metaRegCovs
-            - metaRegFactors
-            - metaRegBlocks
-            - metaRegIntercept
+          clearWith: []
           refs:
             - metaPackage
 
@@ -193,23 +192,6 @@ items:
           renderFun: .bubblePlot
           visible: (bubblePlot && (length(metaRegCovs) > 0 || length(metaRegFactors) > 0))
           clearWith:
-            - studyLabel
-            - meanE
-            - sdE
-            - nE
-            - meanC
-            - sdC
-            - nC
-            - sm
-            - methodSmd
-            - model
-            - methodTau
-            - methodRandomCi
-            - confidenceLevel
-            - metaRegCovs
-            - metaRegFactors
-            - metaRegBlocks
-            - metaRegIntercept
             - bubbleRegline
             - bubbleStudyLabel
           refs:
