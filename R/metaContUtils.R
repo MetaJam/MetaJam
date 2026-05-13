@@ -87,6 +87,8 @@ computeContModel <- function(analysis) {
   }
 
   model <- do.call(meta::metacont, args)
+  model <- stripModel(model)
+
   # Cache for next cycle
   analysis$results$text$setState(model)
   model
@@ -124,6 +126,8 @@ computeContSubgroupModel <- function(analysis) {
   args$prediction.subgroup <- analysis$options$predictionSubgroup
 
   model <- do.call(meta::metacont, args)
+  model <- stripModel(model)
+
   # Cache for next cycle
   analysis$results$subgroupText$setState(model)
   model

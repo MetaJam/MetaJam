@@ -14,6 +14,11 @@ initMetaRegModels <- function(modelsArray, options, requiredVars) {
   blocks <- options$metaRegBlocks
   hasVars <- hasRequiredVars(options, requiredVars)
 
+  # TODO: We suspect that initializing a large number of items (e.g., 50) via
+  # `addItem` might be a performance bottleneck due to R6 cloning overhead and
+  # UI rendering time. We should verify this performance claim in the future. If
+  # large arrays of models cause significant lag, we may need to discuss this
+  # issue with the jamovi authors.
   for (i in seq_along(blocks)) {
     # 1. Initialize array items
     modelsArray$addItem(key = i)
@@ -103,11 +108,25 @@ computeMetaRegModels <- function(self) {
 
     composed <- jmvcore::composeTerms(terms)
     formula <- as.formula(paste("~", paste(composed, collapse = " + ")))
+
     models[[i]] <- meta::metareg(
       model,
       formula,
       intercept = options$metaRegIntercept
     )
+
+    # meta::metareg is an S3 generic. R's S3 dispatch injects the local
+    # execution environment (which in Jamovi contains the heavy R6 `self`
+    # wrapper) into the formula as `.GenericCallEnv`. This causes the Jamovi
+    # `self` object to be serialized alongside the model, massively bloating the
+    # save state. We sever this link by zeroing out the formula environments.
+    if (!is.null(models[[i]]$formula.mods)) {
+      environment(models[[i]]$formula.mods) <- baseenv()
+    }
+    if (!is.null(models[[i]]$.meta$formula)) {
+      environment(models[[i]]$.meta$formula) <- baseenv()
+    }
+
     # Cache for next cycle
     cacheElement$setState(models[[i]])
   }
@@ -146,6 +165,19 @@ getMetaRegScaleLabel <- function(metaRegModel) {
 #' @param options The `self$options` object.
 #' @noRd
 populateMetaRegTexts <- function(modelsArray, metaRegModels, options) {
+  if (length(options$metaRegBlocks) == 0) {
+    return()
+  }
+
+  # Since all models clear together and share visibility rules, checking the
+  # first element is sufficient. If we exit early here, the `metaRegModels`
+  # promise (from self$metaRegModels in .run) is never evaluated.
+  # We use 1L (integer) because seq_along populates the array with integer keys.
+  firstTextResult <- modelsArray$get(key = 1L)$metaRegText
+  if (!firstTextResult$visible || firstTextResult$isFilled()) {
+    return()
+  }
+
   for (i in seq_along(metaRegModels)) {
     metaRegModel <- metaRegModels[[i]]
     if (is.null(metaRegModel)) {
@@ -154,9 +186,6 @@ populateMetaRegTexts <- function(modelsArray, metaRegModels, options) {
 
     group <- modelsArray$get(key = i)
     textResult <- group$metaRegText
-    if (!textResult$visible) {
-      next
-    }
 
     scaleLabel <- getMetaRegScaleLabel(metaRegModel)
     textResult$setContent(
