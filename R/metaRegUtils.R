@@ -65,12 +65,17 @@ initMetaRegModels <- function(modelsArray, options, requiredVars) {
 #' @noRd
 computeMetaRegModels <- function(self) {
   model <- self$model
-  if (is.null(model)) {
+  options <- self$options
+  blocks <- options$metaRegBlocks
+  modelsArray <- self$results$metaRegModels
+  data <- self$data
+
+  # Early exit if the base model is missing, or if no meta-regression blocks are
+  # defined. The block check specifically avoids expensive data copying when no
+  # models will be computed.
+  if (is.null(model) || sum(lengths(blocks)) == 0) {
     return()
   }
-
-  options <- self$options
-  data <- self$data
 
   # Ensure meta regression covariates are numeric before appending
   data[options$metaRegCovs] <- lapply(
@@ -87,9 +92,7 @@ computeMetaRegModels <- function(self) {
     model$data[missing_cols] <- data[missing_cols]
   }
 
-  blocks <- options$metaRegBlocks
   models <- vector("list", length(blocks))
-  modelsArray <- self$results$metaRegModels
 
   for (i in seq_along(blocks)) {
     terms <- blocks[[i]]
@@ -165,27 +168,17 @@ getMetaRegScaleLabel <- function(metaRegModel) {
 #' @param options The `self$options` object.
 #' @noRd
 populateMetaRegTexts <- function(modelsArray, metaRegModels, options) {
-  if (length(options$metaRegBlocks) == 0) {
-    return()
-  }
+  for (i in seq_along(options$metaRegBlocks)) {
+    textResult <- modelsArray$get(key = i)$metaRegText
 
-  # Since all models clear together and share visibility rules, checking the
-  # first element is sufficient. If we exit early here, the `metaRegModels`
-  # promise (from self$metaRegModels in .run) is never evaluated.
-  # We use 1L (integer) because seq_along populates the array with integer keys.
-  firstTextResult <- modelsArray$get(key = 1L)$metaRegText
-  if (!firstTextResult$visible || firstTextResult$isFilled()) {
-    return()
-  }
+    if (!textResult$visible || textResult$isFilled()) {
+      next
+    }
 
-  for (i in seq_along(metaRegModels)) {
     metaRegModel <- metaRegModels[[i]]
     if (is.null(metaRegModel)) {
       next
     }
-
-    group <- modelsArray$get(key = i)
-    textResult <- group$metaRegText
 
     scaleLabel <- getMetaRegScaleLabel(metaRegModel)
     textResult$setContent(
@@ -209,17 +202,32 @@ populateMetaRegTexts <- function(modelsArray, metaRegModels, options) {
 #' function, which handles transformations, reference lines, labels, and
 #' categorical covariates internally.
 #'
-#' Note:  In case of multiple groups in the factor variable, only the last one
-#' shows as it show one for every group against the reference. Try to see what
-#' we gonna do with this the same for multivariables.
+#' Note: In the case of a factor variable with more than two groups, the
+#' function generates multiple plots (one for each group against the reference).
+#' Because the function prints them sequentially, the Jamovi viewport will only
+#' display the last plot. However, if the plot is exported as a PDF, all
+#' generated plots are fully rendered and visible.
 #'
-#' @param metaRegModel A `metareg` object from image$state.
-#' @param options The `self$options` object.
+#' Additionally, for multivariable meta-regression models, it shows only one
+#' plot, which is plotted against the first term (covariate) in the model while
+#' adjusting for the other terms.
+#'
+#' @param image The jamovi image object.
+#' @param analysis The jamovi analysis object (`self`).
+#' @return TRUE if the plot was successfully rendered, FALSE otherwise.
 #' @noRd
-renderBubblePlot <- function(metaRegModel, options) {
+renderBubblePlot <- function(image, analysis) {
+  metaRegModel <- analysis$metaRegModels[[image$parent$key]]
+
+  if (is.null(metaRegModel)) {
+    return(FALSE)
+  }
+
   meta::bubble(
     metaRegModel,
-    regline = options$bubbleRegline,
-    studlab = options$bubbleStudyLabel
+    regline = analysis$options$bubbleRegline,
+    studlab = analysis$options$bubbleStudyLabel
   )
+
+  return(TRUE)
 }

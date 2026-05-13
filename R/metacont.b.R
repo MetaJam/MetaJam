@@ -150,16 +150,7 @@ metaContClass <- R6::R6Class(
     },
 
     .bubblePlot = function(image, ...) {
-      i <- image$parent$key
-      if (is.null(i) || i > length(self$metaRegModels)) {
-        return(FALSE)
-      }
-      metaRegModel <- self$metaRegModels[[i]]
-      if (is.null(metaRegModel)) {
-        return(FALSE)
-      }
-      renderBubblePlot(metaRegModel, self$options)
-      TRUE
+      renderBubblePlot(image, self)
     },
 
     .leaveOneOutForestPlot = function(image, ...) {
