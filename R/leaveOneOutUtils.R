@@ -2,7 +2,7 @@
 #'
 #' Analysis-agnostic: works with any `meta` object (metacont, metabin, etc.).
 #'
-#' @param self The jamovi analysis object.
+#' @param self The jamovi `self` object.
 #' @return A `metainf` object, or `NULL` if model is NULL.
 #' @noRd
 computeLeaveOneOutModel <- function(self) {
@@ -75,11 +75,17 @@ populateLeaveOneOutText <- function(textResult, leaveOneOutModel) {
 #' (I², τ²), and delegates to `meta::forest()` which dispatches
 #' to `forest.metainf` → `forest.metacum` → `forest.meta`.
 #'
-#' @param leaveOneOutModel A `metainf` object.
-#' @param options A Jamovi options object with `leaveOneOut*` fields.
-#' @return The (invisible) return value of `meta::forest()`.
+#' @param self The jamovi `self` object.
+#' @return TRUE if the plot was successfully rendered, FALSE otherwise.
 #' @noRd
-renderLeaveOneOutForest <- function(leaveOneOutModel, options) {
+renderLeaveOneOutForest <- function(self) {
+  leaveOneOutModel <- self$leaveOneOutModel
+  options <- self$options
+
+  if (is.null(leaveOneOutModel)) {
+    return(FALSE)
+  }
+
   colgap <- paste0(options$leaveOneOutColgap, options$leaveOneOutColgapUnit)
   colgap.forest <- paste0(
     options$leaveOneOutColgapForest,
@@ -121,4 +127,6 @@ renderLeaveOneOutForest <- function(leaveOneOutModel, options) {
   }
 
   do.call(meta::forest, args)
+
+  TRUE
 }

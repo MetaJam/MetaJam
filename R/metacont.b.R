@@ -89,24 +89,25 @@ metaContClass <- R6::R6Class(
 
       # Compute forest plot dimensions and cache for .postInit()
       updateForestSize(
+        self = self,
         image = self$results$plot,
         model = self$model,
-        options = self$options,
-        sizeCache = self$results$plotSizeCache
+        sizeCache = self$results$plotSizeCache,
+        renderFn = renderContForest
       )
 
       updateForestSize(
+        self = self,
         image = self$results$subgroupPlot,
         model = self$subgroupModel,
-        options = self$options,
         sizeCache = self$results$subgroupPlotSizeCache,
         renderFn = renderContSubgroupForest
       )
 
       updateForestSize(
+        self = self,
         image = self$results$leaveOneOutPlot,
         model = self$leaveOneOutModel,
-        options = self$options,
         sizeCache = self$results$leaveOneOutPlotSizeCache,
         renderFn = renderLeaveOneOutForest
       )
@@ -134,47 +135,27 @@ metaContClass <- R6::R6Class(
     },
 
     .forestPlot = function(image, ...) {
-      if (is.null(self$model)) {
-        return(FALSE)
-      }
-      renderContForest(self$model, self$options)
-      TRUE
+      renderContForest(self)
     },
 
     .subgroupForestPlot = function(image, ...) {
-      if (is.null(self$subgroupModel)) {
-        return(FALSE)
-      }
-      renderContSubgroupForest(self$subgroupModel, self$options)
-      TRUE
+      renderContSubgroupForest(self)
     },
 
     .bubblePlot = function(image, ...) {
-      renderBubblePlot(image, self)
+      renderBubblePlot(self, key = image$parent$key)
     },
 
     .leaveOneOutForestPlot = function(image, ...) {
-      if (is.null(self$leaveOneOutModel)) {
-        return(FALSE)
-      }
-      renderLeaveOneOutForest(self$leaveOneOutModel, self$options)
-      TRUE
+      renderLeaveOneOutForest(self)
     },
 
     .funnelPlot = function(image, ...) {
-      if (is.null(self$model)) {
-        return(FALSE)
-      }
-      renderFunnelPlot(self$model, self$options)
-      TRUE
+      renderFunnelPlot(self)
     },
 
     .asymmetryPlot = function(image, ...) {
-      if (is.null(self$model)) {
-        return(FALSE)
-      }
-      renderAsymmetryPlot(self$model, self$options)
-      TRUE
+      renderAsymmetryPlot(self)
     }
   )
 )

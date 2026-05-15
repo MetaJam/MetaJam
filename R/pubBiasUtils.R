@@ -5,10 +5,17 @@
 #' using correct statistical notation (strict `<` on lower bound,
 #' `\u2264` on upper bound), including the white non-significant region.
 #'
-#' @param model A `meta` object.
-#' @param options Jamovi options object.
+#' @param self The jamovi `self` object.
+#' @return TRUE if the plot was successfully rendered, FALSE otherwise.
 #' @noRd
-renderFunnelPlot <- function(model, options) {
+renderFunnelPlot <- function(self) {
+  model <- self$model
+  options <- self$options
+
+  if (is.null(model)) {
+    return(FALSE)
+  }
+
   if (options$funnelContour) {
     fun <- meta::funnel(
       model,
@@ -38,6 +45,8 @@ renderFunnelPlot <- function(model, options) {
   } else {
     meta::funnel(model, studlab = options$funnelStudyLabel)
   }
+
+  TRUE
 }
 
 
@@ -114,14 +123,16 @@ populateAsymmetryTestText <- function(textResult, model, options) {
       print(biasResult),
       title = title,
       modifier = function(out) {
-        if (length(out) > 0 && grepl("test of funnel plot asymmetry$", out[1])) {
+        if (
+          length(out) > 0 && grepl("test of funnel plot asymmetry$", out[1])
+        ) {
           return(out[-c(1, 2)])
         }
         return(out)
       }
     )
   )
-  }
+}
 
 
 #' Render the Asymmetry Test Plot
@@ -129,15 +140,20 @@ populateAsymmetryTestText <- function(textResult, model, options) {
 #' Draws the radial/scatter plot produced by `meta::metabias(plotit = TRUE)`.
 #' Handles the same validations as `populateAsymmetryTestText`.
 #'
-#' @param model A `meta` object.
-#' @param options Jamovi options object.
+#' @param self The jamovi `self` object.
+#' @return TRUE if the plot was successfully rendered, FALSE otherwise.
 #' @noRd
-renderAsymmetryPlot <- function(model, options) {
-  methodBias <- options$asymmetryMethod
+renderAsymmetryPlot <- function(self) {
+  model <- self$model
+  methodBias <- self$options$asymmetryMethod
+
+  if (is.null(model)) {
+    return(FALSE)
+  }
 
   # Pustejovsky does not support plotit
   if (methodBias == "Pustejovsky") {
-    return()
+    return(FALSE)
   }
 
   meta::metabias(
@@ -146,4 +162,6 @@ renderAsymmetryPlot <- function(model, options) {
     plotit = TRUE,
     k.min = 3
   )
+
+  TRUE
 }

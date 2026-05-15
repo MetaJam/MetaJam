@@ -8,20 +8,18 @@
 #' columns — downstream consumers (`computeMetaRegModel`) can read
 #' moderator columns directly from `model$data`.
 #'
-#' @param analysis The jamovi analysis object (`self`).
+#' @param self The jamovi `self` object.
 #' @return A named list of arguments for `meta::metacont()`, or `NULL`
 #'   if required columns are missing.
 #' @noRd
-buildContArgs <- function(analysis) {
-  options <- analysis$options
+buildContArgs <- function(self) {
+  data <- self$data
+  options <- self$options
   required <- c("meanE", "sdE", "nE", "meanC", "sdC", "nC")
 
   if (!hasRequiredVars(options, required)) {
     return()
   }
-
-  # Data
-  data <- analysis$data
 
   # Curate numeric columns: core vars
   numericVars <- c(
@@ -70,18 +68,18 @@ buildContArgs <- function(analysis) {
 #' Builds the shared argument list via `buildContArgs()` (with moderator
 #' covariates included) and calls `meta::metacont()`.
 #'
-#' @param analysis The jamovi analysis object (`self`).
+#' @param self The jamovi `self` object.
 #' @return A `meta::metacont` object, or `NULL` if required columns are
 #'   missing.
 #' @noRd
-computeContModel <- function(analysis) {
+computeContModel <- function(self) {
   # Cross-cycle cache (restored via clearWith)
-  cached <- analysis$results$text$state
+  cached <- self$results$text$state
   if (!is.null(cached)) {
     return(cached)
   }
 
-  args <- buildContArgs(analysis)
+  args <- buildContArgs(self)
   if (is.null(args)) {
     return()
   }
@@ -90,7 +88,7 @@ computeContModel <- function(analysis) {
   model <- stripModel(model)
 
   # Cache for next cycle
-  analysis$results$text$setState(model)
+  self$results$text$setState(model)
   model
 }
 
@@ -102,34 +100,34 @@ computeContModel <- function(analysis) {
 #' with `subgroup=` — completely independent of the main model,
 #' avoiding the cost of `update.meta()`.
 #'
-#' @param analysis The jamovi analysis object (`self`).
+#' @param self The jamovi `self` object.
 #' @return A `meta::metacont` object with subgroup results, or `NULL`.
 #' @noRd
-computeContSubgroupModel <- function(analysis) {
+computeContSubgroupModel <- function(self) {
   # Cross-cycle cache (restored via clearWith)
-  cached <- analysis$results$subgroupText$state
+  cached <- self$results$subgroupText$state
   if (!is.null(cached)) {
     return(cached)
   }
 
-  if (is.null(analysis$options$subgroupVariable)) {
+  if (is.null(self$options$subgroupVariable)) {
     return()
   }
 
-  args <- buildContArgs(analysis)
+  args <- buildContArgs(self)
   if (is.null(args)) {
     return()
   }
 
-  args$subgroup <- as.name(analysis$options$subgroupVariable)
-  args$tau.common <- analysis$options$tauCommon
-  args$prediction.subgroup <- analysis$options$predictionSubgroup
+  args$subgroup <- as.name(self$options$subgroupVariable)
+  args$tau.common <- self$options$tauCommon
+  args$prediction.subgroup <- self$options$predictionSubgroup
 
   model <- do.call(meta::metacont, args)
   model <- stripModel(model)
 
   # Cache for next cycle
-  analysis$results$subgroupText$setState(model)
+  self$results$subgroupText$setState(model)
   model
 }
 
@@ -139,11 +137,17 @@ computeContSubgroupModel <- function(analysis) {
 #' Adds metacont-specific column label attachments (so the group header
 #' spans the Mean / SD / N columns) and delegates to `renderForest()`.
 #'
-#' @param model A `metacont` object.
-#' @param options A Jamovi options object.
-#' @return The (invisible) return value of `meta::forest()`.
+#' @param self The jamovi `self` object.
+#' @return TRUE if the plot was successfully rendered, FALSE otherwise.
 #' @noRd
-renderContForest <- function(model, options) {
+renderContForest <- function(self) {
+  model <- self$model
+  options <- self$options
+
+  if (is.null(model)) {
+    return(FALSE)
+  }
+
   if (options$forestLayout %in% c("meta", "RevMan5")) {
     renderForest(
       model,
@@ -163,6 +167,8 @@ renderContForest <- function(model, options) {
       label.c = options$labelC
     )
   }
+
+  TRUE
 }
 
 
@@ -172,11 +178,17 @@ renderContForest <- function(model, options) {
 #' spans the Mean / SD / N columns) and delegates to
 #' `renderSubgroupForest()`.
 #'
-#' @param model A `metacont` object with subgroup results.
-#' @param options A Jamovi options object with `subgroup*` fields.
-#' @return The (invisible) return value of `meta::forest()`.
+#' @param self The jamovi `self` object.
+#' @return TRUE if the plot was successfully rendered, FALSE otherwise.
 #' @noRd
-renderContSubgroupForest <- function(model, options) {
+renderContSubgroupForest <- function(self) {
+  model <- self$subgroupModel
+  options <- self$options
+
+  if (is.null(model)) {
+    return(FALSE)
+  }
+
   if (options$subgroupForestLayout %in% c("meta", "RevMan5")) {
     renderSubgroupForest(
       model,
@@ -196,4 +208,6 @@ renderContSubgroupForest <- function(model, options) {
       label.c = options$subgroupLabelC
     )
   }
+
+  TRUE
 }

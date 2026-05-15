@@ -59,7 +59,7 @@ initMetaRegModels <- function(modelsArray, options, requiredVars) {
 #' (NULL entries for empty blocks). Cross-cycle caching is performed
 #' per-block via the corresponding `metaRegText` results element.
 #'
-#' @param self The jamovi analysis object (`self`).
+#' @param self The jamovi `self` object.
 #' @return A list of `metareg` objects (NULL entries for empty blocks),
 #'   or `NULL` if the main model is not available.
 #' @noRd
@@ -212,12 +212,13 @@ populateMetaRegTexts <- function(modelsArray, metaRegModels, options) {
 #' plot, which is plotted against the first term (covariate) in the model while
 #' adjusting for the other terms.
 #'
-#' @param image The jamovi image object.
-#' @param analysis The jamovi analysis object (`self`).
+#' @param self The jamovi `self` object.
+#' @param key The jamovi array item key (e.g., `image$parent$key`).
 #' @return TRUE if the plot was successfully rendered, FALSE otherwise.
 #' @noRd
-renderBubblePlot <- function(image, analysis) {
-  metaRegModel <- analysis$metaRegModels[[image$parent$key]]
+renderBubblePlot <- function(self, key) {
+  metaRegModel <- self$metaRegModels[[key]]
+  options <- self$options
 
   if (is.null(metaRegModel)) {
     return(FALSE)
@@ -225,9 +226,9 @@ renderBubblePlot <- function(image, analysis) {
 
   meta::bubble(
     metaRegModel,
-    regline = analysis$options$bubbleRegline,
-    studlab = analysis$options$bubbleStudyLabel
+    regline = options$bubbleRegline,
+    studlab = options$bubbleStudyLabel
   )
 
-  return(TRUE)
+  TRUE
 }

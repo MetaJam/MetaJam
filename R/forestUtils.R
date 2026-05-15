@@ -78,13 +78,11 @@ renderForest <- function(model, options, ...) {
 #' beyond the grid layout (x-axis tick labels, floating labels such
 #' as `label.left` / `label.right`).
 #'
-#' @param model A `meta` object.
-#' @param options A Jamovi options object with forest-related fields.
-#' @param renderFn Render function (default `renderForest`).
-#' @param ... Extra arguments forwarded to `renderFn()`.
+#' @param self The jamovi `self` object.
+#' @param renderFn Render function.
 #' @return A list with `width` and `height` in inches.
 #' @noRd
-calcForestDims <- function(model, options, renderFn = renderForest, ...) {
+calcForestDims <- function(self, renderFn) {
   oldDev <- grDevices::dev.cur()
   grDevices::pdf(file = NULL)
   on.exit({
@@ -92,7 +90,7 @@ calcForestDims <- function(model, options, renderFn = renderForest, ...) {
     if (oldDev > 1) grDevices::dev.set(oldDev)
   })
 
-  gtree <- grid::grid.grabExpr(renderFn(model, options, ...))
+  gtree <- grid::grid.grabExpr(renderFn(self))
 
   # The main viewport's layout sits at the vpTree parent
   layout <- gtree$childrenvp[[1]]$parent$layout
@@ -119,29 +117,27 @@ calcForestDims <- function(model, options, renderFn = renderForest, ...) {
 #'
 #' Designed to be called from `.run()` — NOT from `.init()`.
 #'
+#' @param self The jamovi `self` object.
 #' @param image A jamovi Image result element (e.g., `self$results$plot`).
 #' @param model A `meta` object. If `NULL`, the function returns early.
-#' @param options A Jamovi options object with forest-related fields.
 #' @param sizeCache A hidden Group result element with `clearWith: []`
 #'   used to persist the dimensions across engine requests.
-#' @param renderFn Render function (default `renderForest`).
-#' @param ... Extra arguments forwarded to `calcForestDims()`.
+#' @param renderFn Render function.
 #' @return `NULL` invisibly. Called for side effects (`setSize`,
 #'   `setState`).
 #' @noRd
 updateForestSize <- function(
+  self,
   image,
   model,
-  options,
   sizeCache,
-  renderFn = renderForest,
-  ...
+  renderFn
 ) {
   if (!image$visible || image$isFilled() || is.null(model)) {
     return()
   }
 
-  dims <- calcForestDims(model, options, renderFn = renderFn, ...)
+  dims <- calcForestDims(self, renderFn = renderFn)
   w <- dims$width * 72
   h <- dims$height * 72
   image$setSize(width = w, height = h)
