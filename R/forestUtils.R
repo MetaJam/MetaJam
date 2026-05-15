@@ -78,11 +78,10 @@ renderForest <- function(model, options, ...) {
 #' beyond the grid layout (x-axis tick labels, floating labels such
 #' as `label.left` / `label.right`).
 #'
-#' @param self The jamovi `self` object.
-#' @param renderFn Render function.
+#' @param renderCall A zero-argument closure that renders the forest plot.
 #' @return A list with `width` and `height` in inches.
 #' @noRd
-calcForestDims <- function(self, renderFn) {
+calcForestDims <- function(renderCall) {
   oldDev <- grDevices::dev.cur()
   grDevices::pdf(file = NULL)
   on.exit({
@@ -90,7 +89,7 @@ calcForestDims <- function(self, renderFn) {
     if (oldDev > 1) grDevices::dev.set(oldDev)
   })
 
-  gtree <- grid::grid.grabExpr(renderFn(self))
+  gtree <- grid::grid.grabExpr(renderCall())
 
   # The main viewport's layout sits at the vpTree parent
   layout <- gtree$childrenvp[[1]]$parent$layout
@@ -117,27 +116,25 @@ calcForestDims <- function(self, renderFn) {
 #'
 #' Designed to be called from `.run()` — NOT from `.init()`.
 #'
-#' @param self The jamovi `self` object.
 #' @param image A jamovi Image result element (e.g., `self$results$plot`).
 #' @param model A `meta` object. If `NULL`, the function returns early.
 #' @param sizeCache A hidden Group result element with `clearWith: []`
 #'   used to persist the dimensions across engine requests.
-#' @param renderFn Render function.
+#' @param renderCall A zero-argument closure that renders the forest plot.
 #' @return `NULL` invisibly. Called for side effects (`setSize`,
 #'   `setState`).
 #' @noRd
 updateForestSize <- function(
-  self,
   image,
   model,
   sizeCache,
-  renderFn
+  renderCall
 ) {
   if (!image$visible || image$isFilled() || is.null(model)) {
     return()
   }
 
-  dims <- calcForestDims(self, renderFn = renderFn)
+  dims <- calcForestDims(renderCall = renderCall)
   w <- dims$width * 72
   h <- dims$height * 72
   image$setSize(width = w, height = h)

@@ -89,27 +89,24 @@ metaContClass <- R6::R6Class(
 
       # Compute forest plot dimensions and cache for .postInit()
       updateForestSize(
-        self = self,
         image = self$results$plot,
         model = self$model,
         sizeCache = self$results$plotSizeCache,
-        renderFn = renderContForest
+        renderCall = function() renderContForest(self)
       )
 
       updateForestSize(
-        self = self,
         image = self$results$subgroupPlot,
         model = self$subgroupModel,
         sizeCache = self$results$subgroupPlotSizeCache,
-        renderFn = renderContSubgroupForest
+        renderCall = function() renderContSubgroupForest(self)
       )
 
       updateForestSize(
-        self = self,
         image = self$results$leaveOneOutPlot,
         model = self$leaveOneOutModel,
         sizeCache = self$results$leaveOneOutPlotSizeCache,
-        renderFn = renderLeaveOneOutForest
+        renderCall = function() renderLeaveOneOutForest(self)
       )
 
       populateMainText(self$results$text, self$model)
