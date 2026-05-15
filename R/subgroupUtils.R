@@ -1,46 +1,23 @@
-#' Initialize the Subgroup Text Skeleton
-#'
-#' Called from `.init()` to show a titled HTML placeholder before the
-#' subgroup model is available. Uses `hasRequiredVars()` instead of
-#' checking the model directly to avoid forcing the subgroupModel
-#' (and thus the main model) active binding.
-#'
-#' @param textResult Html result element
-#'   (e.g., `self$results$subgroupText`).
-#' @param options The `self$options` object from a jamovi analysis.
-#' @param requiredVars Character vector of option names that must be
-#'   assigned for the model to compute.
-#' @noRd
-initSubgroupText <- function(textResult, options, requiredVars) {
-  if (textResult$visible && !hasRequiredVars(options, requiredVars)) {
-    textResult$setContent(asHtml(title = "Subgroup Analysis Summary"))
-  }
-}
-
-
 #' Populate the Subgroup Text
 #'
-#' Called from `.run()` when the subgroup model is available.
-#' Pairs with `updateSubgroupVisibility()` which handles show/hide
-#' in `.init()`, and `initSubgroupText()` which sets the skeleton.
-#' The `isFilled()` guard skips recomputation when a non-model option
-#' changed and the previous content is still valid.
+#' Called from `.run()` after `hasRequiredVars()` has passed.
+#' Guards: skips when hidden, already filled (clearWith cache hit),
+#' or subgroup model is NULL. We use the NULL check of the model here across
+#' our module mainly as a proxy that required variables are available, which
+#' we already verified in `.run()` before reaching this line. Although
+#' redundant, we keep it for clarity.
 #'
-#' No is.null(subgroupModel) guard is needed here because by the time
-#' this function is called: hasRequiredVars already ensured core vars
-#' are assigned, and !visible already exited when subgroupVariable is
-#' NULL — so the subgroup model is guaranteed to exist.
-#'
-#' @param textResult Html result element
-#'   (e.g., `self$results$subgroupText`).
-#' @param subgroupModel A `meta` object with subgroup results.
+#' @param self The jamovi `self` object.
 #' @noRd
-populateSubgroupText <- function(textResult, subgroupModel) {
-  if (!textResult$visible || textResult$isFilled()) {
+populateSubgroupText <- function(self) {
+  textResult <- self$results$subgroupText
+  if (
+    !textResult$visible || textResult$isFilled() || is.null(self$subgroupModel)
+  ) {
     return()
   }
   textResult$setContent(
-    asHtml(summary(subgroupModel), title = "Subgroup Analysis Summary")
+    asHtml(summary(self$subgroupModel), title = "Subgroup Analysis Summary")
   )
 }
 

@@ -2,6 +2,9 @@ metaContClass <- R6::R6Class(
   "metaContClass",
   inherit = metaContBase,
 
+  # Active bindings for lazy-loaded models. Models are computed only once per
+  # request when first accessed, and then cached in private fields to avoid
+  # redundant computation.
   active = list(
     model = function() {
       if (isFALSE(private$.model)) {
@@ -33,12 +36,15 @@ metaContClass <- R6::R6Class(
   ),
 
   private = list(
+    # State tracking for lazy models and required core variables
     .model = FALSE,
     .subgroupModel = FALSE,
     .metaRegModels = FALSE,
     .leaveOneOutModel = FALSE,
     .requiredVars = c("meanE", "sdE", "nE", "meanC", "sdC", "nC"),
 
+    # Initialization: runs before the model is computed. Sets up dynamic arrays
+    # (meta-regression) and displays placeholder titles.
     .init = function() {
       initMetaRegModels(
         self$results$metaRegModels,
@@ -46,31 +52,35 @@ metaContClass <- R6::R6Class(
         private$.requiredVars
       )
 
-      # Initialize text skeletons
-      initMainText(
+      initText(
         self$results$text,
         self$options,
-        private$.requiredVars
+        private$.requiredVars,
+        "Meta-Analysis Summary"
       )
-      initSubgroupText(
+      initText(
         self$results$subgroupText,
         self$options,
-        private$.requiredVars
+        private$.requiredVars,
+        "Subgroup Analysis Summary"
       )
-      initLeaveOneOutText(
+      initText(
         self$results$leaveOneOutText,
         self$options,
-        private$.requiredVars
+        private$.requiredVars,
+        "Leave-One-Out Summary"
       )
-      initAsymmetryTestText(
+      initText(
         self$results$asymmetryTestText,
         self$options,
-        private$.requiredVars
+        private$.requiredVars,
+        getAsymmetryTestTitle(self$options$asymmetryMethod)
       )
     },
 
+    # Post-initialization: runs after .init() but before .run() or render
+    # functions.
     .postInit = function() {
-      # Apply cached dimensions for plots preserved by clearWith.
       applyCachedSize(self$results$plot, self$results$plotSizeCache)
       applyCachedSize(
         self$results$subgroupPlot,
@@ -82,26 +92,25 @@ metaContClass <- R6::R6Class(
       )
     },
 
+    # Main execution: Calculate plot dimensions for caching and populate textual
+    # results.
     .run = function() {
       if (!hasRequiredVars(self$options, private$.requiredVars)) {
         return()
       }
 
-      # Compute forest plot dimensions and cache for .postInit()
       updateForestSize(
         image = self$results$plot,
         model = self$model,
         sizeCache = self$results$plotSizeCache,
         renderCall = function() renderContForest(self)
       )
-
       updateForestSize(
         image = self$results$subgroupPlot,
         model = self$subgroupModel,
         sizeCache = self$results$subgroupPlotSizeCache,
         renderCall = function() renderContSubgroupForest(self)
       )
-
       updateForestSize(
         image = self$results$leaveOneOutPlot,
         model = self$leaveOneOutModel,
@@ -109,28 +118,15 @@ metaContClass <- R6::R6Class(
         renderCall = function() renderLeaveOneOutForest(self)
       )
 
-      populateMainText(self$results$text, self$model)
-      populateSubgroupText(
-        self$results$subgroupText,
-        self$subgroupModel
-      )
-      populateMetaRegTexts(
-        self$results$metaRegModels,
-        self$metaRegModels,
-        self$options
-      )
-
-      populateLeaveOneOutText(
-        self$results$leaveOneOutText,
-        self$leaveOneOutModel
-      )
-      populateAsymmetryTestText(
-        self$results$asymmetryTestText,
-        self$model,
-        self$options
-      )
+      populateMainText(self)
+      populateSubgroupText(self)
+      populateMetaRegTexts(self)
+      populateLeaveOneOutText(self)
+      populateAsymmetryTestText(self)
     },
 
+    # Render functions: called by jmvcore when the corresponding plot needs to
+    # be rendered or exported. They delegate to shared rendering utilities.
     .forestPlot = function(image, ...) {
       renderContForest(self)
     },

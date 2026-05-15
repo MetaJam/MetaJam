@@ -36,7 +36,7 @@ applyCachedSize <- function(image, sizeCache) {
 }
 
 
-#' Initialize the Main Text Skeleton
+#' Initialize a Text Skeleton
 #'
 #' Called from `.init()` to show a titled HTML placeholder before the
 #' model is available (e.g., when required variables are not yet assigned).
@@ -47,28 +47,34 @@ applyCachedSize <- function(image, sizeCache) {
 #' @param options The `self$options` object from a jamovi analysis.
 #' @param requiredVars Character vector of option names that must be
 #'   assigned for the model to compute.
+#' @param title A string to use as the HTML title.
 #' @noRd
-initMainText <- function(textResult, options, requiredVars) {
+initText <- function(textResult, options, requiredVars, title) {
   if (textResult$visible && !hasRequiredVars(options, requiredVars)) {
-    textResult$setContent(asHtml(title = "Meta-Analysis Summary"))
+    textResult$setContent(asHtml(title = title))
   }
 }
 
 
 #' Populate the Main Summary Text
 #'
-#' Called from `.run()` when the model is available. The `isFilled()`
-#' guard skips recomputation when a non-model option changed and the
-#' previous content is still valid (restored from protobuf via clearWith).
+#' Called from `.run()` after `hasRequiredVars()` has passed.
+#' Guards: skips when hidden, already filled (clearWith cache hit),
+#' or model is NULL. We use the NULL check of the model here across our
+#' module mainly as a proxy that required variables are available, which
+#' we already verified in `.run()` before reaching this line. Although
+#' redundant, we keep it for clarity.
 #'
-#' @param textResult Html result element.
-#' @param model A `meta` object (must not be `NULL`).
+#' @param self The jamovi `self` object.
 #' @noRd
-populateMainText <- function(textResult, model) {
-  if (!textResult$visible || textResult$isFilled()) {
+populateMainText <- function(self) {
+  textResult <- self$results$text
+  if (!textResult$visible || textResult$isFilled() || is.null(self$model)) {
     return()
   }
-  textResult$setContent(asHtml(summary(model), title = "Meta-Analysis Summary"))
+  textResult$setContent(
+    asHtml(summary(self$model), title = "Meta-Analysis Summary")
+  )
 }
 
 

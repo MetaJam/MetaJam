@@ -26,37 +26,30 @@ computeLeaveOneOutModel <- function(self) {
 }
 
 
-#' Initialize the Leave-One-Out Text Skeleton
-#'
-#' Called from `.init()` to show a titled HTML placeholder before the
-#' model is available. Same pattern as `initSubgroupText()`.
-#'
-#' @param textResult Html result element.
-#' @param options The `self$options` object.
-#' @param requiredVars Character vector of option names that must be assigned.
-#' @noRd
-initLeaveOneOutText <- function(textResult, options, requiredVars) {
-  if (textResult$visible && !hasRequiredVars(options, requiredVars)) {
-    textResult$setContent(asHtml(title = "Leave-One-Out Summary"))
-  }
-}
-
-
 #' Populate the Leave-One-Out Text
 #'
-#' Called from `.run()` when the leave-one-out model is available.
+#' Called from `.run()` after `hasRequiredVars()` has passed.
+#' Guards: skips when hidden, already filled (clearWith cache hit),
+#' or leave-one-out model is NULL. We use the NULL check of the model here
+#' across our module mainly as a proxy that required variables are available,
+#' which we already verified in `.run()` before reaching this line. Although
+#' redundant, we keep it for clarity.
 #'
-#' @param textResult Html result element.
-#' @param leaveOneOutModel A `metainf` object.
+#' @param self The jamovi `self` object.
 #' @noRd
-populateLeaveOneOutText <- function(textResult, leaveOneOutModel) {
-  if (!textResult$visible || textResult$isFilled()) {
+populateLeaveOneOutText <- function(self) {
+  textResult <- self$results$leaveOneOutText
+  if (
+    !textResult$visible ||
+      textResult$isFilled() ||
+      is.null(self$leaveOneOutModel)
+  ) {
     return()
   }
 
   textResult$setContent(
     asHtml(
-      summary(leaveOneOutModel),
+      summary(self$leaveOneOutModel),
       title = "Leave-One-Out Summary",
       modifier = function(out) {
         if (length(out) > 0 && out[1] == "Leave-one-out meta-analysis") {

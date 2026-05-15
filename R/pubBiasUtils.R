@@ -65,41 +65,27 @@ getAsymmetryTestTitle <- function(method) {
 }
 
 
-#' Initialize the Asymmetry Test Text Skeleton
-#'
-#' Called from `.init()` to show a titled HTML placeholder before the
-#' model is available. Follows the same pattern as other init functions.
-#'
-#' @param textResult Html result element.
-#' @param options The `self$options` object.
-#' @param requiredVars Character vector of required option names.
-#' @noRd
-initAsymmetryTestText <- function(textResult, options, requiredVars) {
-  if (textResult$visible && !hasRequiredVars(options, requiredVars)) {
-    title <- getAsymmetryTestTitle(options$asymmetryMethod)
-    textResult$setContent(
-      asHtml(title = title)
-    )
-  }
-}
-
-
 #' Populate the Asymmetry Test Summary
 #'
-#' Called from `.run()` when the model is available. Runs
-#' `meta::metabias()` and renders the output as HTML. Handles Pustejovsky/SMD
-#' validation.
+#' Called from `.run()` after `hasRequiredVars()` has passed.
+#' Guards: skips when hidden, already filled (clearWith cache hit),
+#' or model is NULL. We use the NULL check of the model here across our
+#' module mainly as a proxy that required variables are available, which
+#' we already verified in `.run()` before reaching this line. Although
+#' redundant, we keep it for clarity.
+#' Runs `meta::metabias()` and renders the output as HTML. Handles
+#' Pustejovsky/SMD validation.
 #'
-#' @param textResult Html result element.
-#' @param model A `meta` object.
-#' @param options Jamovi options object.
+#' @param self The jamovi `self` object.
 #' @noRd
-populateAsymmetryTestText <- function(textResult, model, options) {
-  if (!textResult$visible || textResult$isFilled()) {
+populateAsymmetryTestText <- function(self) {
+  textResult <- self$results$asymmetryTestText
+  options <- self$options
+  methodBias <- options$asymmetryMethod
+
+  if (!textResult$visible || textResult$isFilled() || is.null(self$model)) {
     return()
   }
-
-  methodBias <- options$asymmetryMethod
 
   # Pustejovsky is designed for SMD only
   if (methodBias == "Pustejovsky" && options$sm != "smd") {
@@ -111,7 +97,7 @@ populateAsymmetryTestText <- function(textResult, model, options) {
   # Run metabias — subgroup constraint is handled internally by meta,
   # which returns a warning (not an error), so we capture it cleanly
   biasResult <- meta::metabias(
-    model,
+    self$model,
     method.bias = methodBias,
     k.min = 3
   )

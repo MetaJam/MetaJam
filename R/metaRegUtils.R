@@ -3,7 +3,7 @@
 #' Adds one group per block to the `metaRegModels` Array and sets
 #' dynamic Group titles. When required variables are missing or a
 #' block is empty, a title-only placeholder is set on the text
-#' element (same pattern as `initSubgroupText()`).
+#' element (same pattern as `initText()`).
 #'
 #' @param modelsArray The `metaRegModels` Array result element.
 #' @param options The `self$options` object.
@@ -161,13 +161,19 @@ getMetaRegScaleLabel <- function(metaRegModel) {
 
 #' Populate Meta-Regression Text for All Models
 #'
-#' Called from `.run()` when meta-regression models are available.
+#' Called from `.run()` after `hasRequiredVars()` has passed.
+#' Guards per block: skips when hidden, already filled (clearWith
+#' cache hit), or block model is NULL. Unlike other populate
+#' functions, the NULL check here is NOT redundant — it handles
+#' empty blocks where the user has not added any terms yet.
 #'
-#' @param modelsArray The `metaRegModels` Array result element.
-#' @param metaRegModels A list of `metareg` objects.
-#' @param options The `self$options` object.
+#' @param self The jamovi `self` object.
 #' @noRd
-populateMetaRegTexts <- function(modelsArray, metaRegModels, options) {
+populateMetaRegTexts <- function(self) {
+  modelsArray <- self$results$metaRegModels
+  metaRegModels <- self$metaRegModels
+  options <- self$options
+
   for (i in seq_along(options$metaRegBlocks)) {
     textResult <- modelsArray$get(key = i)$metaRegText
 
