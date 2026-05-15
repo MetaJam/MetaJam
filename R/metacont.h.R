@@ -1052,7 +1052,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot",
-                title="Forest Plot",
+                title="Overall Forest Plot",
                 renderFun=".forestPlot",
                 visible="(forestPlot)",
                 clearWith=list(
@@ -1356,6 +1356,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Image$new(
                 options=options,
                 name="asymmetryPlotImage",
+                title="Scatter Plot (Test for Funnel Plot Asymmetry)",
                 width=550,
                 height=500,
                 renderFun=".asymmetryPlot",

@@ -73,7 +73,7 @@ populateMainText <- function(self) {
     return()
   }
   textResult$setContent(
-    asHtml(summary(self$model), title = "Meta-Analysis Summary")
+    asHtml(summary(self$model), title = "Overall Summary")
   )
 }
 

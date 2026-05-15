@@ -17,7 +17,7 @@ populateSubgroupText <- function(self) {
     return()
   }
   textResult$setContent(
-    asHtml(summary(self$subgroupModel), title = "Subgroup Analysis Summary")
+    asHtml(summary(self$subgroupModel), title = "Subgroup Summary")
   )
 }
 

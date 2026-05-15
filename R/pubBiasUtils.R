@@ -59,9 +59,9 @@ renderFunnelPlot <- function(self) {
 #' @noRd
 getAsymmetryTestTitle <- function(method) {
   if (method == "Begg") {
-    return("Rank correlation test of funnel plot asymmetry")
+    return("Rank Correlation Test for Funnel Plot Asymmetry")
   }
-  return("Linear regression test of funnel plot asymmetry")
+  return("Linear Regression Test for Funnel Plot Asymmetry")
 }
 
 

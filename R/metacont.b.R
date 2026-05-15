@@ -56,13 +56,13 @@ metaContClass <- R6::R6Class(
         self$results$text,
         self$options,
         private$.requiredVars,
-        "Meta-Analysis Summary"
+        "Overall Summary"
       )
       initText(
         self$results$subgroupText,
         self$options,
         private$.requiredVars,
-        "Subgroup Analysis Summary"
+        "Subgroup Summary"
       )
       initText(
         self$results$leaveOneOutText,
