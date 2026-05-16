@@ -144,27 +144,6 @@ computeMetaRegModels <- function(self) {
 }
 
 
-#' Get Scale Label for Meta-Regression Output
-#'
-#' Returns a human-readable label describing the scale of the regression
-#' estimates (e.g., "Log Odds Ratio", "Standardised Mean Difference"). Works
-#' with any standard meta analysis type (metacont, metabin, metaprop, metarate,
-#' metainc, etc.).
-#'
-#' Since backtransf is always FALSE, xlab_meta never returns "".
-#'
-#' NOTE: For future metagen() support with custom transforms, pass func.transf /
-#' func.backtransf to xlab_meta. See meta:::xlab_meta in meta/R/meta-xlab.R
-#' L150-161 and bubble.R L349-362 for the empty-label fallback.
-#'
-#' @param metaRegModel A `metareg` object.
-#' @return A character string label.
-#' @noRd
-getMetaRegScaleLabel <- function(metaRegModel) {
-  meta:::xlab_meta(metaRegModel$.meta$x$sm, backtransf = FALSE)
-}
-
-
 #' Populate Meta-Regression Text for All Models
 #'
 #' Called from `.run()` after `hasRequiredVars()` has passed.
@@ -242,4 +221,25 @@ renderBubblePlot <- function(self, key) {
   )
 
   TRUE
+}
+
+
+#' Get Scale Label for Meta-Regression Output
+#'
+#' Returns a human-readable label describing the scale of the regression
+#' estimates (e.g., "Log Odds Ratio", "Standardised Mean Difference"). Works
+#' with any standard meta analysis type (metacont, metabin, metaprop, metarate,
+#' metainc, etc.).
+#'
+#' Since backtransf is always FALSE, xlab_meta never returns "".
+#'
+#' NOTE: For future metagen() support with custom transforms, pass func.transf /
+#' func.backtransf to xlab_meta. See meta:::xlab_meta in meta/R/meta-xlab.R
+#' L150-161 and bubble.R L349-362 for the empty-label fallback.
+#'
+#' @param metaRegModel A `metareg` object.
+#' @return A character string label.
+#' @noRd
+getMetaRegScaleLabel <- function(metaRegModel) {
+  meta:::xlab_meta(metaRegModel$.meta$x$sm, backtransf = FALSE)
 }

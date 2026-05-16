@@ -1,70 +1,3 @@
-#' Render Funnel Plot for Publication Bias
-#'
-#' Draws a standard or contour-enhanced funnel plot using `meta::funnel()`.
-#' When contour-enhanced, a legend is added with custom p-value labels
-#' using correct statistical notation (strict `<` on lower bound,
-#' `\u2264` on upper bound), including the white non-significant region.
-#'
-#' @param self The jamovi `self` object.
-#' @return TRUE if the plot was successfully rendered, FALSE otherwise.
-#' @noRd
-renderFunnelPlot <- function(self) {
-  model <- self$model
-  options <- self$options
-
-  if (is.null(model)) {
-    return(FALSE)
-  }
-
-  if (options$funnelContour) {
-    fun <- meta::funnel(
-      model,
-      type = "contour",
-      studlab = options$funnelStudyLabel
-    )
-
-    if (options$funnelLegend) {
-      # Custom labels: strict < on lower bound, <= on upper bound,
-      # matching meta's rendering (boundary -> more-significant band)
-      contour_labels <- c(
-        "p > 0.10",
-        "0.05 < p \u2264 0.10",
-        "0.01 < p \u2264 0.05",
-        "p \u2264 0.01"
-      )
-      contour_fills <- c("white", fun$col.contour)
-
-      legend(
-        options$funnelLegendPos,
-        legend = contour_labels,
-        fill = contour_fills,
-        bg = "white",
-        cex = options$funnelLegendCex / 100
-      )
-    }
-  } else {
-    meta::funnel(model, studlab = options$funnelStudyLabel)
-  }
-
-  TRUE
-}
-
-
-#' Get the Publication Bias Test Title
-#'
-#' Maps the selected asymmetry method to the exact title used by the meta package.
-#'
-#' @param method The asymmetry method string.
-#' @return A character string representing the test title.
-#' @noRd
-getAsymmetryTestTitle <- function(method) {
-  if (method == "Begg") {
-    return("Rank Correlation Test for Funnel Plot Asymmetry")
-  }
-  return("Linear Regression Test for Funnel Plot Asymmetry")
-}
-
-
 #' Populate the Asymmetry Test Summary
 #'
 #' Called from `.run()` after `hasRequiredVars()` has passed.
@@ -121,6 +54,58 @@ populateAsymmetryTestText <- function(self) {
 }
 
 
+#' Render Funnel Plot for Publication Bias
+#'
+#' Draws a standard or contour-enhanced funnel plot using `meta::funnel()`.
+#' When contour-enhanced, a legend is added with custom p-value labels
+#' using correct statistical notation (strict `<` on lower bound,
+#' `\u2264` on upper bound), including the white non-significant region.
+#'
+#' @param self The jamovi `self` object.
+#' @return TRUE if the plot was successfully rendered, FALSE otherwise.
+#' @noRd
+renderFunnelPlot <- function(self) {
+  model <- self$model
+  options <- self$options
+
+  if (is.null(model)) {
+    return(FALSE)
+  }
+
+  if (options$funnelContour) {
+    fun <- meta::funnel(
+      model,
+      type = "contour",
+      studlab = options$funnelStudyLabel
+    )
+
+    if (options$funnelLegend) {
+      # Custom labels: strict < on lower bound, <= on upper bound,
+      # matching meta's rendering (boundary -> more-significant band)
+      contour_labels <- c(
+        "p > 0.10",
+        "0.05 < p \u2264 0.10",
+        "0.01 < p \u2264 0.05",
+        "p \u2264 0.01"
+      )
+      contour_fills <- c("white", fun$col.contour)
+
+      legend(
+        options$funnelLegendPos,
+        legend = contour_labels,
+        fill = contour_fills,
+        bg = "white",
+        cex = options$funnelLegendCex / 100
+      )
+    }
+  } else {
+    meta::funnel(model, studlab = options$funnelStudyLabel)
+  }
+
+  TRUE
+}
+
+
 #' Render the Asymmetry Test Plot
 #'
 #' Draws the radial/scatter plot produced by `meta::metabias(plotit = TRUE)`.
@@ -150,4 +135,19 @@ renderAsymmetryPlot <- function(self) {
   )
 
   TRUE
+}
+
+
+#' Get the Publication Bias Test Title
+#'
+#' Maps the selected asymmetry method to the exact title used by the meta package.
+#'
+#' @param method The asymmetry method string.
+#' @return A character string representing the test title.
+#' @noRd
+getAsymmetryTestTitle <- function(method) {
+  if (method == "Begg") {
+    return("Rank Correlation Test for Funnel Plot Asymmetry")
+  }
+  return("Linear Regression Test for Funnel Plot Asymmetry")
 }

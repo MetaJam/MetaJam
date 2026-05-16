@@ -62,6 +62,61 @@ renderForest <- function(model, options, ...) {
   do.call(meta::forest, args)
 }
 
+
+#' Update Forest Plot Size and Cache Dimensions
+#'
+#' Calculates accurate dimensions for a forest-type image, applies them
+#' via `setSize()`, and persists them in a hidden cache element so that
+#' `.postInit()` can restore the size without recomputing.
+#'
+#' Designed to be called from `.run()` — NOT from `.init()`.
+#'
+#' @param image A jamovi Image result element (e.g., `self$results$plot`).
+#' @param model A `meta` object. If `NULL`, the function returns early.
+#' @param sizeCache A hidden Group result element with `clearWith: []`
+#'   used to persist the dimensions across engine requests.
+#' @param renderCall A zero-argument closure that renders the forest plot.
+#' @return `NULL` invisibly. Called for side effects (`setSize`,
+#'   `setState`).
+#' @noRd
+updateForestSize <- function(
+  image,
+  model,
+  sizeCache,
+  renderCall
+) {
+  if (!image$visible || image$isFilled() || is.null(model)) {
+    return()
+  }
+
+  dims <- calcForestDims(renderCall = renderCall)
+  w <- dims$width * 72
+  h <- dims$height * 72
+  image$setSize(width = w, height = h)
+  sizeCache$setState(list(w = w, h = h))
+}
+
+
+#' Apply Cached Plot Dimensions
+#'
+#' Shared `.postInit()` helper. Restores plot dimensions from a hidden
+#' `clearWith: []` cache element. Skips when the cache is empty (first
+#' run), the plot is hidden, or `clearWith` cleared it (`isFilled()`
+#' is FALSE). Essential for correct save/export sizing since
+#' `fromProtoBuf()` does not restore `widthM`/`heightM`.
+#'
+#' @param image An Image result element (e.g., `self$results$plot`).
+#' @param sizeCache A Group result element with `clearWith: []`
+#'   (e.g., `self$results$plotSizeCache`).
+#' @noRd
+applyCachedSize <- function(image, sizeCache) {
+  size <- sizeCache$state
+  if (!is.null(size) && image$visible && image$isFilled()) {
+    image$setSize(size$w, size$h)
+  }
+}
+
+
 #' Calculate Forest Plot Dimensions
 #'
 #' Renders the forest plot in a null PDF device and extracts the true
@@ -106,37 +161,4 @@ calcForestDims <- function(renderCall) {
   )
 
   list(width = width + 0.3, height = height + 0.8)
-}
-
-#' Update Forest Plot Size and Cache Dimensions
-#'
-#' Calculates accurate dimensions for a forest-type image, applies them
-#' via `setSize()`, and persists them in a hidden cache element so that
-#' `.postInit()` can restore the size without recomputing.
-#'
-#' Designed to be called from `.run()` — NOT from `.init()`.
-#'
-#' @param image A jamovi Image result element (e.g., `self$results$plot`).
-#' @param model A `meta` object. If `NULL`, the function returns early.
-#' @param sizeCache A hidden Group result element with `clearWith: []`
-#'   used to persist the dimensions across engine requests.
-#' @param renderCall A zero-argument closure that renders the forest plot.
-#' @return `NULL` invisibly. Called for side effects (`setSize`,
-#'   `setState`).
-#' @noRd
-updateForestSize <- function(
-  image,
-  model,
-  sizeCache,
-  renderCall
-) {
-  if (!image$visible || image$isFilled() || is.null(model)) {
-    return()
-  }
-
-  dims <- calcForestDims(renderCall = renderCall)
-  w <- dims$width * 72
-  h <- dims$height * 72
-  image$setSize(width = w, height = h)
-  sizeCache$setState(list(w = w, h = h))
 }

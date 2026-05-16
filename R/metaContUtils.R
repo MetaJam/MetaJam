@@ -1,68 +1,3 @@
-#' Build Common metacont() Arguments
-#'
-#' Loads data from the analysis object, curates numeric columns, and
-#' returns the argument list ready for `meta::metacont()`. Shared by
-#' `computeContModel()` and `computeContSubgroupModel()`.
-#'
-#' Passing `data=` ensures that `model$data` retains all original
-#' columns — downstream consumers (`computeMetaRegModel`) can read
-#' moderator columns directly from `model$data`.
-#'
-#' @param self The jamovi `self` object.
-#' @return A named list of arguments for `meta::metacont()`, or `NULL`
-#'   if required columns are missing.
-#' @noRd
-buildContArgs <- function(self) {
-  data <- self$data
-  options <- self$options
-  required <- c("meanE", "sdE", "nE", "meanC", "sdC", "nC")
-
-  if (!hasRequiredVars(options, required)) {
-    return()
-  }
-
-  # Curate numeric columns: core vars
-  numericVars <- c(
-    options$meanE,
-    options$sdE,
-    options$nE,
-    options$meanC,
-    options$sdC,
-    options$nC
-  )
-  data[numericVars] <- lapply(data[numericVars], jmvcore::toNumeric)
-
-  # Confidence / prediction level (shared)
-  level <- options$confidenceLevel / 100
-
-  args <- list(
-    n.e = as.name(options$nE),
-    mean.e = as.name(options$meanE),
-    sd.e = as.name(options$sdE),
-    n.c = as.name(options$nC),
-    mean.c = as.name(options$meanC),
-    sd.c = as.name(options$sdC),
-    data = data,
-    sm = options$sm,
-    method.tau = options$methodTau,
-    method.smd = options$methodSmd,
-    common = options$model %in% c("both", "common"),
-    random = options$model %in% c("both", "random"),
-    prediction = options$prediction,
-    level = level,
-    level.ma = level,
-    level.predict = level,
-    method.random.ci = options$methodRandomCi
-  )
-
-  if (!is.null(options$studyLabel)) {
-    args$studlab <- as.name(options$studyLabel)
-  }
-
-  args
-}
-
-
 #' Compute a Continuous Outcome Meta-Analysis Model
 #'
 #' Builds the shared argument list via `buildContArgs()` (with moderator
@@ -223,4 +158,69 @@ renderContSubgroupForest <- function(self, key) {
   }
 
   TRUE
+}
+
+
+#' Build Common metacont() Arguments
+#'
+#' Loads data from the analysis object, curates numeric columns, and
+#' returns the argument list ready for `meta::metacont()`. Shared by
+#' `computeContModel()` and `computeContSubgroupModel()`.
+#'
+#' Passing `data=` ensures that `model$data` retains all original
+#' columns — downstream consumers (`computeMetaRegModel`) can read
+#' moderator columns directly from `model$data`.
+#'
+#' @param self The jamovi `self` object.
+#' @return A named list of arguments for `meta::metacont()`, or `NULL`
+#'   if required columns are missing.
+#' @noRd
+buildContArgs <- function(self) {
+  data <- self$data
+  options <- self$options
+  required <- c("meanE", "sdE", "nE", "meanC", "sdC", "nC")
+
+  if (!hasRequiredVars(options, required)) {
+    return()
+  }
+
+  # Curate numeric columns: core vars
+  numericVars <- c(
+    options$meanE,
+    options$sdE,
+    options$nE,
+    options$meanC,
+    options$sdC,
+    options$nC
+  )
+  data[numericVars] <- lapply(data[numericVars], jmvcore::toNumeric)
+
+  # Confidence / prediction level (shared)
+  level <- options$confidenceLevel / 100
+
+  args <- list(
+    n.e = as.name(options$nE),
+    mean.e = as.name(options$meanE),
+    sd.e = as.name(options$sdE),
+    n.c = as.name(options$nC),
+    mean.c = as.name(options$meanC),
+    sd.c = as.name(options$sdC),
+    data = data,
+    sm = options$sm,
+    method.tau = options$methodTau,
+    method.smd = options$methodSmd,
+    common = options$model %in% c("both", "common"),
+    random = options$model %in% c("both", "random"),
+    prediction = options$prediction,
+    level = level,
+    level.ma = level,
+    level.predict = level,
+    method.random.ci = options$methodRandomCi
+  )
+
+  if (!is.null(options$studyLabel)) {
+    args$studlab <- as.name(options$studyLabel)
+  }
+
+  args
 }

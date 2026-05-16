@@ -1,41 +1,3 @@
-#' Check Whether Required Variables Are Assigned
-#'
-#' Lightweight check that avoids triggering model computation.
-#' Used as a guard in `.run()` instead of `is.null(self$model)` so
-#' the model active binding is not forced unnecessarily.
-#'
-#' @param options A Jamovi options object.
-#' @param vars Character vector of variable option names that must be assigned.
-#' @return `TRUE` if all required variables are non-NULL, `FALSE` otherwise.
-#' @noRd
-hasRequiredVars <- function(options, vars) {
-  for (opt in vars) {
-    if (is.null(options[[opt]])) return(FALSE)
-  }
-  TRUE
-}
-
-
-#' Apply Cached Plot Dimensions
-#'
-#' Shared `.postInit()` helper. Restores plot dimensions from a hidden
-#' `clearWith: []` cache element. Skips when the cache is empty (first
-#' run), the plot is hidden, or `clearWith` cleared it (`isFilled()`
-#' is FALSE). Essential for correct save/export sizing since
-#' `fromProtoBuf()` does not restore `widthM`/`heightM`.
-#'
-#' @param image An Image result element (e.g., `self$results$plot`).
-#' @param sizeCache A Group result element with `clearWith: []`
-#'   (e.g., `self$results$plotSizeCache`).
-#' @noRd
-applyCachedSize <- function(image, sizeCache) {
-  size <- sizeCache$state
-  if (!is.null(size) && image$visible && image$isFilled()) {
-    image$setSize(size$w, size$h)
-  }
-}
-
-
 #' Initialize a Text Skeleton
 #'
 #' Called from `.init()` to show a titled HTML placeholder before the
@@ -75,6 +37,24 @@ populateMainText <- function(self) {
   textResult$setContent(
     asHtml(summary(self$model), title = "Overall Summary")
   )
+}
+
+
+#' Check Whether Required Variables Are Assigned
+#'
+#' Lightweight check that avoids triggering model computation.
+#' Used as a guard in `.run()` instead of `is.null(self$model)` so
+#' the model active binding is not forced unnecessarily.
+#'
+#' @param options A Jamovi options object.
+#' @param vars Character vector of variable option names that must be assigned.
+#' @return `TRUE` if all required variables are non-NULL, `FALSE` otherwise.
+#' @noRd
+hasRequiredVars <- function(options, vars) {
+  for (opt in vars) {
+    if (is.null(options[[opt]])) return(FALSE)
+  }
+  TRUE
 }
 
 
