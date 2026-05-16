@@ -297,9 +297,9 @@ options:
         name: inch
     default: mm
 
-  - name: subgroupVariable
-    title: Subgroup Variable
-    type: Variable
+  - name: subgroupVariables
+    title: Subgroup Variables
+    type: Variables
     suggested:
       - nominal
       - ordinal

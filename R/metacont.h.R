@@ -42,7 +42,7 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             colgapUnit = "mm",
             colgapForest = 2,
             colgapForestUnit = "mm",
-            subgroupVariable = NULL,
+            subgroupVariables = NULL,
             tauCommon = FALSE,
             predictionSubgroup = FALSE,
             showSubgroupSummary = TRUE,
@@ -333,9 +333,9 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "cm",
                     "inch"),
                 default="mm")
-            private$..subgroupVariable <- jmvcore::OptionVariable$new(
-                "subgroupVariable",
-                subgroupVariable,
+            private$..subgroupVariables <- jmvcore::OptionVariables$new(
+                "subgroupVariables",
+                subgroupVariables,
                 suggested=list(
                     "nominal",
                     "ordinal"),
@@ -718,7 +718,7 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..colgapUnit)
             self$.addOption(private$..colgapForest)
             self$.addOption(private$..colgapForestUnit)
-            self$.addOption(private$..subgroupVariable)
+            self$.addOption(private$..subgroupVariables)
             self$.addOption(private$..tauCommon)
             self$.addOption(private$..predictionSubgroup)
             self$.addOption(private$..showSubgroupSummary)
@@ -822,7 +822,7 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         colgapUnit = function() private$..colgapUnit$value,
         colgapForest = function() private$..colgapForest$value,
         colgapForestUnit = function() private$..colgapForestUnit$value,
-        subgroupVariable = function() private$..subgroupVariable$value,
+        subgroupVariables = function() private$..subgroupVariables$value,
         tauCommon = function() private$..tauCommon$value,
         predictionSubgroup = function() private$..predictionSubgroup$value,
         showSubgroupSummary = function() private$..showSubgroupSummary$value,
@@ -925,7 +925,7 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..colgapUnit = NA,
         ..colgapForest = NA,
         ..colgapForestUnit = NA,
-        ..subgroupVariable = NA,
+        ..subgroupVariables = NA,
         ..tauCommon = NA,
         ..predictionSubgroup = NA,
         ..showSubgroupSummary = NA,
@@ -1000,9 +1000,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         text = function() private$.items[["text"]],
         plotSizeCache = function() private$.items[["plotSizeCache"]],
         plot = function() private$.items[["plot"]],
-        subgroupText = function() private$.items[["subgroupText"]],
-        subgroupPlotSizeCache = function() private$.items[["subgroupPlotSizeCache"]],
-        subgroupPlot = function() private$.items[["subgroupPlot"]],
+        subgroupModels = function() private$.items[["subgroupModels"]],
         metaRegModels = function() private$.items[["metaRegModels"]],
         leaveOneOutText = function() private$.items[["leaveOneOutText"]],
         leaveOneOutPlotSizeCache = function() private$.items[["leaveOneOutPlotSizeCache"]],
@@ -1091,10 +1089,11 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "forestPrintTau2Ci"),
                 refs=list(
                     "metaPackage")))
-            self$add(jmvcore::Html$new(
+            self$add(jmvcore::Array$new(
                 options=options,
-                name="subgroupText",
-                visible="(length(subgroupVariable) > 0 && showSubgroupSummary)",
+                name="subgroupModels",
+                title="",
+                hideHeadingOnlyChild=TRUE,
                 clearWith=list(
                     "studyLabel",
                     "meanE",
@@ -1110,70 +1109,71 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "methodRandomCi",
                     "prediction",
                     "confidenceLevel",
-                    "subgroupVariable",
+                    "subgroupVariables",
                     "tauCommon",
                     "predictionSubgroup"),
-                refs=list(
-                    "metaPackage")))
-            self$add(R6::R6Class(
-                inherit = jmvcore::Group,
-                active = list(),
-                private = list(),
-                public=list(
-                    initialize=function(options) {
-                        super$initialize(
-                            options=options,
-                            name="subgroupPlotSizeCache",
-                            title="no title",
-                            clearWith=list())}))$new(options=options))
-            self$add(jmvcore::Image$new(
-                options=options,
-                name="subgroupPlot",
-                title="Subgroup Forest Plot",
-                renderFun=".subgroupForestPlot",
-                visible="(length(subgroupVariable) > 0 && subgroupForestPlot)",
-                clearWith=list(
-                    "studyLabel",
-                    "meanE",
-                    "sdE",
-                    "nE",
-                    "meanC",
-                    "sdC",
-                    "nC",
-                    "sm",
-                    "methodSmd",
-                    "model",
-                    "methodTau",
-                    "methodRandomCi",
-                    "prediction",
-                    "confidenceLevel",
-                    "subgroupVariable",
-                    "tauCommon",
-                    "predictionSubgroup",
-                    "printSubgroupName",
-                    "subgroupForestLayout",
-                    "subgroupSortBy",
-                    "subgroupLabelE",
-                    "subgroupLabelC",
-                    "subgroupLabelLeft",
-                    "subgroupLabelRight",
-                    "subgroupXlimCustom",
-                    "subgroupXlimLower",
-                    "subgroupXlimUpper",
-                    "subgroupAddrowsCustom",
-                    "subgroupAddrowsBelowOverall",
-                    "subgroupColgap",
-                    "subgroupColgapUnit",
-                    "subgroupColgapForest",
-                    "subgroupColgapForestUnit",
-                    "subgroupForestTestSubgroup",
-                    "subgroupForestTestEffect",
-                    "subgroupForestTestOverall",
-                    "subgroupForestPrintI2Ci",
-                    "subgroupForestPrintTau2Ci",
-                    "subgroupForestDetails"),
-                refs=list(
-                    "metaPackage")))
+                template=R6::R6Class(
+                    inherit = jmvcore::Group,
+                    active = list(
+                        subgroupText = function() private$.items[["subgroupText"]],
+                        subgroupPlotSizeCache = function() private$.items[["subgroupPlotSizeCache"]],
+                        subgroupPlot = function() private$.items[["subgroupPlot"]]),
+                    private = list(),
+                    public=list(
+                        initialize=function(options) {
+                            super$initialize(
+                                options=options,
+                                name="undefined",
+                                title="")
+                            self$add(jmvcore::Html$new(
+                                options=options,
+                                name="subgroupText",
+                                visible="(showSubgroupSummary && length(subgroupVariables) > 0)",
+                                clearWith=list(),
+                                refs=list(
+                                    "metaPackage")))
+                            self$add(R6::R6Class(
+                                inherit = jmvcore::Group,
+                                active = list(),
+                                private = list(),
+                                public=list(
+                                    initialize=function(options) {
+                                        super$initialize(
+                                            options=options,
+                                            name="subgroupPlotSizeCache",
+                                            title="no title",
+                                            clearWith=list())}))$new(options=options))
+                            self$add(jmvcore::Image$new(
+                                options=options,
+                                name="subgroupPlot",
+                                title="Subgroup Forest Plot",
+                                renderFun=".subgroupForestPlot",
+                                visible="(subgroupForestPlot && length(subgroupVariables) > 0)",
+                                clearWith=list(
+                                    "printSubgroupName",
+                                    "subgroupForestLayout",
+                                    "subgroupSortBy",
+                                    "subgroupLabelE",
+                                    "subgroupLabelC",
+                                    "subgroupLabelLeft",
+                                    "subgroupLabelRight",
+                                    "subgroupXlimCustom",
+                                    "subgroupXlimLower",
+                                    "subgroupXlimUpper",
+                                    "subgroupAddrowsCustom",
+                                    "subgroupAddrowsBelowOverall",
+                                    "subgroupColgap",
+                                    "subgroupColgapUnit",
+                                    "subgroupColgapForest",
+                                    "subgroupColgapForestUnit",
+                                    "subgroupForestTestSubgroup",
+                                    "subgroupForestTestEffect",
+                                    "subgroupForestTestOverall",
+                                    "subgroupForestPrintI2Ci",
+                                    "subgroupForestPrintTau2Ci",
+                                    "subgroupForestDetails"),
+                                refs=list(
+                                    "metaPackage")))}))$new(options=options)))
             self$add(jmvcore::Array$new(
                 options=options,
                 name="metaRegModels",
@@ -1441,7 +1441,7 @@ metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param colgapUnit .
 #' @param colgapForest .
 #' @param colgapForestUnit .
-#' @param subgroupVariable .
+#' @param subgroupVariables .
 #' @param tauCommon .
 #' @param predictionSubgroup .
 #' @param showSubgroupSummary .
@@ -1511,8 +1511,7 @@ metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' \tabular{llllll}{
 #'   \code{results$text} \tab \tab \tab \tab \tab a html \cr
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
-#'   \code{results$subgroupText} \tab \tab \tab \tab \tab a html \cr
-#'   \code{results$subgroupPlot} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$subgroupModels} \tab \tab \tab \tab \tab an array of groups \cr
 #'   \code{results$metaRegModels} \tab \tab \tab \tab \tab an array of groups \cr
 #'   \code{results$leaveOneOutText} \tab \tab \tab \tab \tab a html \cr
 #'   \code{results$leaveOneOutPlot} \tab \tab \tab \tab \tab an image \cr
@@ -1560,7 +1559,7 @@ metaCont <- function(
     colgapUnit = "mm",
     colgapForest = 2,
     colgapForestUnit = "mm",
-    subgroupVariable,
+    subgroupVariables,
     tauCommon = FALSE,
     predictionSubgroup = FALSE,
     showSubgroupSummary = TRUE,
@@ -1638,7 +1637,7 @@ metaCont <- function(
     if ( ! missing(meanC)) meanC <- jmvcore::resolveQuo(jmvcore::enquo(meanC))
     if ( ! missing(sdC)) sdC <- jmvcore::resolveQuo(jmvcore::enquo(sdC))
     if ( ! missing(nC)) nC <- jmvcore::resolveQuo(jmvcore::enquo(nC))
-    if ( ! missing(subgroupVariable)) subgroupVariable <- jmvcore::resolveQuo(jmvcore::enquo(subgroupVariable))
+    if ( ! missing(subgroupVariables)) subgroupVariables <- jmvcore::resolveQuo(jmvcore::enquo(subgroupVariables))
     if ( ! missing(metaRegCovs)) metaRegCovs <- jmvcore::resolveQuo(jmvcore::enquo(metaRegCovs))
     if ( ! missing(metaRegFactors)) metaRegFactors <- jmvcore::resolveQuo(jmvcore::enquo(metaRegFactors))
     if (missing(data))
@@ -1651,7 +1650,7 @@ metaCont <- function(
             `if`( ! missing(meanC), meanC, NULL),
             `if`( ! missing(sdC), sdC, NULL),
             `if`( ! missing(nC), nC, NULL),
-            `if`( ! missing(subgroupVariable), subgroupVariable, NULL),
+            `if`( ! missing(subgroupVariables), subgroupVariables, NULL),
             `if`( ! missing(metaRegCovs), metaRegCovs, NULL),
             `if`( ! missing(metaRegFactors), metaRegFactors, NULL))
 
@@ -1694,7 +1693,7 @@ metaCont <- function(
         colgapUnit = colgapUnit,
         colgapForest = colgapForest,
         colgapForestUnit = colgapForestUnit,
-        subgroupVariable = subgroupVariable,
+        subgroupVariables = subgroupVariables,
         tauCommon = tauCommon,
         predictionSubgroup = predictionSubgroup,
         showSubgroupSummary = showSubgroupSummary,

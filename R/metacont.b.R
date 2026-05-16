@@ -13,11 +13,11 @@ metaContClass <- R6::R6Class(
       private$.model
     },
 
-    subgroupModel = function() {
-      if (isFALSE(private$.subgroupModel)) {
-        private$.subgroupModel <- computeContSubgroupModel(self)
+    subgroupModels = function() {
+      if (isFALSE(private$.subgroupModels)) {
+        private$.subgroupModels <- computeContSubgroupModels(self)
       }
-      private$.subgroupModel
+      private$.subgroupModels
     },
 
     metaRegModels = function() {
@@ -38,31 +38,22 @@ metaContClass <- R6::R6Class(
   private = list(
     # State tracking for lazy models and required core variables
     .model = FALSE,
-    .subgroupModel = FALSE,
+    .subgroupModels = FALSE,
     .metaRegModels = FALSE,
     .leaveOneOutModel = FALSE,
     .requiredVars = c("meanE", "sdE", "nE", "meanC", "sdC", "nC"),
 
     # Initialization: runs before the model is computed. Sets up dynamic arrays
-    # (meta-regression) and displays placeholder titles.
+    # (subgroup, meta-regression) and displays placeholder titles.
     .init = function() {
-      initMetaRegModels(
-        self$results$metaRegModels,
-        self$options,
-        private$.requiredVars
-      )
+      initSubgroupModels(self, private$.requiredVars)
+      initMetaRegModels(self, private$.requiredVars)
 
       initText(
         self$results$text,
         self$options,
         private$.requiredVars,
         "Overall Summary"
-      )
-      initText(
-        self$results$subgroupText,
-        self$options,
-        private$.requiredVars,
-        "Subgroup Summary"
       )
       initText(
         self$results$leaveOneOutText,
@@ -82,10 +73,12 @@ metaContClass <- R6::R6Class(
     # functions.
     .postInit = function() {
       applyCachedSize(self$results$plot, self$results$plotSizeCache)
-      applyCachedSize(
-        self$results$subgroupPlot,
-        self$results$subgroupPlotSizeCache
-      )
+
+      for (i in seq_along(self$options$subgroupVariables)) {
+        group <- self$results$subgroupModels$get(key = i)
+        applyCachedSize(group$subgroupPlot, group$subgroupPlotSizeCache)
+      }
+
       applyCachedSize(
         self$results$leaveOneOutPlot,
         self$results$leaveOneOutPlotSizeCache
@@ -105,12 +98,15 @@ metaContClass <- R6::R6Class(
         sizeCache = self$results$plotSizeCache,
         renderCall = function() renderContForest(self)
       )
-      updateForestSize(
-        image = self$results$subgroupPlot,
-        model = self$subgroupModel,
-        sizeCache = self$results$subgroupPlotSizeCache,
-        renderCall = function() renderContSubgroupForest(self)
-      )
+      for (i in seq_along(self$options$subgroupVariables)) {
+        group <- self$results$subgroupModels$get(key = i)
+        updateForestSize(
+          image = group$subgroupPlot,
+          model = self$subgroupModels[[i]],
+          sizeCache = group$subgroupPlotSizeCache,
+          renderCall = function() renderContSubgroupForest(self, key = i)
+        )
+      }
       updateForestSize(
         image = self$results$leaveOneOutPlot,
         model = self$leaveOneOutModel,
@@ -119,7 +115,7 @@ metaContClass <- R6::R6Class(
       )
 
       populateMainText(self)
-      populateSubgroupText(self)
+      populateSubgroupTexts(self)
       populateMetaRegTexts(self)
       populateLeaveOneOutText(self)
       populateAsymmetryTestText(self)
@@ -132,7 +128,7 @@ metaContClass <- R6::R6Class(
     },
 
     .subgroupForestPlot = function(image, ...) {
-      renderContSubgroupForest(self)
+      renderContSubgroupForest(self, key = image$parent$key)
     },
 
     .bubblePlot = function(image, ...) {

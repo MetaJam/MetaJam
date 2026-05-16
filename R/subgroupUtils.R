@@ -1,24 +1,67 @@
-#' Populate the Subgroup Text
+#' Initialize Subgroup Models
+#'
+#' Adds one group per subgroup variable to the `subgroupModels` Array
+#' and sets dynamic Group titles. Unlike meta-regression where empty
+#' blocks are possible and need title-only placeholders, subgroup items
+#' are only created when variables are assigned and visibility is
+#' controlled by `length(subgroupVariables) > 0` in r.yaml. When required
+#' variables are missing, a title-only placeholder is set on the text
+#' element (same pattern as `initText()`).
+#'
+#' @param self The jamovi `self` object.
+#' @param requiredVars Character vector of option names that must be
+#'   assigned for the model to compute.
+#' @noRd
+initSubgroupModels <- function(self, requiredVars) {
+  modelsArray <- self$results$subgroupModels
+  options <- self$options
+  vars <- options$subgroupVariables
+  hasVars <- hasRequiredVars(options, requiredVars)
+
+  for (i in seq_along(vars)) {
+    modelsArray$addItem(key = i)
+    group <- modelsArray$get(key = i)
+    group$setTitle(
+      paste0("Subgroup Analysis: ", vars[[i]])
+    )
+
+    if (group$subgroupText$visible && !hasVars) {
+      group$subgroupText$setContent(asHtml(title = "Subgroup Summary"))
+    }
+  }
+}
+
+
+#' Populate Subgroup Text for All Variables
 #'
 #' Called from `.run()` after `hasRequiredVars()` has passed.
 #' Guards: skips when hidden, already filled (clearWith cache hit),
-#' or subgroup model is NULL. We use the NULL check of the model here across
-#' our module mainly as a proxy that required variables are available, which
-#' we already verified in `.run()` before reaching this line. Although
-#' redundant, we keep it for clarity.
+#' or subgroup model is NULL. We use the NULL check of the model here
+#' across our module mainly as a proxy that required variables are
+#' available, which we already verified in `.run()` before reaching
+#' this line. Although redundant, we keep it for clarity.
 #'
 #' @param self The jamovi `self` object.
 #' @noRd
-populateSubgroupText <- function(self) {
-  textResult <- self$results$subgroupText
-  if (
-    !textResult$visible || textResult$isFilled() || is.null(self$subgroupModel)
-  ) {
-    return()
+populateSubgroupTexts <- function(self) {
+  modelsArray <- self$results$subgroupModels
+
+  for (i in seq_along(self$options$subgroupVariables)) {
+    textResult <- modelsArray$get(key = i)$subgroupText
+
+    if (!textResult$visible || textResult$isFilled()) {
+      next
+    }
+
+    model <- self$subgroupModels[[i]]
+    if (is.null(model)) {
+      next
+    }
+
+    textResult$setContent(
+      asHtml(summary(model), title = "Subgroup Summary")
+    )
   }
-  textResult$setContent(
-    asHtml(summary(self$subgroupModel), title = "Subgroup Summary")
-  )
 }
 
 
@@ -68,7 +111,6 @@ renderSubgroupForest <- function(model, options, ...) {
     mapped,
     test.effect.subgroup = options$subgroupForestTestEffect,
     test.subgroup = options$subgroupForestTestSubgroup,
-    subgroup.name = options$subgroupVariable,
     print.subgroup.name = options$printSubgroupName,
     calcwidth.hetstat = options$subgroupForestLayout == "subgroup",
     calcwidth.tests = options$subgroupForestLayout == "subgroup",

@@ -5,12 +5,13 @@
 #' block is empty, a title-only placeholder is set on the text
 #' element (same pattern as `initText()`).
 #'
-#' @param modelsArray The `metaRegModels` Array result element.
-#' @param options The `self$options` object.
+#' @param self The jamovi `self` object.
 #' @param requiredVars Character vector of option names that must be
 #'   assigned for the model to compute.
 #' @noRd
-initMetaRegModels <- function(modelsArray, options, requiredVars) {
+initMetaRegModels <- function(self, requiredVars) {
+  modelsArray <- self$results$metaRegModels
+  options <- self$options
   blocks <- options$metaRegBlocks
   hasVars <- hasRequiredVars(options, requiredVars)
 
@@ -64,18 +65,23 @@ initMetaRegModels <- function(modelsArray, options, requiredVars) {
 #'   or `NULL` if the main model is not available.
 #' @noRd
 computeMetaRegModels <- function(self) {
-  model <- self$model
-  options <- self$options
-  blocks <- options$metaRegBlocks
-  modelsArray <- self$results$metaRegModels
-  data <- self$data
+  blocks <- self$options$metaRegBlocks
 
-  # Early exit if the base model is missing, or if no meta-regression blocks are
-  # defined. The block check specifically avoids expensive data copying when no
-  # models will be computed.
-  if (is.null(model) || sum(lengths(blocks)) == 0) {
+  # Early exit if no meta-regression blocks are defined. We check this first to
+  # avoid forcing the active binding for `self$model` when no models will be
+  # computed.
+  if (sum(lengths(blocks)) == 0) {
     return()
   }
+
+  model <- self$model
+  if (is.null(model)) {
+    return()
+  }
+
+  options <- self$options
+  modelsArray <- self$results$metaRegModels
+  data <- self$data
 
   # Ensure meta regression covariates are numeric before appending
   data[options$metaRegCovs] <- lapply(
@@ -171,7 +177,6 @@ getMetaRegScaleLabel <- function(metaRegModel) {
 #' @noRd
 populateMetaRegTexts <- function(self) {
   modelsArray <- self$results$metaRegModels
-  metaRegModels <- self$metaRegModels
   options <- self$options
 
   for (i in seq_along(options$metaRegBlocks)) {
@@ -181,7 +186,7 @@ populateMetaRegTexts <- function(self) {
       next
     }
 
-    metaRegModel <- metaRegModels[[i]]
+    metaRegModel <- self$metaRegModels[[i]]
     if (is.null(metaRegModel)) {
       next
     }

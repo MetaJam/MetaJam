@@ -244,21 +244,20 @@ children:
           - type: TargetLayoutBox
             children:
               - type: VariablesListBox
-                name: subgroupVariable
-                maxItemCount: 1
+                name: subgroupVariables
                 isTarget: true
       - type: CheckBox
         name: tauCommon
-        enable: ({return !!ui['subgroupVariable'].value();})
+        enable: ({return (ui['subgroupVariables'].value() || []).length > 0;})
       - type: CheckBox
         name: predictionSubgroup
-        enable: ({return !!ui['subgroupVariable'].value();})
+        enable: ({return (ui['subgroupVariables'].value() || []).length > 0;})
       - type: CheckBox
         name: showSubgroupSummary
-        enable: ({return !!ui['subgroupVariable'].value();})
+        enable: ({return (ui['subgroupVariables'].value() || []).length > 0;})
       - type: CheckBox
         name: subgroupForestPlot
-        enable: ({return !!ui['subgroupVariable'].value();})
+        enable: ({return (ui['subgroupVariables'].value() || []).length > 0;})
         children:
           - type: ModeSelector
             name: subgroupForestMode
@@ -271,17 +270,17 @@ children:
                       - type: CheckBox
                         name: printSubgroupName
                         enable: >
-                          ({return !!ui['subgroupVariable'].value() &&
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
                           ui['subgroupForestPlot'].value();})
                       - type: ComboBox
                         name: subgroupForestLayout
                         enable: >
-                          ({return !!ui['subgroupVariable'].value() &&
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
                           ui['subgroupForestPlot'].value();})
                       - type: ComboBox
                         name: subgroupSortBy
                         enable: >
-                          ({return !!ui['subgroupVariable'].value() &&
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
                           ui['subgroupForestPlot'].value();})
                   - type: LayoutBox
                     fitToGrid: true
@@ -289,7 +288,7 @@ children:
                       - type: CheckBox
                         name: subgroupForestTestSubgroup
                         enable: >
-                          ({return !!ui['subgroupVariable'].value() &&
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
                           ui['subgroupForestPlot'].value();})
                         cell:
                           row: 0
@@ -297,7 +296,7 @@ children:
                       - type: CheckBox
                         name: subgroupForestPrintI2Ci
                         enable: >
-                          ({return !!ui['subgroupVariable'].value() &&
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
                           ui['subgroupForestPlot'].value();})
                         cell:
                           row: 0
@@ -305,7 +304,7 @@ children:
                       - type: CheckBox
                         name: subgroupForestTestEffect
                         enable: >
-                          ({return !!ui['subgroupVariable'].value() &&
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
                           ui['subgroupForestPlot'].value();})
                         cell:
                           row: 1
@@ -313,7 +312,7 @@ children:
                       - type: CheckBox
                         name: subgroupForestPrintTau2Ci
                         enable: >
-                          ({return !!ui['subgroupVariable'].value() &&
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
                           ui['subgroupForestPlot'].value();})
                         cell:
                           row: 1
@@ -321,7 +320,7 @@ children:
                       - type: CheckBox
                         name: subgroupForestTestOverall
                         enable: >
-                          ({return !!ui['subgroupVariable'].value() &&
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
                           ui['subgroupForestPlot'].value();})
                         cell:
                           row: 2
@@ -329,7 +328,7 @@ children:
                       - type: CheckBox
                         name: subgroupForestDetails
                         enable: >
-                          ({return !!ui['subgroupVariable'].value() &&
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
                           ui['subgroupForestPlot'].value();})
                         cell:
                           row: 2
@@ -341,7 +340,7 @@ children:
                         name: subgroupLabelE
                         format: string
                         enable: >
-                          ({return !!ui['subgroupVariable'].value() &&
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
                           ui['subgroupForestPlot'].value();})
                         width: large
                         cell:
@@ -351,7 +350,7 @@ children:
                         name: subgroupLabelC
                         format: string
                         enable: >
-                          ({return !!ui['subgroupVariable'].value() &&
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
                           ui['subgroupForestPlot'].value();})
                         width: large
                         cell:
@@ -361,7 +360,7 @@ children:
                         name: subgroupLabelLeft
                         format: string
                         enable: >
-                          ({return !!ui['subgroupVariable'].value() &&
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
                           ui['subgroupForestPlot'].value();})
                         width: large
                         cell:
@@ -371,7 +370,7 @@ children:
                         name: subgroupLabelRight
                         format: string
                         enable: >
-                          ({return !!ui['subgroupVariable'].value() &&
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
                           ui['subgroupForestPlot'].value();})
                         width: large
                         cell:
@@ -383,7 +382,7 @@ children:
                   - type: CheckBox
                     name: subgroupXlimCustom
                     enable: >
-                      ({return !!ui['subgroupVariable'].value() &&
+                      ({return (ui['subgroupVariables'].value() || []).length > 0 &&
                       ui['subgroupForestPlot'].value();})
                     children:
                       - type: LayoutBox
@@ -393,7 +392,7 @@ children:
                             name: subgroupXlimLower
                             format: number
                             enable: >
-                              ({return !!ui['subgroupVariable'].value() &&
+                              ({return (ui['subgroupVariables'].value() || []).length > 0 &&
                               ui['subgroupForestPlot'].value() &&
                               ui['subgroupXlimCustom'].value();})
                             cell:
@@ -403,7 +402,7 @@ children:
                             name: subgroupXlimUpper
                             format: number
                             enable: >
-                              ({return !!ui['subgroupVariable'].value() &&
+                              ({return (ui['subgroupVariables'].value() || []).length > 0 &&
                               ui['subgroupForestPlot'].value() &&
                               ui['subgroupXlimCustom'].value();})
                             cell:
@@ -412,7 +411,7 @@ children:
                   - type: CheckBox
                     name: subgroupAddrowsCustom
                     enable: >
-                      ({return !!ui['subgroupVariable'].value() &&
+                      ({return (ui['subgroupVariables'].value() || []).length > 0 &&
                       ui['subgroupForestPlot'].value();})
                     children:
                       - type: TextBox
@@ -420,7 +419,7 @@ children:
                         format: number
                         suffix: rows
                         enable: >
-                          ({return !!ui['subgroupVariable'].value() &&
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
                           ui['subgroupForestPlot'].value() &&
                           ui['subgroupAddrowsCustom'].value();})
                   - type: LayoutBox
@@ -430,7 +429,7 @@ children:
                         name: subgroupColgap
                         format: number
                         enable: >
-                          ({return !!ui['subgroupVariable'].value() &&
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
                           ui['subgroupForestPlot'].value();})
                         cell:
                           row: 0
@@ -438,7 +437,7 @@ children:
                       - type: ComboBox
                         name: subgroupColgapUnit
                         enable: >
-                          ({return !!ui['subgroupVariable'].value() &&
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
                           ui['subgroupForestPlot'].value();})
                         cell:
                           row: 0
@@ -447,7 +446,7 @@ children:
                         name: subgroupColgapForest
                         format: number
                         enable: >
-                          ({return !!ui['subgroupVariable'].value() &&
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
                           ui['subgroupForestPlot'].value();})
                         cell:
                           row: 1
@@ -455,7 +454,7 @@ children:
                       - type: ComboBox
                         name: subgroupColgapForestUnit
                         enable: >
-                          ({return !!ui['subgroupVariable'].value() &&
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
                           ui['subgroupForestPlot'].value();})
                         cell:
                           row: 1

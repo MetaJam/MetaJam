@@ -72,9 +72,11 @@ items:
     refs:
       - metaPackage
 
-  - name: subgroupText
-    type: Html
-    visible: (length(subgroupVariable) > 0 && showSubgroupSummary)
+
+  - name: subgroupModels
+    title: ''
+    type: Array
+    hideHeadingOnlyChild: true
     clearWith:
       - studyLabel
       - meanE
@@ -90,65 +92,56 @@ items:
       - methodRandomCi
       - prediction
       - confidenceLevel
-      - subgroupVariable
+      - subgroupVariables
       - tauCommon
       - predictionSubgroup
-    refs:
-      - metaPackage
+    template:
+      title: ''
+      type: Group
+      items:
+        - name: subgroupText
+          type: Html
+          visible: (showSubgroupSummary && length(subgroupVariables) > 0)
+          clearWith: []
+          refs:
+            - metaPackage
 
-  - name: subgroupPlotSizeCache
-    type: Group
-    visible: false
-    clearWith: []
-    items: []
+        - name: subgroupPlotSizeCache
+          type: Group
+          visible: false
+          clearWith: []
+          items: []
 
-  - name: subgroupPlot
-    title: Subgroup Forest Plot
-    type: Image
-    renderFun: .subgroupForestPlot
-    visible: (length(subgroupVariable) > 0 && subgroupForestPlot)
-    clearWith:
-      - studyLabel
-      - meanE
-      - sdE
-      - nE
-      - meanC
-      - sdC
-      - nC
-      - sm
-      - methodSmd
-      - model
-      - methodTau
-      - methodRandomCi
-      - prediction
-      - confidenceLevel
-      - subgroupVariable
-      - tauCommon
-      - predictionSubgroup
-      - printSubgroupName
-      - subgroupForestLayout
-      - subgroupSortBy
-      - subgroupLabelE
-      - subgroupLabelC
-      - subgroupLabelLeft
-      - subgroupLabelRight
-      - subgroupXlimCustom
-      - subgroupXlimLower
-      - subgroupXlimUpper
-      - subgroupAddrowsCustom
-      - subgroupAddrowsBelowOverall
-      - subgroupColgap
-      - subgroupColgapUnit
-      - subgroupColgapForest
-      - subgroupColgapForestUnit
-      - subgroupForestTestSubgroup
-      - subgroupForestTestEffect
-      - subgroupForestTestOverall
-      - subgroupForestPrintI2Ci
-      - subgroupForestPrintTau2Ci
-      - subgroupForestDetails
-    refs:
-      - metaPackage
+        - name: subgroupPlot
+          title: Subgroup Forest Plot
+          type: Image
+          renderFun: .subgroupForestPlot
+          visible: (subgroupForestPlot && length(subgroupVariables) > 0)
+          clearWith:
+            - printSubgroupName
+            - subgroupForestLayout
+            - subgroupSortBy
+            - subgroupLabelE
+            - subgroupLabelC
+            - subgroupLabelLeft
+            - subgroupLabelRight
+            - subgroupXlimCustom
+            - subgroupXlimLower
+            - subgroupXlimUpper
+            - subgroupAddrowsCustom
+            - subgroupAddrowsBelowOverall
+            - subgroupColgap
+            - subgroupColgapUnit
+            - subgroupColgapForest
+            - subgroupColgapForestUnit
+            - subgroupForestTestSubgroup
+            - subgroupForestTestEffect
+            - subgroupForestTestOverall
+            - subgroupForestPrintI2Ci
+            - subgroupForestPrintTau2Ci
+            - subgroupForestDetails
+          refs:
+            - metaPackage
 
   - name: metaRegModels
     title: ''

@@ -93,24 +93,20 @@ computeContModel <- function(self) {
 }
 
 
-#' Compute a Continuous Outcome Subgroup Meta-Analysis Model
+#' Compute Continuous Outcome Subgroup Models for All Variables
 #'
-#' Builds the shared argument list via `buildContArgs()` and adds
-#' subgroup-specific arguments. Calls `meta::metacont()` directly
-#' with `subgroup=` — completely independent of the main model,
-#' avoiding the cost of `update.meta()`.
+#' Iterates over `options$subgroupVariables`, building a model for each
+#' variable by calling `meta::metacont()` with `subgroup=`. Returns a
+#' list of models. Cross-cycle caching is performed per-variable via the
+#' corresponding `subgroupText` result element in the array.
 #'
 #' @param self The jamovi `self` object.
-#' @return A `meta::metacont` object with subgroup results, or `NULL`.
+#' @return A list of `meta::metacont` objects with subgroup results,
+#'   or `NULL` if no subgroup variables are assigned.
 #' @noRd
-computeContSubgroupModel <- function(self) {
-  # Cross-cycle cache (restored via clearWith)
-  cached <- self$results$subgroupText$state
-  if (!is.null(cached)) {
-    return(cached)
-  }
-
-  if (is.null(self$options$subgroupVariable)) {
+computeContSubgroupModels <- function(self) {
+  vars <- self$options$subgroupVariables
+  if (length(vars) == 0) {
     return()
   }
 
@@ -119,16 +115,32 @@ computeContSubgroupModel <- function(self) {
     return()
   }
 
-  args$subgroup <- as.name(self$options$subgroupVariable)
+  modelsArray <- self$results$subgroupModels
   args$tau.common <- self$options$tauCommon
   args$prediction.subgroup <- self$options$predictionSubgroup
 
-  model <- do.call(meta::metacont, args)
-  model <- stripModel(model)
+  models <- vector("list", length(vars))
 
-  # Cache for next cycle
-  self$results$subgroupText$setState(model)
-  model
+  for (i in seq_along(vars)) {
+    cacheElement <- modelsArray$get(key = i)$subgroupText
+
+    # Cross-cycle cache (restored via clearWith)
+    cached <- cacheElement$state
+    if (!is.null(cached)) {
+      models[[i]] <- cached
+      next
+    }
+
+    args$subgroup <- as.name(vars[[i]])
+
+    models[[i]] <- do.call(meta::metacont, args)
+    models[[i]] <- stripModel(models[[i]])
+
+    # Cache for next cycle
+    cacheElement$setState(models[[i]])
+  }
+
+  models
 }
 
 
@@ -179,10 +191,11 @@ renderContForest <- function(self) {
 #' `renderSubgroupForest()`.
 #'
 #' @param self The jamovi `self` object.
+#' @param key The jamovi array item key (e.g., `image$parent$key`).
 #' @return TRUE if the plot was successfully rendered, FALSE otherwise.
 #' @noRd
-renderContSubgroupForest <- function(self) {
-  model <- self$subgroupModel
+renderContSubgroupForest <- function(self, key) {
+  model <- self$subgroupModels[[key]]
   options <- self$options
 
   if (is.null(model)) {
