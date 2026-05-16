@@ -135,40 +135,37 @@ children:
                           row: 1
                           column: 1
                   - type: LayoutBox
-                    fitToGrid: true
                     children:
                       - type: TextBox
                         name: labelE
                         format: string
                         enable: (forestPlot)
-                        width: large
-                        cell:
-                          row: 0
-                          column: 0
+                        width: largest
                       - type: TextBox
                         name: labelC
                         format: string
                         enable: (forestPlot)
-                        width: large
-                        cell:
-                          row: 0
-                          column: 1
+                        width: largest
                       - type: TextBox
                         name: labelLeft
                         format: string
                         enable: (forestPlot)
-                        width: large
-                        cell:
-                          row: 1
-                          column: 0
+                        width: largest
+                        suggestedValues:
+                          - Favours Experimental
+                          - Favours Control
+                          - Favours\nExperimental
+                          - Favours\nControl
                       - type: TextBox
                         name: labelRight
                         format: string
                         enable: (forestPlot)
-                        width: large
-                        cell:
-                          row: 1
-                          column: 1
+                        width: largest
+                        suggestedValues:
+                          - Favours Experimental
+                          - Favours Control
+                          - Favours\nExperimental
+                          - Favours\nControl
               - type: Content
                 name: dimensions
                 children:
@@ -334,7 +331,6 @@ children:
                           row: 2
                           column: 1
                   - type: LayoutBox
-                    fitToGrid: true
                     children:
                       - type: TextBox
                         name: subgroupLabelE
@@ -342,40 +338,38 @@ children:
                         enable: >
                           ({return (ui['subgroupVariables'].value() || []).length > 0 &&
                           ui['subgroupForestPlot'].value();})
-                        width: large
-                        cell:
-                          row: 0
-                          column: 0
+                        width: largest
                       - type: TextBox
                         name: subgroupLabelC
                         format: string
                         enable: >
                           ({return (ui['subgroupVariables'].value() || []).length > 0 &&
                           ui['subgroupForestPlot'].value();})
-                        width: large
-                        cell:
-                          row: 0
-                          column: 1
+                        width: largest
                       - type: TextBox
                         name: subgroupLabelLeft
                         format: string
                         enable: >
                           ({return (ui['subgroupVariables'].value() || []).length > 0 &&
                           ui['subgroupForestPlot'].value();})
-                        width: large
-                        cell:
-                          row: 1
-                          column: 0
+                        width: largest
+                        suggestedValues:
+                          - Favours Experimental
+                          - Favours Control
+                          - Favours\nExperimental
+                          - Favours\nControl
                       - type: TextBox
                         name: subgroupLabelRight
                         format: string
                         enable: >
                           ({return (ui['subgroupVariables'].value() || []).length > 0 &&
                           ui['subgroupForestPlot'].value();})
-                        width: large
-                        cell:
-                          row: 1
-                          column: 1
+                        width: largest
+                        suggestedValues:
+                          - Favours Experimental
+                          - Favours Control
+                          - Favours\nExperimental
+                          - Favours\nControl
               - type: Content
                 name: dimensions
                 children:
@@ -584,24 +578,27 @@ children:
                         name: leaveOneOutForestDetails
                         enable: (leaveOneOut && leaveOneOutForestPlot)
                   - type: LayoutBox
-                    fitToGrid: true
                     children:
                       - type: TextBox
                         name: leaveOneOutLabelLeft
                         format: string
                         enable: (leaveOneOut && leaveOneOutForestPlot)
-                        width: large
-                        cell:
-                          row: 0
-                          column: 0
+                        width: largest
+                        suggestedValues:
+                          - Favours Experimental
+                          - Favours Control
+                          - Favours\nExperimental
+                          - Favours\nControl
                       - type: TextBox
                         name: leaveOneOutLabelRight
                         format: string
                         enable: (leaveOneOut && leaveOneOutForestPlot)
-                        width: large
-                        cell:
-                          row: 0
-                          column: 1
+                        width: largest
+                        suggestedValues:
+                          - Favours Experimental
+                          - Favours Control
+                          - Favours\nExperimental
+                          - Favours\nControl
               - type: Content
                 name: dimensions
                 children:
