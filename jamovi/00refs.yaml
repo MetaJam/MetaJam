@@ -1,40 +1,30 @@
----
 refs:
     metaPackage:
         type: "article"
-        author: "Sara Balduzzi and Gerta Rücker and Guido Schwarzer"
+        author: "Balduzzi, S., Rücker, G., & Schwarzer, G."
         year: 2019
         title: "How to perform a meta-analysis with R: a practical tutorial"
         publisher: "Evidence-Based Mental Health"
+        volume: 22
+        issue: 4
         pages: 153-160
-        url: https://http://10.1136/ebmental-2019-300117
+        url: https://doi.org/10.1136/ebmental-2019-300117
+
+    metasensPackage:
+        type: "software"
+        author: "Schwarzer, G., Carpenter, J. R., & Rücker, G."
+        year: 2025
+        title: "metasens: Statistical Methods for Sensitivity Analysis in Meta-Analysis"
+        publisher: "[R package]. Retrieved from https://cran.r-project.org/package=metasens"
+        url: https://cran.r-project.org/package=metasens
 
     metaforPackage:
         type: "article"
-        author: "Wolfgang Viechtbauer"
+        author: "Viechtbauer, W."
         year: 2010
         title: "Conducting meta-analyses in R with the metafor package"
         publisher: "Journal of Statistical Software"
         volume: 36
+        issue: 3
         pages: 1-48
-        url: https://http://doi.org/10.18637/jss.v036.i03
-
-    eggerTest:
-        type: "article"
-        author: "Matthias Egger, George Davey Smith, Martin Schneider, Christoph Minder"
-        year: 1997
-        title: "Bias in meta-analysis detected by a simple, graphical test"
-        publisher: "BMJ (British Medical Journal)"
-        volume: 315
-        pages: "629–634"
-        doi: "10.1136/bmj.315.7109.629"
-
-    lfkTest:
-        type: "article"
-        author: "Luis Furuya-Kanamori, Jan J. Barendregt, Suhail A.R. Doi"
-        year: 2018
-        title: "A new improved graphical and quantitative method for detecting bias in meta-analysis"
-        publisher: "International Journal of Evidence-Based Healthcare"
-        volume: 16
-        pages: "1–9"
-        doi: "10.1097/XEB.0000000000000141"
+        url: https://doi.org/10.18637/jss.v036.i03
