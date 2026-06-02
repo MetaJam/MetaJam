@@ -154,8 +154,6 @@ children:
                         suggestedValues:
                           - Favours Experimental
                           - Favours Control
-                          - Favours\nExperimental
-                          - Favours\nControl
                       - type: TextBox
                         name: labelRight
                         format: string
@@ -164,8 +162,6 @@ children:
                         suggestedValues:
                           - Favours Experimental
                           - Favours Control
-                          - Favours\nExperimental
-                          - Favours\nControl
               - type: Content
                 name: dimensions
                 children:
@@ -356,8 +352,6 @@ children:
                         suggestedValues:
                           - Favours Experimental
                           - Favours Control
-                          - Favours\nExperimental
-                          - Favours\nControl
                       - type: TextBox
                         name: subgroupLabelRight
                         format: string
@@ -368,8 +362,6 @@ children:
                         suggestedValues:
                           - Favours Experimental
                           - Favours Control
-                          - Favours\nExperimental
-                          - Favours\nControl
               - type: Content
                 name: dimensions
                 children:
@@ -587,8 +579,6 @@ children:
                         suggestedValues:
                           - Favours Experimental
                           - Favours Control
-                          - Favours\nExperimental
-                          - Favours\nControl
                       - type: TextBox
                         name: leaveOneOutLabelRight
                         format: string
@@ -597,8 +587,6 @@ children:
                         suggestedValues:
                           - Favours Experimental
                           - Favours Control
-                          - Favours\nExperimental
-                          - Favours\nControl
               - type: Content
                 name: dimensions
                 children:
