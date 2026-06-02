@@ -679,11 +679,11 @@ options:
     title: ""
     type: List
     options:
-      - title: Funnel plot
+      - title: Funnel Plot
         name: funnelPlot
-      - title: Trim and fill
+      - title: Trim & Fill
         name: trimFill
-      - title: LFK index
+      - title: LFK Index
         name: lfkIndex
     default: funnelPlot
 
@@ -756,3 +756,76 @@ options:
     title: Plot
     type: Bool
     default: false
+
+  - name: trimFill
+    title: Trim & fill
+    type: Bool
+    default: false
+
+  - name: trimFillSide
+    title: Side of missing studies
+    type: List
+    options:
+      - title: Auto
+        name: auto
+      - title: Left
+        name: left
+      - title: Right
+        name: right
+    default: auto
+
+  - name: trimFillEstimator
+    title: Estimator
+    type: List
+    options:
+      - title: L₀
+        name: L
+      - title: R₀
+        name: R
+    default: L
+
+  - name: showTrimFillSummary
+    title: Summary
+    type: Bool
+    default: true
+
+  - name: trimFillFunnelPlot
+    title: Funnel plot
+    type: Bool
+    default: true
+
+  - name: trimFillFunnelStudyLabel
+    title: Study labels
+    type: Bool
+    default: false
+
+  - name: trimFillFunnelContour
+    title: Contour-enhanced
+    type: Bool
+    default: false
+
+  - name: trimFillFunnelLegend
+    title: Legend
+    type: Bool
+    default: true
+
+  - name: trimFillFunnelLegendPos
+    title: Position
+    type: List
+    options:
+      - title: Top right
+        name: topright
+      - title: Top left
+        name: topleft
+      - title: Bottom right
+        name: bottomright
+      - title: Bottom left
+        name: bottomleft
+    default: topright
+
+  - name: trimFillFunnelLegendCex
+    title: Size
+    type: Number
+    min: 50
+    max: 200
+    default: 100

@@ -697,7 +697,45 @@ children:
                     enable: (asymmetryTest && !(asymmetryMethod:Pustejovsky))
           - type: Content
             name: trimFill
-            children: []
+            children:
+              - type: CheckBox
+                name: trimFill
+                children:
+                  - type: LayoutBox
+                    children:
+                      - type: ComboBox
+                        name: trimFillSide
+                        enable: (trimFill)
+                  - type: LayoutBox
+                    children:
+                      - type: ComboBox
+                        name: trimFillEstimator
+                        enable: (trimFill)
+                  - type: CheckBox
+                    name: showTrimFillSummary
+                    enable: (trimFill)
+                  - type: CheckBox
+                    name: trimFillFunnelPlot
+                    enable: (trimFill)
+                    children:
+                      - type: CheckBox
+                        name: trimFillFunnelStudyLabel
+                        enable: (trimFill && trimFillFunnelPlot)
+                      - type: CheckBox
+                        name: trimFillFunnelContour
+                        enable: (trimFill && trimFillFunnelPlot)
+                      - type: CheckBox
+                        name: trimFillFunnelLegend
+                        enable: (trimFill && trimFillFunnelPlot)
+                        children:
+                          - type: ComboBox
+                            name: trimFillFunnelLegendPos
+                            enable: (trimFill && trimFillFunnelPlot && trimFillFunnelLegend)
+                          - type: TextBox
+                            name: trimFillFunnelLegendCex
+                            format: number
+                            suffix: "%"
+                            enable: (trimFill && trimFillFunnelPlot && trimFillFunnelLegend)
           - type: Content
             name: lfkIndex
             children: []

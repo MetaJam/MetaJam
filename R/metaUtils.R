@@ -90,12 +90,13 @@ stripModel <- function(model) {
     environment(model$.glmm.random$formula) <- baseenv()
   }
 
-  # NOTE: We currently do not support 3-level models (cluster) or unweighted
-  # summary models (control = list(usw.common=TRUE, usw.random=TRUE)). If
-  # MetaJam supports them in the future, be aware that metagen() returns
-  # internal metafor::rma models in `model$rma.three.level`, `model$rma.usw.c`,
-  # and `model$rma.usw.r`. These contain environments and formulas that leak the
-  # R6 execution context and will need to be stripped here.
+  # 3. Internal metafor::rma model objects (rma.mv for three-level, rma.uni for
+  # user-specified weights). Only populated when keeprma = TRUE (default FALSE).
+  # MetaJam never reads from them, and nothing in the meta package reads them
+  # back either — they are write-only. Safe to NULL unconditionally.
+  model$rma.three.level <- NULL
+  model$rma.usw.c <- NULL
+  model$rma.usw.r <- NULL
 
   model
 }

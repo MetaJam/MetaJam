@@ -108,7 +108,17 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             asymmetryTest = FALSE,
             asymmetryMethod = "Egger",
             showAsymmetrySummary = TRUE,
-            asymmetryPlot = FALSE, ...) {
+            asymmetryPlot = FALSE,
+            trimFill = FALSE,
+            trimFillSide = "auto",
+            trimFillEstimator = "L",
+            showTrimFillSummary = TRUE,
+            trimFillFunnelPlot = TRUE,
+            trimFillFunnelStudyLabel = FALSE,
+            trimFillFunnelContour = FALSE,
+            trimFillFunnelLegend = TRUE,
+            trimFillFunnelLegendPos = "topright",
+            trimFillFunnelLegendCex = 100, ...) {
 
             super$initialize(
                 package="MetaJam",
@@ -681,6 +691,60 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "asymmetryPlot",
                 asymmetryPlot,
                 default=FALSE)
+            private$..trimFill <- jmvcore::OptionBool$new(
+                "trimFill",
+                trimFill,
+                default=FALSE)
+            private$..trimFillSide <- jmvcore::OptionList$new(
+                "trimFillSide",
+                trimFillSide,
+                options=list(
+                    "auto",
+                    "left",
+                    "right"),
+                default="auto")
+            private$..trimFillEstimator <- jmvcore::OptionList$new(
+                "trimFillEstimator",
+                trimFillEstimator,
+                options=list(
+                    "L",
+                    "R"),
+                default="L")
+            private$..showTrimFillSummary <- jmvcore::OptionBool$new(
+                "showTrimFillSummary",
+                showTrimFillSummary,
+                default=TRUE)
+            private$..trimFillFunnelPlot <- jmvcore::OptionBool$new(
+                "trimFillFunnelPlot",
+                trimFillFunnelPlot,
+                default=TRUE)
+            private$..trimFillFunnelStudyLabel <- jmvcore::OptionBool$new(
+                "trimFillFunnelStudyLabel",
+                trimFillFunnelStudyLabel,
+                default=FALSE)
+            private$..trimFillFunnelContour <- jmvcore::OptionBool$new(
+                "trimFillFunnelContour",
+                trimFillFunnelContour,
+                default=FALSE)
+            private$..trimFillFunnelLegend <- jmvcore::OptionBool$new(
+                "trimFillFunnelLegend",
+                trimFillFunnelLegend,
+                default=TRUE)
+            private$..trimFillFunnelLegendPos <- jmvcore::OptionList$new(
+                "trimFillFunnelLegendPos",
+                trimFillFunnelLegendPos,
+                options=list(
+                    "topright",
+                    "topleft",
+                    "bottomright",
+                    "bottomleft"),
+                default="topright")
+            private$..trimFillFunnelLegendCex <- jmvcore::OptionNumber$new(
+                "trimFillFunnelLegendCex",
+                trimFillFunnelLegendCex,
+                min=50,
+                max=200,
+                default=100)
 
             self$.addOption(private$..studyLabel)
             self$.addOption(private$..meanE)
@@ -784,6 +848,16 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..asymmetryMethod)
             self$.addOption(private$..showAsymmetrySummary)
             self$.addOption(private$..asymmetryPlot)
+            self$.addOption(private$..trimFill)
+            self$.addOption(private$..trimFillSide)
+            self$.addOption(private$..trimFillEstimator)
+            self$.addOption(private$..showTrimFillSummary)
+            self$.addOption(private$..trimFillFunnelPlot)
+            self$.addOption(private$..trimFillFunnelStudyLabel)
+            self$.addOption(private$..trimFillFunnelContour)
+            self$.addOption(private$..trimFillFunnelLegend)
+            self$.addOption(private$..trimFillFunnelLegendPos)
+            self$.addOption(private$..trimFillFunnelLegendCex)
         }),
     active = list(
         studyLabel = function() private$..studyLabel$value,
@@ -887,7 +961,17 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         asymmetryTest = function() private$..asymmetryTest$value,
         asymmetryMethod = function() private$..asymmetryMethod$value,
         showAsymmetrySummary = function() private$..showAsymmetrySummary$value,
-        asymmetryPlot = function() private$..asymmetryPlot$value),
+        asymmetryPlot = function() private$..asymmetryPlot$value,
+        trimFill = function() private$..trimFill$value,
+        trimFillSide = function() private$..trimFillSide$value,
+        trimFillEstimator = function() private$..trimFillEstimator$value,
+        showTrimFillSummary = function() private$..showTrimFillSummary$value,
+        trimFillFunnelPlot = function() private$..trimFillFunnelPlot$value,
+        trimFillFunnelStudyLabel = function() private$..trimFillFunnelStudyLabel$value,
+        trimFillFunnelContour = function() private$..trimFillFunnelContour$value,
+        trimFillFunnelLegend = function() private$..trimFillFunnelLegend$value,
+        trimFillFunnelLegendPos = function() private$..trimFillFunnelLegendPos$value,
+        trimFillFunnelLegendCex = function() private$..trimFillFunnelLegendCex$value),
     private = list(
         ..studyLabel = NA,
         ..meanE = NA,
@@ -990,7 +1074,17 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..asymmetryTest = NA,
         ..asymmetryMethod = NA,
         ..showAsymmetrySummary = NA,
-        ..asymmetryPlot = NA)
+        ..asymmetryPlot = NA,
+        ..trimFill = NA,
+        ..trimFillSide = NA,
+        ..trimFillEstimator = NA,
+        ..showTrimFillSummary = NA,
+        ..trimFillFunnelPlot = NA,
+        ..trimFillFunnelStudyLabel = NA,
+        ..trimFillFunnelContour = NA,
+        ..trimFillFunnelLegend = NA,
+        ..trimFillFunnelLegendPos = NA,
+        ..trimFillFunnelLegendCex = NA)
 )
 
 metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -1007,7 +1101,9 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         leaveOneOutPlot = function() private$.items[["leaveOneOutPlot"]],
         funnelPlotImage = function() private$.items[["funnelPlotImage"]],
         asymmetryTestText = function() private$.items[["asymmetryTestText"]],
-        asymmetryPlotImage = function() private$.items[["asymmetryPlotImage"]]),
+        asymmetryPlotImage = function() private$.items[["asymmetryPlotImage"]],
+        trimFillText = function() private$.items[["trimFillText"]],
+        trimFillFunnelPlotImage = function() private$.items[["trimFillFunnelPlotImage"]]),
     private = list(),
     public=list(
         initialize=function(options) {
@@ -1378,6 +1474,61 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "confidenceLevel",
                     "asymmetryMethod"),
                 refs=list(
+                    "metaPackage")))
+            self$add(jmvcore::Html$new(
+                options=options,
+                name="trimFillText",
+                visible="(trimFill && showTrimFillSummary)",
+                clearWith=list(
+                    "studyLabel",
+                    "meanE",
+                    "sdE",
+                    "nE",
+                    "meanC",
+                    "sdC",
+                    "nC",
+                    "sm",
+                    "methodSmd",
+                    "model",
+                    "methodTau",
+                    "methodRandomCi",
+                    "prediction",
+                    "confidenceLevel",
+                    "trimFillSide",
+                    "trimFillEstimator"),
+                refs=list(
+                    "metaPackage")))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="trimFillFunnelPlotImage",
+                title="Trim & Fill Funnel Plot",
+                width=550,
+                height=500,
+                renderFun=".trimFillFunnelPlot",
+                visible="(trimFill && trimFillFunnelPlot)",
+                clearWith=list(
+                    "studyLabel",
+                    "meanE",
+                    "sdE",
+                    "nE",
+                    "meanC",
+                    "sdC",
+                    "nC",
+                    "sm",
+                    "methodSmd",
+                    "model",
+                    "methodTau",
+                    "methodRandomCi",
+                    "prediction",
+                    "confidenceLevel",
+                    "trimFillSide",
+                    "trimFillEstimator",
+                    "trimFillFunnelStudyLabel",
+                    "trimFillFunnelContour",
+                    "trimFillFunnelLegend",
+                    "trimFillFunnelLegendPos",
+                    "trimFillFunnelLegendCex"),
+                refs=list(
                     "metaPackage")))}))
 
 metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -1507,6 +1658,16 @@ metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param asymmetryMethod .
 #' @param showAsymmetrySummary .
 #' @param asymmetryPlot .
+#' @param trimFill .
+#' @param trimFillSide .
+#' @param trimFillEstimator .
+#' @param showTrimFillSummary .
+#' @param trimFillFunnelPlot .
+#' @param trimFillFunnelStudyLabel .
+#' @param trimFillFunnelContour .
+#' @param trimFillFunnelLegend .
+#' @param trimFillFunnelLegendPos .
+#' @param trimFillFunnelLegendCex .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$text} \tab \tab \tab \tab \tab a html \cr
@@ -1518,6 +1679,8 @@ metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'   \code{results$funnelPlotImage} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$asymmetryTestText} \tab \tab \tab \tab \tab a html \cr
 #'   \code{results$asymmetryPlotImage} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$trimFillText} \tab \tab \tab \tab \tab a html \cr
+#'   \code{results$trimFillFunnelPlotImage} \tab \tab \tab \tab \tab an image \cr
 #' }
 #'
 #' @export
@@ -1625,7 +1788,17 @@ metaCont <- function(
     asymmetryTest = FALSE,
     asymmetryMethod = "Egger",
     showAsymmetrySummary = TRUE,
-    asymmetryPlot = FALSE) {
+    asymmetryPlot = FALSE,
+    trimFill = FALSE,
+    trimFillSide = "auto",
+    trimFillEstimator = "L",
+    showTrimFillSummary = TRUE,
+    trimFillFunnelPlot = TRUE,
+    trimFillFunnelStudyLabel = FALSE,
+    trimFillFunnelContour = FALSE,
+    trimFillFunnelLegend = TRUE,
+    trimFillFunnelLegendPos = "topright",
+    trimFillFunnelLegendCex = 100) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("metaCont requires jmvcore to be installed (restart may be required)")
@@ -1758,7 +1931,17 @@ metaCont <- function(
         asymmetryTest = asymmetryTest,
         asymmetryMethod = asymmetryMethod,
         showAsymmetrySummary = showAsymmetrySummary,
-        asymmetryPlot = asymmetryPlot)
+        asymmetryPlot = asymmetryPlot,
+        trimFill = trimFill,
+        trimFillSide = trimFillSide,
+        trimFillEstimator = trimFillEstimator,
+        showTrimFillSummary = showTrimFillSummary,
+        trimFillFunnelPlot = trimFillFunnelPlot,
+        trimFillFunnelStudyLabel = trimFillFunnelStudyLabel,
+        trimFillFunnelContour = trimFillFunnelContour,
+        trimFillFunnelLegend = trimFillFunnelLegend,
+        trimFillFunnelLegendPos = trimFillFunnelLegendPos,
+        trimFillFunnelLegendCex = trimFillFunnelLegendCex)
 
     analysis <- metaContClass$new(
         options = options,

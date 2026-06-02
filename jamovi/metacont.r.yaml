@@ -333,3 +333,58 @@ items:
       - asymmetryMethod
     refs:
       - metaPackage
+
+  - name: trimFillText
+    type: Html
+    visible: (trimFill && showTrimFillSummary)
+    clearWith:
+      - studyLabel
+      - meanE
+      - sdE
+      - nE
+      - meanC
+      - sdC
+      - nC
+      - sm
+      - methodSmd
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - trimFillSide
+      - trimFillEstimator
+    refs:
+      - metaPackage
+
+  - name: trimFillFunnelPlotImage
+    title: Trim & Fill Funnel Plot
+    type: Image
+    width: 550
+    height: 500
+    renderFun: .trimFillFunnelPlot
+    visible: (trimFill && trimFillFunnelPlot)
+    clearWith:
+      - studyLabel
+      - meanE
+      - sdE
+      - nE
+      - meanC
+      - sdC
+      - nC
+      - sm
+      - methodSmd
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - trimFillSide
+      - trimFillEstimator
+      - trimFillFunnelStudyLabel
+      - trimFillFunnelContour
+      - trimFillFunnelLegend
+      - trimFillFunnelLegendPos
+      - trimFillFunnelLegendCex
+    refs:
+      - metaPackage

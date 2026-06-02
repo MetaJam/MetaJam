@@ -32,6 +32,13 @@ metaContClass <- R6::R6Class(
         private$.leaveOneOutModel <- computeLeaveOneOutModel(self)
       }
       private$.leaveOneOutModel
+    },
+
+    trimFillModel = function() {
+      if (isFALSE(private$.trimFillModel)) {
+        private$.trimFillModel <- computeTrimFillModel(self)
+      }
+      private$.trimFillModel
     }
   ),
 
@@ -41,6 +48,7 @@ metaContClass <- R6::R6Class(
     .subgroupModels = FALSE,
     .metaRegModels = FALSE,
     .leaveOneOutModel = FALSE,
+    .trimFillModel = FALSE,
     .requiredVars = c("meanE", "sdE", "nE", "meanC", "sdC", "nC"),
 
     # Initialization: runs before the model is computed. Sets up dynamic arrays
@@ -66,6 +74,12 @@ metaContClass <- R6::R6Class(
         self$options,
         private$.requiredVars,
         getAsymmetryTestTitle(self$options$asymmetryMethod)
+      )
+      initText(
+        self$results$trimFillText,
+        self$options,
+        private$.requiredVars,
+        "Trim & Fill Summary"
       )
     },
 
@@ -119,6 +133,7 @@ metaContClass <- R6::R6Class(
       populateMetaRegTexts(self)
       populateLeaveOneOutText(self)
       populateAsymmetryTestText(self)
+      populateTrimFillText(self)
     },
 
     # Render functions: called by jmvcore when the corresponding plot needs to
@@ -145,6 +160,10 @@ metaContClass <- R6::R6Class(
 
     .asymmetryPlot = function(image, ...) {
       renderAsymmetryPlot(self)
+    },
+
+    .trimFillFunnelPlot = function(image, ...) {
+      renderTrimFillFunnelPlot(self)
     }
   )
 )
