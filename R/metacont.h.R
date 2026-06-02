@@ -118,7 +118,12 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             trimFillFunnelContour = FALSE,
             trimFillFunnelLegend = TRUE,
             trimFillFunnelLegendPos = "topright",
-            trimFillFunnelLegendCex = 100, ...) {
+            trimFillFunnelLegendCex = 100,
+            doiPlot = FALSE,
+            doiPlotLegend = TRUE,
+            doiPlotLegendPos = "topright",
+            doiPlotLegendCex = 100,
+            lfkIndex = FALSE, ...) {
 
             super$initialize(
                 package="MetaJam",
@@ -637,7 +642,7 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 options=list(
                     "funnelPlot",
                     "trimFill",
-                    "lfkIndex"),
+                    "doiLfk"),
                 default="funnelPlot")
             private$..funnelPlot <- jmvcore::OptionBool$new(
                 "funnelPlot",
@@ -745,6 +750,33 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 min=50,
                 max=200,
                 default=100)
+            private$..doiPlot <- jmvcore::OptionBool$new(
+                "doiPlot",
+                doiPlot,
+                default=FALSE)
+            private$..doiPlotLegend <- jmvcore::OptionBool$new(
+                "doiPlotLegend",
+                doiPlotLegend,
+                default=TRUE)
+            private$..doiPlotLegendPos <- jmvcore::OptionList$new(
+                "doiPlotLegendPos",
+                doiPlotLegendPos,
+                options=list(
+                    "topright",
+                    "topleft",
+                    "bottomright",
+                    "bottomleft"),
+                default="topright")
+            private$..doiPlotLegendCex <- jmvcore::OptionNumber$new(
+                "doiPlotLegendCex",
+                doiPlotLegendCex,
+                min=50,
+                max=200,
+                default=100)
+            private$..lfkIndex <- jmvcore::OptionBool$new(
+                "lfkIndex",
+                lfkIndex,
+                default=FALSE)
 
             self$.addOption(private$..studyLabel)
             self$.addOption(private$..meanE)
@@ -858,6 +890,11 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..trimFillFunnelLegend)
             self$.addOption(private$..trimFillFunnelLegendPos)
             self$.addOption(private$..trimFillFunnelLegendCex)
+            self$.addOption(private$..doiPlot)
+            self$.addOption(private$..doiPlotLegend)
+            self$.addOption(private$..doiPlotLegendPos)
+            self$.addOption(private$..doiPlotLegendCex)
+            self$.addOption(private$..lfkIndex)
         }),
     active = list(
         studyLabel = function() private$..studyLabel$value,
@@ -971,7 +1008,12 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         trimFillFunnelContour = function() private$..trimFillFunnelContour$value,
         trimFillFunnelLegend = function() private$..trimFillFunnelLegend$value,
         trimFillFunnelLegendPos = function() private$..trimFillFunnelLegendPos$value,
-        trimFillFunnelLegendCex = function() private$..trimFillFunnelLegendCex$value),
+        trimFillFunnelLegendCex = function() private$..trimFillFunnelLegendCex$value,
+        doiPlot = function() private$..doiPlot$value,
+        doiPlotLegend = function() private$..doiPlotLegend$value,
+        doiPlotLegendPos = function() private$..doiPlotLegendPos$value,
+        doiPlotLegendCex = function() private$..doiPlotLegendCex$value,
+        lfkIndex = function() private$..lfkIndex$value),
     private = list(
         ..studyLabel = NA,
         ..meanE = NA,
@@ -1084,7 +1126,12 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..trimFillFunnelContour = NA,
         ..trimFillFunnelLegend = NA,
         ..trimFillFunnelLegendPos = NA,
-        ..trimFillFunnelLegendCex = NA)
+        ..trimFillFunnelLegendCex = NA,
+        ..doiPlot = NA,
+        ..doiPlotLegend = NA,
+        ..doiPlotLegendPos = NA,
+        ..doiPlotLegendCex = NA,
+        ..lfkIndex = NA)
 )
 
 metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -1103,7 +1150,9 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         asymmetryTestText = function() private$.items[["asymmetryTestText"]],
         asymmetryPlotImage = function() private$.items[["asymmetryPlotImage"]],
         trimFillText = function() private$.items[["trimFillText"]],
-        trimFillFunnelPlotImage = function() private$.items[["trimFillFunnelPlotImage"]]),
+        trimFillFunnelPlotImage = function() private$.items[["trimFillFunnelPlotImage"]],
+        doiPlotImage = function() private$.items[["doiPlotImage"]],
+        lfkIndexText = function() private$.items[["lfkIndexText"]]),
     private = list(),
     public=list(
         initialize=function(options) {
@@ -1529,7 +1578,56 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "trimFillFunnelLegendPos",
                     "trimFillFunnelLegendCex"),
                 refs=list(
-                    "metaPackage")))}))
+                    "metaPackage")))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="doiPlotImage",
+                title="Doi Plot",
+                width=550,
+                height=500,
+                renderFun=".doiPlot",
+                visible="(doiPlot)",
+                clearWith=list(
+                    "studyLabel",
+                    "meanE",
+                    "sdE",
+                    "nE",
+                    "meanC",
+                    "sdC",
+                    "nC",
+                    "sm",
+                    "methodSmd",
+                    "model",
+                    "methodTau",
+                    "methodRandomCi",
+                    "prediction",
+                    "confidenceLevel",
+                    "doiPlotLegend",
+                    "doiPlotLegendPos",
+                    "doiPlotLegendCex"),
+                refs=list(
+                    "metasensPackage")))
+            self$add(jmvcore::Html$new(
+                options=options,
+                name="lfkIndexText",
+                visible="(lfkIndex)",
+                clearWith=list(
+                    "studyLabel",
+                    "meanE",
+                    "sdE",
+                    "nE",
+                    "meanC",
+                    "sdC",
+                    "nC",
+                    "sm",
+                    "methodSmd",
+                    "model",
+                    "methodTau",
+                    "methodRandomCi",
+                    "prediction",
+                    "confidenceLevel"),
+                refs=list(
+                    "metasensPackage")))}))
 
 metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "metaContBase",
@@ -1668,6 +1766,11 @@ metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param trimFillFunnelLegend .
 #' @param trimFillFunnelLegendPos .
 #' @param trimFillFunnelLegendCex .
+#' @param doiPlot .
+#' @param doiPlotLegend .
+#' @param doiPlotLegendPos .
+#' @param doiPlotLegendCex .
+#' @param lfkIndex .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$text} \tab \tab \tab \tab \tab a html \cr
@@ -1681,6 +1784,8 @@ metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'   \code{results$asymmetryPlotImage} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$trimFillText} \tab \tab \tab \tab \tab a html \cr
 #'   \code{results$trimFillFunnelPlotImage} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$doiPlotImage} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$lfkIndexText} \tab \tab \tab \tab \tab a html \cr
 #' }
 #'
 #' @export
@@ -1798,7 +1903,12 @@ metaCont <- function(
     trimFillFunnelContour = FALSE,
     trimFillFunnelLegend = TRUE,
     trimFillFunnelLegendPos = "topright",
-    trimFillFunnelLegendCex = 100) {
+    trimFillFunnelLegendCex = 100,
+    doiPlot = FALSE,
+    doiPlotLegend = TRUE,
+    doiPlotLegendPos = "topright",
+    doiPlotLegendCex = 100,
+    lfkIndex = FALSE) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("metaCont requires jmvcore to be installed (restart may be required)")
@@ -1941,7 +2051,12 @@ metaCont <- function(
         trimFillFunnelContour = trimFillFunnelContour,
         trimFillFunnelLegend = trimFillFunnelLegend,
         trimFillFunnelLegendPos = trimFillFunnelLegendPos,
-        trimFillFunnelLegendCex = trimFillFunnelLegendCex)
+        trimFillFunnelLegendCex = trimFillFunnelLegendCex,
+        doiPlot = doiPlot,
+        doiPlotLegend = doiPlotLegend,
+        doiPlotLegendPos = doiPlotLegendPos,
+        doiPlotLegendCex = doiPlotLegendCex,
+        lfkIndex = lfkIndex)
 
     analysis <- metaContClass$new(
         options = options,

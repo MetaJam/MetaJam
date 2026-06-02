@@ -737,5 +737,22 @@ children:
                             suffix: "%"
                             enable: (trimFill && trimFillFunnelPlot && trimFillFunnelLegend)
           - type: Content
-            name: lfkIndex
-            children: []
+            name: doiLfk
+            children:
+              - type: CheckBox
+                name: doiPlot
+                children:
+                  - type: CheckBox
+                    name: doiPlotLegend
+                    enable: (doiPlot)
+                    children:
+                      - type: ComboBox
+                        name: doiPlotLegendPos
+                        enable: (doiPlot && doiPlotLegend)
+                      - type: TextBox
+                        name: doiPlotLegendCex
+                        format: number
+                        suffix: "%"
+                        enable: (doiPlot && doiPlotLegend)
+              - type: CheckBox
+                name: lfkIndex

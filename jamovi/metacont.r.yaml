@@ -388,3 +388,52 @@ items:
       - trimFillFunnelLegendCex
     refs:
       - metaPackage
+
+  - name: doiPlotImage
+    title: Doi Plot
+    type: Image
+    width: 550
+    height: 500
+    renderFun: .doiPlot
+    visible: (doiPlot)
+    clearWith:
+      - studyLabel
+      - meanE
+      - sdE
+      - nE
+      - meanC
+      - sdC
+      - nC
+      - sm
+      - methodSmd
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - doiPlotLegend
+      - doiPlotLegendPos
+      - doiPlotLegendCex
+    refs:
+      - metasensPackage
+
+  - name: lfkIndexText
+    type: Html
+    visible: (lfkIndex)
+    clearWith:
+      - studyLabel
+      - meanE
+      - sdE
+      - nE
+      - meanC
+      - sdC
+      - nC
+      - sm
+      - methodSmd
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+    refs:
+      - metasensPackage

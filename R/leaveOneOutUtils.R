@@ -53,9 +53,10 @@ populateLeaveOneOutText <- function(self) {
       title = "Leave-One-Out Summary",
       modifier = function(out) {
         if (length(out) > 0 && out[1] == "Leave-one-out meta-analysis") {
-          return(out[-c(1, 2)])
+          out[-c(1, 2)]
+        } else {
+          out
         }
-        return(out)
       }
     )
   )

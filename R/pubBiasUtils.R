@@ -120,6 +120,39 @@ populateTrimFillText <- function(self) {
 }
 
 
+#' Populate the LFK Index Summary
+#'
+#' Called from `.run()` after `hasRequiredVars()` has passed.
+#' Guards: skips when hidden, already filled, or model is NULL.
+#' Runs `metasens::lfkindex()` and renders the output as HTML.
+#'
+#' @param self The jamovi `self` object.
+#' @noRd
+populateLfkIndexText <- function(self) {
+  textResult <- self$results$lfkIndexText
+
+  if (!textResult$visible || textResult$isFilled() || is.null(self$model)) {
+    return()
+  }
+
+  lfk <- metasens::lfkindex(self$model)
+
+  textResult$setContent(
+    asHtml(
+      print(lfk),
+      title = "LFK Index",
+      modifier = function(out) {
+        if (length(out) > 0 && trimws(out[1]) == "LFK index test") {
+          out[-c(1, 2)]
+        } else {
+          out
+        }
+      }
+    )
+  )
+}
+
+
 #' Render Funnel Plot for Publication Bias
 #'
 #' Draws a standard or contour-enhanced funnel plot using `meta::funnel()`.
@@ -310,9 +343,48 @@ renderTrimFillFunnelPlot <- function(self) {
 }
 
 
+#' Render DOI Plot
+#'
+#' Draws a DOI plot using `metasens::doiplot()` with the base meta object.
+#' Suppresses the built-in legend (`lfkindex = FALSE`) and renders a custom
+#' `legend()` call with user-controlled position and size, following the same
+#' pattern as the funnel plot legend.
+#'
+#' @param self The jamovi `self` object.
+#' @return TRUE if the plot was successfully rendered, FALSE otherwise.
+#' @noRd
+renderDoiPlot <- function(self) {
+  model <- self$model
+  if (is.null(model)) {
+    return(FALSE)
+  }
+
+  opts <- self$options
+
+  # Calculate LFK index once
+  lfk <- metasens::lfkindex(model)
+
+  # Draw the DOI plot without its internal legend
+  metasens::doiplot(lfk, lfkindex = FALSE)
+
+  # Add our own legend with size control
+  if (opts$doiPlotLegend) {
+    legend(
+      opts$doiPlotLegendPos,
+      legend = paste("LFK index", round(lfk$lfkindex, 2)),
+      bg = "white",
+      cex = opts$doiPlotLegendCex / 100
+    )
+  }
+
+  TRUE
+}
+
+
 #' Get the Publication Bias Test Title
 #'
-#' Maps the selected asymmetry method to the exact title used by the meta package.
+#' Maps the selected asymmetry method to the exact title used by the meta
+#' package.
 #'
 #' @param method The asymmetry method string.
 #' @return A character string representing the test title.

@@ -683,8 +683,8 @@ options:
         name: funnelPlot
       - title: Trim & Fill
         name: trimFill
-      - title: LFK Index
-        name: lfkIndex
+      - title: Doi Plot & LFK
+        name: doiLfk
     default: funnelPlot
 
   - name: funnelPlot
@@ -829,3 +829,39 @@ options:
     min: 50
     max: 200
     default: 100
+
+  - name: doiPlot
+    title: Doi plot
+    type: Bool
+    default: false
+
+  - name: doiPlotLegend
+    title: Legend
+    type: Bool
+    default: true
+
+  - name: doiPlotLegendPos
+    title: Position
+    type: List
+    options:
+      - title: Top right
+        name: topright
+      - title: Top left
+        name: topleft
+      - title: Bottom right
+        name: bottomright
+      - title: Bottom left
+        name: bottomleft
+    default: topright
+
+  - name: doiPlotLegendCex
+    title: Size
+    type: Number
+    min: 50
+    max: 200
+    default: 100
+
+  - name: lfkIndex
+    title: LFK index
+    type: Bool
+    default: false

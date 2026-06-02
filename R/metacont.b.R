@@ -81,6 +81,12 @@ metaContClass <- R6::R6Class(
         private$.requiredVars,
         "Trim & Fill Summary"
       )
+      initText(
+        self$results$lfkIndexText,
+        self$options,
+        private$.requiredVars,
+        "LFK Index"
+      )
     },
 
     # Post-initialization: runs after .init() but before .run() or render
@@ -134,6 +140,7 @@ metaContClass <- R6::R6Class(
       populateLeaveOneOutText(self)
       populateAsymmetryTestText(self)
       populateTrimFillText(self)
+      populateLfkIndexText(self)
     },
 
     # Render functions: called by jmvcore when the corresponding plot needs to
@@ -164,6 +171,10 @@ metaContClass <- R6::R6Class(
 
     .trimFillFunnelPlot = function(image, ...) {
       renderTrimFillFunnelPlot(self)
+    },
+
+    .doiPlot = function(image, ...) {
+      renderDoiPlot(self)
     }
   )
 )
