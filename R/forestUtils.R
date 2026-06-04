@@ -29,6 +29,12 @@ renderForest <- function(model, options, ...) {
     details = options$forestDetails,
     print.I2.ci = options$forestPrintI2Ci,
     print.tau2.ci = options$forestPrintTau2Ci,
+    digits = as.integer(options$digitsEffect),
+    digits.pval = as.integer(options$digitsPval),
+    digits.pval.Q = as.integer(options$digitsPval),
+    digits.weight = as.integer(options$digitsWeight),
+    digits.I2 = as.integer(options$digitsI2),
+    digits.tau2 = as.integer(options$digitsTau2),
     ...
   )
 

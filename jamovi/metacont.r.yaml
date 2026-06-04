@@ -69,6 +69,13 @@ items:
       - forestDetails
       - forestPrintI2Ci
       - forestPrintTau2Ci
+      - digitsEffect
+      - digitsMean
+      - digitsSd
+      - digitsPval
+      - digitsWeight
+      - digitsI2
+      - digitsTau2
     refs:
       - metaPackage
 
@@ -140,6 +147,13 @@ items:
             - subgroupForestPrintI2Ci
             - subgroupForestPrintTau2Ci
             - subgroupForestDetails
+            - subgroupDigitsEffect
+            - subgroupDigitsMean
+            - subgroupDigitsSd
+            - subgroupDigitsPval
+            - subgroupDigitsWeight
+            - subgroupDigitsI2
+            - subgroupDigitsTau2
           refs:
             - metaPackage
 
@@ -253,6 +267,10 @@ items:
       - leaveOneOutColgapForest
       - leaveOneOutColgapForestUnit
       - leaveOneOutForestDetails
+      - leaveOneOutDigitsEffect
+      - leaveOneOutDigitsPval
+      - leaveOneOutDigitsI2
+      - leaveOneOutDigitsTau2
     refs:
       - metaPackage
 

@@ -103,7 +103,12 @@ renderSubgroupForest <- function(model, options, ...) {
     xlimLower = options$subgroupXlimLower,
     xlimUpper = options$subgroupXlimUpper,
     addrowsCustom = options$subgroupAddrowsCustom,
-    addrowsBelowOverall = options$subgroupAddrowsBelowOverall
+    addrowsBelowOverall = options$subgroupAddrowsBelowOverall,
+    digitsEffect = options$subgroupDigitsEffect,
+    digitsWeight = options$subgroupDigitsWeight,
+    digitsI2 = options$subgroupDigitsI2,
+    digitsTau2 = options$subgroupDigitsTau2,
+    digitsPval = options$subgroupDigitsPval
   )
 
   renderForest(

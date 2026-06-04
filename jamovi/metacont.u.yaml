@@ -224,6 +224,54 @@ children:
                         cell:
                           row: 1
                           column: 1
+              - type: Content
+                name: rounding
+                children:
+                  - type: LayoutBox
+                    fitToGrid: true
+                    children:
+                      - type: ComboBox
+                        name: digitsEffect
+                        enable: (forestPlot)
+                        cell:
+                          row: 0
+                          column: 0
+                      - type: ComboBox
+                        name: digitsWeight
+                        enable: (forestPlot)
+                        cell:
+                          row: 0
+                          column: 1
+                      - type: ComboBox
+                        name: digitsMean
+                        enable: (forestPlot)
+                        cell:
+                          row: 1
+                          column: 0
+                      - type: ComboBox
+                        name: digitsI2
+                        enable: (forestPlot)
+                        cell:
+                          row: 1
+                          column: 1
+                      - type: ComboBox
+                        name: digitsSd
+                        enable: (forestPlot)
+                        cell:
+                          row: 2
+                          column: 0
+                      - type: ComboBox
+                        name: digitsTau2
+                        enable: (forestPlot)
+                        cell:
+                          row: 2
+                          column: 1
+                      - type: ComboBox
+                        name: digitsPval
+                        enable: (forestPlot)
+                        cell:
+                          row: 3
+                          column: 0
 
   - type: CollapseBox
     label: Subgroup Analysis
@@ -445,6 +493,68 @@ children:
                         cell:
                           row: 1
                           column: 1
+              - type: Content
+                name: rounding
+                children:
+                  - type: LayoutBox
+                    fitToGrid: true
+                    children:
+                      - type: ComboBox
+                        name: subgroupDigitsEffect
+                        enable: >
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
+                          ui['subgroupForestPlot'].value();})
+                        cell:
+                          row: 0
+                          column: 0
+                      - type: ComboBox
+                        name: subgroupDigitsWeight
+                        enable: >
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
+                          ui['subgroupForestPlot'].value();})
+                        cell:
+                          row: 0
+                          column: 1
+                      - type: ComboBox
+                        name: subgroupDigitsMean
+                        enable: >
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
+                          ui['subgroupForestPlot'].value();})
+                        cell:
+                          row: 1
+                          column: 0
+                      - type: ComboBox
+                        name: subgroupDigitsI2
+                        enable: >
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
+                          ui['subgroupForestPlot'].value();})
+                        cell:
+                          row: 1
+                          column: 1
+                      - type: ComboBox
+                        name: subgroupDigitsSd
+                        enable: >
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
+                          ui['subgroupForestPlot'].value();})
+                        cell:
+                          row: 2
+                          column: 0
+                      - type: ComboBox
+                        name: subgroupDigitsTau2
+                        enable: >
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
+                          ui['subgroupForestPlot'].value();})
+                        cell:
+                          row: 2
+                          column: 1
+                      - type: ComboBox
+                        name: subgroupDigitsPval
+                        enable: >
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
+                          ui['subgroupForestPlot'].value();})
+                        cell:
+                          row: 3
+                          column: 0
 
   - type: CollapseBox
     label: Meta-Regression
@@ -645,6 +755,36 @@ children:
                           column: 0
                       - type: ComboBox
                         name: leaveOneOutColgapForestUnit
+                        enable: (leaveOneOut && leaveOneOutForestPlot)
+                        cell:
+                          row: 1
+                          column: 1
+              - type: Content
+                name: rounding
+                children:
+                  - type: LayoutBox
+                    fitToGrid: true
+                    children:
+                      - type: ComboBox
+                        name: leaveOneOutDigitsEffect
+                        enable: (leaveOneOut && leaveOneOutForestPlot)
+                        cell:
+                          row: 0
+                          column: 0
+                      - type: ComboBox
+                        name: leaveOneOutDigitsI2
+                        enable: (leaveOneOut && leaveOneOutForestPlot)
+                        cell:
+                          row: 0
+                          column: 1
+                      - type: ComboBox
+                        name: leaveOneOutDigitsPval
+                        enable: (leaveOneOut && leaveOneOutForestPlot)
+                        cell:
+                          row: 1
+                          column: 0
+                      - type: ComboBox
+                        name: leaveOneOutDigitsTau2
                         enable: (leaveOneOut && leaveOneOutForestPlot)
                         cell:
                           row: 1

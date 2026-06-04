@@ -163,6 +163,8 @@ options:
         name: general
       - title: Dimensions
         name: dimensions
+      - title: Rounding
+        name: rounding
     default: general
 
   - name: forestLayout
@@ -297,6 +299,128 @@ options:
         name: inch
     default: mm
 
+  - name: digitsEffect
+    title: Effect size & CI
+    type: List
+    options:
+      - name: "0"
+        title: "0"
+      - name: "1"
+        title: "1"
+      - name: "2"
+        title: "2"
+      - name: "3"
+        title: "3"
+      - name: "4"
+        title: "4"
+      - name: "5"
+        title: "5"
+    default: "2"
+
+  - name: digitsMean
+    title: Mean
+    type: List
+    options:
+      - name: "0"
+        title: "0"
+      - name: "1"
+        title: "1"
+      - name: "2"
+        title: "2"
+      - name: "3"
+        title: "3"
+      - name: "4"
+        title: "4"
+      - name: "5"
+        title: "5"
+    default: "2"
+
+  - name: digitsSd
+    title: SD
+    type: List
+    options:
+      - name: "0"
+        title: "0"
+      - name: "1"
+        title: "1"
+      - name: "2"
+        title: "2"
+      - name: "3"
+        title: "3"
+      - name: "4"
+        title: "4"
+      - name: "5"
+        title: "5"
+    default: "2"
+
+  - name: digitsPval
+    title: P-value
+    type: List
+    options:
+      - name: "2"
+        title: "2"
+      - name: "3"
+        title: "3"
+      - name: "4"
+        title: "4"
+      - name: "5"
+        title: "5"
+    default: "4"
+
+  - name: digitsWeight
+    title: Weight
+    type: List
+    options:
+      - name: "0"
+        title: "0"
+      - name: "1"
+        title: "1"
+      - name: "2"
+        title: "2"
+      - name: "3"
+        title: "3"
+      - name: "4"
+        title: "4"
+      - name: "5"
+        title: "5"
+    default: "1"
+
+  - name: digitsI2
+    title: I²
+    type: List
+    options:
+      - name: "0"
+        title: "0"
+      - name: "1"
+        title: "1"
+      - name: "2"
+        title: "2"
+      - name: "3"
+        title: "3"
+      - name: "4"
+        title: "4"
+      - name: "5"
+        title: "5"
+    default: "1"
+
+  - name: digitsTau2
+    title: Tau²
+    type: List
+    options:
+      - name: "0"
+        title: "0"
+      - name: "1"
+        title: "1"
+      - name: "2"
+        title: "2"
+      - name: "3"
+        title: "3"
+      - name: "4"
+        title: "4"
+      - name: "5"
+        title: "5"
+    default: "4"
+
   - name: subgroupVariables
     title: Subgroup Variables
     type: Variables
@@ -335,6 +459,8 @@ options:
         name: general
       - title: Dimensions
         name: dimensions
+      - title: Rounding
+        name: rounding
     default: general
 
   - name: printSubgroupName
@@ -486,6 +612,128 @@ options:
         name: inch
     default: mm
 
+  - name: subgroupDigitsEffect
+    title: Effect size & CI
+    type: List
+    options:
+      - name: "0"
+        title: "0"
+      - name: "1"
+        title: "1"
+      - name: "2"
+        title: "2"
+      - name: "3"
+        title: "3"
+      - name: "4"
+        title: "4"
+      - name: "5"
+        title: "5"
+    default: "2"
+
+  - name: subgroupDigitsMean
+    title: Mean
+    type: List
+    options:
+      - name: "0"
+        title: "0"
+      - name: "1"
+        title: "1"
+      - name: "2"
+        title: "2"
+      - name: "3"
+        title: "3"
+      - name: "4"
+        title: "4"
+      - name: "5"
+        title: "5"
+    default: "2"
+
+  - name: subgroupDigitsSd
+    title: SD
+    type: List
+    options:
+      - name: "0"
+        title: "0"
+      - name: "1"
+        title: "1"
+      - name: "2"
+        title: "2"
+      - name: "3"
+        title: "3"
+      - name: "4"
+        title: "4"
+      - name: "5"
+        title: "5"
+    default: "2"
+
+  - name: subgroupDigitsPval
+    title: P-value
+    type: List
+    options:
+      - name: "2"
+        title: "2"
+      - name: "3"
+        title: "3"
+      - name: "4"
+        title: "4"
+      - name: "5"
+        title: "5"
+    default: "4"
+
+  - name: subgroupDigitsWeight
+    title: Weight
+    type: List
+    options:
+      - name: "0"
+        title: "0"
+      - name: "1"
+        title: "1"
+      - name: "2"
+        title: "2"
+      - name: "3"
+        title: "3"
+      - name: "4"
+        title: "4"
+      - name: "5"
+        title: "5"
+    default: "1"
+
+  - name: subgroupDigitsI2
+    title: I²
+    type: List
+    options:
+      - name: "0"
+        title: "0"
+      - name: "1"
+        title: "1"
+      - name: "2"
+        title: "2"
+      - name: "3"
+        title: "3"
+      - name: "4"
+        title: "4"
+      - name: "5"
+        title: "5"
+    default: "1"
+
+  - name: subgroupDigitsTau2
+    title: Tau²
+    type: List
+    options:
+      - name: "0"
+        title: "0"
+      - name: "1"
+        title: "1"
+      - name: "2"
+        title: "2"
+      - name: "3"
+        title: "3"
+      - name: "4"
+        title: "4"
+      - name: "5"
+        title: "5"
+    default: "4"
+
   - name: metaRegCovs
     title: Covariates
     type: Variables
@@ -562,6 +810,8 @@ options:
         name: general
       - title: Dimensions
         name: dimensions
+      - title: Rounding
+        name: rounding
     default: general
 
   - name: leaveOneOutForestLayout
@@ -674,6 +924,74 @@ options:
       - title: in
         name: inch
     default: mm
+
+  - name: leaveOneOutDigitsEffect
+    title: Effect size & CI
+    type: List
+    options:
+      - name: "0"
+        title: "0"
+      - name: "1"
+        title: "1"
+      - name: "2"
+        title: "2"
+      - name: "3"
+        title: "3"
+      - name: "4"
+        title: "4"
+      - name: "5"
+        title: "5"
+    default: "2"
+
+  - name: leaveOneOutDigitsPval
+    title: P-value
+    type: List
+    options:
+      - name: "2"
+        title: "2"
+      - name: "3"
+        title: "3"
+      - name: "4"
+        title: "4"
+      - name: "5"
+        title: "5"
+    default: "4"
+
+  - name: leaveOneOutDigitsI2
+    title: I²
+    type: List
+    options:
+      - name: "0"
+        title: "0"
+      - name: "1"
+        title: "1"
+      - name: "2"
+        title: "2"
+      - name: "3"
+        title: "3"
+      - name: "4"
+        title: "4"
+      - name: "5"
+        title: "5"
+    default: "1"
+
+  - name: leaveOneOutDigitsTau2
+    title: Tau² & Tau
+    type: List
+    options:
+      - name: "0"
+        title: "0"
+      - name: "1"
+        title: "1"
+      - name: "2"
+        title: "2"
+      - name: "3"
+        title: "3"
+      - name: "4"
+        title: "4"
+      - name: "5"
+        title: "5"
+    default: "4"
 
   - name: pubBiasMode
     title: ""

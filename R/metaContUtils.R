@@ -104,14 +104,18 @@ renderContForest <- function(self) {
       label.e.attach = c("n.e", "mean.e", "sd.e"),
       label.c.attach = c("n.c", "mean.c", "sd.c"),
       just.label.e = "center",
-      just.label.c = "center"
+      just.label.c = "center",
+      digits.mean = as.integer(options$digitsMean),
+      digits.sd = as.integer(options$digitsSd)
     )
   } else {
     renderForest(
       model,
       options,
       label.e = options$labelE,
-      label.c = options$labelC
+      label.c = options$labelC,
+      digits.mean = as.integer(options$digitsMean),
+      digits.sd = as.integer(options$digitsSd)
     )
   }
 
@@ -146,14 +150,18 @@ renderContSubgroupForest <- function(self, key) {
       label.e.attach = c("n.e", "mean.e", "sd.e"),
       label.c.attach = c("n.c", "mean.c", "sd.c"),
       just.label.e = "center",
-      just.label.c = "center"
+      just.label.c = "center",
+      digits.mean = as.integer(options$subgroupDigitsMean),
+      digits.sd = as.integer(options$subgroupDigitsSd)
     )
   } else {
     renderSubgroupForest(
       model,
       options,
       label.e = options$subgroupLabelE,
-      label.c = options$subgroupLabelC
+      label.c = options$subgroupLabelC,
+      digits.mean = as.integer(options$subgroupDigitsMean),
+      digits.sd = as.integer(options$subgroupDigitsSd)
     )
   }
 

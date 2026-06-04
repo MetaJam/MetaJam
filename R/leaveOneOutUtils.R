@@ -96,7 +96,12 @@ renderLeaveOneOutForest <- function(self) {
     details = options$leaveOneOutForestDetails,
     # Use superscript column headers for I2 and Tau2 in leave-one-out plots
     label.tau2 = "Tau\u00b2",
-    label.I2 = "I\u00b2"
+    label.I2 = "I\u00b2",
+    digits = as.integer(options$leaveOneOutDigitsEffect),
+    digits.pval = as.integer(options$leaveOneOutDigitsPval),
+    digits.I2 = as.integer(options$leaveOneOutDigitsI2),
+    digits.tau2 = as.integer(options$leaveOneOutDigitsTau2),
+    digits.tau = as.integer(options$leaveOneOutDigitsTau2)
   )
 
   # Sort by leave-one-out result columns (I², τ²)

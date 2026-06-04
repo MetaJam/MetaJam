@@ -42,6 +42,13 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             colgapUnit = "mm",
             colgapForest = 2,
             colgapForestUnit = "mm",
+            digitsEffect = "2",
+            digitsMean = "2",
+            digitsSd = "2",
+            digitsPval = "4",
+            digitsWeight = "1",
+            digitsI2 = "1",
+            digitsTau2 = "4",
             subgroupVariables = NULL,
             tauCommon = FALSE,
             predictionSubgroup = FALSE,
@@ -70,6 +77,13 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             subgroupColgapUnit = "mm",
             subgroupColgapForest = 2,
             subgroupColgapForestUnit = "mm",
+            subgroupDigitsEffect = "2",
+            subgroupDigitsMean = "2",
+            subgroupDigitsSd = "2",
+            subgroupDigitsPval = "4",
+            subgroupDigitsWeight = "1",
+            subgroupDigitsI2 = "1",
+            subgroupDigitsTau2 = "4",
             metaRegCovs = NULL,
             metaRegFactors = NULL,
             metaRegBlocks = list(
@@ -98,6 +112,10 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             leaveOneOutColgapUnit = "mm",
             leaveOneOutColgapForest = 2,
             leaveOneOutColgapForestUnit = "mm",
+            leaveOneOutDigitsEffect = "2",
+            leaveOneOutDigitsPval = "4",
+            leaveOneOutDigitsI2 = "1",
+            leaveOneOutDigitsTau2 = "4",
             pubBiasMode = "funnelPlot",
             funnelPlot = FALSE,
             funnelStudyLabel = FALSE,
@@ -248,7 +266,8 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 forestMode,
                 options=list(
                     "general",
-                    "dimensions"),
+                    "dimensions",
+                    "rounding"),
                 default="general")
             private$..forestLayout <- jmvcore::OptionList$new(
                 "forestLayout",
@@ -348,6 +367,81 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "cm",
                     "inch"),
                 default="mm")
+            private$..digitsEffect <- jmvcore::OptionList$new(
+                "digitsEffect",
+                digitsEffect,
+                options=list(
+                    "0",
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"),
+                default="2")
+            private$..digitsMean <- jmvcore::OptionList$new(
+                "digitsMean",
+                digitsMean,
+                options=list(
+                    "0",
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"),
+                default="2")
+            private$..digitsSd <- jmvcore::OptionList$new(
+                "digitsSd",
+                digitsSd,
+                options=list(
+                    "0",
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"),
+                default="2")
+            private$..digitsPval <- jmvcore::OptionList$new(
+                "digitsPval",
+                digitsPval,
+                options=list(
+                    "2",
+                    "3",
+                    "4",
+                    "5"),
+                default="4")
+            private$..digitsWeight <- jmvcore::OptionList$new(
+                "digitsWeight",
+                digitsWeight,
+                options=list(
+                    "0",
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"),
+                default="1")
+            private$..digitsI2 <- jmvcore::OptionList$new(
+                "digitsI2",
+                digitsI2,
+                options=list(
+                    "0",
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"),
+                default="1")
+            private$..digitsTau2 <- jmvcore::OptionList$new(
+                "digitsTau2",
+                digitsTau2,
+                options=list(
+                    "0",
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"),
+                default="4")
             private$..subgroupVariables <- jmvcore::OptionVariables$new(
                 "subgroupVariables",
                 subgroupVariables,
@@ -378,7 +472,8 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 subgroupForestMode,
                 options=list(
                     "general",
-                    "dimensions"),
+                    "dimensions",
+                    "rounding"),
                 default="general")
             private$..printSubgroupName <- jmvcore::OptionBool$new(
                 "printSubgroupName",
@@ -491,6 +586,81 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "cm",
                     "inch"),
                 default="mm")
+            private$..subgroupDigitsEffect <- jmvcore::OptionList$new(
+                "subgroupDigitsEffect",
+                subgroupDigitsEffect,
+                options=list(
+                    "0",
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"),
+                default="2")
+            private$..subgroupDigitsMean <- jmvcore::OptionList$new(
+                "subgroupDigitsMean",
+                subgroupDigitsMean,
+                options=list(
+                    "0",
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"),
+                default="2")
+            private$..subgroupDigitsSd <- jmvcore::OptionList$new(
+                "subgroupDigitsSd",
+                subgroupDigitsSd,
+                options=list(
+                    "0",
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"),
+                default="2")
+            private$..subgroupDigitsPval <- jmvcore::OptionList$new(
+                "subgroupDigitsPval",
+                subgroupDigitsPval,
+                options=list(
+                    "2",
+                    "3",
+                    "4",
+                    "5"),
+                default="4")
+            private$..subgroupDigitsWeight <- jmvcore::OptionList$new(
+                "subgroupDigitsWeight",
+                subgroupDigitsWeight,
+                options=list(
+                    "0",
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"),
+                default="1")
+            private$..subgroupDigitsI2 <- jmvcore::OptionList$new(
+                "subgroupDigitsI2",
+                subgroupDigitsI2,
+                options=list(
+                    "0",
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"),
+                default="1")
+            private$..subgroupDigitsTau2 <- jmvcore::OptionList$new(
+                "subgroupDigitsTau2",
+                subgroupDigitsTau2,
+                options=list(
+                    "0",
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"),
+                default="4")
             private$..metaRegCovs <- jmvcore::OptionVariables$new(
                 "metaRegCovs",
                 metaRegCovs,
@@ -554,7 +724,8 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 leaveOneOutForestMode,
                 options=list(
                     "general",
-                    "dimensions"),
+                    "dimensions",
+                    "rounding"),
                 default="general")
             private$..leaveOneOutForestLayout <- jmvcore::OptionList$new(
                 "leaveOneOutForestLayout",
@@ -636,6 +807,48 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "cm",
                     "inch"),
                 default="mm")
+            private$..leaveOneOutDigitsEffect <- jmvcore::OptionList$new(
+                "leaveOneOutDigitsEffect",
+                leaveOneOutDigitsEffect,
+                options=list(
+                    "0",
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"),
+                default="2")
+            private$..leaveOneOutDigitsPval <- jmvcore::OptionList$new(
+                "leaveOneOutDigitsPval",
+                leaveOneOutDigitsPval,
+                options=list(
+                    "2",
+                    "3",
+                    "4",
+                    "5"),
+                default="4")
+            private$..leaveOneOutDigitsI2 <- jmvcore::OptionList$new(
+                "leaveOneOutDigitsI2",
+                leaveOneOutDigitsI2,
+                options=list(
+                    "0",
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"),
+                default="1")
+            private$..leaveOneOutDigitsTau2 <- jmvcore::OptionList$new(
+                "leaveOneOutDigitsTau2",
+                leaveOneOutDigitsTau2,
+                options=list(
+                    "0",
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"),
+                default="4")
             private$..pubBiasMode <- jmvcore::OptionList$new(
                 "pubBiasMode",
                 pubBiasMode,
@@ -814,6 +1027,13 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..colgapUnit)
             self$.addOption(private$..colgapForest)
             self$.addOption(private$..colgapForestUnit)
+            self$.addOption(private$..digitsEffect)
+            self$.addOption(private$..digitsMean)
+            self$.addOption(private$..digitsSd)
+            self$.addOption(private$..digitsPval)
+            self$.addOption(private$..digitsWeight)
+            self$.addOption(private$..digitsI2)
+            self$.addOption(private$..digitsTau2)
             self$.addOption(private$..subgroupVariables)
             self$.addOption(private$..tauCommon)
             self$.addOption(private$..predictionSubgroup)
@@ -842,6 +1062,13 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..subgroupColgapUnit)
             self$.addOption(private$..subgroupColgapForest)
             self$.addOption(private$..subgroupColgapForestUnit)
+            self$.addOption(private$..subgroupDigitsEffect)
+            self$.addOption(private$..subgroupDigitsMean)
+            self$.addOption(private$..subgroupDigitsSd)
+            self$.addOption(private$..subgroupDigitsPval)
+            self$.addOption(private$..subgroupDigitsWeight)
+            self$.addOption(private$..subgroupDigitsI2)
+            self$.addOption(private$..subgroupDigitsTau2)
             self$.addOption(private$..metaRegCovs)
             self$.addOption(private$..metaRegFactors)
             self$.addOption(private$..metaRegBlocks)
@@ -869,6 +1096,10 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..leaveOneOutColgapUnit)
             self$.addOption(private$..leaveOneOutColgapForest)
             self$.addOption(private$..leaveOneOutColgapForestUnit)
+            self$.addOption(private$..leaveOneOutDigitsEffect)
+            self$.addOption(private$..leaveOneOutDigitsPval)
+            self$.addOption(private$..leaveOneOutDigitsI2)
+            self$.addOption(private$..leaveOneOutDigitsTau2)
             self$.addOption(private$..pubBiasMode)
             self$.addOption(private$..funnelPlot)
             self$.addOption(private$..funnelStudyLabel)
@@ -933,6 +1164,13 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         colgapUnit = function() private$..colgapUnit$value,
         colgapForest = function() private$..colgapForest$value,
         colgapForestUnit = function() private$..colgapForestUnit$value,
+        digitsEffect = function() private$..digitsEffect$value,
+        digitsMean = function() private$..digitsMean$value,
+        digitsSd = function() private$..digitsSd$value,
+        digitsPval = function() private$..digitsPval$value,
+        digitsWeight = function() private$..digitsWeight$value,
+        digitsI2 = function() private$..digitsI2$value,
+        digitsTau2 = function() private$..digitsTau2$value,
         subgroupVariables = function() private$..subgroupVariables$value,
         tauCommon = function() private$..tauCommon$value,
         predictionSubgroup = function() private$..predictionSubgroup$value,
@@ -961,6 +1199,13 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         subgroupColgapUnit = function() private$..subgroupColgapUnit$value,
         subgroupColgapForest = function() private$..subgroupColgapForest$value,
         subgroupColgapForestUnit = function() private$..subgroupColgapForestUnit$value,
+        subgroupDigitsEffect = function() private$..subgroupDigitsEffect$value,
+        subgroupDigitsMean = function() private$..subgroupDigitsMean$value,
+        subgroupDigitsSd = function() private$..subgroupDigitsSd$value,
+        subgroupDigitsPval = function() private$..subgroupDigitsPval$value,
+        subgroupDigitsWeight = function() private$..subgroupDigitsWeight$value,
+        subgroupDigitsI2 = function() private$..subgroupDigitsI2$value,
+        subgroupDigitsTau2 = function() private$..subgroupDigitsTau2$value,
         metaRegCovs = function() private$..metaRegCovs$value,
         metaRegFactors = function() private$..metaRegFactors$value,
         metaRegBlocks = function() private$..metaRegBlocks$value,
@@ -988,6 +1233,10 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         leaveOneOutColgapUnit = function() private$..leaveOneOutColgapUnit$value,
         leaveOneOutColgapForest = function() private$..leaveOneOutColgapForest$value,
         leaveOneOutColgapForestUnit = function() private$..leaveOneOutColgapForestUnit$value,
+        leaveOneOutDigitsEffect = function() private$..leaveOneOutDigitsEffect$value,
+        leaveOneOutDigitsPval = function() private$..leaveOneOutDigitsPval$value,
+        leaveOneOutDigitsI2 = function() private$..leaveOneOutDigitsI2$value,
+        leaveOneOutDigitsTau2 = function() private$..leaveOneOutDigitsTau2$value,
         pubBiasMode = function() private$..pubBiasMode$value,
         funnelPlot = function() private$..funnelPlot$value,
         funnelStudyLabel = function() private$..funnelStudyLabel$value,
@@ -1051,6 +1300,13 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..colgapUnit = NA,
         ..colgapForest = NA,
         ..colgapForestUnit = NA,
+        ..digitsEffect = NA,
+        ..digitsMean = NA,
+        ..digitsSd = NA,
+        ..digitsPval = NA,
+        ..digitsWeight = NA,
+        ..digitsI2 = NA,
+        ..digitsTau2 = NA,
         ..subgroupVariables = NA,
         ..tauCommon = NA,
         ..predictionSubgroup = NA,
@@ -1079,6 +1335,13 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..subgroupColgapUnit = NA,
         ..subgroupColgapForest = NA,
         ..subgroupColgapForestUnit = NA,
+        ..subgroupDigitsEffect = NA,
+        ..subgroupDigitsMean = NA,
+        ..subgroupDigitsSd = NA,
+        ..subgroupDigitsPval = NA,
+        ..subgroupDigitsWeight = NA,
+        ..subgroupDigitsI2 = NA,
+        ..subgroupDigitsTau2 = NA,
         ..metaRegCovs = NA,
         ..metaRegFactors = NA,
         ..metaRegBlocks = NA,
@@ -1106,6 +1369,10 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..leaveOneOutColgapUnit = NA,
         ..leaveOneOutColgapForest = NA,
         ..leaveOneOutColgapForestUnit = NA,
+        ..leaveOneOutDigitsEffect = NA,
+        ..leaveOneOutDigitsPval = NA,
+        ..leaveOneOutDigitsI2 = NA,
+        ..leaveOneOutDigitsTau2 = NA,
         ..pubBiasMode = NA,
         ..funnelPlot = NA,
         ..funnelStudyLabel = NA,
@@ -1231,7 +1498,14 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "forestTestOverall",
                     "forestDetails",
                     "forestPrintI2Ci",
-                    "forestPrintTau2Ci"),
+                    "forestPrintTau2Ci",
+                    "digitsEffect",
+                    "digitsMean",
+                    "digitsSd",
+                    "digitsPval",
+                    "digitsWeight",
+                    "digitsI2",
+                    "digitsTau2"),
                 refs=list(
                     "metaPackage")))
             self$add(jmvcore::Array$new(
@@ -1316,7 +1590,14 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                                     "subgroupForestTestOverall",
                                     "subgroupForestPrintI2Ci",
                                     "subgroupForestPrintTau2Ci",
-                                    "subgroupForestDetails"),
+                                    "subgroupForestDetails",
+                                    "subgroupDigitsEffect",
+                                    "subgroupDigitsMean",
+                                    "subgroupDigitsSd",
+                                    "subgroupDigitsPval",
+                                    "subgroupDigitsWeight",
+                                    "subgroupDigitsI2",
+                                    "subgroupDigitsTau2"),
                                 refs=list(
                                     "metaPackage")))}))$new(options=options)))
             self$add(jmvcore::Array$new(
@@ -1443,7 +1724,11 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "leaveOneOutColgapUnit",
                     "leaveOneOutColgapForest",
                     "leaveOneOutColgapForestUnit",
-                    "leaveOneOutForestDetails"),
+                    "leaveOneOutForestDetails",
+                    "leaveOneOutDigitsEffect",
+                    "leaveOneOutDigitsPval",
+                    "leaveOneOutDigitsI2",
+                    "leaveOneOutDigitsTau2"),
                 refs=list(
                     "metaPackage")))
             self$add(jmvcore::Image$new(
@@ -1690,6 +1975,13 @@ metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param colgapUnit .
 #' @param colgapForest .
 #' @param colgapForestUnit .
+#' @param digitsEffect .
+#' @param digitsMean .
+#' @param digitsSd .
+#' @param digitsPval .
+#' @param digitsWeight .
+#' @param digitsI2 .
+#' @param digitsTau2 .
 #' @param subgroupVariables .
 #' @param tauCommon .
 #' @param predictionSubgroup .
@@ -1718,6 +2010,13 @@ metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param subgroupColgapUnit .
 #' @param subgroupColgapForest .
 #' @param subgroupColgapForestUnit .
+#' @param subgroupDigitsEffect .
+#' @param subgroupDigitsMean .
+#' @param subgroupDigitsSd .
+#' @param subgroupDigitsPval .
+#' @param subgroupDigitsWeight .
+#' @param subgroupDigitsI2 .
+#' @param subgroupDigitsTau2 .
 #' @param metaRegCovs .
 #' @param metaRegFactors .
 #' @param metaRegBlocks .
@@ -1745,6 +2044,10 @@ metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param leaveOneOutColgapUnit .
 #' @param leaveOneOutColgapForest .
 #' @param leaveOneOutColgapForestUnit .
+#' @param leaveOneOutDigitsEffect .
+#' @param leaveOneOutDigitsPval .
+#' @param leaveOneOutDigitsI2 .
+#' @param leaveOneOutDigitsTau2 .
 #' @param pubBiasMode .
 #' @param funnelPlot .
 #' @param funnelStudyLabel .
@@ -1827,6 +2130,13 @@ metaCont <- function(
     colgapUnit = "mm",
     colgapForest = 2,
     colgapForestUnit = "mm",
+    digitsEffect = "2",
+    digitsMean = "2",
+    digitsSd = "2",
+    digitsPval = "4",
+    digitsWeight = "1",
+    digitsI2 = "1",
+    digitsTau2 = "4",
     subgroupVariables,
     tauCommon = FALSE,
     predictionSubgroup = FALSE,
@@ -1855,6 +2165,13 @@ metaCont <- function(
     subgroupColgapUnit = "mm",
     subgroupColgapForest = 2,
     subgroupColgapForestUnit = "mm",
+    subgroupDigitsEffect = "2",
+    subgroupDigitsMean = "2",
+    subgroupDigitsSd = "2",
+    subgroupDigitsPval = "4",
+    subgroupDigitsWeight = "1",
+    subgroupDigitsI2 = "1",
+    subgroupDigitsTau2 = "4",
     metaRegCovs,
     metaRegFactors,
     metaRegBlocks = list(
@@ -1883,6 +2200,10 @@ metaCont <- function(
     leaveOneOutColgapUnit = "mm",
     leaveOneOutColgapForest = 2,
     leaveOneOutColgapForestUnit = "mm",
+    leaveOneOutDigitsEffect = "2",
+    leaveOneOutDigitsPval = "4",
+    leaveOneOutDigitsI2 = "1",
+    leaveOneOutDigitsTau2 = "4",
     pubBiasMode = "funnelPlot",
     funnelPlot = FALSE,
     funnelStudyLabel = FALSE,
@@ -1976,6 +2297,13 @@ metaCont <- function(
         colgapUnit = colgapUnit,
         colgapForest = colgapForest,
         colgapForestUnit = colgapForestUnit,
+        digitsEffect = digitsEffect,
+        digitsMean = digitsMean,
+        digitsSd = digitsSd,
+        digitsPval = digitsPval,
+        digitsWeight = digitsWeight,
+        digitsI2 = digitsI2,
+        digitsTau2 = digitsTau2,
         subgroupVariables = subgroupVariables,
         tauCommon = tauCommon,
         predictionSubgroup = predictionSubgroup,
@@ -2004,6 +2332,13 @@ metaCont <- function(
         subgroupColgapUnit = subgroupColgapUnit,
         subgroupColgapForest = subgroupColgapForest,
         subgroupColgapForestUnit = subgroupColgapForestUnit,
+        subgroupDigitsEffect = subgroupDigitsEffect,
+        subgroupDigitsMean = subgroupDigitsMean,
+        subgroupDigitsSd = subgroupDigitsSd,
+        subgroupDigitsPval = subgroupDigitsPval,
+        subgroupDigitsWeight = subgroupDigitsWeight,
+        subgroupDigitsI2 = subgroupDigitsI2,
+        subgroupDigitsTau2 = subgroupDigitsTau2,
         metaRegCovs = metaRegCovs,
         metaRegFactors = metaRegFactors,
         metaRegBlocks = metaRegBlocks,
@@ -2031,6 +2366,10 @@ metaCont <- function(
         leaveOneOutColgapUnit = leaveOneOutColgapUnit,
         leaveOneOutColgapForest = leaveOneOutColgapForest,
         leaveOneOutColgapForestUnit = leaveOneOutColgapForestUnit,
+        leaveOneOutDigitsEffect = leaveOneOutDigitsEffect,
+        leaveOneOutDigitsPval = leaveOneOutDigitsPval,
+        leaveOneOutDigitsI2 = leaveOneOutDigitsI2,
+        leaveOneOutDigitsTau2 = leaveOneOutDigitsTau2,
         pubBiasMode = pubBiasMode,
         funnelPlot = funnelPlot,
         funnelStudyLabel = funnelStudyLabel,
