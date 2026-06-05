@@ -1434,7 +1434,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             super$initialize(
                 options=options,
                 name="",
-                title="Continuous Meta-Analysis")
+                title="Continuous Outcomes Meta-Analysis")
             self$add(jmvcore::Html$new(
                 options=options,
                 name="text",
@@ -1944,7 +1944,7 @@ metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 weightsSupport = 'auto')
         }))
 
-#' Continuous Meta-Analysis
+#' Continuous Outcomes Meta-Analysis
 #'
 #' 
 #' @param data .

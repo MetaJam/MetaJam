@@ -12,12 +12,14 @@ description: >-
   More about what it does (maybe more than one line) Use four spaces when
   indenting paragraphs within the Description.
 analyses:
-  - title: Continuous Meta-Analysis
+  - title: Continuous Outcomes Meta-Analysis
     name: metaCont
     ns: MetaJam
     category: analyses
     menuGroup: MetaJam
-    menuTitle: Continuous Meta-Analysis
+    menuSubgroup: Two-Group Meta-Analysis
+    menuTitle: Continuous Outcomes
+    menuSubtitle: Mean, SD, Total
 usesNative: true
 minApp: 2.7.27
 
