@@ -52,6 +52,10 @@ items:
       - confidenceLevel
       - forestLayout
       - sortBy
+      - forestTestOverall
+      - forestDetails
+      - forestPrintI2Ci
+      - forestPrintTau2Ci
       - labelE
       - labelC
       - labelLeft
@@ -65,10 +69,6 @@ items:
       - colgapUnit
       - colgapForest
       - colgapForestUnit
-      - forestTestOverall
-      - forestDetails
-      - forestPrintI2Ci
-      - forestPrintTau2Ci
       - digitsEffect
       - digitsMean
       - digitsSd
@@ -128,6 +128,13 @@ items:
             - printSubgroupName
             - subgroupForestLayout
             - subgroupSortBy
+            - subgroupForestOverall
+            - subgroupForestTestSubgroup
+            - subgroupForestTestEffect
+            - subgroupForestTestOverall
+            - subgroupForestPrintI2Ci
+            - subgroupForestPrintTau2Ci
+            - subgroupForestDetails
             - subgroupLabelE
             - subgroupLabelC
             - subgroupLabelLeft
@@ -141,13 +148,6 @@ items:
             - subgroupColgapUnit
             - subgroupColgapForest
             - subgroupColgapForestUnit
-            - subgroupForestOverall
-            - subgroupForestTestSubgroup
-            - subgroupForestTestEffect
-            - subgroupForestTestOverall
-            - subgroupForestPrintI2Ci
-            - subgroupForestPrintTau2Ci
-            - subgroupForestDetails
             - subgroupDigitsEffect
             - subgroupDigitsMean
             - subgroupDigitsSd
@@ -256,6 +256,7 @@ items:
       - leaveOneOutPrediction
       - leaveOneOutForestLayout
       - leaveOneOutSortBy
+      - leaveOneOutForestDetails
       - leaveOneOutLabelLeft
       - leaveOneOutLabelRight
       - leaveOneOutXlimCustom
@@ -267,7 +268,6 @@ items:
       - leaveOneOutColgapUnit
       - leaveOneOutColgapForest
       - leaveOneOutColgapForestUnit
-      - leaveOneOutForestDetails
       - leaveOneOutDigitsEffect
       - leaveOneOutDigitsPval
       - leaveOneOutDigitsI2
