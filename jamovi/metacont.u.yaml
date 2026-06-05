@@ -88,7 +88,7 @@ children:
             width: normal
             suffix: "%"
       - type: CheckBox
-        name: showSummary
+        name: summary
 
       - type: CheckBox
         name: forestPlot
@@ -294,7 +294,7 @@ children:
         name: predictionSubgroup
         enable: ({return (ui['subgroupVariables'].value() || []).length > 0;})
       - type: CheckBox
-        name: showSubgroupSummary
+        name: subgroupSummary
         enable: ({return (ui['subgroupVariables'].value() || []).length > 0;})
       - type: CheckBox
         name: subgroupForestPlot
@@ -626,7 +626,7 @@ children:
                       ({return (ui['metaRegCovs'].value() || []).length > 0 ||
                       (ui['metaRegFactors'].value() || []).length > 0;})
       - type: CheckBox
-        name: showMetaRegSummary
+        name: metaRegSummary
         enable: >
           ({return (ui['metaRegCovs'].value() || []).length > 0 ||
           (ui['metaRegFactors'].value() || []).length > 0;})
@@ -660,7 +660,7 @@ children:
         name: leaveOneOutPrediction
         enable: (leaveOneOut)
       - type: CheckBox
-        name: showLeaveOneOutSummary
+        name: leaveOneOutSummary
         enable: (leaveOneOut)
       - type: CheckBox
         name: leaveOneOutForestPlot
@@ -836,7 +836,7 @@ children:
                     name: asymmetryMethod
                     enable: (asymmetryTest)
                   - type: CheckBox
-                    name: showAsymmetrySummary
+                    name: asymmetrySummary
                     enable: (asymmetryTest)
                   - type: CheckBox
                     name: asymmetryPlot
@@ -858,7 +858,7 @@ children:
                         name: trimFillEstimator
                         enable: (trimFill)
                   - type: CheckBox
-                    name: showTrimFillSummary
+                    name: trimFillSummary
                     enable: (trimFill)
                   - type: CheckBox
                     name: trimFillFunnelPlot

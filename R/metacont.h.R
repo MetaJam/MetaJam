@@ -20,7 +20,7 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             methodRandomCi = "classic",
             prediction = FALSE,
             confidenceLevel = 95,
-            showSummary = TRUE,
+            summary = TRUE,
             forestPlot = TRUE,
             forestMode = "general",
             forestLayout = "meta",
@@ -52,7 +52,7 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             subgroupVariables = NULL,
             tauCommon = FALSE,
             predictionSubgroup = FALSE,
-            showSubgroupSummary = TRUE,
+            subgroupSummary = TRUE,
             subgroupForestPlot = TRUE,
             subgroupForestMode = "general",
             printSubgroupName = TRUE,
@@ -90,13 +90,13 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             metaRegBlocks = list(
                 list()),
             metaRegIntercept = TRUE,
-            showMetaRegSummary = TRUE,
+            metaRegSummary = TRUE,
             bubblePlot = FALSE,
             bubbleRegline = TRUE,
             bubbleStudyLabel = FALSE,
             leaveOneOut = FALSE,
             leaveOneOutPrediction = FALSE,
-            showLeaveOneOutSummary = TRUE,
+            leaveOneOutSummary = TRUE,
             leaveOneOutForestPlot = TRUE,
             leaveOneOutForestMode = "general",
             leaveOneOutForestLayout = "meta",
@@ -126,12 +126,12 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             funnelLegendCex = 100,
             asymmetryTest = FALSE,
             asymmetryMethod = "Egger",
-            showAsymmetrySummary = TRUE,
+            asymmetrySummary = TRUE,
             asymmetryPlot = FALSE,
             trimFill = FALSE,
             trimFillSide = "auto",
             trimFillEstimator = "L",
-            showTrimFillSummary = TRUE,
+            trimFillSummary = TRUE,
             trimFillFunnelPlot = TRUE,
             trimFillFunnelStudyLabel = FALSE,
             trimFillFunnelContour = FALSE,
@@ -254,9 +254,9 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 min=50,
                 max=99.9,
                 default=95)
-            private$..showSummary <- jmvcore::OptionBool$new(
-                "showSummary",
-                showSummary,
+            private$..summary <- jmvcore::OptionBool$new(
+                "summary",
+                summary,
                 default=TRUE)
             private$..forestPlot <- jmvcore::OptionBool$new(
                 "forestPlot",
@@ -460,9 +460,9 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "predictionSubgroup",
                 predictionSubgroup,
                 default=FALSE)
-            private$..showSubgroupSummary <- jmvcore::OptionBool$new(
-                "showSubgroupSummary",
-                showSubgroupSummary,
+            private$..subgroupSummary <- jmvcore::OptionBool$new(
+                "subgroupSummary",
+                subgroupSummary,
                 default=TRUE)
             private$..subgroupForestPlot <- jmvcore::OptionBool$new(
                 "subgroupForestPlot",
@@ -692,9 +692,9 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "metaRegIntercept",
                 metaRegIntercept,
                 default=TRUE)
-            private$..showMetaRegSummary <- jmvcore::OptionBool$new(
-                "showMetaRegSummary",
-                showMetaRegSummary,
+            private$..metaRegSummary <- jmvcore::OptionBool$new(
+                "metaRegSummary",
+                metaRegSummary,
                 default=TRUE)
             private$..bubblePlot <- jmvcore::OptionBool$new(
                 "bubblePlot",
@@ -716,9 +716,9 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "leaveOneOutPrediction",
                 leaveOneOutPrediction,
                 default=FALSE)
-            private$..showLeaveOneOutSummary <- jmvcore::OptionBool$new(
-                "showLeaveOneOutSummary",
-                showLeaveOneOutSummary,
+            private$..leaveOneOutSummary <- jmvcore::OptionBool$new(
+                "leaveOneOutSummary",
+                leaveOneOutSummary,
                 default=TRUE)
             private$..leaveOneOutForestPlot <- jmvcore::OptionBool$new(
                 "leaveOneOutForestPlot",
@@ -906,9 +906,9 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "Thompson",
                     "Pustejovsky"),
                 default="Egger")
-            private$..showAsymmetrySummary <- jmvcore::OptionBool$new(
-                "showAsymmetrySummary",
-                showAsymmetrySummary,
+            private$..asymmetrySummary <- jmvcore::OptionBool$new(
+                "asymmetrySummary",
+                asymmetrySummary,
                 default=TRUE)
             private$..asymmetryPlot <- jmvcore::OptionBool$new(
                 "asymmetryPlot",
@@ -933,9 +933,9 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "L",
                     "R"),
                 default="L")
-            private$..showTrimFillSummary <- jmvcore::OptionBool$new(
-                "showTrimFillSummary",
-                showTrimFillSummary,
+            private$..trimFillSummary <- jmvcore::OptionBool$new(
+                "trimFillSummary",
+                trimFillSummary,
                 default=TRUE)
             private$..trimFillFunnelPlot <- jmvcore::OptionBool$new(
                 "trimFillFunnelPlot",
@@ -1010,7 +1010,7 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..methodRandomCi)
             self$.addOption(private$..prediction)
             self$.addOption(private$..confidenceLevel)
-            self$.addOption(private$..showSummary)
+            self$.addOption(private$..summary)
             self$.addOption(private$..forestPlot)
             self$.addOption(private$..forestMode)
             self$.addOption(private$..forestLayout)
@@ -1042,7 +1042,7 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..subgroupVariables)
             self$.addOption(private$..tauCommon)
             self$.addOption(private$..predictionSubgroup)
-            self$.addOption(private$..showSubgroupSummary)
+            self$.addOption(private$..subgroupSummary)
             self$.addOption(private$..subgroupForestPlot)
             self$.addOption(private$..subgroupForestMode)
             self$.addOption(private$..printSubgroupName)
@@ -1079,13 +1079,13 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..metaRegFactors)
             self$.addOption(private$..metaRegBlocks)
             self$.addOption(private$..metaRegIntercept)
-            self$.addOption(private$..showMetaRegSummary)
+            self$.addOption(private$..metaRegSummary)
             self$.addOption(private$..bubblePlot)
             self$.addOption(private$..bubbleRegline)
             self$.addOption(private$..bubbleStudyLabel)
             self$.addOption(private$..leaveOneOut)
             self$.addOption(private$..leaveOneOutPrediction)
-            self$.addOption(private$..showLeaveOneOutSummary)
+            self$.addOption(private$..leaveOneOutSummary)
             self$.addOption(private$..leaveOneOutForestPlot)
             self$.addOption(private$..leaveOneOutForestMode)
             self$.addOption(private$..leaveOneOutForestLayout)
@@ -1115,12 +1115,12 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..funnelLegendCex)
             self$.addOption(private$..asymmetryTest)
             self$.addOption(private$..asymmetryMethod)
-            self$.addOption(private$..showAsymmetrySummary)
+            self$.addOption(private$..asymmetrySummary)
             self$.addOption(private$..asymmetryPlot)
             self$.addOption(private$..trimFill)
             self$.addOption(private$..trimFillSide)
             self$.addOption(private$..trimFillEstimator)
-            self$.addOption(private$..showTrimFillSummary)
+            self$.addOption(private$..trimFillSummary)
             self$.addOption(private$..trimFillFunnelPlot)
             self$.addOption(private$..trimFillFunnelStudyLabel)
             self$.addOption(private$..trimFillFunnelContour)
@@ -1148,7 +1148,7 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         methodRandomCi = function() private$..methodRandomCi$value,
         prediction = function() private$..prediction$value,
         confidenceLevel = function() private$..confidenceLevel$value,
-        showSummary = function() private$..showSummary$value,
+        summary = function() private$..summary$value,
         forestPlot = function() private$..forestPlot$value,
         forestMode = function() private$..forestMode$value,
         forestLayout = function() private$..forestLayout$value,
@@ -1180,7 +1180,7 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         subgroupVariables = function() private$..subgroupVariables$value,
         tauCommon = function() private$..tauCommon$value,
         predictionSubgroup = function() private$..predictionSubgroup$value,
-        showSubgroupSummary = function() private$..showSubgroupSummary$value,
+        subgroupSummary = function() private$..subgroupSummary$value,
         subgroupForestPlot = function() private$..subgroupForestPlot$value,
         subgroupForestMode = function() private$..subgroupForestMode$value,
         printSubgroupName = function() private$..printSubgroupName$value,
@@ -1217,13 +1217,13 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         metaRegFactors = function() private$..metaRegFactors$value,
         metaRegBlocks = function() private$..metaRegBlocks$value,
         metaRegIntercept = function() private$..metaRegIntercept$value,
-        showMetaRegSummary = function() private$..showMetaRegSummary$value,
+        metaRegSummary = function() private$..metaRegSummary$value,
         bubblePlot = function() private$..bubblePlot$value,
         bubbleRegline = function() private$..bubbleRegline$value,
         bubbleStudyLabel = function() private$..bubbleStudyLabel$value,
         leaveOneOut = function() private$..leaveOneOut$value,
         leaveOneOutPrediction = function() private$..leaveOneOutPrediction$value,
-        showLeaveOneOutSummary = function() private$..showLeaveOneOutSummary$value,
+        leaveOneOutSummary = function() private$..leaveOneOutSummary$value,
         leaveOneOutForestPlot = function() private$..leaveOneOutForestPlot$value,
         leaveOneOutForestMode = function() private$..leaveOneOutForestMode$value,
         leaveOneOutForestLayout = function() private$..leaveOneOutForestLayout$value,
@@ -1253,12 +1253,12 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         funnelLegendCex = function() private$..funnelLegendCex$value,
         asymmetryTest = function() private$..asymmetryTest$value,
         asymmetryMethod = function() private$..asymmetryMethod$value,
-        showAsymmetrySummary = function() private$..showAsymmetrySummary$value,
+        asymmetrySummary = function() private$..asymmetrySummary$value,
         asymmetryPlot = function() private$..asymmetryPlot$value,
         trimFill = function() private$..trimFill$value,
         trimFillSide = function() private$..trimFillSide$value,
         trimFillEstimator = function() private$..trimFillEstimator$value,
-        showTrimFillSummary = function() private$..showTrimFillSummary$value,
+        trimFillSummary = function() private$..trimFillSummary$value,
         trimFillFunnelPlot = function() private$..trimFillFunnelPlot$value,
         trimFillFunnelStudyLabel = function() private$..trimFillFunnelStudyLabel$value,
         trimFillFunnelContour = function() private$..trimFillFunnelContour$value,
@@ -1285,7 +1285,7 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..methodRandomCi = NA,
         ..prediction = NA,
         ..confidenceLevel = NA,
-        ..showSummary = NA,
+        ..summary = NA,
         ..forestPlot = NA,
         ..forestMode = NA,
         ..forestLayout = NA,
@@ -1317,7 +1317,7 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..subgroupVariables = NA,
         ..tauCommon = NA,
         ..predictionSubgroup = NA,
-        ..showSubgroupSummary = NA,
+        ..subgroupSummary = NA,
         ..subgroupForestPlot = NA,
         ..subgroupForestMode = NA,
         ..printSubgroupName = NA,
@@ -1354,13 +1354,13 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..metaRegFactors = NA,
         ..metaRegBlocks = NA,
         ..metaRegIntercept = NA,
-        ..showMetaRegSummary = NA,
+        ..metaRegSummary = NA,
         ..bubblePlot = NA,
         ..bubbleRegline = NA,
         ..bubbleStudyLabel = NA,
         ..leaveOneOut = NA,
         ..leaveOneOutPrediction = NA,
-        ..showLeaveOneOutSummary = NA,
+        ..leaveOneOutSummary = NA,
         ..leaveOneOutForestPlot = NA,
         ..leaveOneOutForestMode = NA,
         ..leaveOneOutForestLayout = NA,
@@ -1390,12 +1390,12 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..funnelLegendCex = NA,
         ..asymmetryTest = NA,
         ..asymmetryMethod = NA,
-        ..showAsymmetrySummary = NA,
+        ..asymmetrySummary = NA,
         ..asymmetryPlot = NA,
         ..trimFill = NA,
         ..trimFillSide = NA,
         ..trimFillEstimator = NA,
-        ..showTrimFillSummary = NA,
+        ..trimFillSummary = NA,
         ..trimFillFunnelPlot = NA,
         ..trimFillFunnelStudyLabel = NA,
         ..trimFillFunnelContour = NA,
@@ -1438,7 +1438,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Html$new(
                 options=options,
                 name="text",
-                visible="(showSummary)",
+                visible="(summary)",
                 clearWith=list(
                     "studyLabel",
                     "meanE",
@@ -1555,7 +1555,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                             self$add(jmvcore::Html$new(
                                 options=options,
                                 name="subgroupText",
-                                visible="(showSubgroupSummary && length(subgroupVariables) > 0)",
+                                visible="(subgroupSummary && length(subgroupVariables) > 0)",
                                 clearWith=list(),
                                 refs=list(
                                     "metaPackage")))
@@ -1648,7 +1648,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                             self$add(jmvcore::Html$new(
                                 options=options,
                                 name="metaRegText",
-                                visible="(showMetaRegSummary && (length(metaRegCovs) > 0 || length(metaRegFactors) > 0))",
+                                visible="(metaRegSummary && (length(metaRegCovs) > 0 || length(metaRegFactors) > 0))",
                                 clearWith=list(),
                                 refs=list(
                                     "metaPackage")))
@@ -1668,7 +1668,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Html$new(
                 options=options,
                 name="leaveOneOutText",
-                visible="(leaveOneOut && showLeaveOneOutSummary)",
+                visible="(leaveOneOut && leaveOneOutSummary)",
                 clearWith=list(
                     "studyLabel",
                     "meanE",
@@ -1773,7 +1773,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Html$new(
                 options=options,
                 name="asymmetryTestText",
-                visible="(asymmetryTest && showAsymmetrySummary)",
+                visible="(asymmetryTest && asymmetrySummary)",
                 clearWith=list(
                     "studyLabel",
                     "meanE",
@@ -1821,7 +1821,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Html$new(
                 options=options,
                 name="trimFillText",
-                visible="(trimFill && showTrimFillSummary)",
+                visible="(trimFill && trimFillSummary)",
                 clearWith=list(
                     "studyLabel",
                     "meanE",
@@ -1962,7 +1962,7 @@ metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param methodRandomCi .
 #' @param prediction .
 #' @param confidenceLevel .
-#' @param showSummary .
+#' @param summary .
 #' @param forestPlot .
 #' @param forestMode .
 #' @param forestLayout .
@@ -1994,7 +1994,7 @@ metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param subgroupVariables .
 #' @param tauCommon .
 #' @param predictionSubgroup .
-#' @param showSubgroupSummary .
+#' @param subgroupSummary .
 #' @param subgroupForestPlot .
 #' @param subgroupForestMode .
 #' @param printSubgroupName .
@@ -2031,13 +2031,13 @@ metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param metaRegFactors .
 #' @param metaRegBlocks .
 #' @param metaRegIntercept .
-#' @param showMetaRegSummary .
+#' @param metaRegSummary .
 #' @param bubblePlot .
 #' @param bubbleRegline .
 #' @param bubbleStudyLabel .
 #' @param leaveOneOut .
 #' @param leaveOneOutPrediction .
-#' @param showLeaveOneOutSummary .
+#' @param leaveOneOutSummary .
 #' @param leaveOneOutForestPlot .
 #' @param leaveOneOutForestMode .
 #' @param leaveOneOutForestLayout .
@@ -2067,12 +2067,12 @@ metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param funnelLegendCex .
 #' @param asymmetryTest .
 #' @param asymmetryMethod .
-#' @param showAsymmetrySummary .
+#' @param asymmetrySummary .
 #' @param asymmetryPlot .
 #' @param trimFill .
 #' @param trimFillSide .
 #' @param trimFillEstimator .
-#' @param showTrimFillSummary .
+#' @param trimFillSummary .
 #' @param trimFillFunnelPlot .
 #' @param trimFillFunnelStudyLabel .
 #' @param trimFillFunnelContour .
@@ -2118,7 +2118,7 @@ metaCont <- function(
     methodRandomCi = "classic",
     prediction = FALSE,
     confidenceLevel = 95,
-    showSummary = TRUE,
+    summary = TRUE,
     forestPlot = TRUE,
     forestMode = "general",
     forestLayout = "meta",
@@ -2150,7 +2150,7 @@ metaCont <- function(
     subgroupVariables,
     tauCommon = FALSE,
     predictionSubgroup = FALSE,
-    showSubgroupSummary = TRUE,
+    subgroupSummary = TRUE,
     subgroupForestPlot = TRUE,
     subgroupForestMode = "general",
     printSubgroupName = TRUE,
@@ -2188,13 +2188,13 @@ metaCont <- function(
     metaRegBlocks = list(
                 list()),
     metaRegIntercept = TRUE,
-    showMetaRegSummary = TRUE,
+    metaRegSummary = TRUE,
     bubblePlot = FALSE,
     bubbleRegline = TRUE,
     bubbleStudyLabel = FALSE,
     leaveOneOut = FALSE,
     leaveOneOutPrediction = FALSE,
-    showLeaveOneOutSummary = TRUE,
+    leaveOneOutSummary = TRUE,
     leaveOneOutForestPlot = TRUE,
     leaveOneOutForestMode = "general",
     leaveOneOutForestLayout = "meta",
@@ -2224,12 +2224,12 @@ metaCont <- function(
     funnelLegendCex = 100,
     asymmetryTest = FALSE,
     asymmetryMethod = "Egger",
-    showAsymmetrySummary = TRUE,
+    asymmetrySummary = TRUE,
     asymmetryPlot = FALSE,
     trimFill = FALSE,
     trimFillSide = "auto",
     trimFillEstimator = "L",
-    showTrimFillSummary = TRUE,
+    trimFillSummary = TRUE,
     trimFillFunnelPlot = TRUE,
     trimFillFunnelStudyLabel = FALSE,
     trimFillFunnelContour = FALSE,
@@ -2286,7 +2286,7 @@ metaCont <- function(
         methodRandomCi = methodRandomCi,
         prediction = prediction,
         confidenceLevel = confidenceLevel,
-        showSummary = showSummary,
+        summary = summary,
         forestPlot = forestPlot,
         forestMode = forestMode,
         forestLayout = forestLayout,
@@ -2318,7 +2318,7 @@ metaCont <- function(
         subgroupVariables = subgroupVariables,
         tauCommon = tauCommon,
         predictionSubgroup = predictionSubgroup,
-        showSubgroupSummary = showSubgroupSummary,
+        subgroupSummary = subgroupSummary,
         subgroupForestPlot = subgroupForestPlot,
         subgroupForestMode = subgroupForestMode,
         printSubgroupName = printSubgroupName,
@@ -2355,13 +2355,13 @@ metaCont <- function(
         metaRegFactors = metaRegFactors,
         metaRegBlocks = metaRegBlocks,
         metaRegIntercept = metaRegIntercept,
-        showMetaRegSummary = showMetaRegSummary,
+        metaRegSummary = metaRegSummary,
         bubblePlot = bubblePlot,
         bubbleRegline = bubbleRegline,
         bubbleStudyLabel = bubbleStudyLabel,
         leaveOneOut = leaveOneOut,
         leaveOneOutPrediction = leaveOneOutPrediction,
-        showLeaveOneOutSummary = showLeaveOneOutSummary,
+        leaveOneOutSummary = leaveOneOutSummary,
         leaveOneOutForestPlot = leaveOneOutForestPlot,
         leaveOneOutForestMode = leaveOneOutForestMode,
         leaveOneOutForestLayout = leaveOneOutForestLayout,
@@ -2391,12 +2391,12 @@ metaCont <- function(
         funnelLegendCex = funnelLegendCex,
         asymmetryTest = asymmetryTest,
         asymmetryMethod = asymmetryMethod,
-        showAsymmetrySummary = showAsymmetrySummary,
+        asymmetrySummary = asymmetrySummary,
         asymmetryPlot = asymmetryPlot,
         trimFill = trimFill,
         trimFillSide = trimFillSide,
         trimFillEstimator = trimFillEstimator,
-        showTrimFillSummary = showTrimFillSummary,
+        trimFillSummary = trimFillSummary,
         trimFillFunnelPlot = trimFillFunnelPlot,
         trimFillFunnelStudyLabel = trimFillFunnelStudyLabel,
         trimFillFunnelContour = trimFillFunnelContour,

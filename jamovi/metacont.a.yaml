@@ -145,7 +145,7 @@ options:
     max: 99.9
     default: 95
 
-  - name: showSummary
+  - name: summary
     title: Summary
     type: Bool
     default: true
@@ -441,7 +441,7 @@ options:
     type: Bool
     default: false
 
-  - name: showSubgroupSummary
+  - name: subgroupSummary
     title: Summary
     type: Bool
     default: true
@@ -767,7 +767,7 @@ options:
     type: Bool
     default: true
 
-  - name: showMetaRegSummary
+  - name: metaRegSummary
     title: Summary
     type: Bool
     default: true
@@ -797,7 +797,7 @@ options:
     type: Bool
     default: false
 
-  - name: showLeaveOneOutSummary
+  - name: leaveOneOutSummary
     title: Summary
     type: Bool
     default: true
@@ -1070,7 +1070,7 @@ options:
         name: Pustejovsky
     default: Egger
 
-  - name: showAsymmetrySummary
+  - name: asymmetrySummary
     title: Summary
     type: Bool
     default: true
@@ -1107,7 +1107,7 @@ options:
         name: R
     default: L
 
-  - name: showTrimFillSummary
+  - name: trimFillSummary
     title: Summary
     type: Bool
     default: true

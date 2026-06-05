@@ -5,7 +5,7 @@ jrs: "1.1"
 items:
   - name: text
     type: Html
-    visible: (showSummary)
+    visible: (summary)
     clearWith:
       - studyLabel
       - meanE
@@ -108,7 +108,7 @@ items:
       items:
         - name: subgroupText
           type: Html
-          visible: (showSubgroupSummary && length(subgroupVariables) > 0)
+          visible: (subgroupSummary && length(subgroupVariables) > 0)
           clearWith: []
           refs:
             - metaPackage
@@ -187,7 +187,7 @@ items:
       items:
         - name: metaRegText
           type: Html
-          visible: (showMetaRegSummary && (length(metaRegCovs) > 0 || length(metaRegFactors) > 0))
+          visible: (metaRegSummary && (length(metaRegCovs) > 0 || length(metaRegFactors) > 0))
           clearWith: []
           refs:
             - metaPackage
@@ -207,7 +207,7 @@ items:
 
   - name: leaveOneOutText
     type: Html
-    visible: (leaveOneOut && showLeaveOneOutSummary)
+    visible: (leaveOneOut && leaveOneOutSummary)
     clearWith:
       - studyLabel
       - meanE
@@ -307,7 +307,7 @@ items:
 
   - name: asymmetryTestText
     type: Html
-    visible: (asymmetryTest && showAsymmetrySummary)
+    visible: (asymmetryTest && asymmetrySummary)
     clearWith:
       - studyLabel
       - meanE
@@ -355,7 +355,7 @@ items:
 
   - name: trimFillText
     type: Html
-    visible: (trimFill && showTrimFillSummary)
+    visible: (trimFill && trimFillSummary)
     clearWith:
       - studyLabel
       - meanE
