@@ -112,35 +112,42 @@ metaContClass <- R6::R6Class(
         return()
       }
 
-      updateForestSize(
-        image = self$results$plot,
-        model = self$model,
-        sizeCache = self$results$plotSizeCache,
-        renderCall = function() renderContForest(self)
-      )
-      for (i in seq_along(self$options$subgroupVariables)) {
-        group <- self$results$subgroupModels$get(key = i)
-        updateForestSize(
-          image = group$subgroupPlot,
-          model = self$subgroupModels[[i]],
-          sizeCache = group$subgroupPlotSizeCache,
-          renderCall = function() renderContSubgroupForest(self, key = i)
-        )
-      }
-      updateForestSize(
-        image = self$results$leaveOneOutPlot,
-        model = self$leaveOneOutModel,
-        sizeCache = self$results$leaveOneOutPlotSizeCache,
-        renderCall = function() renderLeaveOneOutForest(self)
-      )
+      collector <- newCollector()
+      runSafe(
+        {
+          updateForestSize(
+            image = self$results$plot,
+            model = self$model,
+            sizeCache = self$results$plotSizeCache,
+            renderCall = function() renderContForest(self)
+          )
+          for (i in seq_along(self$options$subgroupVariables)) {
+            group <- self$results$subgroupModels$get(key = i)
+            updateForestSize(
+              image = group$subgroupPlot,
+              model = self$subgroupModels[[i]],
+              sizeCache = group$subgroupPlotSizeCache,
+              renderCall = function() renderContSubgroupForest(self, key = i)
+            )
+          }
+          updateForestSize(
+            image = self$results$leaveOneOutPlot,
+            model = self$leaveOneOutModel,
+            sizeCache = self$results$leaveOneOutPlotSizeCache,
+            renderCall = function() renderLeaveOneOutForest(self)
+          )
 
-      populateMainText(self)
-      populateSubgroupTexts(self)
-      populateMetaRegTexts(self)
-      populateLeaveOneOutText(self)
-      populateAsymmetryTestText(self)
-      populateTrimFillText(self)
-      populateLfkIndexText(self)
+          populateMainText(self)
+          populateSubgroupTexts(self)
+          populateMetaRegTexts(self)
+          populateLeaveOneOutText(self)
+          populateAsymmetryTestText(self)
+          populateTrimFillText(self)
+          populateLfkIndexText(self)
+        },
+        collector
+      )
+      displayNotices(self, collector)
     },
 
     # Render functions: called by jmvcore when the corresponding plot needs to
