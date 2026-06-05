@@ -114,6 +114,8 @@ renderSubgroupForest <- function(model, options, ...) {
   renderForest(
     model,
     mapped,
+    overall = options$subgroupForestOverall,
+    overall.hetstat = options$subgroupForestOverall,
     test.effect.subgroup = options$subgroupForestTestEffect,
     test.subgroup = options$subgroupForestTestSubgroup,
     print.subgroup.name = options$printSubgroupName,

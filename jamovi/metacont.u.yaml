@@ -323,6 +323,11 @@ children:
                         enable: >
                           ({return (ui['subgroupVariables'].value() || []).length > 0 &&
                           ui['subgroupForestPlot'].value();})
+                      - type: CheckBox
+                        name: subgroupForestOverall
+                        enable: >
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
+                          ui['subgroupForestPlot'].value();})
                   - type: LayoutBox
                     fitToGrid: true
                     children:
@@ -362,7 +367,8 @@ children:
                         name: subgroupForestTestOverall
                         enable: >
                           ({return (ui['subgroupVariables'].value() || []).length > 0 &&
-                          ui['subgroupForestPlot'].value();})
+                          ui['subgroupForestPlot'].value() &&
+                          ui['subgroupForestOverall'].value();})
                         cell:
                           row: 2
                           column: 0

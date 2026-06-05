@@ -141,6 +141,7 @@ items:
             - subgroupColgapUnit
             - subgroupColgapForest
             - subgroupColgapForestUnit
+            - subgroupForestOverall
             - subgroupForestTestSubgroup
             - subgroupForestTestEffect
             - subgroupForestTestOverall

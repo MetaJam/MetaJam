@@ -58,6 +58,7 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             printSubgroupName = TRUE,
             subgroupForestLayout = "meta",
             subgroupSortBy = "none",
+            subgroupForestOverall = TRUE,
             subgroupForestTestSubgroup = TRUE,
             subgroupForestTestEffect = FALSE,
             subgroupForestTestOverall = FALSE,
@@ -499,6 +500,10 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "weightAsc",
                     "weightDesc"),
                 default="none")
+            private$..subgroupForestOverall <- jmvcore::OptionBool$new(
+                "subgroupForestOverall",
+                subgroupForestOverall,
+                default=TRUE)
             private$..subgroupForestTestSubgroup <- jmvcore::OptionBool$new(
                 "subgroupForestTestSubgroup",
                 subgroupForestTestSubgroup,
@@ -1043,6 +1048,7 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..printSubgroupName)
             self$.addOption(private$..subgroupForestLayout)
             self$.addOption(private$..subgroupSortBy)
+            self$.addOption(private$..subgroupForestOverall)
             self$.addOption(private$..subgroupForestTestSubgroup)
             self$.addOption(private$..subgroupForestTestEffect)
             self$.addOption(private$..subgroupForestTestOverall)
@@ -1180,6 +1186,7 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         printSubgroupName = function() private$..printSubgroupName$value,
         subgroupForestLayout = function() private$..subgroupForestLayout$value,
         subgroupSortBy = function() private$..subgroupSortBy$value,
+        subgroupForestOverall = function() private$..subgroupForestOverall$value,
         subgroupForestTestSubgroup = function() private$..subgroupForestTestSubgroup$value,
         subgroupForestTestEffect = function() private$..subgroupForestTestEffect$value,
         subgroupForestTestOverall = function() private$..subgroupForestTestOverall$value,
@@ -1316,6 +1323,7 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..printSubgroupName = NA,
         ..subgroupForestLayout = NA,
         ..subgroupSortBy = NA,
+        ..subgroupForestOverall = NA,
         ..subgroupForestTestSubgroup = NA,
         ..subgroupForestTestEffect = NA,
         ..subgroupForestTestOverall = NA,
@@ -1585,6 +1593,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                                     "subgroupColgapUnit",
                                     "subgroupColgapForest",
                                     "subgroupColgapForestUnit",
+                                    "subgroupForestOverall",
                                     "subgroupForestTestSubgroup",
                                     "subgroupForestTestEffect",
                                     "subgroupForestTestOverall",
@@ -1991,6 +2000,7 @@ metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param printSubgroupName .
 #' @param subgroupForestLayout .
 #' @param subgroupSortBy .
+#' @param subgroupForestOverall .
 #' @param subgroupForestTestSubgroup .
 #' @param subgroupForestTestEffect .
 #' @param subgroupForestTestOverall .
@@ -2146,6 +2156,7 @@ metaCont <- function(
     printSubgroupName = TRUE,
     subgroupForestLayout = "meta",
     subgroupSortBy = "none",
+    subgroupForestOverall = TRUE,
     subgroupForestTestSubgroup = TRUE,
     subgroupForestTestEffect = FALSE,
     subgroupForestTestOverall = FALSE,
@@ -2313,6 +2324,7 @@ metaCont <- function(
         printSubgroupName = printSubgroupName,
         subgroupForestLayout = subgroupForestLayout,
         subgroupSortBy = subgroupSortBy,
+        subgroupForestOverall = subgroupForestOverall,
         subgroupForestTestSubgroup = subgroupForestTestSubgroup,
         subgroupForestTestEffect = subgroupForestTestEffect,
         subgroupForestTestOverall = subgroupForestTestOverall,

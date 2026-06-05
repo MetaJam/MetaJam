@@ -500,6 +500,11 @@ options:
         name: weightDesc
     default: none
 
+  - name: subgroupForestOverall
+    title: Overall results
+    type: Bool
+    default: true
+
   - name: subgroupForestTestSubgroup
     title: Subgroup differences test
     type: Bool
@@ -1076,7 +1081,7 @@ options:
     default: false
 
   - name: trimFill
-    title: Trim & fill
+    title: Trim & fill analysis
     type: Bool
     default: false
 
