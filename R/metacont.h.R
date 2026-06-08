@@ -154,7 +154,8 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "studyLabel",
                 studyLabel,
                 suggested=list(
-                    "nominal"),
+                    "nominal",
+                    "id"),
                 permitted=list(
                     "factor",
                     "id"))
@@ -450,8 +451,7 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "nominal",
                     "ordinal"),
                 permitted=list(
-                    "factor",
-                    "id"))
+                    "factor"))
             private$..tauCommon <- jmvcore::OptionBool$new(
                 "tauCommon",
                 tauCommon,
@@ -2269,6 +2269,7 @@ metaCont <- function(
             `if`( ! missing(metaRegCovs), metaRegCovs, NULL),
             `if`( ! missing(metaRegFactors), metaRegFactors, NULL))
 
+    for (v in subgroupVariables) if (v %in% names(data)) data[[v]] <- as.factor(data[[v]])
     for (v in metaRegFactors) if (v %in% names(data)) data[[v]] <- as.factor(data[[v]])
 
     options <- metaContOptions$new(

@@ -16,6 +16,7 @@ options:
     type: Variable
     suggested:
       - nominal
+      - id
     permitted:
       - factor
       - id
@@ -432,7 +433,6 @@ options:
       - ordinal
     permitted:
       - factor
-      - id
 
   - name: tauCommon
     title: Assume common Tau² across subgroups

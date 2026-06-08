@@ -16,6 +16,7 @@ options:
     type: Variable
     suggested:
       - nominal
+      - id
     permitted:
       - factor
       - id

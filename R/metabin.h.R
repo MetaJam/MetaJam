@@ -33,7 +33,8 @@ metaBinOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "studyLabel",
                 studyLabel,
                 suggested=list(
-                    "nominal"),
+                    "nominal",
+                    "id"),
                 permitted=list(
                     "factor",
                     "id"))
