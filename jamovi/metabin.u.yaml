@@ -1,0 +1,98 @@
+name: metaBin
+title: Binary Outcomes Meta-Analysis
+jus: "3.0"
+stage: 0
+compilerMode: tame
+children:
+  - type: VariableSupplier
+    persistentItems: false
+    stretchFactor: 1
+    children:
+      - type: TargetLayoutBox
+        children:
+          - type: VariablesListBox
+            name: studyLabel
+            maxItemCount: 1
+            isTarget: true
+      - type: TargetLayoutBox
+        children:
+          - type: VariablesListBox
+            name: eventE
+            maxItemCount: 1
+            isTarget: true
+      - type: TargetLayoutBox
+        children:
+          - type: VariablesListBox
+            name: nE
+            maxItemCount: 1
+            isTarget: true
+      - type: TargetLayoutBox
+        children:
+          - type: VariablesListBox
+            name: eventC
+            maxItemCount: 1
+            isTarget: true
+      - type: TargetLayoutBox
+        children:
+          - type: VariablesListBox
+            name: nC
+            maxItemCount: 1
+            isTarget: true
+
+  - type: CollapseBox
+    label: Meta-Analysis
+    collapsed: true
+    stretchFactor: 1
+    children:
+      - type: LayoutBox
+        children:
+          - type: ComboBox
+            name: sm
+      - type: LayoutBox
+        children:
+          - type: ComboBox
+            name: method
+      - type: LayoutBox
+        fitToGrid: true
+        children:
+          - type: ComboBox
+            name: correctionMethod
+            enable: (!(method:Peto))
+            cell:
+              row: 0
+              column: 0
+          - type: TextBox
+            name: incr
+            format: number
+            enable: (!(method:Peto))
+            width: normal
+            cell:
+              row: 0
+              column: 1
+      - type: CheckBox
+        name: allstudies
+        enable: (!(method:Peto) && !(sm:RD))
+      - type: LayoutBox
+        children:
+          - type: ComboBox
+            name: model
+      - type: LayoutBox
+        children:
+          - type: ComboBox
+            name: methodTau
+      - type: LayoutBox
+        children:
+          - type: ComboBox
+            name: methodRandomCi
+            enable: (!model:common)
+      - type: CheckBox
+        name: prediction
+      - type: LayoutBox
+        children:
+          - type: TextBox
+            name: confidenceLevel
+            format: number
+            width: normal
+            suffix: "%"
+      - type: CheckBox
+        name: summary

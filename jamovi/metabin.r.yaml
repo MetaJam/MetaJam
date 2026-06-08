@@ -1,0 +1,26 @@
+name: metaBin
+title: Binary Outcomes Meta-Analysis
+jrs: "1.1"
+
+items:
+  - name: text
+    type: Html
+    visible: (summary)
+    clearWith:
+      - studyLabel
+      - eventE
+      - nE
+      - eventC
+      - nC
+      - sm
+      - method
+      - correctionMethod
+      - incr
+      - allstudies
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+    refs:
+      - metaPackage

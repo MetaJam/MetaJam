@@ -20,6 +20,14 @@ analyses:
     menuSubgroup: Two-Group Meta-Analysis
     menuTitle: Continuous Outcomes
     menuSubtitle: Mean, SD, Total
+  - title: Binary Outcomes Meta-Analysis
+    name: metaBin
+    ns: MetaJam
+    category: analyses
+    menuGroup: MetaJam
+    menuSubgroup: Two-Group Meta-Analysis
+    menuTitle: Binary Outcomes
+    menuSubtitle: Events, Total
 usesNative: true
 minApp: 2.7.27
 

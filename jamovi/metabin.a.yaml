@@ -1,0 +1,167 @@
+name: metaBin
+title: Binary Outcomes Meta-Analysis
+menuGroup: MetaJam
+menuSubgroup: Two-Group Meta-Analysis
+menuTitle: Binary Outcomes
+menuSubtitle: Events, Total
+version: "1.0.0"
+jas: "1.2"
+
+options:
+  - name: data
+    type: Data
+
+  - name: studyLabel
+    title: Study Label
+    type: Variable
+    suggested:
+      - nominal
+    permitted:
+      - factor
+      - id
+
+  - name: eventE
+    title: Events (Experimental)
+    type: Variable
+    suggested:
+      - continuous
+    permitted:
+      - numeric
+
+  - name: nE
+    title: Total (Experimental)
+    type: Variable
+    suggested:
+      - continuous
+    permitted:
+      - numeric
+
+  - name: eventC
+    title: Events (Control)
+    type: Variable
+    suggested:
+      - continuous
+    permitted:
+      - numeric
+
+  - name: nC
+    title: Total (Control)
+    type: Variable
+    suggested:
+      - continuous
+    permitted:
+      - numeric
+
+  - name: sm
+    title: Effect measure
+    type: List
+    options:
+      - title: Risk ratio (RR)
+        name: RR
+      - title: Odds ratio (OR)
+        name: OR
+      - title: Risk difference (RD)
+        name: RD
+      - title: Diagnostic odds ratio (DOR)
+        name: DOR
+      - title: Vaccine efficacy/effectiveness (VE)
+        name: VE
+    default: RR
+
+  - name: method
+    title: Pooling method
+    type: List
+    options:
+      - title: Mantel-Haenszel
+        name: MH
+      - title: Inverse variance
+        name: Inverse
+      - title: Peto (OR only)
+        name: Peto
+      - title: Sample size weighting (OR only)
+        name: SSW
+    default: MH
+
+  - name: correctionMethod
+    title: Continuity correction
+    type: List
+    options:
+      - title: Only zero-cell studies
+        name: only0
+      - title: All studies if any zero cell
+        name: if0all
+      - title: All studies
+        name: all
+    default: only0
+
+  - name: incr
+    title: Increment
+    type: Number
+    min: 0
+    default: 0.5
+
+  - name: allstudies
+    title: Include double-zero/all-event studies
+    type: Bool
+    default: false
+
+  - name: model
+    title: Model
+    type: List
+    options:
+      - title: Random & common
+        name: both
+      - title: Random effects
+        name: random
+      - title: Common effect
+        name: common
+    default: both
+
+  - name: methodTau
+    title: Heterogeneity estimator
+    type: List
+    options:
+      - title: Restricted maximum-likelihood
+        name: REML
+      - title: Paule-Mandel
+        name: PM
+      - title: DerSimonian-Laird
+        name: DL
+      - title: Maximum-likelihood
+        name: ML
+      - title: Hunter-Schmidt
+        name: HS
+      - title: Sidik-Jonkman
+        name: SJ
+      - title: Hedges
+        name: HE
+      - title: Empirical Bayes
+        name: EB
+    default: REML
+
+  - name: methodRandomCi
+    title: Random effects CI method
+    type: List
+    options:
+      - title: Classic
+        name: classic
+      - title: Hartung-Knapp
+        name: HK
+    default: classic
+
+  - name: prediction
+    title: Prediction interval
+    type: Bool
+    default: false
+
+  - name: confidenceLevel
+    title: Confidence level
+    type: Number
+    min: 50
+    max: 99.9
+    default: 95
+
+  - name: summary
+    title: Summary
+    type: Bool
+    default: true
