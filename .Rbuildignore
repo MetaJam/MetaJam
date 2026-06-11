@@ -4,3 +4,4 @@
 ^jamovi$
 ^.*\.jmo$
 ^dev$
+^analysis-metajam\.svg$
