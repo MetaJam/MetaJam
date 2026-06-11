@@ -79,9 +79,8 @@ items:
     refs:
       - metaPackage
 
-
   - name: subgroupModels
-    title: ''
+    title: ""
     type: Array
     hideHeadingOnlyChild: true
     clearWith:
@@ -103,7 +102,7 @@ items:
       - tauCommon
       - predictionSubgroup
     template:
-      title: ''
+      title: ""
       type: Group
       items:
         - name: subgroupText
@@ -159,7 +158,7 @@ items:
             - metaPackage
 
   - name: metaRegModels
-    title: ''
+    title: ""
     type: Array
     hideHeadingOnlyChild: true
     clearWith:
@@ -182,7 +181,7 @@ items:
       - metaRegBlocks
       - metaRegIntercept
     template:
-      title: ''
+      title: ""
       type: Group
       items:
         - name: metaRegText

@@ -50,7 +50,7 @@ computeTrimFillModel <- function(self) {
 #' we already verified in `.run()` before reaching this line. Although
 #' redundant, we keep it for clarity.
 #' Runs `meta::metabias()` and renders the output as HTML. Handles
-#' Pustejovsky/SMD validation.
+#' Pustejovsky/SMD and Deeks/DOR validation.
 #'
 #' @param self The jamovi `self` object.
 #' @noRd
@@ -63,22 +63,33 @@ populateAsymmetryTestText <- function(self) {
     return()
   }
 
-  # Pustejovsky is designed for SMD only
   if (methodBias == "Pustejovsky" && options$sm != "smd") {
     jmvcore::reject(
-      "The Pustejovsky and Rodgers test is designed exclusively for the standardised mean difference (SMD)." # nolint
+      "The Pustejovsky and Rodgers test is only available when the effect measure is standardised mean difference (SMD)." # nolint
+    )
+  }
+
+  if (methodBias == "Deeks" && options$sm != "DOR") {
+    jmvcore::reject(
+      "The Deeks test is only available when the effect measure is diagnostic odds ratio (DOR)." # nolint
     )
   }
 
   # Run metabias — subgroup constraint is handled internally by meta,
   # which returns a warning (not an error), so we capture it cleanly
-  biasResult <- meta::metabias(
-    self$model,
-    method.bias = methodBias,
-    k.min = 3
-  )
+  args <- list(x = self$model, k.min = 3)
+  if (methodBias != "auto") {
+    args$method.bias <- methodBias
+  }
+  biasResult <- do.call(meta::metabias, args)
 
-  title <- getAsymmetryTestTitle(methodBias)
+  title <- getAsymmetryTestTitle(
+    if (length(biasResult$method.bias) == 1) {
+      biasResult$method.bias
+    } else {
+      methodBias
+    }
+  )
 
   textResult$setContent(
     asHtml(
@@ -86,11 +97,14 @@ populateAsymmetryTestText <- function(self) {
       title = title,
       modifier = function(out) {
         if (
-          length(out) > 0 && grepl("test of funnel plot asymmetry$", out[1])
+          length(out) > 1 &&
+            (grepl("test of funnel plot asymmetry$", out[1]) ||
+              grepl("diagnostic odds ratios$", out[1]))
         ) {
           return(out[-c(1, 2)])
         }
-        return(out)
+
+        out
       }
     )
   )
@@ -239,17 +253,24 @@ renderAsymmetryPlot <- function(self) {
     return(FALSE)
   }
 
-  # Pustejovsky does not support plotit
-  if (methodBias == "Pustejovsky") {
+  if (
+    !(methodBias %in%
+      c("auto", "Egger", "Begg", "Thompson", "Harbord", "Deeks"))
+  ) {
     return(FALSE)
   }
 
-  meta::metabias(
-    model,
-    method.bias = methodBias,
-    plotit = TRUE,
-    k.min = 3
-  )
+  if (methodBias == "Deeks" && self$options$sm != "DOR") {
+    jmvcore::reject(
+      "The Deeks test is only available when the effect measure is diagnostic odds ratio (DOR)." # nolint
+    )
+  }
+
+  args <- list(x = model, plotit = TRUE, k.min = 3)
+  if (methodBias != "auto") {
+    args$method.bias <- methodBias
+  }
+  do.call(meta::metabias, args)
 
   TRUE
 }
@@ -383,15 +404,24 @@ renderDoiPlot <- function(self) {
 
 #' Get the Publication Bias Test Title
 #'
-#' Maps the selected asymmetry method to the exact title used by the meta
-#' package.
+#' Maps the selected asymmetry method to a user-facing title that names the
+#' test and its broad statistical family.
 #'
 #' @param method The asymmetry method string.
 #' @return A character string representing the test title.
 #' @noRd
 getAsymmetryTestTitle <- function(method) {
-  if (method == "Begg") {
-    return("Rank Correlation Test for Funnel Plot Asymmetry")
-  }
-  return("Linear Regression Test for Funnel Plot Asymmetry")
+  switch(
+    method,
+    Egger = "Egger's Linear Regression Test for Funnel Plot Asymmetry",
+    Begg = "Begg and Mazumdar's Rank Correlation Test for Funnel Plot Asymmetry", # nolint
+    Thompson = "Thompson and Sharp's Linear Regression Test for Funnel Plot Asymmetry", # nolint
+    Harbord = "Harbord's Linear Regression Test for Funnel Plot Asymmetry",
+    Peters = "Peters' Linear Regression Test for Funnel Plot Asymmetry",
+    Macaskill = "Macaskill's Linear Regression Test for Funnel Plot Asymmetry",
+    Schwarzer = "Schwarzer's Rank Correlation Test for Funnel Plot Asymmetry",
+    Deeks = "Deeks' Linear Regression Test for Funnel Plot Asymmetry",
+    Pustejovsky = "Pustejovsky and Rodgers' Linear Regression Test for Funnel Plot Asymmetry", # nolint
+    "Test for Funnel Plot Asymmetry"
+  )
 }

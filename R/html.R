@@ -21,11 +21,11 @@ asHtml <- function(..., title = NULL, modifier = NULL) {
 
   # Capture the printed output of the expression(s)
   text <- capture.output(...)
-  
+
   if (!is.null(modifier)) {
     text <- modifier(text)
   }
-  
+
   text <- paste0(text, collapse = "\n")
 
   # Build optional title styled to match jamovi table titles visually.

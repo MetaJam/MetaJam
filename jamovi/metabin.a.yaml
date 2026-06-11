@@ -166,3 +166,979 @@ options:
     title: Summary
     type: Bool
     default: true
+
+  - name: forestPlot
+    title: Forest plot
+    type: Bool
+    default: true
+
+  - name: forestMode
+    title: ""
+    type: List
+    options:
+      - title: General
+        name: general
+      - title: Dimensions
+        name: dimensions
+      - title: Rounding
+        name: rounding
+    default: general
+
+  - name: forestLayout
+    title: Theme
+    type: List
+    options:
+      - title: Default
+        name: meta
+      - title: RevMan 5
+        name: RevMan5
+      - title: JAMA
+        name: JAMA
+      - title: BMJ
+        name: BMJ
+    default: meta
+
+  - name: sortBy
+    title: Sort by
+    type: List
+    options:
+      - title: Original order
+        name: none
+      - title: Effect size (ascending)
+        name: effectAsc
+      - title: Effect size (descending)
+        name: effectDesc
+      - title: Weight (ascending)
+        name: weightAsc
+      - title: Weight (descending)
+        name: weightDesc
+    default: none
+
+  - name: forestTestOverall
+    title: Overall effect test
+    type: Bool
+    default: false
+
+  - name: forestDetails
+    title: Analysis details
+    type: Bool
+    default: false
+
+  - name: forestPrintI2Ci
+    title: I² confidence interval
+    type: Bool
+    default: false
+
+  - name: forestPrintTau2Ci
+    title: Tau² confidence interval
+    type: Bool
+    default: false
+
+  - name: labelE
+    title: Experimental label
+    type: String
+    default: Experimental
+
+  - name: labelC
+    title: Control label
+    type: String
+    default: Control
+
+  - name: labelLeft
+    title: X-axis left label
+    type: String
+    default: ""
+
+  - name: labelRight
+    title: X-axis right label
+    type: String
+    default: ""
+
+  - name: xlimCustom
+    title: Custom x-axis range
+    type: Bool
+    default: false
+
+  - name: xlimLower
+    title: Minimum
+    type: Number
+    default: -20
+
+  - name: xlimUpper
+    title: Maximum
+    type: Number
+    default: 20
+
+  - name: addrowsCustom
+    title: Custom space above footnotes
+    type: Bool
+    default: false
+
+  - name: addrowsBelowOverall
+    title: ""
+    type: Integer
+    min: 0
+    default: 0
+
+  - name: colgap
+    title: Space between columns
+    type: Number
+    min: 0
+    default: 2
+
+  - name: colgapUnit
+    title: ""
+    type: List
+    options:
+      - title: mm
+        name: mm
+      - title: cm
+        name: cm
+      - title: in
+        name: inch
+    default: mm
+
+  - name: colgapForest
+    title: Space around plot
+    type: Number
+    min: 0
+    default: 2
+
+  - name: colgapForestUnit
+    title: ""
+    type: List
+    options:
+      - title: mm
+        name: mm
+      - title: cm
+        name: cm
+      - title: in
+        name: inch
+    default: mm
+
+  - name: digitsEffect
+    title: Effect size & CI
+    type: List
+    options:
+      - name: "0"
+        title: "0"
+      - name: "1"
+        title: "1"
+      - name: "2"
+        title: "2"
+      - name: "3"
+        title: "3"
+      - name: "4"
+        title: "4"
+      - name: "5"
+        title: "5"
+    default: "2"
+
+  - name: digitsPval
+    title: P-value
+    type: List
+    options:
+      - name: "2"
+        title: "2"
+      - name: "3"
+        title: "3"
+      - name: "4"
+        title: "4"
+      - name: "5"
+        title: "5"
+    default: "4"
+
+  - name: digitsWeight
+    title: Weight
+    type: List
+    options:
+      - name: "0"
+        title: "0"
+      - name: "1"
+        title: "1"
+      - name: "2"
+        title: "2"
+      - name: "3"
+        title: "3"
+      - name: "4"
+        title: "4"
+      - name: "5"
+        title: "5"
+    default: "1"
+
+  - name: digitsI2
+    title: I²
+    type: List
+    options:
+      - name: "0"
+        title: "0"
+      - name: "1"
+        title: "1"
+      - name: "2"
+        title: "2"
+      - name: "3"
+        title: "3"
+      - name: "4"
+        title: "4"
+      - name: "5"
+        title: "5"
+    default: "1"
+
+  - name: digitsTau2
+    title: Tau²
+    type: List
+    options:
+      - name: "0"
+        title: "0"
+      - name: "1"
+        title: "1"
+      - name: "2"
+        title: "2"
+      - name: "3"
+        title: "3"
+      - name: "4"
+        title: "4"
+      - name: "5"
+        title: "5"
+    default: "4"
+
+  - name: subgroupVariables
+    title: Subgroup Variables
+    type: Variables
+    suggested:
+      - nominal
+      - ordinal
+    permitted:
+      - factor
+
+  - name: tauCommon
+    title: Assume common Tau² across subgroups
+    type: Bool
+    default: false
+
+  - name: predictionSubgroup
+    title: Subgroup prediction interval
+    type: Bool
+    default: false
+
+  - name: subgroupSummary
+    title: Summary
+    type: Bool
+    default: true
+
+  - name: subgroupForestPlot
+    title: Forest plot
+    type: Bool
+    default: true
+
+  - name: subgroupForestMode
+    title: ""
+    type: List
+    options:
+      - title: General
+        name: general
+      - title: Dimensions
+        name: dimensions
+      - title: Rounding
+        name: rounding
+    default: general
+
+  - name: printSubgroupName
+    title: Subgroup Variable name
+    type: Bool
+    default: true
+
+  - name: subgroupForestLayout
+    title: Theme
+    type: List
+    options:
+      - title: Default
+        name: meta
+      - title: Subgroup
+        name: subgroup
+      - title: RevMan 5
+        name: RevMan5
+      - title: JAMA
+        name: JAMA
+      - title: BMJ
+        name: BMJ
+    default: meta
+
+  - name: subgroupSortBy
+    title: Sort by
+    type: List
+    options:
+      - title: Original order
+        name: none
+      - title: Effect size (ascending)
+        name: effectAsc
+      - title: Effect size (descending)
+        name: effectDesc
+      - title: Weight (ascending)
+        name: weightAsc
+      - title: Weight (descending)
+        name: weightDesc
+    default: none
+
+  - name: subgroupForestOverall
+    title: Overall results
+    type: Bool
+    default: true
+
+  - name: subgroupForestTestSubgroup
+    title: Subgroup differences test
+    type: Bool
+    default: true
+
+  - name: subgroupForestTestEffect
+    title: Subgroup effect test
+    type: Bool
+    default: false
+
+  - name: subgroupForestTestOverall
+    title: Overall effect test
+    type: Bool
+    default: false
+
+  - name: subgroupForestPrintI2Ci
+    title: I² confidence interval
+    type: Bool
+    default: false
+
+  - name: subgroupForestPrintTau2Ci
+    title: Tau² confidence interval
+    type: Bool
+    default: false
+
+  - name: subgroupForestDetails
+    title: Analysis details
+    type: Bool
+    default: false
+
+  - name: subgroupLabelE
+    title: Experimental label
+    type: String
+    default: Experimental
+
+  - name: subgroupLabelC
+    title: Control label
+    type: String
+    default: Control
+
+  - name: subgroupLabelLeft
+    title: X-axis left label
+    type: String
+    default: ""
+
+  - name: subgroupLabelRight
+    title: X-axis right label
+    type: String
+    default: ""
+
+  - name: subgroupXlimCustom
+    title: Custom x-axis range
+    type: Bool
+    default: false
+
+  - name: subgroupXlimLower
+    title: Minimum
+    type: Number
+    default: -20
+
+  - name: subgroupXlimUpper
+    title: Maximum
+    type: Number
+    default: 20
+
+  - name: subgroupAddrowsCustom
+    title: Custom space above footnotes
+    type: Bool
+    default: false
+
+  - name: subgroupAddrowsBelowOverall
+    title: ""
+    type: Integer
+    min: 0
+    default: 0
+
+  - name: subgroupColgap
+    title: Space between columns
+    type: Number
+    min: 0
+    default: 2
+
+  - name: subgroupColgapUnit
+    title: ""
+    type: List
+    options:
+      - title: mm
+        name: mm
+      - title: cm
+        name: cm
+      - title: in
+        name: inch
+    default: mm
+
+  - name: subgroupColgapForest
+    title: Space around plot
+    type: Number
+    min: 0
+    default: 2
+
+  - name: subgroupColgapForestUnit
+    title: ""
+    type: List
+    options:
+      - title: mm
+        name: mm
+      - title: cm
+        name: cm
+      - title: in
+        name: inch
+    default: mm
+
+  - name: subgroupDigitsEffect
+    title: Effect size & CI
+    type: List
+    options:
+      - name: "0"
+        title: "0"
+      - name: "1"
+        title: "1"
+      - name: "2"
+        title: "2"
+      - name: "3"
+        title: "3"
+      - name: "4"
+        title: "4"
+      - name: "5"
+        title: "5"
+    default: "2"
+
+  - name: subgroupDigitsPval
+    title: P-value
+    type: List
+    options:
+      - name: "2"
+        title: "2"
+      - name: "3"
+        title: "3"
+      - name: "4"
+        title: "4"
+      - name: "5"
+        title: "5"
+    default: "4"
+
+  - name: subgroupDigitsWeight
+    title: Weight
+    type: List
+    options:
+      - name: "0"
+        title: "0"
+      - name: "1"
+        title: "1"
+      - name: "2"
+        title: "2"
+      - name: "3"
+        title: "3"
+      - name: "4"
+        title: "4"
+      - name: "5"
+        title: "5"
+    default: "1"
+
+  - name: subgroupDigitsI2
+    title: I²
+    type: List
+    options:
+      - name: "0"
+        title: "0"
+      - name: "1"
+        title: "1"
+      - name: "2"
+        title: "2"
+      - name: "3"
+        title: "3"
+      - name: "4"
+        title: "4"
+      - name: "5"
+        title: "5"
+    default: "1"
+
+  - name: subgroupDigitsTau2
+    title: Tau²
+    type: List
+    options:
+      - name: "0"
+        title: "0"
+      - name: "1"
+        title: "1"
+      - name: "2"
+        title: "2"
+      - name: "3"
+        title: "3"
+      - name: "4"
+        title: "4"
+      - name: "5"
+        title: "5"
+    default: "4"
+
+  - name: metaRegCovs
+    title: Covariates
+    type: Variables
+    suggested:
+      - continuous
+    permitted:
+      - numeric
+
+  - name: metaRegFactors
+    title: Factors
+    type: Variables
+    suggested:
+      - nominal
+    permitted:
+      - factor
+
+  - name: metaRegBlocks
+    title: Models
+    type: Array
+    default: [[]]
+    template:
+      type: Terms
+
+  - name: metaRegIntercept
+    title: Intercept
+    type: Bool
+    default: true
+
+  - name: metaRegSummary
+    title: Summary
+    type: Bool
+    default: true
+
+  - name: bubblePlot
+    title: Bubble plot
+    type: Bool
+    default: false
+
+  - name: bubbleRegline
+    title: Regression line
+    type: Bool
+    default: true
+
+  - name: bubbleStudyLabel
+    title: Study labels
+    type: Bool
+    default: false
+
+  - name: leaveOneOut
+    title: Leave-one-out analysis
+    type: Bool
+    default: false
+
+  - name: leaveOneOutPrediction
+    title: Prediction interval
+    type: Bool
+    default: false
+
+  - name: leaveOneOutSummary
+    title: Summary
+    type: Bool
+    default: true
+
+  - name: leaveOneOutForestPlot
+    title: Forest plot
+    type: Bool
+    default: true
+
+  - name: leaveOneOutForestMode
+    title: ""
+    type: List
+    options:
+      - title: General
+        name: general
+      - title: Dimensions
+        name: dimensions
+      - title: Rounding
+        name: rounding
+    default: general
+
+  - name: leaveOneOutForestLayout
+    title: Theme
+    type: List
+    options:
+      - title: Default
+        name: meta
+      - title: RevMan 5
+        name: RevMan5
+      - title: JAMA
+        name: JAMA
+      - title: BMJ
+        name: BMJ
+    default: meta
+
+  - name: leaveOneOutSortBy
+    title: Sort by
+    type: List
+    options:
+      - title: Original order
+        name: none
+      - title: Effect size (ascending)
+        name: effectAsc
+      - title: Effect size (descending)
+        name: effectDesc
+      - title: I² (ascending)
+        name: i2Asc
+      - title: I² (descending)
+        name: i2Desc
+      - title: Tau² (ascending)
+        name: tau2Asc
+      - title: Tau² (descending)
+        name: tau2Desc
+    default: none
+
+  - name: leaveOneOutForestDetails
+    title: Analysis details
+    type: Bool
+    default: false
+
+  - name: leaveOneOutLabelLeft
+    title: X-axis left label
+    type: String
+    default: ""
+
+  - name: leaveOneOutLabelRight
+    title: X-axis right label
+    type: String
+    default: ""
+
+  - name: leaveOneOutXlimCustom
+    title: Custom x-axis range
+    type: Bool
+    default: false
+
+  - name: leaveOneOutXlimLower
+    title: Minimum
+    type: Number
+    default: -20
+
+  - name: leaveOneOutXlimUpper
+    title: Maximum
+    type: Number
+    default: 20
+
+  - name: leaveOneOutAddrowsCustom
+    title: Custom space above footnotes
+    type: Bool
+    default: false
+
+  - name: leaveOneOutAddrowsBelowOverall
+    title: ""
+    type: Integer
+    min: 0
+    default: 0
+
+  - name: leaveOneOutColgap
+    title: Space between columns
+    type: Number
+    min: 0
+    default: 2
+
+  - name: leaveOneOutColgapUnit
+    title: ""
+    type: List
+    options:
+      - title: mm
+        name: mm
+      - title: cm
+        name: cm
+      - title: in
+        name: inch
+    default: mm
+
+  - name: leaveOneOutColgapForest
+    title: Space around plot
+    type: Number
+    min: 0
+    default: 2
+
+  - name: leaveOneOutColgapForestUnit
+    title: ""
+    type: List
+    options:
+      - title: mm
+        name: mm
+      - title: cm
+        name: cm
+      - title: in
+        name: inch
+    default: mm
+
+  - name: leaveOneOutDigitsEffect
+    title: Effect size & CI
+    type: List
+    options:
+      - name: "0"
+        title: "0"
+      - name: "1"
+        title: "1"
+      - name: "2"
+        title: "2"
+      - name: "3"
+        title: "3"
+      - name: "4"
+        title: "4"
+      - name: "5"
+        title: "5"
+    default: "2"
+
+  - name: leaveOneOutDigitsPval
+    title: P-value
+    type: List
+    options:
+      - name: "2"
+        title: "2"
+      - name: "3"
+        title: "3"
+      - name: "4"
+        title: "4"
+      - name: "5"
+        title: "5"
+    default: "4"
+
+  - name: leaveOneOutDigitsI2
+    title: I²
+    type: List
+    options:
+      - name: "0"
+        title: "0"
+      - name: "1"
+        title: "1"
+      - name: "2"
+        title: "2"
+      - name: "3"
+        title: "3"
+      - name: "4"
+        title: "4"
+      - name: "5"
+        title: "5"
+    default: "1"
+
+  - name: leaveOneOutDigitsTau2
+    title: Tau² & Tau
+    type: List
+    options:
+      - name: "0"
+        title: "0"
+      - name: "1"
+        title: "1"
+      - name: "2"
+        title: "2"
+      - name: "3"
+        title: "3"
+      - name: "4"
+        title: "4"
+      - name: "5"
+        title: "5"
+    default: "4"
+
+  - name: pubBiasMode
+    title: ""
+    type: List
+    options:
+      - title: Funnel Plot
+        name: funnelPlot
+      - title: Trim & Fill
+        name: trimFill
+      - title: Doi Plot & LFK
+        name: doiLfk
+    default: funnelPlot
+
+  - name: funnelPlot
+    title: Funnel plot
+    type: Bool
+    default: false
+
+  - name: funnelStudyLabel
+    title: Study labels
+    type: Bool
+    default: false
+
+  - name: funnelContour
+    title: Contour-enhanced
+    type: Bool
+    default: false
+
+  - name: funnelLegend
+    title: Legend
+    type: Bool
+    default: true
+
+  - name: funnelLegendPos
+    title: Position
+    type: List
+    options:
+      - title: Top right
+        name: topright
+      - title: Top left
+        name: topleft
+      - title: Bottom right
+        name: bottomright
+      - title: Bottom left
+        name: bottomleft
+    default: topright
+
+  - name: funnelLegendCex
+    title: Size
+    type: Number
+    min: 50
+    max: 200
+    default: 100
+
+  - name: asymmetryTest
+    title: Test for funnel plot asymmetry
+    type: Bool
+    default: false
+
+  - name: asymmetryMethod
+    title: Method
+    type: List
+    options:
+      - title: Auto
+        name: auto
+      - title: Egger
+        name: Egger
+      - title: Begg
+        name: Begg
+      - title: Thompson
+        name: Thompson
+      - title: Harbord
+        name: Harbord
+      - title: Peters
+        name: Peters
+      - title: Macaskill
+        name: Macaskill
+      - title: Schwarzer
+        name: Schwarzer
+      - title: Deeks (DOR only)
+        name: Deeks
+    default: auto
+
+  - name: asymmetrySummary
+    title: Summary
+    type: Bool
+    default: true
+
+  - name: asymmetryPlot
+    title: Plot
+    type: Bool
+    default: false
+
+  - name: trimFill
+    title: Trim & fill analysis
+    type: Bool
+    default: false
+
+  - name: trimFillSide
+    title: Side of missing studies
+    type: List
+    options:
+      - title: Auto
+        name: auto
+      - title: Left
+        name: left
+      - title: Right
+        name: right
+    default: auto
+
+  - name: trimFillEstimator
+    title: Estimator
+    type: List
+    options:
+      - title: L₀
+        name: L
+      - title: R₀
+        name: R
+    default: L
+
+  - name: trimFillSummary
+    title: Summary
+    type: Bool
+    default: true
+
+  - name: trimFillFunnelPlot
+    title: Funnel plot
+    type: Bool
+    default: true
+
+  - name: trimFillFunnelStudyLabel
+    title: Study labels
+    type: Bool
+    default: false
+
+  - name: trimFillFunnelContour
+    title: Contour-enhanced
+    type: Bool
+    default: false
+
+  - name: trimFillFunnelLegend
+    title: Legend
+    type: Bool
+    default: true
+
+  - name: trimFillFunnelLegendPos
+    title: Position
+    type: List
+    options:
+      - title: Top right
+        name: topright
+      - title: Top left
+        name: topleft
+      - title: Bottom right
+        name: bottomright
+      - title: Bottom left
+        name: bottomleft
+    default: topright
+
+  - name: trimFillFunnelLegendCex
+    title: Size
+    type: Number
+    min: 50
+    max: 200
+    default: 100
+
+  - name: doiPlot
+    title: Doi plot
+    type: Bool
+    default: false
+
+  - name: doiPlotLegend
+    title: Legend
+    type: Bool
+    default: true
+
+  - name: doiPlotLegendPos
+    title: Position
+    type: List
+    options:
+      - title: Top right
+        name: topright
+      - title: Top left
+        name: topleft
+      - title: Bottom right
+        name: bottomright
+      - title: Bottom left
+        name: bottomleft
+    default: topright
+
+  - name: doiPlotLegendCex
+    title: Size
+    type: Number
+    min: 50
+    max: 200
+    default: 100
+
+  - name: lfkIndex
+    title: LFK index
+    type: Bool
+    default: false

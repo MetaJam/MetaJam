@@ -21,7 +21,125 @@ metaBinOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             methodRandomCi = "classic",
             prediction = FALSE,
             confidenceLevel = 95,
-            summary = TRUE, ...) {
+            summary = TRUE,
+            forestPlot = TRUE,
+            forestMode = "general",
+            forestLayout = "meta",
+            sortBy = "none",
+            forestTestOverall = FALSE,
+            forestDetails = FALSE,
+            forestPrintI2Ci = FALSE,
+            forestPrintTau2Ci = FALSE,
+            labelE = "Experimental",
+            labelC = "Control",
+            labelLeft = "",
+            labelRight = "",
+            xlimCustom = FALSE,
+            xlimLower = -20,
+            xlimUpper = 20,
+            addrowsCustom = FALSE,
+            addrowsBelowOverall = 0,
+            colgap = 2,
+            colgapUnit = "mm",
+            colgapForest = 2,
+            colgapForestUnit = "mm",
+            digitsEffect = "2",
+            digitsPval = "4",
+            digitsWeight = "1",
+            digitsI2 = "1",
+            digitsTau2 = "4",
+            subgroupVariables = NULL,
+            tauCommon = FALSE,
+            predictionSubgroup = FALSE,
+            subgroupSummary = TRUE,
+            subgroupForestPlot = TRUE,
+            subgroupForestMode = "general",
+            printSubgroupName = TRUE,
+            subgroupForestLayout = "meta",
+            subgroupSortBy = "none",
+            subgroupForestOverall = TRUE,
+            subgroupForestTestSubgroup = TRUE,
+            subgroupForestTestEffect = FALSE,
+            subgroupForestTestOverall = FALSE,
+            subgroupForestPrintI2Ci = FALSE,
+            subgroupForestPrintTau2Ci = FALSE,
+            subgroupForestDetails = FALSE,
+            subgroupLabelE = "Experimental",
+            subgroupLabelC = "Control",
+            subgroupLabelLeft = "",
+            subgroupLabelRight = "",
+            subgroupXlimCustom = FALSE,
+            subgroupXlimLower = -20,
+            subgroupXlimUpper = 20,
+            subgroupAddrowsCustom = FALSE,
+            subgroupAddrowsBelowOverall = 0,
+            subgroupColgap = 2,
+            subgroupColgapUnit = "mm",
+            subgroupColgapForest = 2,
+            subgroupColgapForestUnit = "mm",
+            subgroupDigitsEffect = "2",
+            subgroupDigitsPval = "4",
+            subgroupDigitsWeight = "1",
+            subgroupDigitsI2 = "1",
+            subgroupDigitsTau2 = "4",
+            metaRegCovs = NULL,
+            metaRegFactors = NULL,
+            metaRegBlocks = list(
+                list()),
+            metaRegIntercept = TRUE,
+            metaRegSummary = TRUE,
+            bubblePlot = FALSE,
+            bubbleRegline = TRUE,
+            bubbleStudyLabel = FALSE,
+            leaveOneOut = FALSE,
+            leaveOneOutPrediction = FALSE,
+            leaveOneOutSummary = TRUE,
+            leaveOneOutForestPlot = TRUE,
+            leaveOneOutForestMode = "general",
+            leaveOneOutForestLayout = "meta",
+            leaveOneOutSortBy = "none",
+            leaveOneOutForestDetails = FALSE,
+            leaveOneOutLabelLeft = "",
+            leaveOneOutLabelRight = "",
+            leaveOneOutXlimCustom = FALSE,
+            leaveOneOutXlimLower = -20,
+            leaveOneOutXlimUpper = 20,
+            leaveOneOutAddrowsCustom = FALSE,
+            leaveOneOutAddrowsBelowOverall = 0,
+            leaveOneOutColgap = 2,
+            leaveOneOutColgapUnit = "mm",
+            leaveOneOutColgapForest = 2,
+            leaveOneOutColgapForestUnit = "mm",
+            leaveOneOutDigitsEffect = "2",
+            leaveOneOutDigitsPval = "4",
+            leaveOneOutDigitsI2 = "1",
+            leaveOneOutDigitsTau2 = "4",
+            pubBiasMode = "funnelPlot",
+            funnelPlot = FALSE,
+            funnelStudyLabel = FALSE,
+            funnelContour = FALSE,
+            funnelLegend = TRUE,
+            funnelLegendPos = "topright",
+            funnelLegendCex = 100,
+            asymmetryTest = FALSE,
+            asymmetryMethod = "auto",
+            asymmetrySummary = TRUE,
+            asymmetryPlot = FALSE,
+            trimFill = FALSE,
+            trimFillSide = "auto",
+            trimFillEstimator = "L",
+            trimFillSummary = TRUE,
+            trimFillFunnelPlot = TRUE,
+            trimFillFunnelStudyLabel = FALSE,
+            trimFillFunnelContour = FALSE,
+            trimFillFunnelLegend = TRUE,
+            trimFillFunnelLegendPos = "topright",
+            trimFillFunnelLegendCex = 100,
+            doiPlot = FALSE,
+            doiPlotLegend = TRUE,
+            doiPlotLegendPos = "topright",
+            doiPlotLegendCex = 100,
+            lfkIndex = FALSE, ...) {
 
             super$initialize(
                 package="MetaJam",
@@ -144,6 +262,703 @@ metaBinOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "summary",
                 summary,
                 default=TRUE)
+            private$..forestPlot <- jmvcore::OptionBool$new(
+                "forestPlot",
+                forestPlot,
+                default=TRUE)
+            private$..forestMode <- jmvcore::OptionList$new(
+                "forestMode",
+                forestMode,
+                options=list(
+                    "general",
+                    "dimensions",
+                    "rounding"),
+                default="general")
+            private$..forestLayout <- jmvcore::OptionList$new(
+                "forestLayout",
+                forestLayout,
+                options=list(
+                    "meta",
+                    "RevMan5",
+                    "JAMA",
+                    "BMJ"),
+                default="meta")
+            private$..sortBy <- jmvcore::OptionList$new(
+                "sortBy",
+                sortBy,
+                options=list(
+                    "none",
+                    "effectAsc",
+                    "effectDesc",
+                    "weightAsc",
+                    "weightDesc"),
+                default="none")
+            private$..forestTestOverall <- jmvcore::OptionBool$new(
+                "forestTestOverall",
+                forestTestOverall,
+                default=FALSE)
+            private$..forestDetails <- jmvcore::OptionBool$new(
+                "forestDetails",
+                forestDetails,
+                default=FALSE)
+            private$..forestPrintI2Ci <- jmvcore::OptionBool$new(
+                "forestPrintI2Ci",
+                forestPrintI2Ci,
+                default=FALSE)
+            private$..forestPrintTau2Ci <- jmvcore::OptionBool$new(
+                "forestPrintTau2Ci",
+                forestPrintTau2Ci,
+                default=FALSE)
+            private$..labelE <- jmvcore::OptionString$new(
+                "labelE",
+                labelE,
+                default="Experimental")
+            private$..labelC <- jmvcore::OptionString$new(
+                "labelC",
+                labelC,
+                default="Control")
+            private$..labelLeft <- jmvcore::OptionString$new(
+                "labelLeft",
+                labelLeft,
+                default="")
+            private$..labelRight <- jmvcore::OptionString$new(
+                "labelRight",
+                labelRight,
+                default="")
+            private$..xlimCustom <- jmvcore::OptionBool$new(
+                "xlimCustom",
+                xlimCustom,
+                default=FALSE)
+            private$..xlimLower <- jmvcore::OptionNumber$new(
+                "xlimLower",
+                xlimLower,
+                default=-20)
+            private$..xlimUpper <- jmvcore::OptionNumber$new(
+                "xlimUpper",
+                xlimUpper,
+                default=20)
+            private$..addrowsCustom <- jmvcore::OptionBool$new(
+                "addrowsCustom",
+                addrowsCustom,
+                default=FALSE)
+            private$..addrowsBelowOverall <- jmvcore::OptionInteger$new(
+                "addrowsBelowOverall",
+                addrowsBelowOverall,
+                min=0,
+                default=0)
+            private$..colgap <- jmvcore::OptionNumber$new(
+                "colgap",
+                colgap,
+                min=0,
+                default=2)
+            private$..colgapUnit <- jmvcore::OptionList$new(
+                "colgapUnit",
+                colgapUnit,
+                options=list(
+                    "mm",
+                    "cm",
+                    "inch"),
+                default="mm")
+            private$..colgapForest <- jmvcore::OptionNumber$new(
+                "colgapForest",
+                colgapForest,
+                min=0,
+                default=2)
+            private$..colgapForestUnit <- jmvcore::OptionList$new(
+                "colgapForestUnit",
+                colgapForestUnit,
+                options=list(
+                    "mm",
+                    "cm",
+                    "inch"),
+                default="mm")
+            private$..digitsEffect <- jmvcore::OptionList$new(
+                "digitsEffect",
+                digitsEffect,
+                options=list(
+                    "0",
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"),
+                default="2")
+            private$..digitsPval <- jmvcore::OptionList$new(
+                "digitsPval",
+                digitsPval,
+                options=list(
+                    "2",
+                    "3",
+                    "4",
+                    "5"),
+                default="4")
+            private$..digitsWeight <- jmvcore::OptionList$new(
+                "digitsWeight",
+                digitsWeight,
+                options=list(
+                    "0",
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"),
+                default="1")
+            private$..digitsI2 <- jmvcore::OptionList$new(
+                "digitsI2",
+                digitsI2,
+                options=list(
+                    "0",
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"),
+                default="1")
+            private$..digitsTau2 <- jmvcore::OptionList$new(
+                "digitsTau2",
+                digitsTau2,
+                options=list(
+                    "0",
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"),
+                default="4")
+            private$..subgroupVariables <- jmvcore::OptionVariables$new(
+                "subgroupVariables",
+                subgroupVariables,
+                suggested=list(
+                    "nominal",
+                    "ordinal"),
+                permitted=list(
+                    "factor"))
+            private$..tauCommon <- jmvcore::OptionBool$new(
+                "tauCommon",
+                tauCommon,
+                default=FALSE)
+            private$..predictionSubgroup <- jmvcore::OptionBool$new(
+                "predictionSubgroup",
+                predictionSubgroup,
+                default=FALSE)
+            private$..subgroupSummary <- jmvcore::OptionBool$new(
+                "subgroupSummary",
+                subgroupSummary,
+                default=TRUE)
+            private$..subgroupForestPlot <- jmvcore::OptionBool$new(
+                "subgroupForestPlot",
+                subgroupForestPlot,
+                default=TRUE)
+            private$..subgroupForestMode <- jmvcore::OptionList$new(
+                "subgroupForestMode",
+                subgroupForestMode,
+                options=list(
+                    "general",
+                    "dimensions",
+                    "rounding"),
+                default="general")
+            private$..printSubgroupName <- jmvcore::OptionBool$new(
+                "printSubgroupName",
+                printSubgroupName,
+                default=TRUE)
+            private$..subgroupForestLayout <- jmvcore::OptionList$new(
+                "subgroupForestLayout",
+                subgroupForestLayout,
+                options=list(
+                    "meta",
+                    "subgroup",
+                    "RevMan5",
+                    "JAMA",
+                    "BMJ"),
+                default="meta")
+            private$..subgroupSortBy <- jmvcore::OptionList$new(
+                "subgroupSortBy",
+                subgroupSortBy,
+                options=list(
+                    "none",
+                    "effectAsc",
+                    "effectDesc",
+                    "weightAsc",
+                    "weightDesc"),
+                default="none")
+            private$..subgroupForestOverall <- jmvcore::OptionBool$new(
+                "subgroupForestOverall",
+                subgroupForestOverall,
+                default=TRUE)
+            private$..subgroupForestTestSubgroup <- jmvcore::OptionBool$new(
+                "subgroupForestTestSubgroup",
+                subgroupForestTestSubgroup,
+                default=TRUE)
+            private$..subgroupForestTestEffect <- jmvcore::OptionBool$new(
+                "subgroupForestTestEffect",
+                subgroupForestTestEffect,
+                default=FALSE)
+            private$..subgroupForestTestOverall <- jmvcore::OptionBool$new(
+                "subgroupForestTestOverall",
+                subgroupForestTestOverall,
+                default=FALSE)
+            private$..subgroupForestPrintI2Ci <- jmvcore::OptionBool$new(
+                "subgroupForestPrintI2Ci",
+                subgroupForestPrintI2Ci,
+                default=FALSE)
+            private$..subgroupForestPrintTau2Ci <- jmvcore::OptionBool$new(
+                "subgroupForestPrintTau2Ci",
+                subgroupForestPrintTau2Ci,
+                default=FALSE)
+            private$..subgroupForestDetails <- jmvcore::OptionBool$new(
+                "subgroupForestDetails",
+                subgroupForestDetails,
+                default=FALSE)
+            private$..subgroupLabelE <- jmvcore::OptionString$new(
+                "subgroupLabelE",
+                subgroupLabelE,
+                default="Experimental")
+            private$..subgroupLabelC <- jmvcore::OptionString$new(
+                "subgroupLabelC",
+                subgroupLabelC,
+                default="Control")
+            private$..subgroupLabelLeft <- jmvcore::OptionString$new(
+                "subgroupLabelLeft",
+                subgroupLabelLeft,
+                default="")
+            private$..subgroupLabelRight <- jmvcore::OptionString$new(
+                "subgroupLabelRight",
+                subgroupLabelRight,
+                default="")
+            private$..subgroupXlimCustom <- jmvcore::OptionBool$new(
+                "subgroupXlimCustom",
+                subgroupXlimCustom,
+                default=FALSE)
+            private$..subgroupXlimLower <- jmvcore::OptionNumber$new(
+                "subgroupXlimLower",
+                subgroupXlimLower,
+                default=-20)
+            private$..subgroupXlimUpper <- jmvcore::OptionNumber$new(
+                "subgroupXlimUpper",
+                subgroupXlimUpper,
+                default=20)
+            private$..subgroupAddrowsCustom <- jmvcore::OptionBool$new(
+                "subgroupAddrowsCustom",
+                subgroupAddrowsCustom,
+                default=FALSE)
+            private$..subgroupAddrowsBelowOverall <- jmvcore::OptionInteger$new(
+                "subgroupAddrowsBelowOverall",
+                subgroupAddrowsBelowOverall,
+                min=0,
+                default=0)
+            private$..subgroupColgap <- jmvcore::OptionNumber$new(
+                "subgroupColgap",
+                subgroupColgap,
+                min=0,
+                default=2)
+            private$..subgroupColgapUnit <- jmvcore::OptionList$new(
+                "subgroupColgapUnit",
+                subgroupColgapUnit,
+                options=list(
+                    "mm",
+                    "cm",
+                    "inch"),
+                default="mm")
+            private$..subgroupColgapForest <- jmvcore::OptionNumber$new(
+                "subgroupColgapForest",
+                subgroupColgapForest,
+                min=0,
+                default=2)
+            private$..subgroupColgapForestUnit <- jmvcore::OptionList$new(
+                "subgroupColgapForestUnit",
+                subgroupColgapForestUnit,
+                options=list(
+                    "mm",
+                    "cm",
+                    "inch"),
+                default="mm")
+            private$..subgroupDigitsEffect <- jmvcore::OptionList$new(
+                "subgroupDigitsEffect",
+                subgroupDigitsEffect,
+                options=list(
+                    "0",
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"),
+                default="2")
+            private$..subgroupDigitsPval <- jmvcore::OptionList$new(
+                "subgroupDigitsPval",
+                subgroupDigitsPval,
+                options=list(
+                    "2",
+                    "3",
+                    "4",
+                    "5"),
+                default="4")
+            private$..subgroupDigitsWeight <- jmvcore::OptionList$new(
+                "subgroupDigitsWeight",
+                subgroupDigitsWeight,
+                options=list(
+                    "0",
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"),
+                default="1")
+            private$..subgroupDigitsI2 <- jmvcore::OptionList$new(
+                "subgroupDigitsI2",
+                subgroupDigitsI2,
+                options=list(
+                    "0",
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"),
+                default="1")
+            private$..subgroupDigitsTau2 <- jmvcore::OptionList$new(
+                "subgroupDigitsTau2",
+                subgroupDigitsTau2,
+                options=list(
+                    "0",
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"),
+                default="4")
+            private$..metaRegCovs <- jmvcore::OptionVariables$new(
+                "metaRegCovs",
+                metaRegCovs,
+                suggested=list(
+                    "continuous"),
+                permitted=list(
+                    "numeric"))
+            private$..metaRegFactors <- jmvcore::OptionVariables$new(
+                "metaRegFactors",
+                metaRegFactors,
+                suggested=list(
+                    "nominal"),
+                permitted=list(
+                    "factor"))
+            private$..metaRegBlocks <- jmvcore::OptionArray$new(
+                "metaRegBlocks",
+                metaRegBlocks,
+                default=list(
+                    list()),
+                template=jmvcore::OptionTerms$new(
+                    "metaRegBlocks",
+                    NULL))
+            private$..metaRegIntercept <- jmvcore::OptionBool$new(
+                "metaRegIntercept",
+                metaRegIntercept,
+                default=TRUE)
+            private$..metaRegSummary <- jmvcore::OptionBool$new(
+                "metaRegSummary",
+                metaRegSummary,
+                default=TRUE)
+            private$..bubblePlot <- jmvcore::OptionBool$new(
+                "bubblePlot",
+                bubblePlot,
+                default=FALSE)
+            private$..bubbleRegline <- jmvcore::OptionBool$new(
+                "bubbleRegline",
+                bubbleRegline,
+                default=TRUE)
+            private$..bubbleStudyLabel <- jmvcore::OptionBool$new(
+                "bubbleStudyLabel",
+                bubbleStudyLabel,
+                default=FALSE)
+            private$..leaveOneOut <- jmvcore::OptionBool$new(
+                "leaveOneOut",
+                leaveOneOut,
+                default=FALSE)
+            private$..leaveOneOutPrediction <- jmvcore::OptionBool$new(
+                "leaveOneOutPrediction",
+                leaveOneOutPrediction,
+                default=FALSE)
+            private$..leaveOneOutSummary <- jmvcore::OptionBool$new(
+                "leaveOneOutSummary",
+                leaveOneOutSummary,
+                default=TRUE)
+            private$..leaveOneOutForestPlot <- jmvcore::OptionBool$new(
+                "leaveOneOutForestPlot",
+                leaveOneOutForestPlot,
+                default=TRUE)
+            private$..leaveOneOutForestMode <- jmvcore::OptionList$new(
+                "leaveOneOutForestMode",
+                leaveOneOutForestMode,
+                options=list(
+                    "general",
+                    "dimensions",
+                    "rounding"),
+                default="general")
+            private$..leaveOneOutForestLayout <- jmvcore::OptionList$new(
+                "leaveOneOutForestLayout",
+                leaveOneOutForestLayout,
+                options=list(
+                    "meta",
+                    "RevMan5",
+                    "JAMA",
+                    "BMJ"),
+                default="meta")
+            private$..leaveOneOutSortBy <- jmvcore::OptionList$new(
+                "leaveOneOutSortBy",
+                leaveOneOutSortBy,
+                options=list(
+                    "none",
+                    "effectAsc",
+                    "effectDesc",
+                    "i2Asc",
+                    "i2Desc",
+                    "tau2Asc",
+                    "tau2Desc"),
+                default="none")
+            private$..leaveOneOutForestDetails <- jmvcore::OptionBool$new(
+                "leaveOneOutForestDetails",
+                leaveOneOutForestDetails,
+                default=FALSE)
+            private$..leaveOneOutLabelLeft <- jmvcore::OptionString$new(
+                "leaveOneOutLabelLeft",
+                leaveOneOutLabelLeft,
+                default="")
+            private$..leaveOneOutLabelRight <- jmvcore::OptionString$new(
+                "leaveOneOutLabelRight",
+                leaveOneOutLabelRight,
+                default="")
+            private$..leaveOneOutXlimCustom <- jmvcore::OptionBool$new(
+                "leaveOneOutXlimCustom",
+                leaveOneOutXlimCustom,
+                default=FALSE)
+            private$..leaveOneOutXlimLower <- jmvcore::OptionNumber$new(
+                "leaveOneOutXlimLower",
+                leaveOneOutXlimLower,
+                default=-20)
+            private$..leaveOneOutXlimUpper <- jmvcore::OptionNumber$new(
+                "leaveOneOutXlimUpper",
+                leaveOneOutXlimUpper,
+                default=20)
+            private$..leaveOneOutAddrowsCustom <- jmvcore::OptionBool$new(
+                "leaveOneOutAddrowsCustom",
+                leaveOneOutAddrowsCustom,
+                default=FALSE)
+            private$..leaveOneOutAddrowsBelowOverall <- jmvcore::OptionInteger$new(
+                "leaveOneOutAddrowsBelowOverall",
+                leaveOneOutAddrowsBelowOverall,
+                min=0,
+                default=0)
+            private$..leaveOneOutColgap <- jmvcore::OptionNumber$new(
+                "leaveOneOutColgap",
+                leaveOneOutColgap,
+                min=0,
+                default=2)
+            private$..leaveOneOutColgapUnit <- jmvcore::OptionList$new(
+                "leaveOneOutColgapUnit",
+                leaveOneOutColgapUnit,
+                options=list(
+                    "mm",
+                    "cm",
+                    "inch"),
+                default="mm")
+            private$..leaveOneOutColgapForest <- jmvcore::OptionNumber$new(
+                "leaveOneOutColgapForest",
+                leaveOneOutColgapForest,
+                min=0,
+                default=2)
+            private$..leaveOneOutColgapForestUnit <- jmvcore::OptionList$new(
+                "leaveOneOutColgapForestUnit",
+                leaveOneOutColgapForestUnit,
+                options=list(
+                    "mm",
+                    "cm",
+                    "inch"),
+                default="mm")
+            private$..leaveOneOutDigitsEffect <- jmvcore::OptionList$new(
+                "leaveOneOutDigitsEffect",
+                leaveOneOutDigitsEffect,
+                options=list(
+                    "0",
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"),
+                default="2")
+            private$..leaveOneOutDigitsPval <- jmvcore::OptionList$new(
+                "leaveOneOutDigitsPval",
+                leaveOneOutDigitsPval,
+                options=list(
+                    "2",
+                    "3",
+                    "4",
+                    "5"),
+                default="4")
+            private$..leaveOneOutDigitsI2 <- jmvcore::OptionList$new(
+                "leaveOneOutDigitsI2",
+                leaveOneOutDigitsI2,
+                options=list(
+                    "0",
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"),
+                default="1")
+            private$..leaveOneOutDigitsTau2 <- jmvcore::OptionList$new(
+                "leaveOneOutDigitsTau2",
+                leaveOneOutDigitsTau2,
+                options=list(
+                    "0",
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"),
+                default="4")
+            private$..pubBiasMode <- jmvcore::OptionList$new(
+                "pubBiasMode",
+                pubBiasMode,
+                options=list(
+                    "funnelPlot",
+                    "trimFill",
+                    "doiLfk"),
+                default="funnelPlot")
+            private$..funnelPlot <- jmvcore::OptionBool$new(
+                "funnelPlot",
+                funnelPlot,
+                default=FALSE)
+            private$..funnelStudyLabel <- jmvcore::OptionBool$new(
+                "funnelStudyLabel",
+                funnelStudyLabel,
+                default=FALSE)
+            private$..funnelContour <- jmvcore::OptionBool$new(
+                "funnelContour",
+                funnelContour,
+                default=FALSE)
+            private$..funnelLegend <- jmvcore::OptionBool$new(
+                "funnelLegend",
+                funnelLegend,
+                default=TRUE)
+            private$..funnelLegendPos <- jmvcore::OptionList$new(
+                "funnelLegendPos",
+                funnelLegendPos,
+                options=list(
+                    "topright",
+                    "topleft",
+                    "bottomright",
+                    "bottomleft"),
+                default="topright")
+            private$..funnelLegendCex <- jmvcore::OptionNumber$new(
+                "funnelLegendCex",
+                funnelLegendCex,
+                min=50,
+                max=200,
+                default=100)
+            private$..asymmetryTest <- jmvcore::OptionBool$new(
+                "asymmetryTest",
+                asymmetryTest,
+                default=FALSE)
+            private$..asymmetryMethod <- jmvcore::OptionList$new(
+                "asymmetryMethod",
+                asymmetryMethod,
+                options=list(
+                    "auto",
+                    "Egger",
+                    "Begg",
+                    "Thompson",
+                    "Harbord",
+                    "Peters",
+                    "Macaskill",
+                    "Schwarzer",
+                    "Deeks"),
+                default="auto")
+            private$..asymmetrySummary <- jmvcore::OptionBool$new(
+                "asymmetrySummary",
+                asymmetrySummary,
+                default=TRUE)
+            private$..asymmetryPlot <- jmvcore::OptionBool$new(
+                "asymmetryPlot",
+                asymmetryPlot,
+                default=FALSE)
+            private$..trimFill <- jmvcore::OptionBool$new(
+                "trimFill",
+                trimFill,
+                default=FALSE)
+            private$..trimFillSide <- jmvcore::OptionList$new(
+                "trimFillSide",
+                trimFillSide,
+                options=list(
+                    "auto",
+                    "left",
+                    "right"),
+                default="auto")
+            private$..trimFillEstimator <- jmvcore::OptionList$new(
+                "trimFillEstimator",
+                trimFillEstimator,
+                options=list(
+                    "L",
+                    "R"),
+                default="L")
+            private$..trimFillSummary <- jmvcore::OptionBool$new(
+                "trimFillSummary",
+                trimFillSummary,
+                default=TRUE)
+            private$..trimFillFunnelPlot <- jmvcore::OptionBool$new(
+                "trimFillFunnelPlot",
+                trimFillFunnelPlot,
+                default=TRUE)
+            private$..trimFillFunnelStudyLabel <- jmvcore::OptionBool$new(
+                "trimFillFunnelStudyLabel",
+                trimFillFunnelStudyLabel,
+                default=FALSE)
+            private$..trimFillFunnelContour <- jmvcore::OptionBool$new(
+                "trimFillFunnelContour",
+                trimFillFunnelContour,
+                default=FALSE)
+            private$..trimFillFunnelLegend <- jmvcore::OptionBool$new(
+                "trimFillFunnelLegend",
+                trimFillFunnelLegend,
+                default=TRUE)
+            private$..trimFillFunnelLegendPos <- jmvcore::OptionList$new(
+                "trimFillFunnelLegendPos",
+                trimFillFunnelLegendPos,
+                options=list(
+                    "topright",
+                    "topleft",
+                    "bottomright",
+                    "bottomleft"),
+                default="topright")
+            private$..trimFillFunnelLegendCex <- jmvcore::OptionNumber$new(
+                "trimFillFunnelLegendCex",
+                trimFillFunnelLegendCex,
+                min=50,
+                max=200,
+                default=100)
+            private$..doiPlot <- jmvcore::OptionBool$new(
+                "doiPlot",
+                doiPlot,
+                default=FALSE)
+            private$..doiPlotLegend <- jmvcore::OptionBool$new(
+                "doiPlotLegend",
+                doiPlotLegend,
+                default=TRUE)
+            private$..doiPlotLegendPos <- jmvcore::OptionList$new(
+                "doiPlotLegendPos",
+                doiPlotLegendPos,
+                options=list(
+                    "topright",
+                    "topleft",
+                    "bottomright",
+                    "bottomleft"),
+                default="topright")
+            private$..doiPlotLegendCex <- jmvcore::OptionNumber$new(
+                "doiPlotLegendCex",
+                doiPlotLegendCex,
+                min=50,
+                max=200,
+                default=100)
+            private$..lfkIndex <- jmvcore::OptionBool$new(
+                "lfkIndex",
+                lfkIndex,
+                default=FALSE)
 
             self$.addOption(private$..studyLabel)
             self$.addOption(private$..eventE)
@@ -161,6 +976,123 @@ metaBinOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..prediction)
             self$.addOption(private$..confidenceLevel)
             self$.addOption(private$..summary)
+            self$.addOption(private$..forestPlot)
+            self$.addOption(private$..forestMode)
+            self$.addOption(private$..forestLayout)
+            self$.addOption(private$..sortBy)
+            self$.addOption(private$..forestTestOverall)
+            self$.addOption(private$..forestDetails)
+            self$.addOption(private$..forestPrintI2Ci)
+            self$.addOption(private$..forestPrintTau2Ci)
+            self$.addOption(private$..labelE)
+            self$.addOption(private$..labelC)
+            self$.addOption(private$..labelLeft)
+            self$.addOption(private$..labelRight)
+            self$.addOption(private$..xlimCustom)
+            self$.addOption(private$..xlimLower)
+            self$.addOption(private$..xlimUpper)
+            self$.addOption(private$..addrowsCustom)
+            self$.addOption(private$..addrowsBelowOverall)
+            self$.addOption(private$..colgap)
+            self$.addOption(private$..colgapUnit)
+            self$.addOption(private$..colgapForest)
+            self$.addOption(private$..colgapForestUnit)
+            self$.addOption(private$..digitsEffect)
+            self$.addOption(private$..digitsPval)
+            self$.addOption(private$..digitsWeight)
+            self$.addOption(private$..digitsI2)
+            self$.addOption(private$..digitsTau2)
+            self$.addOption(private$..subgroupVariables)
+            self$.addOption(private$..tauCommon)
+            self$.addOption(private$..predictionSubgroup)
+            self$.addOption(private$..subgroupSummary)
+            self$.addOption(private$..subgroupForestPlot)
+            self$.addOption(private$..subgroupForestMode)
+            self$.addOption(private$..printSubgroupName)
+            self$.addOption(private$..subgroupForestLayout)
+            self$.addOption(private$..subgroupSortBy)
+            self$.addOption(private$..subgroupForestOverall)
+            self$.addOption(private$..subgroupForestTestSubgroup)
+            self$.addOption(private$..subgroupForestTestEffect)
+            self$.addOption(private$..subgroupForestTestOverall)
+            self$.addOption(private$..subgroupForestPrintI2Ci)
+            self$.addOption(private$..subgroupForestPrintTau2Ci)
+            self$.addOption(private$..subgroupForestDetails)
+            self$.addOption(private$..subgroupLabelE)
+            self$.addOption(private$..subgroupLabelC)
+            self$.addOption(private$..subgroupLabelLeft)
+            self$.addOption(private$..subgroupLabelRight)
+            self$.addOption(private$..subgroupXlimCustom)
+            self$.addOption(private$..subgroupXlimLower)
+            self$.addOption(private$..subgroupXlimUpper)
+            self$.addOption(private$..subgroupAddrowsCustom)
+            self$.addOption(private$..subgroupAddrowsBelowOverall)
+            self$.addOption(private$..subgroupColgap)
+            self$.addOption(private$..subgroupColgapUnit)
+            self$.addOption(private$..subgroupColgapForest)
+            self$.addOption(private$..subgroupColgapForestUnit)
+            self$.addOption(private$..subgroupDigitsEffect)
+            self$.addOption(private$..subgroupDigitsPval)
+            self$.addOption(private$..subgroupDigitsWeight)
+            self$.addOption(private$..subgroupDigitsI2)
+            self$.addOption(private$..subgroupDigitsTau2)
+            self$.addOption(private$..metaRegCovs)
+            self$.addOption(private$..metaRegFactors)
+            self$.addOption(private$..metaRegBlocks)
+            self$.addOption(private$..metaRegIntercept)
+            self$.addOption(private$..metaRegSummary)
+            self$.addOption(private$..bubblePlot)
+            self$.addOption(private$..bubbleRegline)
+            self$.addOption(private$..bubbleStudyLabel)
+            self$.addOption(private$..leaveOneOut)
+            self$.addOption(private$..leaveOneOutPrediction)
+            self$.addOption(private$..leaveOneOutSummary)
+            self$.addOption(private$..leaveOneOutForestPlot)
+            self$.addOption(private$..leaveOneOutForestMode)
+            self$.addOption(private$..leaveOneOutForestLayout)
+            self$.addOption(private$..leaveOneOutSortBy)
+            self$.addOption(private$..leaveOneOutForestDetails)
+            self$.addOption(private$..leaveOneOutLabelLeft)
+            self$.addOption(private$..leaveOneOutLabelRight)
+            self$.addOption(private$..leaveOneOutXlimCustom)
+            self$.addOption(private$..leaveOneOutXlimLower)
+            self$.addOption(private$..leaveOneOutXlimUpper)
+            self$.addOption(private$..leaveOneOutAddrowsCustom)
+            self$.addOption(private$..leaveOneOutAddrowsBelowOverall)
+            self$.addOption(private$..leaveOneOutColgap)
+            self$.addOption(private$..leaveOneOutColgapUnit)
+            self$.addOption(private$..leaveOneOutColgapForest)
+            self$.addOption(private$..leaveOneOutColgapForestUnit)
+            self$.addOption(private$..leaveOneOutDigitsEffect)
+            self$.addOption(private$..leaveOneOutDigitsPval)
+            self$.addOption(private$..leaveOneOutDigitsI2)
+            self$.addOption(private$..leaveOneOutDigitsTau2)
+            self$.addOption(private$..pubBiasMode)
+            self$.addOption(private$..funnelPlot)
+            self$.addOption(private$..funnelStudyLabel)
+            self$.addOption(private$..funnelContour)
+            self$.addOption(private$..funnelLegend)
+            self$.addOption(private$..funnelLegendPos)
+            self$.addOption(private$..funnelLegendCex)
+            self$.addOption(private$..asymmetryTest)
+            self$.addOption(private$..asymmetryMethod)
+            self$.addOption(private$..asymmetrySummary)
+            self$.addOption(private$..asymmetryPlot)
+            self$.addOption(private$..trimFill)
+            self$.addOption(private$..trimFillSide)
+            self$.addOption(private$..trimFillEstimator)
+            self$.addOption(private$..trimFillSummary)
+            self$.addOption(private$..trimFillFunnelPlot)
+            self$.addOption(private$..trimFillFunnelStudyLabel)
+            self$.addOption(private$..trimFillFunnelContour)
+            self$.addOption(private$..trimFillFunnelLegend)
+            self$.addOption(private$..trimFillFunnelLegendPos)
+            self$.addOption(private$..trimFillFunnelLegendCex)
+            self$.addOption(private$..doiPlot)
+            self$.addOption(private$..doiPlotLegend)
+            self$.addOption(private$..doiPlotLegendPos)
+            self$.addOption(private$..doiPlotLegendCex)
+            self$.addOption(private$..lfkIndex)
         }),
     active = list(
         studyLabel = function() private$..studyLabel$value,
@@ -178,7 +1110,124 @@ metaBinOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         methodRandomCi = function() private$..methodRandomCi$value,
         prediction = function() private$..prediction$value,
         confidenceLevel = function() private$..confidenceLevel$value,
-        summary = function() private$..summary$value),
+        summary = function() private$..summary$value,
+        forestPlot = function() private$..forestPlot$value,
+        forestMode = function() private$..forestMode$value,
+        forestLayout = function() private$..forestLayout$value,
+        sortBy = function() private$..sortBy$value,
+        forestTestOverall = function() private$..forestTestOverall$value,
+        forestDetails = function() private$..forestDetails$value,
+        forestPrintI2Ci = function() private$..forestPrintI2Ci$value,
+        forestPrintTau2Ci = function() private$..forestPrintTau2Ci$value,
+        labelE = function() private$..labelE$value,
+        labelC = function() private$..labelC$value,
+        labelLeft = function() private$..labelLeft$value,
+        labelRight = function() private$..labelRight$value,
+        xlimCustom = function() private$..xlimCustom$value,
+        xlimLower = function() private$..xlimLower$value,
+        xlimUpper = function() private$..xlimUpper$value,
+        addrowsCustom = function() private$..addrowsCustom$value,
+        addrowsBelowOverall = function() private$..addrowsBelowOverall$value,
+        colgap = function() private$..colgap$value,
+        colgapUnit = function() private$..colgapUnit$value,
+        colgapForest = function() private$..colgapForest$value,
+        colgapForestUnit = function() private$..colgapForestUnit$value,
+        digitsEffect = function() private$..digitsEffect$value,
+        digitsPval = function() private$..digitsPval$value,
+        digitsWeight = function() private$..digitsWeight$value,
+        digitsI2 = function() private$..digitsI2$value,
+        digitsTau2 = function() private$..digitsTau2$value,
+        subgroupVariables = function() private$..subgroupVariables$value,
+        tauCommon = function() private$..tauCommon$value,
+        predictionSubgroup = function() private$..predictionSubgroup$value,
+        subgroupSummary = function() private$..subgroupSummary$value,
+        subgroupForestPlot = function() private$..subgroupForestPlot$value,
+        subgroupForestMode = function() private$..subgroupForestMode$value,
+        printSubgroupName = function() private$..printSubgroupName$value,
+        subgroupForestLayout = function() private$..subgroupForestLayout$value,
+        subgroupSortBy = function() private$..subgroupSortBy$value,
+        subgroupForestOverall = function() private$..subgroupForestOverall$value,
+        subgroupForestTestSubgroup = function() private$..subgroupForestTestSubgroup$value,
+        subgroupForestTestEffect = function() private$..subgroupForestTestEffect$value,
+        subgroupForestTestOverall = function() private$..subgroupForestTestOverall$value,
+        subgroupForestPrintI2Ci = function() private$..subgroupForestPrintI2Ci$value,
+        subgroupForestPrintTau2Ci = function() private$..subgroupForestPrintTau2Ci$value,
+        subgroupForestDetails = function() private$..subgroupForestDetails$value,
+        subgroupLabelE = function() private$..subgroupLabelE$value,
+        subgroupLabelC = function() private$..subgroupLabelC$value,
+        subgroupLabelLeft = function() private$..subgroupLabelLeft$value,
+        subgroupLabelRight = function() private$..subgroupLabelRight$value,
+        subgroupXlimCustom = function() private$..subgroupXlimCustom$value,
+        subgroupXlimLower = function() private$..subgroupXlimLower$value,
+        subgroupXlimUpper = function() private$..subgroupXlimUpper$value,
+        subgroupAddrowsCustom = function() private$..subgroupAddrowsCustom$value,
+        subgroupAddrowsBelowOverall = function() private$..subgroupAddrowsBelowOverall$value,
+        subgroupColgap = function() private$..subgroupColgap$value,
+        subgroupColgapUnit = function() private$..subgroupColgapUnit$value,
+        subgroupColgapForest = function() private$..subgroupColgapForest$value,
+        subgroupColgapForestUnit = function() private$..subgroupColgapForestUnit$value,
+        subgroupDigitsEffect = function() private$..subgroupDigitsEffect$value,
+        subgroupDigitsPval = function() private$..subgroupDigitsPval$value,
+        subgroupDigitsWeight = function() private$..subgroupDigitsWeight$value,
+        subgroupDigitsI2 = function() private$..subgroupDigitsI2$value,
+        subgroupDigitsTau2 = function() private$..subgroupDigitsTau2$value,
+        metaRegCovs = function() private$..metaRegCovs$value,
+        metaRegFactors = function() private$..metaRegFactors$value,
+        metaRegBlocks = function() private$..metaRegBlocks$value,
+        metaRegIntercept = function() private$..metaRegIntercept$value,
+        metaRegSummary = function() private$..metaRegSummary$value,
+        bubblePlot = function() private$..bubblePlot$value,
+        bubbleRegline = function() private$..bubbleRegline$value,
+        bubbleStudyLabel = function() private$..bubbleStudyLabel$value,
+        leaveOneOut = function() private$..leaveOneOut$value,
+        leaveOneOutPrediction = function() private$..leaveOneOutPrediction$value,
+        leaveOneOutSummary = function() private$..leaveOneOutSummary$value,
+        leaveOneOutForestPlot = function() private$..leaveOneOutForestPlot$value,
+        leaveOneOutForestMode = function() private$..leaveOneOutForestMode$value,
+        leaveOneOutForestLayout = function() private$..leaveOneOutForestLayout$value,
+        leaveOneOutSortBy = function() private$..leaveOneOutSortBy$value,
+        leaveOneOutForestDetails = function() private$..leaveOneOutForestDetails$value,
+        leaveOneOutLabelLeft = function() private$..leaveOneOutLabelLeft$value,
+        leaveOneOutLabelRight = function() private$..leaveOneOutLabelRight$value,
+        leaveOneOutXlimCustom = function() private$..leaveOneOutXlimCustom$value,
+        leaveOneOutXlimLower = function() private$..leaveOneOutXlimLower$value,
+        leaveOneOutXlimUpper = function() private$..leaveOneOutXlimUpper$value,
+        leaveOneOutAddrowsCustom = function() private$..leaveOneOutAddrowsCustom$value,
+        leaveOneOutAddrowsBelowOverall = function() private$..leaveOneOutAddrowsBelowOverall$value,
+        leaveOneOutColgap = function() private$..leaveOneOutColgap$value,
+        leaveOneOutColgapUnit = function() private$..leaveOneOutColgapUnit$value,
+        leaveOneOutColgapForest = function() private$..leaveOneOutColgapForest$value,
+        leaveOneOutColgapForestUnit = function() private$..leaveOneOutColgapForestUnit$value,
+        leaveOneOutDigitsEffect = function() private$..leaveOneOutDigitsEffect$value,
+        leaveOneOutDigitsPval = function() private$..leaveOneOutDigitsPval$value,
+        leaveOneOutDigitsI2 = function() private$..leaveOneOutDigitsI2$value,
+        leaveOneOutDigitsTau2 = function() private$..leaveOneOutDigitsTau2$value,
+        pubBiasMode = function() private$..pubBiasMode$value,
+        funnelPlot = function() private$..funnelPlot$value,
+        funnelStudyLabel = function() private$..funnelStudyLabel$value,
+        funnelContour = function() private$..funnelContour$value,
+        funnelLegend = function() private$..funnelLegend$value,
+        funnelLegendPos = function() private$..funnelLegendPos$value,
+        funnelLegendCex = function() private$..funnelLegendCex$value,
+        asymmetryTest = function() private$..asymmetryTest$value,
+        asymmetryMethod = function() private$..asymmetryMethod$value,
+        asymmetrySummary = function() private$..asymmetrySummary$value,
+        asymmetryPlot = function() private$..asymmetryPlot$value,
+        trimFill = function() private$..trimFill$value,
+        trimFillSide = function() private$..trimFillSide$value,
+        trimFillEstimator = function() private$..trimFillEstimator$value,
+        trimFillSummary = function() private$..trimFillSummary$value,
+        trimFillFunnelPlot = function() private$..trimFillFunnelPlot$value,
+        trimFillFunnelStudyLabel = function() private$..trimFillFunnelStudyLabel$value,
+        trimFillFunnelContour = function() private$..trimFillFunnelContour$value,
+        trimFillFunnelLegend = function() private$..trimFillFunnelLegend$value,
+        trimFillFunnelLegendPos = function() private$..trimFillFunnelLegendPos$value,
+        trimFillFunnelLegendCex = function() private$..trimFillFunnelLegendCex$value,
+        doiPlot = function() private$..doiPlot$value,
+        doiPlotLegend = function() private$..doiPlotLegend$value,
+        doiPlotLegendPos = function() private$..doiPlotLegendPos$value,
+        doiPlotLegendCex = function() private$..doiPlotLegendCex$value,
+        lfkIndex = function() private$..lfkIndex$value),
     private = list(
         ..studyLabel = NA,
         ..eventE = NA,
@@ -195,14 +1244,145 @@ metaBinOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..methodRandomCi = NA,
         ..prediction = NA,
         ..confidenceLevel = NA,
-        ..summary = NA)
+        ..summary = NA,
+        ..forestPlot = NA,
+        ..forestMode = NA,
+        ..forestLayout = NA,
+        ..sortBy = NA,
+        ..forestTestOverall = NA,
+        ..forestDetails = NA,
+        ..forestPrintI2Ci = NA,
+        ..forestPrintTau2Ci = NA,
+        ..labelE = NA,
+        ..labelC = NA,
+        ..labelLeft = NA,
+        ..labelRight = NA,
+        ..xlimCustom = NA,
+        ..xlimLower = NA,
+        ..xlimUpper = NA,
+        ..addrowsCustom = NA,
+        ..addrowsBelowOverall = NA,
+        ..colgap = NA,
+        ..colgapUnit = NA,
+        ..colgapForest = NA,
+        ..colgapForestUnit = NA,
+        ..digitsEffect = NA,
+        ..digitsPval = NA,
+        ..digitsWeight = NA,
+        ..digitsI2 = NA,
+        ..digitsTau2 = NA,
+        ..subgroupVariables = NA,
+        ..tauCommon = NA,
+        ..predictionSubgroup = NA,
+        ..subgroupSummary = NA,
+        ..subgroupForestPlot = NA,
+        ..subgroupForestMode = NA,
+        ..printSubgroupName = NA,
+        ..subgroupForestLayout = NA,
+        ..subgroupSortBy = NA,
+        ..subgroupForestOverall = NA,
+        ..subgroupForestTestSubgroup = NA,
+        ..subgroupForestTestEffect = NA,
+        ..subgroupForestTestOverall = NA,
+        ..subgroupForestPrintI2Ci = NA,
+        ..subgroupForestPrintTau2Ci = NA,
+        ..subgroupForestDetails = NA,
+        ..subgroupLabelE = NA,
+        ..subgroupLabelC = NA,
+        ..subgroupLabelLeft = NA,
+        ..subgroupLabelRight = NA,
+        ..subgroupXlimCustom = NA,
+        ..subgroupXlimLower = NA,
+        ..subgroupXlimUpper = NA,
+        ..subgroupAddrowsCustom = NA,
+        ..subgroupAddrowsBelowOverall = NA,
+        ..subgroupColgap = NA,
+        ..subgroupColgapUnit = NA,
+        ..subgroupColgapForest = NA,
+        ..subgroupColgapForestUnit = NA,
+        ..subgroupDigitsEffect = NA,
+        ..subgroupDigitsPval = NA,
+        ..subgroupDigitsWeight = NA,
+        ..subgroupDigitsI2 = NA,
+        ..subgroupDigitsTau2 = NA,
+        ..metaRegCovs = NA,
+        ..metaRegFactors = NA,
+        ..metaRegBlocks = NA,
+        ..metaRegIntercept = NA,
+        ..metaRegSummary = NA,
+        ..bubblePlot = NA,
+        ..bubbleRegline = NA,
+        ..bubbleStudyLabel = NA,
+        ..leaveOneOut = NA,
+        ..leaveOneOutPrediction = NA,
+        ..leaveOneOutSummary = NA,
+        ..leaveOneOutForestPlot = NA,
+        ..leaveOneOutForestMode = NA,
+        ..leaveOneOutForestLayout = NA,
+        ..leaveOneOutSortBy = NA,
+        ..leaveOneOutForestDetails = NA,
+        ..leaveOneOutLabelLeft = NA,
+        ..leaveOneOutLabelRight = NA,
+        ..leaveOneOutXlimCustom = NA,
+        ..leaveOneOutXlimLower = NA,
+        ..leaveOneOutXlimUpper = NA,
+        ..leaveOneOutAddrowsCustom = NA,
+        ..leaveOneOutAddrowsBelowOverall = NA,
+        ..leaveOneOutColgap = NA,
+        ..leaveOneOutColgapUnit = NA,
+        ..leaveOneOutColgapForest = NA,
+        ..leaveOneOutColgapForestUnit = NA,
+        ..leaveOneOutDigitsEffect = NA,
+        ..leaveOneOutDigitsPval = NA,
+        ..leaveOneOutDigitsI2 = NA,
+        ..leaveOneOutDigitsTau2 = NA,
+        ..pubBiasMode = NA,
+        ..funnelPlot = NA,
+        ..funnelStudyLabel = NA,
+        ..funnelContour = NA,
+        ..funnelLegend = NA,
+        ..funnelLegendPos = NA,
+        ..funnelLegendCex = NA,
+        ..asymmetryTest = NA,
+        ..asymmetryMethod = NA,
+        ..asymmetrySummary = NA,
+        ..asymmetryPlot = NA,
+        ..trimFill = NA,
+        ..trimFillSide = NA,
+        ..trimFillEstimator = NA,
+        ..trimFillSummary = NA,
+        ..trimFillFunnelPlot = NA,
+        ..trimFillFunnelStudyLabel = NA,
+        ..trimFillFunnelContour = NA,
+        ..trimFillFunnelLegend = NA,
+        ..trimFillFunnelLegendPos = NA,
+        ..trimFillFunnelLegendCex = NA,
+        ..doiPlot = NA,
+        ..doiPlotLegend = NA,
+        ..doiPlotLegendPos = NA,
+        ..doiPlotLegendCex = NA,
+        ..lfkIndex = NA)
 )
 
 metaBinResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "metaBinResults",
     inherit = jmvcore::Group,
     active = list(
-        text = function() private$.items[["text"]]),
+        text = function() private$.items[["text"]],
+        plotSizeCache = function() private$.items[["plotSizeCache"]],
+        plot = function() private$.items[["plot"]],
+        subgroupModels = function() private$.items[["subgroupModels"]],
+        metaRegModels = function() private$.items[["metaRegModels"]],
+        leaveOneOutText = function() private$.items[["leaveOneOutText"]],
+        leaveOneOutPlotSizeCache = function() private$.items[["leaveOneOutPlotSizeCache"]],
+        leaveOneOutPlot = function() private$.items[["leaveOneOutPlot"]],
+        funnelPlotImage = function() private$.items[["funnelPlotImage"]],
+        asymmetryTestText = function() private$.items[["asymmetryTestText"]],
+        asymmetryPlotImage = function() private$.items[["asymmetryPlotImage"]],
+        trimFillText = function() private$.items[["trimFillText"]],
+        trimFillFunnelPlotImage = function() private$.items[["trimFillFunnelPlotImage"]],
+        doiPlotImage = function() private$.items[["doiPlotImage"]],
+        lfkIndexText = function() private$.items[["lfkIndexText"]]),
     private = list(),
     public=list(
         initialize=function(options) {
@@ -231,7 +1411,481 @@ metaBinResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "prediction",
                     "confidenceLevel"),
                 refs=list(
-                    "metaPackage")))}))
+                    "metaPackage")))
+            self$add(R6::R6Class(
+                inherit = jmvcore::Group,
+                active = list(),
+                private = list(),
+                public=list(
+                    initialize=function(options) {
+                        super$initialize(
+                            options=options,
+                            name="plotSizeCache",
+                            title="no title",
+                            clearWith=list())}))$new(options=options))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="plot",
+                title="Overall Forest Plot",
+                renderFun=".forestPlot",
+                visible="(forestPlot)",
+                clearWith=list(
+                    "studyLabel",
+                    "eventE",
+                    "nE",
+                    "eventC",
+                    "nC",
+                    "sm",
+                    "method",
+                    "correctionMethod",
+                    "incr",
+                    "allstudies",
+                    "model",
+                    "methodTau",
+                    "methodRandomCi",
+                    "prediction",
+                    "confidenceLevel",
+                    "forestLayout",
+                    "sortBy",
+                    "forestTestOverall",
+                    "forestDetails",
+                    "forestPrintI2Ci",
+                    "forestPrintTau2Ci",
+                    "labelE",
+                    "labelC",
+                    "labelLeft",
+                    "labelRight",
+                    "xlimCustom",
+                    "xlimLower",
+                    "xlimUpper",
+                    "addrowsCustom",
+                    "addrowsBelowOverall",
+                    "colgap",
+                    "colgapUnit",
+                    "colgapForest",
+                    "colgapForestUnit",
+                    "digitsEffect",
+                    "digitsPval",
+                    "digitsWeight",
+                    "digitsI2",
+                    "digitsTau2"),
+                refs=list(
+                    "metaPackage")))
+            self$add(jmvcore::Array$new(
+                options=options,
+                name="subgroupModels",
+                title="",
+                hideHeadingOnlyChild=TRUE,
+                clearWith=list(
+                    "studyLabel",
+                    "eventE",
+                    "nE",
+                    "eventC",
+                    "nC",
+                    "sm",
+                    "method",
+                    "correctionMethod",
+                    "incr",
+                    "allstudies",
+                    "model",
+                    "methodTau",
+                    "methodRandomCi",
+                    "prediction",
+                    "confidenceLevel",
+                    "subgroupVariables",
+                    "tauCommon",
+                    "predictionSubgroup"),
+                template=R6::R6Class(
+                    inherit = jmvcore::Group,
+                    active = list(
+                        subgroupText = function() private$.items[["subgroupText"]],
+                        subgroupPlotSizeCache = function() private$.items[["subgroupPlotSizeCache"]],
+                        subgroupPlot = function() private$.items[["subgroupPlot"]]),
+                    private = list(),
+                    public=list(
+                        initialize=function(options) {
+                            super$initialize(
+                                options=options,
+                                name="undefined",
+                                title="")
+                            self$add(jmvcore::Html$new(
+                                options=options,
+                                name="subgroupText",
+                                visible="(subgroupSummary && length(subgroupVariables) > 0)",
+                                clearWith=list(),
+                                refs=list(
+                                    "metaPackage")))
+                            self$add(R6::R6Class(
+                                inherit = jmvcore::Group,
+                                active = list(),
+                                private = list(),
+                                public=list(
+                                    initialize=function(options) {
+                                        super$initialize(
+                                            options=options,
+                                            name="subgroupPlotSizeCache",
+                                            title="no title",
+                                            clearWith=list())}))$new(options=options))
+                            self$add(jmvcore::Image$new(
+                                options=options,
+                                name="subgroupPlot",
+                                title="Subgroup Forest Plot",
+                                renderFun=".subgroupForestPlot",
+                                visible="(subgroupForestPlot && length(subgroupVariables) > 0)",
+                                clearWith=list(
+                                    "printSubgroupName",
+                                    "subgroupForestLayout",
+                                    "subgroupSortBy",
+                                    "subgroupForestOverall",
+                                    "subgroupForestTestSubgroup",
+                                    "subgroupForestTestEffect",
+                                    "subgroupForestTestOverall",
+                                    "subgroupForestPrintI2Ci",
+                                    "subgroupForestPrintTau2Ci",
+                                    "subgroupForestDetails",
+                                    "subgroupLabelE",
+                                    "subgroupLabelC",
+                                    "subgroupLabelLeft",
+                                    "subgroupLabelRight",
+                                    "subgroupXlimCustom",
+                                    "subgroupXlimLower",
+                                    "subgroupXlimUpper",
+                                    "subgroupAddrowsCustom",
+                                    "subgroupAddrowsBelowOverall",
+                                    "subgroupColgap",
+                                    "subgroupColgapUnit",
+                                    "subgroupColgapForest",
+                                    "subgroupColgapForestUnit",
+                                    "subgroupDigitsEffect",
+                                    "subgroupDigitsPval",
+                                    "subgroupDigitsWeight",
+                                    "subgroupDigitsI2",
+                                    "subgroupDigitsTau2"),
+                                refs=list(
+                                    "metaPackage")))}))$new(options=options)))
+            self$add(jmvcore::Array$new(
+                options=options,
+                name="metaRegModels",
+                title="",
+                hideHeadingOnlyChild=TRUE,
+                clearWith=list(
+                    "studyLabel",
+                    "eventE",
+                    "nE",
+                    "eventC",
+                    "nC",
+                    "sm",
+                    "method",
+                    "correctionMethod",
+                    "incr",
+                    "allstudies",
+                    "model",
+                    "methodTau",
+                    "methodRandomCi",
+                    "prediction",
+                    "confidenceLevel",
+                    "metaRegCovs",
+                    "metaRegFactors",
+                    "metaRegBlocks",
+                    "metaRegIntercept"),
+                template=R6::R6Class(
+                    inherit = jmvcore::Group,
+                    active = list(
+                        metaRegText = function() private$.items[["metaRegText"]],
+                        bubblePlot = function() private$.items[["bubblePlot"]]),
+                    private = list(),
+                    public=list(
+                        initialize=function(options) {
+                            super$initialize(
+                                options=options,
+                                name="undefined",
+                                title="")
+                            self$add(jmvcore::Html$new(
+                                options=options,
+                                name="metaRegText",
+                                visible="(metaRegSummary && (length(metaRegCovs) > 0 || length(metaRegFactors) > 0))",
+                                clearWith=list(),
+                                refs=list(
+                                    "metaPackage")))
+                            self$add(jmvcore::Image$new(
+                                options=options,
+                                name="bubblePlot",
+                                title="Bubble Plot",
+                                width=700,
+                                height=500,
+                                renderFun=".bubblePlot",
+                                visible="(bubblePlot && (length(metaRegCovs) > 0 || length(metaRegFactors) > 0))",
+                                clearWith=list(
+                                    "bubbleRegline",
+                                    "bubbleStudyLabel"),
+                                refs=list(
+                                    "metaPackage")))}))$new(options=options)))
+            self$add(jmvcore::Html$new(
+                options=options,
+                name="leaveOneOutText",
+                visible="(leaveOneOut && leaveOneOutSummary)",
+                clearWith=list(
+                    "studyLabel",
+                    "eventE",
+                    "nE",
+                    "eventC",
+                    "nC",
+                    "sm",
+                    "method",
+                    "correctionMethod",
+                    "incr",
+                    "allstudies",
+                    "model",
+                    "methodTau",
+                    "methodRandomCi",
+                    "prediction",
+                    "confidenceLevel",
+                    "leaveOneOutPrediction"),
+                refs=list(
+                    "metaPackage")))
+            self$add(R6::R6Class(
+                inherit = jmvcore::Group,
+                active = list(),
+                private = list(),
+                public=list(
+                    initialize=function(options) {
+                        super$initialize(
+                            options=options,
+                            name="leaveOneOutPlotSizeCache",
+                            title="no title",
+                            clearWith=list())}))$new(options=options))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="leaveOneOutPlot",
+                title="Leave-One-Out Forest Plot",
+                renderFun=".leaveOneOutForestPlot",
+                visible="(leaveOneOut && leaveOneOutForestPlot)",
+                clearWith=list(
+                    "studyLabel",
+                    "eventE",
+                    "nE",
+                    "eventC",
+                    "nC",
+                    "sm",
+                    "method",
+                    "correctionMethod",
+                    "incr",
+                    "allstudies",
+                    "model",
+                    "methodTau",
+                    "methodRandomCi",
+                    "prediction",
+                    "confidenceLevel",
+                    "leaveOneOutPrediction",
+                    "leaveOneOutForestLayout",
+                    "leaveOneOutSortBy",
+                    "leaveOneOutForestDetails",
+                    "leaveOneOutLabelLeft",
+                    "leaveOneOutLabelRight",
+                    "leaveOneOutXlimCustom",
+                    "leaveOneOutXlimLower",
+                    "leaveOneOutXlimUpper",
+                    "leaveOneOutAddrowsCustom",
+                    "leaveOneOutAddrowsBelowOverall",
+                    "leaveOneOutColgap",
+                    "leaveOneOutColgapUnit",
+                    "leaveOneOutColgapForest",
+                    "leaveOneOutColgapForestUnit",
+                    "leaveOneOutDigitsEffect",
+                    "leaveOneOutDigitsPval",
+                    "leaveOneOutDigitsI2",
+                    "leaveOneOutDigitsTau2"),
+                refs=list(
+                    "metaPackage")))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="funnelPlotImage",
+                title="Funnel Plot",
+                width=550,
+                height=500,
+                renderFun=".funnelPlot",
+                visible="(funnelPlot)",
+                clearWith=list(
+                    "studyLabel",
+                    "eventE",
+                    "nE",
+                    "eventC",
+                    "nC",
+                    "sm",
+                    "method",
+                    "correctionMethod",
+                    "incr",
+                    "allstudies",
+                    "model",
+                    "methodTau",
+                    "methodRandomCi",
+                    "prediction",
+                    "confidenceLevel",
+                    "funnelStudyLabel",
+                    "funnelContour",
+                    "funnelLegend",
+                    "funnelLegendPos",
+                    "funnelLegendCex"),
+                refs=list(
+                    "metaPackage")))
+            self$add(jmvcore::Html$new(
+                options=options,
+                name="asymmetryTestText",
+                visible="(asymmetryTest && asymmetrySummary)",
+                clearWith=list(
+                    "studyLabel",
+                    "eventE",
+                    "nE",
+                    "eventC",
+                    "nC",
+                    "sm",
+                    "method",
+                    "correctionMethod",
+                    "incr",
+                    "allstudies",
+                    "model",
+                    "methodTau",
+                    "methodRandomCi",
+                    "prediction",
+                    "confidenceLevel",
+                    "asymmetryMethod"),
+                refs=list(
+                    "metaPackage")))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="asymmetryPlotImage",
+                title="Scatter Plot (Test for Funnel Plot Asymmetry)",
+                width=550,
+                height=500,
+                renderFun=".asymmetryPlot",
+                visible="(asymmetryTest && asymmetryPlot && !(asymmetryMethod %in% c(\"Schwarzer\", \"Macaskill\", \"Peters\")))",
+                clearWith=list(
+                    "studyLabel",
+                    "eventE",
+                    "nE",
+                    "eventC",
+                    "nC",
+                    "sm",
+                    "method",
+                    "correctionMethod",
+                    "incr",
+                    "allstudies",
+                    "model",
+                    "methodTau",
+                    "methodRandomCi",
+                    "prediction",
+                    "confidenceLevel",
+                    "asymmetryMethod"),
+                refs=list(
+                    "metaPackage")))
+            self$add(jmvcore::Html$new(
+                options=options,
+                name="trimFillText",
+                visible="(trimFill && trimFillSummary)",
+                clearWith=list(
+                    "studyLabel",
+                    "eventE",
+                    "nE",
+                    "eventC",
+                    "nC",
+                    "sm",
+                    "method",
+                    "correctionMethod",
+                    "incr",
+                    "allstudies",
+                    "model",
+                    "methodTau",
+                    "methodRandomCi",
+                    "prediction",
+                    "confidenceLevel",
+                    "trimFillSide",
+                    "trimFillEstimator"),
+                refs=list(
+                    "metaPackage")))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="trimFillFunnelPlotImage",
+                title="Trim & Fill Funnel Plot",
+                width=550,
+                height=500,
+                renderFun=".trimFillFunnelPlot",
+                visible="(trimFill && trimFillFunnelPlot)",
+                clearWith=list(
+                    "studyLabel",
+                    "eventE",
+                    "nE",
+                    "eventC",
+                    "nC",
+                    "sm",
+                    "method",
+                    "correctionMethod",
+                    "incr",
+                    "allstudies",
+                    "model",
+                    "methodTau",
+                    "methodRandomCi",
+                    "prediction",
+                    "confidenceLevel",
+                    "trimFillSide",
+                    "trimFillEstimator",
+                    "trimFillFunnelStudyLabel",
+                    "trimFillFunnelContour",
+                    "trimFillFunnelLegend",
+                    "trimFillFunnelLegendPos",
+                    "trimFillFunnelLegendCex"),
+                refs=list(
+                    "metaPackage")))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="doiPlotImage",
+                title="Doi Plot",
+                width=550,
+                height=500,
+                renderFun=".doiPlot",
+                visible="(doiPlot)",
+                clearWith=list(
+                    "studyLabel",
+                    "eventE",
+                    "nE",
+                    "eventC",
+                    "nC",
+                    "sm",
+                    "method",
+                    "correctionMethod",
+                    "incr",
+                    "allstudies",
+                    "model",
+                    "methodTau",
+                    "methodRandomCi",
+                    "prediction",
+                    "confidenceLevel",
+                    "doiPlotLegend",
+                    "doiPlotLegendPos",
+                    "doiPlotLegendCex"),
+                refs=list(
+                    "metasensPackage")))
+            self$add(jmvcore::Html$new(
+                options=options,
+                name="lfkIndexText",
+                visible="(lfkIndex)",
+                clearWith=list(
+                    "studyLabel",
+                    "eventE",
+                    "nE",
+                    "eventC",
+                    "nC",
+                    "sm",
+                    "method",
+                    "correctionMethod",
+                    "incr",
+                    "allstudies",
+                    "model",
+                    "methodTau",
+                    "methodRandomCi",
+                    "prediction",
+                    "confidenceLevel"),
+                refs=list(
+                    "metasensPackage")))}))
 
 metaBinBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "metaBinBase",
@@ -274,9 +1928,138 @@ metaBinBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param prediction .
 #' @param confidenceLevel .
 #' @param summary .
+#' @param forestPlot .
+#' @param forestMode .
+#' @param forestLayout .
+#' @param sortBy .
+#' @param forestTestOverall .
+#' @param forestDetails .
+#' @param forestPrintI2Ci .
+#' @param forestPrintTau2Ci .
+#' @param labelE .
+#' @param labelC .
+#' @param labelLeft .
+#' @param labelRight .
+#' @param xlimCustom .
+#' @param xlimLower .
+#' @param xlimUpper .
+#' @param addrowsCustom .
+#' @param addrowsBelowOverall .
+#' @param colgap .
+#' @param colgapUnit .
+#' @param colgapForest .
+#' @param colgapForestUnit .
+#' @param digitsEffect .
+#' @param digitsPval .
+#' @param digitsWeight .
+#' @param digitsI2 .
+#' @param digitsTau2 .
+#' @param subgroupVariables .
+#' @param tauCommon .
+#' @param predictionSubgroup .
+#' @param subgroupSummary .
+#' @param subgroupForestPlot .
+#' @param subgroupForestMode .
+#' @param printSubgroupName .
+#' @param subgroupForestLayout .
+#' @param subgroupSortBy .
+#' @param subgroupForestOverall .
+#' @param subgroupForestTestSubgroup .
+#' @param subgroupForestTestEffect .
+#' @param subgroupForestTestOverall .
+#' @param subgroupForestPrintI2Ci .
+#' @param subgroupForestPrintTau2Ci .
+#' @param subgroupForestDetails .
+#' @param subgroupLabelE .
+#' @param subgroupLabelC .
+#' @param subgroupLabelLeft .
+#' @param subgroupLabelRight .
+#' @param subgroupXlimCustom .
+#' @param subgroupXlimLower .
+#' @param subgroupXlimUpper .
+#' @param subgroupAddrowsCustom .
+#' @param subgroupAddrowsBelowOverall .
+#' @param subgroupColgap .
+#' @param subgroupColgapUnit .
+#' @param subgroupColgapForest .
+#' @param subgroupColgapForestUnit .
+#' @param subgroupDigitsEffect .
+#' @param subgroupDigitsPval .
+#' @param subgroupDigitsWeight .
+#' @param subgroupDigitsI2 .
+#' @param subgroupDigitsTau2 .
+#' @param metaRegCovs .
+#' @param metaRegFactors .
+#' @param metaRegBlocks .
+#' @param metaRegIntercept .
+#' @param metaRegSummary .
+#' @param bubblePlot .
+#' @param bubbleRegline .
+#' @param bubbleStudyLabel .
+#' @param leaveOneOut .
+#' @param leaveOneOutPrediction .
+#' @param leaveOneOutSummary .
+#' @param leaveOneOutForestPlot .
+#' @param leaveOneOutForestMode .
+#' @param leaveOneOutForestLayout .
+#' @param leaveOneOutSortBy .
+#' @param leaveOneOutForestDetails .
+#' @param leaveOneOutLabelLeft .
+#' @param leaveOneOutLabelRight .
+#' @param leaveOneOutXlimCustom .
+#' @param leaveOneOutXlimLower .
+#' @param leaveOneOutXlimUpper .
+#' @param leaveOneOutAddrowsCustom .
+#' @param leaveOneOutAddrowsBelowOverall .
+#' @param leaveOneOutColgap .
+#' @param leaveOneOutColgapUnit .
+#' @param leaveOneOutColgapForest .
+#' @param leaveOneOutColgapForestUnit .
+#' @param leaveOneOutDigitsEffect .
+#' @param leaveOneOutDigitsPval .
+#' @param leaveOneOutDigitsI2 .
+#' @param leaveOneOutDigitsTau2 .
+#' @param pubBiasMode .
+#' @param funnelPlot .
+#' @param funnelStudyLabel .
+#' @param funnelContour .
+#' @param funnelLegend .
+#' @param funnelLegendPos .
+#' @param funnelLegendCex .
+#' @param asymmetryTest .
+#' @param asymmetryMethod .
+#' @param asymmetrySummary .
+#' @param asymmetryPlot .
+#' @param trimFill .
+#' @param trimFillSide .
+#' @param trimFillEstimator .
+#' @param trimFillSummary .
+#' @param trimFillFunnelPlot .
+#' @param trimFillFunnelStudyLabel .
+#' @param trimFillFunnelContour .
+#' @param trimFillFunnelLegend .
+#' @param trimFillFunnelLegendPos .
+#' @param trimFillFunnelLegendCex .
+#' @param doiPlot .
+#' @param doiPlotLegend .
+#' @param doiPlotLegendPos .
+#' @param doiPlotLegendCex .
+#' @param lfkIndex .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$text} \tab \tab \tab \tab \tab a html \cr
+#'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$subgroupModels} \tab \tab \tab \tab \tab an array of groups \cr
+#'   \code{results$metaRegModels} \tab \tab \tab \tab \tab an array of groups \cr
+#'   \code{results$leaveOneOutText} \tab \tab \tab \tab \tab a html \cr
+#'   \code{results$leaveOneOutPlot} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$funnelPlotImage} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$asymmetryTestText} \tab \tab \tab \tab \tab a html \cr
+#'   \code{results$asymmetryPlotImage} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$trimFillText} \tab \tab \tab \tab \tab a html \cr
+#'   \code{results$trimFillFunnelPlotImage} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$doiPlotImage} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$lfkIndexText} \tab \tab \tab \tab \tab a html \cr
 #' }
 #'
 #' @export
@@ -297,7 +2080,125 @@ metaBin <- function(
     methodRandomCi = "classic",
     prediction = FALSE,
     confidenceLevel = 95,
-    summary = TRUE) {
+    summary = TRUE,
+    forestPlot = TRUE,
+    forestMode = "general",
+    forestLayout = "meta",
+    sortBy = "none",
+    forestTestOverall = FALSE,
+    forestDetails = FALSE,
+    forestPrintI2Ci = FALSE,
+    forestPrintTau2Ci = FALSE,
+    labelE = "Experimental",
+    labelC = "Control",
+    labelLeft = "",
+    labelRight = "",
+    xlimCustom = FALSE,
+    xlimLower = -20,
+    xlimUpper = 20,
+    addrowsCustom = FALSE,
+    addrowsBelowOverall = 0,
+    colgap = 2,
+    colgapUnit = "mm",
+    colgapForest = 2,
+    colgapForestUnit = "mm",
+    digitsEffect = "2",
+    digitsPval = "4",
+    digitsWeight = "1",
+    digitsI2 = "1",
+    digitsTau2 = "4",
+    subgroupVariables,
+    tauCommon = FALSE,
+    predictionSubgroup = FALSE,
+    subgroupSummary = TRUE,
+    subgroupForestPlot = TRUE,
+    subgroupForestMode = "general",
+    printSubgroupName = TRUE,
+    subgroupForestLayout = "meta",
+    subgroupSortBy = "none",
+    subgroupForestOverall = TRUE,
+    subgroupForestTestSubgroup = TRUE,
+    subgroupForestTestEffect = FALSE,
+    subgroupForestTestOverall = FALSE,
+    subgroupForestPrintI2Ci = FALSE,
+    subgroupForestPrintTau2Ci = FALSE,
+    subgroupForestDetails = FALSE,
+    subgroupLabelE = "Experimental",
+    subgroupLabelC = "Control",
+    subgroupLabelLeft = "",
+    subgroupLabelRight = "",
+    subgroupXlimCustom = FALSE,
+    subgroupXlimLower = -20,
+    subgroupXlimUpper = 20,
+    subgroupAddrowsCustom = FALSE,
+    subgroupAddrowsBelowOverall = 0,
+    subgroupColgap = 2,
+    subgroupColgapUnit = "mm",
+    subgroupColgapForest = 2,
+    subgroupColgapForestUnit = "mm",
+    subgroupDigitsEffect = "2",
+    subgroupDigitsPval = "4",
+    subgroupDigitsWeight = "1",
+    subgroupDigitsI2 = "1",
+    subgroupDigitsTau2 = "4",
+    metaRegCovs,
+    metaRegFactors,
+    metaRegBlocks = list(
+                list()),
+    metaRegIntercept = TRUE,
+    metaRegSummary = TRUE,
+    bubblePlot = FALSE,
+    bubbleRegline = TRUE,
+    bubbleStudyLabel = FALSE,
+    leaveOneOut = FALSE,
+    leaveOneOutPrediction = FALSE,
+    leaveOneOutSummary = TRUE,
+    leaveOneOutForestPlot = TRUE,
+    leaveOneOutForestMode = "general",
+    leaveOneOutForestLayout = "meta",
+    leaveOneOutSortBy = "none",
+    leaveOneOutForestDetails = FALSE,
+    leaveOneOutLabelLeft = "",
+    leaveOneOutLabelRight = "",
+    leaveOneOutXlimCustom = FALSE,
+    leaveOneOutXlimLower = -20,
+    leaveOneOutXlimUpper = 20,
+    leaveOneOutAddrowsCustom = FALSE,
+    leaveOneOutAddrowsBelowOverall = 0,
+    leaveOneOutColgap = 2,
+    leaveOneOutColgapUnit = "mm",
+    leaveOneOutColgapForest = 2,
+    leaveOneOutColgapForestUnit = "mm",
+    leaveOneOutDigitsEffect = "2",
+    leaveOneOutDigitsPval = "4",
+    leaveOneOutDigitsI2 = "1",
+    leaveOneOutDigitsTau2 = "4",
+    pubBiasMode = "funnelPlot",
+    funnelPlot = FALSE,
+    funnelStudyLabel = FALSE,
+    funnelContour = FALSE,
+    funnelLegend = TRUE,
+    funnelLegendPos = "topright",
+    funnelLegendCex = 100,
+    asymmetryTest = FALSE,
+    asymmetryMethod = "auto",
+    asymmetrySummary = TRUE,
+    asymmetryPlot = FALSE,
+    trimFill = FALSE,
+    trimFillSide = "auto",
+    trimFillEstimator = "L",
+    trimFillSummary = TRUE,
+    trimFillFunnelPlot = TRUE,
+    trimFillFunnelStudyLabel = FALSE,
+    trimFillFunnelContour = FALSE,
+    trimFillFunnelLegend = TRUE,
+    trimFillFunnelLegendPos = "topright",
+    trimFillFunnelLegendCex = 100,
+    doiPlot = FALSE,
+    doiPlotLegend = TRUE,
+    doiPlotLegendPos = "topright",
+    doiPlotLegendCex = 100,
+    lfkIndex = FALSE) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("metaBin requires jmvcore to be installed (restart may be required)")
@@ -307,6 +2208,9 @@ metaBin <- function(
     if ( ! missing(nE)) nE <- jmvcore::resolveQuo(jmvcore::enquo(nE))
     if ( ! missing(eventC)) eventC <- jmvcore::resolveQuo(jmvcore::enquo(eventC))
     if ( ! missing(nC)) nC <- jmvcore::resolveQuo(jmvcore::enquo(nC))
+    if ( ! missing(subgroupVariables)) subgroupVariables <- jmvcore::resolveQuo(jmvcore::enquo(subgroupVariables))
+    if ( ! missing(metaRegCovs)) metaRegCovs <- jmvcore::resolveQuo(jmvcore::enquo(metaRegCovs))
+    if ( ! missing(metaRegFactors)) metaRegFactors <- jmvcore::resolveQuo(jmvcore::enquo(metaRegFactors))
     if (missing(data))
         data <- jmvcore::marshalData(
             parent.frame(),
@@ -314,8 +2218,13 @@ metaBin <- function(
             `if`( ! missing(eventE), eventE, NULL),
             `if`( ! missing(nE), nE, NULL),
             `if`( ! missing(eventC), eventC, NULL),
-            `if`( ! missing(nC), nC, NULL))
+            `if`( ! missing(nC), nC, NULL),
+            `if`( ! missing(subgroupVariables), subgroupVariables, NULL),
+            `if`( ! missing(metaRegCovs), metaRegCovs, NULL),
+            `if`( ! missing(metaRegFactors), metaRegFactors, NULL))
 
+    for (v in subgroupVariables) if (v %in% names(data)) data[[v]] <- as.factor(data[[v]])
+    for (v in metaRegFactors) if (v %in% names(data)) data[[v]] <- as.factor(data[[v]])
 
     options <- metaBinOptions$new(
         studyLabel = studyLabel,
@@ -333,7 +2242,124 @@ metaBin <- function(
         methodRandomCi = methodRandomCi,
         prediction = prediction,
         confidenceLevel = confidenceLevel,
-        summary = summary)
+        summary = summary,
+        forestPlot = forestPlot,
+        forestMode = forestMode,
+        forestLayout = forestLayout,
+        sortBy = sortBy,
+        forestTestOverall = forestTestOverall,
+        forestDetails = forestDetails,
+        forestPrintI2Ci = forestPrintI2Ci,
+        forestPrintTau2Ci = forestPrintTau2Ci,
+        labelE = labelE,
+        labelC = labelC,
+        labelLeft = labelLeft,
+        labelRight = labelRight,
+        xlimCustom = xlimCustom,
+        xlimLower = xlimLower,
+        xlimUpper = xlimUpper,
+        addrowsCustom = addrowsCustom,
+        addrowsBelowOverall = addrowsBelowOverall,
+        colgap = colgap,
+        colgapUnit = colgapUnit,
+        colgapForest = colgapForest,
+        colgapForestUnit = colgapForestUnit,
+        digitsEffect = digitsEffect,
+        digitsPval = digitsPval,
+        digitsWeight = digitsWeight,
+        digitsI2 = digitsI2,
+        digitsTau2 = digitsTau2,
+        subgroupVariables = subgroupVariables,
+        tauCommon = tauCommon,
+        predictionSubgroup = predictionSubgroup,
+        subgroupSummary = subgroupSummary,
+        subgroupForestPlot = subgroupForestPlot,
+        subgroupForestMode = subgroupForestMode,
+        printSubgroupName = printSubgroupName,
+        subgroupForestLayout = subgroupForestLayout,
+        subgroupSortBy = subgroupSortBy,
+        subgroupForestOverall = subgroupForestOverall,
+        subgroupForestTestSubgroup = subgroupForestTestSubgroup,
+        subgroupForestTestEffect = subgroupForestTestEffect,
+        subgroupForestTestOverall = subgroupForestTestOverall,
+        subgroupForestPrintI2Ci = subgroupForestPrintI2Ci,
+        subgroupForestPrintTau2Ci = subgroupForestPrintTau2Ci,
+        subgroupForestDetails = subgroupForestDetails,
+        subgroupLabelE = subgroupLabelE,
+        subgroupLabelC = subgroupLabelC,
+        subgroupLabelLeft = subgroupLabelLeft,
+        subgroupLabelRight = subgroupLabelRight,
+        subgroupXlimCustom = subgroupXlimCustom,
+        subgroupXlimLower = subgroupXlimLower,
+        subgroupXlimUpper = subgroupXlimUpper,
+        subgroupAddrowsCustom = subgroupAddrowsCustom,
+        subgroupAddrowsBelowOverall = subgroupAddrowsBelowOverall,
+        subgroupColgap = subgroupColgap,
+        subgroupColgapUnit = subgroupColgapUnit,
+        subgroupColgapForest = subgroupColgapForest,
+        subgroupColgapForestUnit = subgroupColgapForestUnit,
+        subgroupDigitsEffect = subgroupDigitsEffect,
+        subgroupDigitsPval = subgroupDigitsPval,
+        subgroupDigitsWeight = subgroupDigitsWeight,
+        subgroupDigitsI2 = subgroupDigitsI2,
+        subgroupDigitsTau2 = subgroupDigitsTau2,
+        metaRegCovs = metaRegCovs,
+        metaRegFactors = metaRegFactors,
+        metaRegBlocks = metaRegBlocks,
+        metaRegIntercept = metaRegIntercept,
+        metaRegSummary = metaRegSummary,
+        bubblePlot = bubblePlot,
+        bubbleRegline = bubbleRegline,
+        bubbleStudyLabel = bubbleStudyLabel,
+        leaveOneOut = leaveOneOut,
+        leaveOneOutPrediction = leaveOneOutPrediction,
+        leaveOneOutSummary = leaveOneOutSummary,
+        leaveOneOutForestPlot = leaveOneOutForestPlot,
+        leaveOneOutForestMode = leaveOneOutForestMode,
+        leaveOneOutForestLayout = leaveOneOutForestLayout,
+        leaveOneOutSortBy = leaveOneOutSortBy,
+        leaveOneOutForestDetails = leaveOneOutForestDetails,
+        leaveOneOutLabelLeft = leaveOneOutLabelLeft,
+        leaveOneOutLabelRight = leaveOneOutLabelRight,
+        leaveOneOutXlimCustom = leaveOneOutXlimCustom,
+        leaveOneOutXlimLower = leaveOneOutXlimLower,
+        leaveOneOutXlimUpper = leaveOneOutXlimUpper,
+        leaveOneOutAddrowsCustom = leaveOneOutAddrowsCustom,
+        leaveOneOutAddrowsBelowOverall = leaveOneOutAddrowsBelowOverall,
+        leaveOneOutColgap = leaveOneOutColgap,
+        leaveOneOutColgapUnit = leaveOneOutColgapUnit,
+        leaveOneOutColgapForest = leaveOneOutColgapForest,
+        leaveOneOutColgapForestUnit = leaveOneOutColgapForestUnit,
+        leaveOneOutDigitsEffect = leaveOneOutDigitsEffect,
+        leaveOneOutDigitsPval = leaveOneOutDigitsPval,
+        leaveOneOutDigitsI2 = leaveOneOutDigitsI2,
+        leaveOneOutDigitsTau2 = leaveOneOutDigitsTau2,
+        pubBiasMode = pubBiasMode,
+        funnelPlot = funnelPlot,
+        funnelStudyLabel = funnelStudyLabel,
+        funnelContour = funnelContour,
+        funnelLegend = funnelLegend,
+        funnelLegendPos = funnelLegendPos,
+        funnelLegendCex = funnelLegendCex,
+        asymmetryTest = asymmetryTest,
+        asymmetryMethod = asymmetryMethod,
+        asymmetrySummary = asymmetrySummary,
+        asymmetryPlot = asymmetryPlot,
+        trimFill = trimFill,
+        trimFillSide = trimFillSide,
+        trimFillEstimator = trimFillEstimator,
+        trimFillSummary = trimFillSummary,
+        trimFillFunnelPlot = trimFillFunnelPlot,
+        trimFillFunnelStudyLabel = trimFillFunnelStudyLabel,
+        trimFillFunnelContour = trimFillFunnelContour,
+        trimFillFunnelLegend = trimFillFunnelLegend,
+        trimFillFunnelLegendPos = trimFillFunnelLegendPos,
+        trimFillFunnelLegendCex = trimFillFunnelLegendCex,
+        doiPlot = doiPlot,
+        doiPlotLegend = doiPlotLegend,
+        doiPlotLegendPos = doiPlotLegendPos,
+        doiPlotLegendCex = doiPlotLegendCex,
+        lfkIndex = lfkIndex)
 
     analysis <- metaBinClass$new(
         options = options,

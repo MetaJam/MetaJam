@@ -25,6 +25,134 @@ computeBinModel <- function(self) {
 }
 
 
+#' Compute Binary Outcome Subgroup Models for All Variables
+#'
+#' Iterates over `options$subgroupVariables`, building a model for each
+#' variable by calling `meta::metabin()` with `subgroup=`.
+#'
+#' @param self The jamovi `self` object.
+#' @return A list of `meta::metabin` objects with subgroup results, or `NULL`
+#'   if no subgroup variables are assigned.
+#' @noRd
+computeBinSubgroupModels <- function(self) {
+  vars <- self$options$subgroupVariables
+  if (length(vars) == 0) {
+    return()
+  }
+
+  args <- buildBinArgs(self)
+  if (is.null(args)) {
+    return()
+  }
+
+  modelsArray <- self$results$subgroupModels
+  args$tau.common <- self$options$tauCommon
+  args$prediction.subgroup <- self$options$predictionSubgroup
+
+  models <- vector("list", length(vars))
+
+  for (i in seq_along(vars)) {
+    cacheElement <- modelsArray$get(key = i)$subgroupText
+
+    cached <- cacheElement$state
+    if (!is.null(cached)) {
+      models[[i]] <- cached
+      next
+    }
+
+    args$subgroup <- as.name(vars[[i]])
+
+    models[[i]] <- do.call(meta::metabin, args)
+    models[[i]] <- stripModel(models[[i]])
+
+    cacheElement$setState(models[[i]])
+  }
+
+  models
+}
+
+
+#' Render a Metabin-Specific Forest Plot
+#'
+#' Adds binary-outcome column label attachments so the group header spans the
+#' Events / Total columns and delegates to `renderForest()`.
+#'
+#' @param self The jamovi `self` object.
+#' @return TRUE if the plot was successfully rendered, FALSE otherwise.
+#' @noRd
+renderBinForest <- function(self) {
+  model <- self$model
+  options <- self$options
+
+  if (is.null(model)) {
+    return(FALSE)
+  }
+
+  if (options$forestLayout %in% c("meta", "RevMan5")) {
+    renderForest(
+      model,
+      options,
+      label.e = options$labelE,
+      label.c = options$labelC,
+      label.e.attach = c("event.e", "n.e"),
+      label.c.attach = c("event.c", "n.c"),
+      just.label.e = "center",
+      just.label.c = "center"
+    )
+  } else {
+    renderForest(
+      model,
+      options,
+      label.e = options$labelE,
+      label.c = options$labelC
+    )
+  }
+
+  TRUE
+}
+
+
+#' Render a Metabin Subgroup Forest Plot
+#'
+#' Adds binary-outcome column label attachments and delegates to
+#' `renderSubgroupForest()`.
+#'
+#' @param self The jamovi `self` object.
+#' @param key The jamovi array item key (e.g. `image$parent$key`).
+#' @return TRUE if the plot was successfully rendered, FALSE otherwise.
+#' @noRd
+renderBinSubgroupForest <- function(self, key) {
+  model <- self$subgroupModels[[key]]
+  options <- self$options
+
+  if (is.null(model)) {
+    return(FALSE)
+  }
+
+  if (options$subgroupForestLayout %in% c("meta", "RevMan5")) {
+    renderSubgroupForest(
+      model,
+      options,
+      label.e = options$subgroupLabelE,
+      label.c = options$subgroupLabelC,
+      label.e.attach = c("event.e", "n.e"),
+      label.c.attach = c("event.c", "n.c"),
+      just.label.e = "center",
+      just.label.c = "center"
+    )
+  } else {
+    renderSubgroupForest(
+      model,
+      options,
+      label.e = options$subgroupLabelE,
+      label.c = options$subgroupLabelC
+    )
+  }
+
+  TRUE
+}
+
+
 #' Build Common metabin() Arguments
 #'
 #' Loads data from the analysis object, curates numeric columns, and returns the

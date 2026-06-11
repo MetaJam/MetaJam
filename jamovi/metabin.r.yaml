@@ -24,3 +24,443 @@ items:
       - confidenceLevel
     refs:
       - metaPackage
+
+  - name: plotSizeCache
+    type: Group
+    visible: false
+    clearWith: []
+    items: []
+
+  - name: plot
+    title: Overall Forest Plot
+    type: Image
+    renderFun: .forestPlot
+    visible: (forestPlot)
+    clearWith:
+      - studyLabel
+      - eventE
+      - nE
+      - eventC
+      - nC
+      - sm
+      - method
+      - correctionMethod
+      - incr
+      - allstudies
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - forestLayout
+      - sortBy
+      - forestTestOverall
+      - forestDetails
+      - forestPrintI2Ci
+      - forestPrintTau2Ci
+      - labelE
+      - labelC
+      - labelLeft
+      - labelRight
+      - xlimCustom
+      - xlimLower
+      - xlimUpper
+      - addrowsCustom
+      - addrowsBelowOverall
+      - colgap
+      - colgapUnit
+      - colgapForest
+      - colgapForestUnit
+      - digitsEffect
+      - digitsPval
+      - digitsWeight
+      - digitsI2
+      - digitsTau2
+    refs:
+      - metaPackage
+
+  - name: subgroupModels
+    title: ""
+    type: Array
+    hideHeadingOnlyChild: true
+    clearWith:
+      - studyLabel
+      - eventE
+      - nE
+      - eventC
+      - nC
+      - sm
+      - method
+      - correctionMethod
+      - incr
+      - allstudies
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - subgroupVariables
+      - tauCommon
+      - predictionSubgroup
+    template:
+      title: ""
+      type: Group
+      items:
+        - name: subgroupText
+          type: Html
+          visible: (subgroupSummary && length(subgroupVariables) > 0)
+          clearWith: []
+          refs:
+            - metaPackage
+
+        - name: subgroupPlotSizeCache
+          type: Group
+          visible: false
+          clearWith: []
+          items: []
+
+        - name: subgroupPlot
+          title: Subgroup Forest Plot
+          type: Image
+          renderFun: .subgroupForestPlot
+          visible: (subgroupForestPlot && length(subgroupVariables) > 0)
+          clearWith:
+            - printSubgroupName
+            - subgroupForestLayout
+            - subgroupSortBy
+            - subgroupForestOverall
+            - subgroupForestTestSubgroup
+            - subgroupForestTestEffect
+            - subgroupForestTestOverall
+            - subgroupForestPrintI2Ci
+            - subgroupForestPrintTau2Ci
+            - subgroupForestDetails
+            - subgroupLabelE
+            - subgroupLabelC
+            - subgroupLabelLeft
+            - subgroupLabelRight
+            - subgroupXlimCustom
+            - subgroupXlimLower
+            - subgroupXlimUpper
+            - subgroupAddrowsCustom
+            - subgroupAddrowsBelowOverall
+            - subgroupColgap
+            - subgroupColgapUnit
+            - subgroupColgapForest
+            - subgroupColgapForestUnit
+            - subgroupDigitsEffect
+            - subgroupDigitsPval
+            - subgroupDigitsWeight
+            - subgroupDigitsI2
+            - subgroupDigitsTau2
+          refs:
+            - metaPackage
+
+  - name: metaRegModels
+    title: ""
+    type: Array
+    hideHeadingOnlyChild: true
+    clearWith:
+      - studyLabel
+      - eventE
+      - nE
+      - eventC
+      - nC
+      - sm
+      - method
+      - correctionMethod
+      - incr
+      - allstudies
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - metaRegCovs
+      - metaRegFactors
+      - metaRegBlocks
+      - metaRegIntercept
+    template:
+      title: ""
+      type: Group
+      items:
+        - name: metaRegText
+          type: Html
+          visible: (metaRegSummary && (length(metaRegCovs) > 0 || length(metaRegFactors) > 0))
+          clearWith: []
+          refs:
+            - metaPackage
+
+        - name: bubblePlot
+          title: Bubble Plot
+          type: Image
+          width: 700
+          height: 500
+          renderFun: .bubblePlot
+          visible: (bubblePlot && (length(metaRegCovs) > 0 || length(metaRegFactors) > 0))
+          clearWith:
+            - bubbleRegline
+            - bubbleStudyLabel
+          refs:
+            - metaPackage
+
+  - name: leaveOneOutText
+    type: Html
+    visible: (leaveOneOut && leaveOneOutSummary)
+    clearWith:
+      - studyLabel
+      - eventE
+      - nE
+      - eventC
+      - nC
+      - sm
+      - method
+      - correctionMethod
+      - incr
+      - allstudies
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - leaveOneOutPrediction
+    refs:
+      - metaPackage
+
+  - name: leaveOneOutPlotSizeCache
+    type: Group
+    visible: false
+    clearWith: []
+    items: []
+
+  - name: leaveOneOutPlot
+    title: Leave-One-Out Forest Plot
+    type: Image
+    renderFun: .leaveOneOutForestPlot
+    visible: (leaveOneOut && leaveOneOutForestPlot)
+    clearWith:
+      - studyLabel
+      - eventE
+      - nE
+      - eventC
+      - nC
+      - sm
+      - method
+      - correctionMethod
+      - incr
+      - allstudies
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - leaveOneOutPrediction
+      - leaveOneOutForestLayout
+      - leaveOneOutSortBy
+      - leaveOneOutForestDetails
+      - leaveOneOutLabelLeft
+      - leaveOneOutLabelRight
+      - leaveOneOutXlimCustom
+      - leaveOneOutXlimLower
+      - leaveOneOutXlimUpper
+      - leaveOneOutAddrowsCustom
+      - leaveOneOutAddrowsBelowOverall
+      - leaveOneOutColgap
+      - leaveOneOutColgapUnit
+      - leaveOneOutColgapForest
+      - leaveOneOutColgapForestUnit
+      - leaveOneOutDigitsEffect
+      - leaveOneOutDigitsPval
+      - leaveOneOutDigitsI2
+      - leaveOneOutDigitsTau2
+    refs:
+      - metaPackage
+
+  - name: funnelPlotImage
+    title: Funnel Plot
+    type: Image
+    width: 550
+    height: 500
+    renderFun: .funnelPlot
+    visible: (funnelPlot)
+    clearWith:
+      - studyLabel
+      - eventE
+      - nE
+      - eventC
+      - nC
+      - sm
+      - method
+      - correctionMethod
+      - incr
+      - allstudies
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - funnelStudyLabel
+      - funnelContour
+      - funnelLegend
+      - funnelLegendPos
+      - funnelLegendCex
+    refs:
+      - metaPackage
+
+  - name: asymmetryTestText
+    type: Html
+    visible: (asymmetryTest && asymmetrySummary)
+    clearWith:
+      - studyLabel
+      - eventE
+      - nE
+      - eventC
+      - nC
+      - sm
+      - method
+      - correctionMethod
+      - incr
+      - allstudies
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - asymmetryMethod
+    refs:
+      - metaPackage
+
+  - name: asymmetryPlotImage
+    title: Scatter Plot (Test for Funnel Plot Asymmetry)
+    type: Image
+    width: 550
+    height: 500
+    renderFun: .asymmetryPlot
+    visible: (asymmetryTest && asymmetryPlot && !(asymmetryMethod %in% c("Schwarzer", "Macaskill", "Peters")))
+    clearWith:
+      - studyLabel
+      - eventE
+      - nE
+      - eventC
+      - nC
+      - sm
+      - method
+      - correctionMethod
+      - incr
+      - allstudies
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - asymmetryMethod
+    refs:
+      - metaPackage
+
+  - name: trimFillText
+    type: Html
+    visible: (trimFill && trimFillSummary)
+    clearWith:
+      - studyLabel
+      - eventE
+      - nE
+      - eventC
+      - nC
+      - sm
+      - method
+      - correctionMethod
+      - incr
+      - allstudies
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - trimFillSide
+      - trimFillEstimator
+    refs:
+      - metaPackage
+
+  - name: trimFillFunnelPlotImage
+    title: Trim & Fill Funnel Plot
+    type: Image
+    width: 550
+    height: 500
+    renderFun: .trimFillFunnelPlot
+    visible: (trimFill && trimFillFunnelPlot)
+    clearWith:
+      - studyLabel
+      - eventE
+      - nE
+      - eventC
+      - nC
+      - sm
+      - method
+      - correctionMethod
+      - incr
+      - allstudies
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - trimFillSide
+      - trimFillEstimator
+      - trimFillFunnelStudyLabel
+      - trimFillFunnelContour
+      - trimFillFunnelLegend
+      - trimFillFunnelLegendPos
+      - trimFillFunnelLegendCex
+    refs:
+      - metaPackage
+
+  - name: doiPlotImage
+    title: Doi Plot
+    type: Image
+    width: 550
+    height: 500
+    renderFun: .doiPlot
+    visible: (doiPlot)
+    clearWith:
+      - studyLabel
+      - eventE
+      - nE
+      - eventC
+      - nC
+      - sm
+      - method
+      - correctionMethod
+      - incr
+      - allstudies
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - doiPlotLegend
+      - doiPlotLegendPos
+      - doiPlotLegendCex
+    refs:
+      - metasensPackage
+
+  - name: lfkIndexText
+    type: Html
+    visible: (lfkIndex)
+    clearWith:
+      - studyLabel
+      - eventE
+      - nE
+      - eventC
+      - nC
+      - sm
+      - method
+      - correctionMethod
+      - incr
+      - allstudies
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+    refs:
+      - metasensPackage

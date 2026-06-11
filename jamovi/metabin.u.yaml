@@ -100,3 +100,794 @@ children:
             suffix: "%"
       - type: CheckBox
         name: summary
+
+      - type: CheckBox
+        name: forestPlot
+        children:
+          - type: ModeSelector
+            name: forestMode
+            children:
+              - type: Content
+                name: general
+                children:
+                  - type: LayoutBox
+                    children:
+                      - type: ComboBox
+                        name: forestLayout
+                        enable: (forestPlot)
+                      - type: ComboBox
+                        name: sortBy
+                        enable: (forestPlot)
+                  - type: LayoutBox
+                    fitToGrid: true
+                    children:
+                      - type: CheckBox
+                        name: forestTestOverall
+                        enable: (forestPlot)
+                        cell:
+                          row: 0
+                          column: 0
+                      - type: CheckBox
+                        name: forestPrintI2Ci
+                        enable: (forestPlot)
+                        cell:
+                          row: 0
+                          column: 1
+                      - type: CheckBox
+                        name: forestDetails
+                        enable: (forestPlot)
+                        cell:
+                          row: 1
+                          column: 0
+                      - type: CheckBox
+                        name: forestPrintTau2Ci
+                        enable: (forestPlot)
+                        cell:
+                          row: 1
+                          column: 1
+                  - type: LayoutBox
+                    children:
+                      - type: TextBox
+                        name: labelE
+                        format: string
+                        enable: (forestPlot)
+                        width: largest
+                      - type: TextBox
+                        name: labelC
+                        format: string
+                        enable: (forestPlot)
+                        width: largest
+                      - type: TextBox
+                        name: labelLeft
+                        format: string
+                        enable: (forestPlot)
+                        width: largest
+                        suggestedValues:
+                          - Favours Experimental
+                          - Favours Control
+                      - type: TextBox
+                        name: labelRight
+                        format: string
+                        enable: (forestPlot)
+                        width: largest
+                        suggestedValues:
+                          - Favours Experimental
+                          - Favours Control
+              - type: Content
+                name: dimensions
+                children:
+                  - type: CheckBox
+                    name: xlimCustom
+                    enable: (forestPlot)
+                    children:
+                      - type: LayoutBox
+                        fitToGrid: true
+                        children:
+                          - type: TextBox
+                            name: xlimLower
+                            format: number
+                            enable: (forestPlot && xlimCustom)
+                            cell:
+                              row: 0
+                              column: 0
+                          - type: TextBox
+                            name: xlimUpper
+                            format: number
+                            enable: (forestPlot && xlimCustom)
+                            cell:
+                              row: 0
+                              column: 1
+                  - type: CheckBox
+                    name: addrowsCustom
+                    enable: (forestPlot)
+                    children:
+                      - type: TextBox
+                        name: addrowsBelowOverall
+                        format: number
+                        suffix: rows
+                        enable: (forestPlot && addrowsCustom)
+                  - type: LayoutBox
+                    fitToGrid: true
+                    children:
+                      - type: TextBox
+                        name: colgap
+                        format: number
+                        enable: (forestPlot)
+                        cell:
+                          row: 0
+                          column: 0
+                      - type: ComboBox
+                        name: colgapUnit
+                        enable: (forestPlot)
+                        cell:
+                          row: 0
+                          column: 1
+                      - type: TextBox
+                        name: colgapForest
+                        format: number
+                        enable: (forestPlot)
+                        cell:
+                          row: 1
+                          column: 0
+                      - type: ComboBox
+                        name: colgapForestUnit
+                        enable: (forestPlot)
+                        cell:
+                          row: 1
+                          column: 1
+              - type: Content
+                name: rounding
+                children:
+                  - type: LayoutBox
+                    fitToGrid: true
+                    children:
+                      - type: ComboBox
+                        name: digitsEffect
+                        enable: (forestPlot)
+                        cell:
+                          row: 0
+                          column: 0
+                      - type: ComboBox
+                        name: digitsWeight
+                        enable: (forestPlot)
+                        cell:
+                          row: 0
+                          column: 1
+                      - type: ComboBox
+                        name: digitsPval
+                        enable: (forestPlot)
+                        cell:
+                          row: 1
+                          column: 0
+                      - type: ComboBox
+                        name: digitsI2
+                        enable: (forestPlot)
+                        cell:
+                          row: 1
+                          column: 1
+                      - type: ComboBox
+                        name: digitsTau2
+                        enable: (forestPlot)
+                        cell:
+                          row: 2
+                          column: 1
+
+  - type: CollapseBox
+    label: Subgroup Analysis
+    collapsed: true
+    stretchFactor: 1
+    children:
+      - type: VariableSupplier
+        persistentItems: false
+        stretchFactor: 1
+        permitted:
+          - factor
+        children:
+          - type: TargetLayoutBox
+            children:
+              - type: VariablesListBox
+                name: subgroupVariables
+                isTarget: true
+      - type: CheckBox
+        name: tauCommon
+        enable: ({return (ui['subgroupVariables'].value() || []).length > 0;})
+      - type: CheckBox
+        name: predictionSubgroup
+        enable: ({return (ui['subgroupVariables'].value() || []).length > 0;})
+      - type: CheckBox
+        name: subgroupSummary
+        enable: ({return (ui['subgroupVariables'].value() || []).length > 0;})
+      - type: CheckBox
+        name: subgroupForestPlot
+        enable: ({return (ui['subgroupVariables'].value() || []).length > 0;})
+        children:
+          - type: ModeSelector
+            name: subgroupForestMode
+            children:
+              - type: Content
+                name: general
+                children:
+                  - type: LayoutBox
+                    children:
+                      - type: CheckBox
+                        name: printSubgroupName
+                        enable: >
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
+                          ui['subgroupForestPlot'].value();})
+                      - type: ComboBox
+                        name: subgroupForestLayout
+                        enable: >
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
+                          ui['subgroupForestPlot'].value();})
+                      - type: ComboBox
+                        name: subgroupSortBy
+                        enable: >
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
+                          ui['subgroupForestPlot'].value();})
+                      - type: CheckBox
+                        name: subgroupForestOverall
+                        enable: >
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
+                          ui['subgroupForestPlot'].value();})
+                  - type: LayoutBox
+                    fitToGrid: true
+                    children:
+                      - type: CheckBox
+                        name: subgroupForestTestSubgroup
+                        enable: >
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
+                          ui['subgroupForestPlot'].value();})
+                        cell:
+                          row: 0
+                          column: 0
+                      - type: CheckBox
+                        name: subgroupForestPrintI2Ci
+                        enable: >
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
+                          ui['subgroupForestPlot'].value();})
+                        cell:
+                          row: 0
+                          column: 1
+                      - type: CheckBox
+                        name: subgroupForestTestEffect
+                        enable: >
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
+                          ui['subgroupForestPlot'].value();})
+                        cell:
+                          row: 1
+                          column: 0
+                      - type: CheckBox
+                        name: subgroupForestPrintTau2Ci
+                        enable: >
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
+                          ui['subgroupForestPlot'].value();})
+                        cell:
+                          row: 1
+                          column: 1
+                      - type: CheckBox
+                        name: subgroupForestTestOverall
+                        enable: >
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
+                          ui['subgroupForestPlot'].value() &&
+                          ui['subgroupForestOverall'].value();})
+                        cell:
+                          row: 2
+                          column: 0
+                      - type: CheckBox
+                        name: subgroupForestDetails
+                        enable: >
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
+                          ui['subgroupForestPlot'].value();})
+                        cell:
+                          row: 2
+                          column: 1
+                  - type: LayoutBox
+                    children:
+                      - type: TextBox
+                        name: subgroupLabelE
+                        format: string
+                        enable: >
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
+                          ui['subgroupForestPlot'].value();})
+                        width: largest
+                      - type: TextBox
+                        name: subgroupLabelC
+                        format: string
+                        enable: >
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
+                          ui['subgroupForestPlot'].value();})
+                        width: largest
+                      - type: TextBox
+                        name: subgroupLabelLeft
+                        format: string
+                        enable: >
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
+                          ui['subgroupForestPlot'].value();})
+                        width: largest
+                        suggestedValues:
+                          - Favours Experimental
+                          - Favours Control
+                      - type: TextBox
+                        name: subgroupLabelRight
+                        format: string
+                        enable: >
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
+                          ui['subgroupForestPlot'].value();})
+                        width: largest
+                        suggestedValues:
+                          - Favours Experimental
+                          - Favours Control
+              - type: Content
+                name: dimensions
+                children:
+                  - type: CheckBox
+                    name: subgroupXlimCustom
+                    enable: >
+                      ({return (ui['subgroupVariables'].value() || []).length > 0 &&
+                      ui['subgroupForestPlot'].value();})
+                    children:
+                      - type: LayoutBox
+                        fitToGrid: true
+                        children:
+                          - type: TextBox
+                            name: subgroupXlimLower
+                            format: number
+                            enable: >
+                              ({return (ui['subgroupVariables'].value() || []).length > 0 &&
+                              ui['subgroupForestPlot'].value() &&
+                              ui['subgroupXlimCustom'].value();})
+                            cell:
+                              row: 0
+                              column: 0
+                          - type: TextBox
+                            name: subgroupXlimUpper
+                            format: number
+                            enable: >
+                              ({return (ui['subgroupVariables'].value() || []).length > 0 &&
+                              ui['subgroupForestPlot'].value() &&
+                              ui['subgroupXlimCustom'].value();})
+                            cell:
+                              row: 0
+                              column: 1
+                  - type: CheckBox
+                    name: subgroupAddrowsCustom
+                    enable: >
+                      ({return (ui['subgroupVariables'].value() || []).length > 0 &&
+                      ui['subgroupForestPlot'].value();})
+                    children:
+                      - type: TextBox
+                        name: subgroupAddrowsBelowOverall
+                        format: number
+                        suffix: rows
+                        enable: >
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
+                          ui['subgroupForestPlot'].value() &&
+                          ui['subgroupAddrowsCustom'].value();})
+                  - type: LayoutBox
+                    fitToGrid: true
+                    children:
+                      - type: TextBox
+                        name: subgroupColgap
+                        format: number
+                        enable: >
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
+                          ui['subgroupForestPlot'].value();})
+                        cell:
+                          row: 0
+                          column: 0
+                      - type: ComboBox
+                        name: subgroupColgapUnit
+                        enable: >
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
+                          ui['subgroupForestPlot'].value();})
+                        cell:
+                          row: 0
+                          column: 1
+                      - type: TextBox
+                        name: subgroupColgapForest
+                        format: number
+                        enable: >
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
+                          ui['subgroupForestPlot'].value();})
+                        cell:
+                          row: 1
+                          column: 0
+                      - type: ComboBox
+                        name: subgroupColgapForestUnit
+                        enable: >
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
+                          ui['subgroupForestPlot'].value();})
+                        cell:
+                          row: 1
+                          column: 1
+              - type: Content
+                name: rounding
+                children:
+                  - type: LayoutBox
+                    fitToGrid: true
+                    children:
+                      - type: ComboBox
+                        name: subgroupDigitsEffect
+                        enable: >
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
+                          ui['subgroupForestPlot'].value();})
+                        cell:
+                          row: 0
+                          column: 0
+                      - type: ComboBox
+                        name: subgroupDigitsWeight
+                        enable: >
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
+                          ui['subgroupForestPlot'].value();})
+                        cell:
+                          row: 0
+                          column: 1
+                      - type: ComboBox
+                        name: subgroupDigitsPval
+                        enable: >
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
+                          ui['subgroupForestPlot'].value();})
+                        cell:
+                          row: 1
+                          column: 0
+                      - type: ComboBox
+                        name: subgroupDigitsI2
+                        enable: >
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
+                          ui['subgroupForestPlot'].value();})
+                        cell:
+                          row: 1
+                          column: 1
+                      - type: ComboBox
+                        name: subgroupDigitsTau2
+                        enable: >
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
+                          ui['subgroupForestPlot'].value();})
+                        cell:
+                          row: 2
+                          column: 1
+
+  - type: CollapseBox
+    label: Meta-Regression
+    collapsed: true
+    stretchFactor: 1
+    children:
+      - type: VariableSupplier
+        persistentItems: false
+        stretchFactor: 1
+        children:
+          - type: TargetLayoutBox
+            children:
+              - type: VariablesListBox
+                name: metaRegCovs
+                isTarget: true
+          - type: TargetLayoutBox
+            children:
+              - type: VariablesListBox
+                name: metaRegFactors
+                isTarget: true
+      - type: Label
+        label: Model Builder
+        stretchFactor: 1
+        children:
+          - type: Supplier
+            name: metaRegModelSupplier
+            label: Predictors
+            persistentItems: true
+            stretchFactor: 1
+            format: term
+            higherOrders: true
+            children:
+              - type: TargetLayoutBox
+                transferAction: interactions
+                children:
+                  - type: ListBox
+                    name: metaRegBlocks
+                    height: normal
+                    addButton: Add New Model
+                    selectable: true
+                    templateName: metareg-block-template
+                    template:
+                      type: LayoutBox
+                      margin: normal
+                      targetArea: true
+                      children:
+                        - type: Label
+                          label: Model 1
+                          name: blockName
+                          stretchFactor: 1
+                          margin: normal
+                        - type: ListBox
+                          name: blockList
+                          isTarget: true
+                          valueFilter: unique
+                          height: auto
+                          ghostText: drag variables here
+                          template:
+                            type: TermLabel
+                  - type: CheckBox
+                    name: metaRegIntercept
+                    enable: >
+                      ({return (ui['metaRegCovs'].value() || []).length > 0 ||
+                      (ui['metaRegFactors'].value() || []).length > 0;})
+      - type: CheckBox
+        name: metaRegSummary
+        enable: >
+          ({return (ui['metaRegCovs'].value() || []).length > 0 ||
+          (ui['metaRegFactors'].value() || []).length > 0;})
+      - type: CheckBox
+        name: bubblePlot
+        enable: >
+          ({return (ui['metaRegCovs'].value() || []).length > 0 ||
+          (ui['metaRegFactors'].value() || []).length > 0;})
+        children:
+          - type: CheckBox
+            name: bubbleStudyLabel
+            enable: >
+              ({return ui['bubblePlot'].value() &&
+              ((ui['metaRegCovs'].value() || []).length > 0 ||
+              (ui['metaRegFactors'].value() || []).length > 0);})
+          - type: CheckBox
+            name: bubbleRegline
+            enable: >
+              ({return ui['bubblePlot'].value() &&
+              ((ui['metaRegCovs'].value() || []).length > 0 ||
+              (ui['metaRegFactors'].value() || []).length > 0);})
+
+  - type: CollapseBox
+    label: Leave-One-Out Analysis
+    collapsed: true
+    stretchFactor: 1
+    children:
+      - type: CheckBox
+        name: leaveOneOut
+      - type: CheckBox
+        name: leaveOneOutPrediction
+        enable: (leaveOneOut)
+      - type: CheckBox
+        name: leaveOneOutSummary
+        enable: (leaveOneOut)
+      - type: CheckBox
+        name: leaveOneOutForestPlot
+        enable: (leaveOneOut)
+        children:
+          - type: ModeSelector
+            name: leaveOneOutForestMode
+            children:
+              - type: Content
+                name: general
+                children:
+                  - type: LayoutBox
+                    children:
+                      - type: ComboBox
+                        name: leaveOneOutForestLayout
+                        enable: (leaveOneOut && leaveOneOutForestPlot)
+                      - type: ComboBox
+                        name: leaveOneOutSortBy
+                        enable: (leaveOneOut && leaveOneOutForestPlot)
+                  - type: LayoutBox
+                    children:
+                      - type: CheckBox
+                        name: leaveOneOutForestDetails
+                        enable: (leaveOneOut && leaveOneOutForestPlot)
+                  - type: LayoutBox
+                    children:
+                      - type: TextBox
+                        name: leaveOneOutLabelLeft
+                        format: string
+                        enable: (leaveOneOut && leaveOneOutForestPlot)
+                        width: largest
+                        suggestedValues:
+                          - Favours Experimental
+                          - Favours Control
+                      - type: TextBox
+                        name: leaveOneOutLabelRight
+                        format: string
+                        enable: (leaveOneOut && leaveOneOutForestPlot)
+                        width: largest
+                        suggestedValues:
+                          - Favours Experimental
+                          - Favours Control
+              - type: Content
+                name: dimensions
+                children:
+                  - type: CheckBox
+                    name: leaveOneOutXlimCustom
+                    enable: (leaveOneOut && leaveOneOutForestPlot)
+                    children:
+                      - type: LayoutBox
+                        fitToGrid: true
+                        children:
+                          - type: TextBox
+                            name: leaveOneOutXlimLower
+                            format: number
+                            enable: (leaveOneOut && leaveOneOutForestPlot && leaveOneOutXlimCustom)
+                            cell:
+                              row: 0
+                              column: 0
+                          - type: TextBox
+                            name: leaveOneOutXlimUpper
+                            format: number
+                            enable: (leaveOneOut && leaveOneOutForestPlot && leaveOneOutXlimCustom)
+                            cell:
+                              row: 0
+                              column: 1
+                  - type: CheckBox
+                    name: leaveOneOutAddrowsCustom
+                    enable: (leaveOneOut && leaveOneOutForestPlot)
+                    children:
+                      - type: TextBox
+                        name: leaveOneOutAddrowsBelowOverall
+                        format: number
+                        suffix: rows
+                        enable: (leaveOneOut && leaveOneOutForestPlot && leaveOneOutAddrowsCustom)
+                  - type: LayoutBox
+                    fitToGrid: true
+                    children:
+                      - type: TextBox
+                        name: leaveOneOutColgap
+                        format: number
+                        enable: (leaveOneOut && leaveOneOutForestPlot)
+                        cell:
+                          row: 0
+                          column: 0
+                      - type: ComboBox
+                        name: leaveOneOutColgapUnit
+                        enable: (leaveOneOut && leaveOneOutForestPlot)
+                        cell:
+                          row: 0
+                          column: 1
+                      - type: TextBox
+                        name: leaveOneOutColgapForest
+                        format: number
+                        enable: (leaveOneOut && leaveOneOutForestPlot)
+                        cell:
+                          row: 1
+                          column: 0
+                      - type: ComboBox
+                        name: leaveOneOutColgapForestUnit
+                        enable: (leaveOneOut && leaveOneOutForestPlot)
+                        cell:
+                          row: 1
+                          column: 1
+              - type: Content
+                name: rounding
+                children:
+                  - type: LayoutBox
+                    fitToGrid: true
+                    children:
+                      - type: ComboBox
+                        name: leaveOneOutDigitsEffect
+                        enable: (leaveOneOut && leaveOneOutForestPlot)
+                        cell:
+                          row: 0
+                          column: 0
+                      - type: ComboBox
+                        name: leaveOneOutDigitsI2
+                        enable: (leaveOneOut && leaveOneOutForestPlot)
+                        cell:
+                          row: 0
+                          column: 1
+                      - type: ComboBox
+                        name: leaveOneOutDigitsPval
+                        enable: (leaveOneOut && leaveOneOutForestPlot)
+                        cell:
+                          row: 1
+                          column: 0
+                      - type: ComboBox
+                        name: leaveOneOutDigitsTau2
+                        enable: (leaveOneOut && leaveOneOutForestPlot)
+                        cell:
+                          row: 1
+                          column: 1
+
+  - type: CollapseBox
+    label: Publication Bias
+    collapsed: true
+    stretchFactor: 1
+    children:
+      - type: ModeSelector
+        name: pubBiasMode
+        children:
+          - type: Content
+            name: funnelPlot
+            children:
+              - type: CheckBox
+                name: funnelPlot
+                children:
+                  - type: CheckBox
+                    name: funnelStudyLabel
+                    enable: (funnelPlot)
+                  - type: CheckBox
+                    name: funnelContour
+                    enable: (funnelPlot)
+                    children:
+                      - type: CheckBox
+                        name: funnelLegend
+                        enable: (funnelPlot && funnelContour)
+                        children:
+                          - type: ComboBox
+                            name: funnelLegendPos
+                            enable: (funnelPlot && funnelContour && funnelLegend)
+                          - type: TextBox
+                            name: funnelLegendCex
+                            format: number
+                            suffix: "%"
+                            enable: (funnelPlot && funnelContour && funnelLegend)
+              - type: CheckBox
+                name: asymmetryTest
+                children:
+                  - type: ComboBox
+                    name: asymmetryMethod
+                    enable: (asymmetryTest)
+                  - type: CheckBox
+                    name: asymmetrySummary
+                    enable: (asymmetryTest)
+                  - type: CheckBox
+                    name: asymmetryPlot
+                    enable: >
+                      (asymmetryTest &&
+                      !(asymmetryMethod:Schwarzer ||
+                      asymmetryMethod:Macaskill ||
+                      asymmetryMethod:Peters))
+          - type: Content
+            name: trimFill
+            children:
+              - type: CheckBox
+                name: trimFill
+                children:
+                  - type: LayoutBox
+                    children:
+                      - type: ComboBox
+                        name: trimFillSide
+                        enable: (trimFill)
+                  - type: LayoutBox
+                    children:
+                      - type: ComboBox
+                        name: trimFillEstimator
+                        enable: (trimFill)
+                  - type: CheckBox
+                    name: trimFillSummary
+                    enable: (trimFill)
+                  - type: CheckBox
+                    name: trimFillFunnelPlot
+                    enable: (trimFill)
+                    children:
+                      - type: CheckBox
+                        name: trimFillFunnelStudyLabel
+                        enable: (trimFill && trimFillFunnelPlot)
+                      - type: CheckBox
+                        name: trimFillFunnelContour
+                        enable: (trimFill && trimFillFunnelPlot)
+                      - type: CheckBox
+                        name: trimFillFunnelLegend
+                        enable: (trimFill && trimFillFunnelPlot)
+                        children:
+                          - type: ComboBox
+                            name: trimFillFunnelLegendPos
+                            enable: (trimFill && trimFillFunnelPlot && trimFillFunnelLegend)
+                          - type: TextBox
+                            name: trimFillFunnelLegendCex
+                            format: number
+                            suffix: "%"
+                            enable: (trimFill && trimFillFunnelPlot && trimFillFunnelLegend)
+          - type: Content
+            name: doiLfk
+            children:
+              - type: CheckBox
+                name: doiPlot
+                children:
+                  - type: CheckBox
+                    name: doiPlotLegend
+                    enable: (doiPlot)
+                    children:
+                      - type: ComboBox
+                        name: doiPlotLegendPos
+                        enable: (doiPlot && doiPlotLegend)
+                      - type: TextBox
+                        name: doiPlotLegendCex
+                        format: number
+                        suffix: "%"
+                        enable: (doiPlot && doiPlotLegend)
+              - type: CheckBox
+                name: lfkIndex
