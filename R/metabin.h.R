@@ -35,8 +35,8 @@ metaBinOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             labelLeft = "",
             labelRight = "",
             xlimCustom = FALSE,
-            xlimLower = -20,
-            xlimUpper = 20,
+            xlimLower = 0.1,
+            xlimUpper = 10,
             addrowsCustom = FALSE,
             addrowsBelowOverall = 0,
             colgap = 2,
@@ -69,8 +69,8 @@ metaBinOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             subgroupLabelLeft = "",
             subgroupLabelRight = "",
             subgroupXlimCustom = FALSE,
-            subgroupXlimLower = -20,
-            subgroupXlimUpper = 20,
+            subgroupXlimLower = 0.1,
+            subgroupXlimUpper = 10,
             subgroupAddrowsCustom = FALSE,
             subgroupAddrowsBelowOverall = 0,
             subgroupColgap = 2,
@@ -102,8 +102,8 @@ metaBinOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             leaveOneOutLabelLeft = "",
             leaveOneOutLabelRight = "",
             leaveOneOutXlimCustom = FALSE,
-            leaveOneOutXlimLower = -20,
-            leaveOneOutXlimUpper = 20,
+            leaveOneOutXlimLower = 0.1,
+            leaveOneOutXlimUpper = 10,
             leaveOneOutAddrowsCustom = FALSE,
             leaveOneOutAddrowsBelowOverall = 0,
             leaveOneOutColgap = 2,
@@ -333,11 +333,11 @@ metaBinOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..xlimLower <- jmvcore::OptionNumber$new(
                 "xlimLower",
                 xlimLower,
-                default=-20)
+                default=0.1)
             private$..xlimUpper <- jmvcore::OptionNumber$new(
                 "xlimUpper",
                 xlimUpper,
-                default=20)
+                default=10)
             private$..addrowsCustom <- jmvcore::OptionBool$new(
                 "addrowsCustom",
                 addrowsCustom,
@@ -533,11 +533,11 @@ metaBinOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..subgroupXlimLower <- jmvcore::OptionNumber$new(
                 "subgroupXlimLower",
                 subgroupXlimLower,
-                default=-20)
+                default=0.1)
             private$..subgroupXlimUpper <- jmvcore::OptionNumber$new(
                 "subgroupXlimUpper",
                 subgroupXlimUpper,
-                default=20)
+                default=10)
             private$..subgroupAddrowsCustom <- jmvcore::OptionBool$new(
                 "subgroupAddrowsCustom",
                 subgroupAddrowsCustom,
@@ -732,11 +732,11 @@ metaBinOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..leaveOneOutXlimLower <- jmvcore::OptionNumber$new(
                 "leaveOneOutXlimLower",
                 leaveOneOutXlimLower,
-                default=-20)
+                default=0.1)
             private$..leaveOneOutXlimUpper <- jmvcore::OptionNumber$new(
                 "leaveOneOutXlimUpper",
                 leaveOneOutXlimUpper,
-                default=20)
+                default=10)
             private$..leaveOneOutAddrowsCustom <- jmvcore::OptionBool$new(
                 "leaveOneOutAddrowsCustom",
                 leaveOneOutAddrowsCustom,
@@ -2095,8 +2095,8 @@ metaBin <- function(
     labelLeft = "",
     labelRight = "",
     xlimCustom = FALSE,
-    xlimLower = -20,
-    xlimUpper = 20,
+    xlimLower = 0.1,
+    xlimUpper = 10,
     addrowsCustom = FALSE,
     addrowsBelowOverall = 0,
     colgap = 2,
@@ -2129,8 +2129,8 @@ metaBin <- function(
     subgroupLabelLeft = "",
     subgroupLabelRight = "",
     subgroupXlimCustom = FALSE,
-    subgroupXlimLower = -20,
-    subgroupXlimUpper = 20,
+    subgroupXlimLower = 0.1,
+    subgroupXlimUpper = 10,
     subgroupAddrowsCustom = FALSE,
     subgroupAddrowsBelowOverall = 0,
     subgroupColgap = 2,
@@ -2162,8 +2162,8 @@ metaBin <- function(
     leaveOneOutLabelLeft = "",
     leaveOneOutLabelRight = "",
     leaveOneOutXlimCustom = FALSE,
-    leaveOneOutXlimLower = -20,
-    leaveOneOutXlimUpper = 20,
+    leaveOneOutXlimLower = 0.1,
+    leaveOneOutXlimUpper = 10,
     leaveOneOutAddrowsCustom = FALSE,
     leaveOneOutAddrowsBelowOverall = 0,
     leaveOneOutColgap = 2,

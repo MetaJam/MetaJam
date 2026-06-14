@@ -249,12 +249,12 @@ options:
   - name: xlimLower
     title: Minimum
     type: Number
-    default: -20
+    default: -10
 
   - name: xlimUpper
     title: Maximum
     type: Number
-    default: 20
+    default: 10
 
   - name: addrowsCustom
     title: Custom space above footnotes
@@ -566,12 +566,12 @@ options:
   - name: subgroupXlimLower
     title: Minimum
     type: Number
-    default: -20
+    default: -10
 
   - name: subgroupXlimUpper
     title: Maximum
     type: Number
-    default: 20
+    default: 10
 
   - name: subgroupAddrowsCustom
     title: Custom space above footnotes
@@ -879,12 +879,12 @@ options:
   - name: leaveOneOutXlimLower
     title: Minimum
     type: Number
-    default: -20
+    default: -10
 
   - name: leaveOneOutXlimUpper
     title: Maximum
     type: Number
-    default: 20
+    default: 10
 
   - name: leaveOneOutAddrowsCustom
     title: Custom space above footnotes
