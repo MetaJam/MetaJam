@@ -70,18 +70,18 @@ options:
     default: RR
 
   - name: method
-    title: Pooling method
+    title: Method
     type: List
     options:
-      - title: Mantel-Haenszel
-        name: MH
       - title: Inverse variance
         name: Inverse
+      - title: Mantel-Haenszel
+        name: MH
       - title: Peto (OR only)
         name: Peto
       - title: Sample size weighting (OR only)
         name: SSW
-    default: MH
+    default: Inverse
 
   - name: correctionMethod
     title: Continuity correction

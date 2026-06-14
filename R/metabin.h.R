@@ -12,7 +12,7 @@ metaBinOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             eventC = NULL,
             nC = NULL,
             sm = "RR",
-            method = "MH",
+            method = "Inverse",
             correctionMethod = "only0",
             incr = 0.5,
             allstudies = FALSE,
@@ -198,11 +198,11 @@ metaBinOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "method",
                 method,
                 options=list(
-                    "MH",
                     "Inverse",
+                    "MH",
                     "Peto",
                     "SSW"),
-                default="MH")
+                default="Inverse")
             private$..correctionMethod <- jmvcore::OptionList$new(
                 "correctionMethod",
                 correctionMethod,
@@ -2071,7 +2071,7 @@ metaBin <- function(
     eventC,
     nC,
     sm = "RR",
-    method = "MH",
+    method = "Inverse",
     correctionMethod = "only0",
     incr = 0.5,
     allstudies = FALSE,
