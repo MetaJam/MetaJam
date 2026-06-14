@@ -68,14 +68,16 @@ children:
           - type: TextBox
             name: incr
             format: number
-            enable: (!(method:Peto))
+            enable: (!(method:Peto) && !(correctionMethod:none))
             width: normal
             cell:
               row: 0
               column: 1
       - type: CheckBox
         name: allstudies
-        enable: (!(method:Peto) && !(sm:RD))
+        enable: >
+          (!(method:Peto) && !(sm:RD) &&
+          !(correctionMethod:none) && !(incr:0))
       - type: LayoutBox
         children:
           - type: ComboBox

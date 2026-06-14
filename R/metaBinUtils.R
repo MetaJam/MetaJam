@@ -180,9 +180,17 @@ buildBinArgs <- function(self) {
   data[numericVars] <- lapply(data[numericVars], jmvcore::toNumeric)
 
   level <- options$confidenceLevel / 100
+  incr <- options$incr
+  method.incr <- options$correctionMethod
+
+  if (method.incr == "none") {
+    incr <- 0
+    method.incr <- "only0"
+  }
+
   allstudies <- options$allstudies
 
-  if (identical(options$method, "Peto")) {
+  if (options$method == "Peto" || incr == 0) {
     # meta still reads allstudies for Peto. If TRUE, non-informative
     # rows can be carried further internally (e.g. undefined SEs become
     # Inf), but they still get zero useful weight and the pooled Peto
@@ -190,6 +198,13 @@ buildBinArgs <- function(self) {
     # we disable it in the UI but meta does not fully disable it
     # internally, force it off here; otherwise meta gives a warning
     # when the stored value is TRUE.
+    #
+    # The same truthfulness issue happens when incr is zero. In meta::metabin(),
+    # allstudies=TRUE first marks double-zero / all-event studies as included,
+    # but with no continuity correction their effect size or standard error is
+    # still undefined. They then receive zero weight and do not increase k,
+    # while the returned object still stores allstudies=TRUE. Force FALSE so
+    # the stored model matches what actually contributed to the estimate.
     allstudies <- FALSE
   }
 
@@ -201,8 +216,8 @@ buildBinArgs <- function(self) {
     data = data,
     sm = options$sm,
     method = options$method,
-    incr = options$incr,
-    method.incr = options$correctionMethod,
+    incr = incr,
+    method.incr = method.incr,
     allstudies = allstudies,
     common = options$model %in% c("both", "common"),
     random = options$model %in% c("both", "random"),

@@ -87,6 +87,8 @@ options:
     title: Continuity correction
     type: List
     options:
+      - title: No correction
+        name: none
       - title: Only zero-cell studies
         name: only0
       - title: All studies if any zero cell

@@ -207,6 +207,7 @@ metaBinOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "correctionMethod",
                 correctionMethod,
                 options=list(
+                    "none",
                     "only0",
                     "if0all",
                     "all"),
