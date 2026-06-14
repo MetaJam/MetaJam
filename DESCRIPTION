@@ -5,7 +5,7 @@ Version: 0.0.1
 Author: Ahmed Abdelmageed
 Maintainer: Ahmed Abdelmageed <AhmedElSaeedMassad@gmail.com>
 Description: All necessary functions to add full meta-analysis
-License: GPL-3
+License: GPL (>= 2)
 Imports: 
     jmvcore (>= 0.8.5),
     meta (>= 8.3.0),

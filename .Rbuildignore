@@ -5,3 +5,4 @@
 ^.*\.jmo$
 ^dev$
 ^analysis-metajam\.svg$
+^LICENSE\.md$
