@@ -4,8 +4,11 @@ name: MetaJam
 version: 0.0.0
 jms: '1.0'
 authors:
-  - Who wrote it
-maintainer: The package maintainer <yourself@somewhere.net>
+  - Nour Edin Darwish
+  - Ahmed Abdelmageed
+  - Ziyad Rezq
+  - Ahmed S.A Osman
+maintainer: Nour Edin Darwish <nouredindarwish@gmail.com>
 date: '1970-01-01'
 type: R
 description: >-

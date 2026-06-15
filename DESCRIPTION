@@ -2,8 +2,16 @@ Type: Package
 Package: MetaJam
 Title: Meta-Analysis
 Version: 0.0.1
-Author: Ahmed Abdelmageed
-Maintainer: Ahmed Abdelmageed <AhmedElSaeedMassad@gmail.com>
+Authors@R: c(
+    person("Nour Edin", "Darwish", , "nouredindarwish@gmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0009-0009-5527-4539")),
+    person("Ahmed", "Abdelmageed", , "AhmedElSaeedMassad@gmail.com", role = "aut",
+           comment = c(ORCID = "0009-0002-7902-690X")),
+    person("Ziyad", "Rezq", , "RezqZiyad@gmail.com", role = "aut",
+           comment = c(ORCID = "0009-0009-1587-7140")),
+    person("Ahmed S.A", "Osman", , "ahmedsayedosman272@gmail.com", role = "aut",
+           comment = c(ORCID = "0009-0002-2871-9925"))
+  )
 Description: All necessary functions to add full meta-analysis
 License: GPL (>= 2)
 Imports: 
