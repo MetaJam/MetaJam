@@ -5,6 +5,7 @@ stage: 0
 compilerMode: tame
 children:
   - type: VariableSupplier
+    name: mainVariablesSupplier
     persistentItems: false
     stretchFactor: 1
     permitted:
@@ -108,9 +109,22 @@ children:
                       - type: ComboBox
                         name: forestLayout
                         enable: (forestPlot)
+                  - type: LayoutBox
+                    fitToGrid: true
+                    children:
                       - type: ComboBox
                         name: sortBy
                         enable: (forestPlot)
+                        cell:
+                          row: 0
+                          column: 0
+                      - type: ComboBox
+                        name: sortDirection
+                        label: ""
+                        enable: (forestPlot)
+                        cell:
+                          row: 0
+                          column: 1
                   - type: LayoutBox
                     fitToGrid: true
                     children:
@@ -324,11 +338,28 @@ children:
                         enable: >
                           ({return (ui['subgroupVariables'].value() || []).length > 0 &&
                           ui['subgroupForestPlot'].value();})
+                  - type: LayoutBox
+                    fitToGrid: true
+                    children:
                       - type: ComboBox
                         name: subgroupSortBy
                         enable: >
                           ({return (ui['subgroupVariables'].value() || []).length > 0 &&
                           ui['subgroupForestPlot'].value();})
+                        cell:
+                          row: 0
+                          column: 0
+                      - type: ComboBox
+                        name: subgroupSortDirection
+                        label: ""
+                        enable: >
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
+                          ui['subgroupForestPlot'].value();})
+                        cell:
+                          row: 0
+                          column: 1
+                  - type: LayoutBox
+                    children:
                       - type: CheckBox
                         name: subgroupForestOverall
                         enable: >
@@ -683,9 +714,22 @@ children:
                       - type: ComboBox
                         name: leaveOneOutForestLayout
                         enable: (leaveOneOut && leaveOneOutForestPlot)
+                  - type: LayoutBox
+                    fitToGrid: true
+                    children:
                       - type: ComboBox
                         name: leaveOneOutSortBy
                         enable: (leaveOneOut && leaveOneOutForestPlot)
+                        cell:
+                          row: 0
+                          column: 0
+                      - type: ComboBox
+                        name: leaveOneOutSortDirection
+                        label: ""
+                        enable: (leaveOneOut && leaveOneOutForestPlot)
+                        cell:
+                          row: 0
+                          column: 1
                   - type: LayoutBox
                     children:
                       - type: CheckBox

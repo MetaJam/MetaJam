@@ -202,19 +202,27 @@ options:
 
   - name: sortBy
     title: Sort by
+    type: String
+    default: none
+
+  - name: sortDirection
+    title: ""
     type: List
     options:
-      - title: Original order
-        name: none
-      - title: Effect size (ascending)
-        name: effectAsc
-      - title: Effect size (descending)
-        name: effectDesc
-      - title: Weight (ascending)
-        name: weightAsc
-      - title: Weight (descending)
-        name: weightDesc
-    default: none
+      - title: Ascending
+        name: asc
+      - title: Descending
+        name: desc
+    default: asc
+
+  - name: sortVariable
+    title: Sort variable
+    type: Variable
+    hidden: true
+    permitted:
+      - numeric
+      - factor
+      - id
 
   - name: forestTestOverall
     title: Overall effect test
@@ -468,19 +476,27 @@ options:
 
   - name: subgroupSortBy
     title: Sort by
+    type: String
+    default: none
+
+  - name: subgroupSortDirection
+    title: ""
     type: List
     options:
-      - title: Original order
-        name: none
-      - title: Effect size (ascending)
-        name: effectAsc
-      - title: Effect size (descending)
-        name: effectDesc
-      - title: Weight (ascending)
-        name: weightAsc
-      - title: Weight (descending)
-        name: weightDesc
-    default: none
+      - title: Ascending
+        name: asc
+      - title: Descending
+        name: desc
+    default: asc
+
+  - name: subgroupSortVariable
+    title: Sort variable
+    type: Variable
+    hidden: true
+    permitted:
+      - numeric
+      - factor
+      - id
 
   - name: subgroupForestOverall
     title: Overall results
@@ -781,23 +797,27 @@ options:
 
   - name: leaveOneOutSortBy
     title: Sort by
+    type: String
+    default: none
+
+  - name: leaveOneOutSortDirection
+    title: ""
     type: List
     options:
-      - title: Original order
-        name: none
-      - title: Effect size (ascending)
-        name: effectAsc
-      - title: Effect size (descending)
-        name: effectDesc
-      - title: I² (ascending)
-        name: i2Asc
-      - title: I² (descending)
-        name: i2Desc
-      - title: Tau² (ascending)
-        name: tau2Asc
-      - title: Tau² (descending)
-        name: tau2Desc
-    default: none
+      - title: Ascending
+        name: asc
+      - title: Descending
+        name: desc
+    default: asc
+
+  - name: leaveOneOutSortVariable
+    title: Sort variable
+    type: Variable
+    hidden: true
+    permitted:
+      - numeric
+      - factor
+      - id
 
   - name: leaveOneOutForestDetails
     title: Analysis details

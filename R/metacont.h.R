@@ -25,6 +25,8 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             forestMode = "general",
             forestLayout = "meta",
             sortBy = "none",
+            sortDirection = "asc",
+            sortVariable = NULL,
             forestTestOverall = FALSE,
             forestDetails = FALSE,
             forestPrintI2Ci = FALSE,
@@ -58,6 +60,8 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             printSubgroupName = TRUE,
             subgroupForestLayout = "meta",
             subgroupSortBy = "none",
+            subgroupSortDirection = "asc",
+            subgroupSortVariable = NULL,
             subgroupForestOverall = TRUE,
             subgroupForestTestSubgroup = TRUE,
             subgroupForestTestEffect = FALSE,
@@ -101,6 +105,8 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             leaveOneOutForestMode = "general",
             leaveOneOutForestLayout = "meta",
             leaveOneOutSortBy = "none",
+            leaveOneOutSortDirection = "asc",
+            leaveOneOutSortVariable = NULL,
             leaveOneOutForestDetails = FALSE,
             leaveOneOutLabelLeft = "",
             leaveOneOutLabelRight = "",
@@ -280,16 +286,25 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "JAMA",
                     "BMJ"),
                 default="meta")
-            private$..sortBy <- jmvcore::OptionList$new(
+            private$..sortBy <- jmvcore::OptionString$new(
                 "sortBy",
                 sortBy,
-                options=list(
-                    "none",
-                    "effectAsc",
-                    "effectDesc",
-                    "weightAsc",
-                    "weightDesc"),
                 default="none")
+            private$..sortDirection <- jmvcore::OptionList$new(
+                "sortDirection",
+                sortDirection,
+                options=list(
+                    "asc",
+                    "desc"),
+                default="asc")
+            private$..sortVariable <- jmvcore::OptionVariable$new(
+                "sortVariable",
+                sortVariable,
+                hidden=TRUE,
+                permitted=list(
+                    "numeric",
+                    "factor",
+                    "id"))
             private$..forestTestOverall <- jmvcore::OptionBool$new(
                 "forestTestOverall",
                 forestTestOverall,
@@ -490,16 +505,25 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "JAMA",
                     "BMJ"),
                 default="meta")
-            private$..subgroupSortBy <- jmvcore::OptionList$new(
+            private$..subgroupSortBy <- jmvcore::OptionString$new(
                 "subgroupSortBy",
                 subgroupSortBy,
-                options=list(
-                    "none",
-                    "effectAsc",
-                    "effectDesc",
-                    "weightAsc",
-                    "weightDesc"),
                 default="none")
+            private$..subgroupSortDirection <- jmvcore::OptionList$new(
+                "subgroupSortDirection",
+                subgroupSortDirection,
+                options=list(
+                    "asc",
+                    "desc"),
+                default="asc")
+            private$..subgroupSortVariable <- jmvcore::OptionVariable$new(
+                "subgroupSortVariable",
+                subgroupSortVariable,
+                hidden=TRUE,
+                permitted=list(
+                    "numeric",
+                    "factor",
+                    "id"))
             private$..subgroupForestOverall <- jmvcore::OptionBool$new(
                 "subgroupForestOverall",
                 subgroupForestOverall,
@@ -741,18 +765,25 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "JAMA",
                     "BMJ"),
                 default="meta")
-            private$..leaveOneOutSortBy <- jmvcore::OptionList$new(
+            private$..leaveOneOutSortBy <- jmvcore::OptionString$new(
                 "leaveOneOutSortBy",
                 leaveOneOutSortBy,
-                options=list(
-                    "none",
-                    "effectAsc",
-                    "effectDesc",
-                    "i2Asc",
-                    "i2Desc",
-                    "tau2Asc",
-                    "tau2Desc"),
                 default="none")
+            private$..leaveOneOutSortDirection <- jmvcore::OptionList$new(
+                "leaveOneOutSortDirection",
+                leaveOneOutSortDirection,
+                options=list(
+                    "asc",
+                    "desc"),
+                default="asc")
+            private$..leaveOneOutSortVariable <- jmvcore::OptionVariable$new(
+                "leaveOneOutSortVariable",
+                leaveOneOutSortVariable,
+                hidden=TRUE,
+                permitted=list(
+                    "numeric",
+                    "factor",
+                    "id"))
             private$..leaveOneOutForestDetails <- jmvcore::OptionBool$new(
                 "leaveOneOutForestDetails",
                 leaveOneOutForestDetails,
@@ -1015,6 +1046,8 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..forestMode)
             self$.addOption(private$..forestLayout)
             self$.addOption(private$..sortBy)
+            self$.addOption(private$..sortDirection)
+            self$.addOption(private$..sortVariable)
             self$.addOption(private$..forestTestOverall)
             self$.addOption(private$..forestDetails)
             self$.addOption(private$..forestPrintI2Ci)
@@ -1048,6 +1081,8 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..printSubgroupName)
             self$.addOption(private$..subgroupForestLayout)
             self$.addOption(private$..subgroupSortBy)
+            self$.addOption(private$..subgroupSortDirection)
+            self$.addOption(private$..subgroupSortVariable)
             self$.addOption(private$..subgroupForestOverall)
             self$.addOption(private$..subgroupForestTestSubgroup)
             self$.addOption(private$..subgroupForestTestEffect)
@@ -1090,6 +1125,8 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..leaveOneOutForestMode)
             self$.addOption(private$..leaveOneOutForestLayout)
             self$.addOption(private$..leaveOneOutSortBy)
+            self$.addOption(private$..leaveOneOutSortDirection)
+            self$.addOption(private$..leaveOneOutSortVariable)
             self$.addOption(private$..leaveOneOutForestDetails)
             self$.addOption(private$..leaveOneOutLabelLeft)
             self$.addOption(private$..leaveOneOutLabelRight)
@@ -1153,6 +1190,8 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         forestMode = function() private$..forestMode$value,
         forestLayout = function() private$..forestLayout$value,
         sortBy = function() private$..sortBy$value,
+        sortDirection = function() private$..sortDirection$value,
+        sortVariable = function() private$..sortVariable$value,
         forestTestOverall = function() private$..forestTestOverall$value,
         forestDetails = function() private$..forestDetails$value,
         forestPrintI2Ci = function() private$..forestPrintI2Ci$value,
@@ -1186,6 +1225,8 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         printSubgroupName = function() private$..printSubgroupName$value,
         subgroupForestLayout = function() private$..subgroupForestLayout$value,
         subgroupSortBy = function() private$..subgroupSortBy$value,
+        subgroupSortDirection = function() private$..subgroupSortDirection$value,
+        subgroupSortVariable = function() private$..subgroupSortVariable$value,
         subgroupForestOverall = function() private$..subgroupForestOverall$value,
         subgroupForestTestSubgroup = function() private$..subgroupForestTestSubgroup$value,
         subgroupForestTestEffect = function() private$..subgroupForestTestEffect$value,
@@ -1228,6 +1269,8 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         leaveOneOutForestMode = function() private$..leaveOneOutForestMode$value,
         leaveOneOutForestLayout = function() private$..leaveOneOutForestLayout$value,
         leaveOneOutSortBy = function() private$..leaveOneOutSortBy$value,
+        leaveOneOutSortDirection = function() private$..leaveOneOutSortDirection$value,
+        leaveOneOutSortVariable = function() private$..leaveOneOutSortVariable$value,
         leaveOneOutForestDetails = function() private$..leaveOneOutForestDetails$value,
         leaveOneOutLabelLeft = function() private$..leaveOneOutLabelLeft$value,
         leaveOneOutLabelRight = function() private$..leaveOneOutLabelRight$value,
@@ -1290,6 +1333,8 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..forestMode = NA,
         ..forestLayout = NA,
         ..sortBy = NA,
+        ..sortDirection = NA,
+        ..sortVariable = NA,
         ..forestTestOverall = NA,
         ..forestDetails = NA,
         ..forestPrintI2Ci = NA,
@@ -1323,6 +1368,8 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..printSubgroupName = NA,
         ..subgroupForestLayout = NA,
         ..subgroupSortBy = NA,
+        ..subgroupSortDirection = NA,
+        ..subgroupSortVariable = NA,
         ..subgroupForestOverall = NA,
         ..subgroupForestTestSubgroup = NA,
         ..subgroupForestTestEffect = NA,
@@ -1365,6 +1412,8 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..leaveOneOutForestMode = NA,
         ..leaveOneOutForestLayout = NA,
         ..leaveOneOutSortBy = NA,
+        ..leaveOneOutSortDirection = NA,
+        ..leaveOneOutSortVariable = NA,
         ..leaveOneOutForestDetails = NA,
         ..leaveOneOutLabelLeft = NA,
         ..leaveOneOutLabelRight = NA,
@@ -1490,6 +1539,8 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "confidenceLevel",
                     "forestLayout",
                     "sortBy",
+                    "sortDirection",
+                    "sortVariable",
                     "forestTestOverall",
                     "forestDetails",
                     "forestPrintI2Ci",
@@ -1580,6 +1631,8 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                                     "printSubgroupName",
                                     "subgroupForestLayout",
                                     "subgroupSortBy",
+                                    "subgroupSortDirection",
+                                    "subgroupSortVariable",
                                     "subgroupForestOverall",
                                     "subgroupForestTestSubgroup",
                                     "subgroupForestTestEffect",
@@ -1722,6 +1775,8 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "leaveOneOutPrediction",
                     "leaveOneOutForestLayout",
                     "leaveOneOutSortBy",
+                    "leaveOneOutSortDirection",
+                    "leaveOneOutSortVariable",
                     "leaveOneOutForestDetails",
                     "leaveOneOutLabelLeft",
                     "leaveOneOutLabelRight",
@@ -1967,6 +2022,8 @@ metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param forestMode .
 #' @param forestLayout .
 #' @param sortBy .
+#' @param sortDirection .
+#' @param sortVariable .
 #' @param forestTestOverall .
 #' @param forestDetails .
 #' @param forestPrintI2Ci .
@@ -2000,6 +2057,8 @@ metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param printSubgroupName .
 #' @param subgroupForestLayout .
 #' @param subgroupSortBy .
+#' @param subgroupSortDirection .
+#' @param subgroupSortVariable .
 #' @param subgroupForestOverall .
 #' @param subgroupForestTestSubgroup .
 #' @param subgroupForestTestEffect .
@@ -2042,6 +2101,8 @@ metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param leaveOneOutForestMode .
 #' @param leaveOneOutForestLayout .
 #' @param leaveOneOutSortBy .
+#' @param leaveOneOutSortDirection .
+#' @param leaveOneOutSortVariable .
 #' @param leaveOneOutForestDetails .
 #' @param leaveOneOutLabelLeft .
 #' @param leaveOneOutLabelRight .
@@ -2123,6 +2184,8 @@ metaCont <- function(
     forestMode = "general",
     forestLayout = "meta",
     sortBy = "none",
+    sortDirection = "asc",
+    sortVariable,
     forestTestOverall = FALSE,
     forestDetails = FALSE,
     forestPrintI2Ci = FALSE,
@@ -2156,6 +2219,8 @@ metaCont <- function(
     printSubgroupName = TRUE,
     subgroupForestLayout = "meta",
     subgroupSortBy = "none",
+    subgroupSortDirection = "asc",
+    subgroupSortVariable,
     subgroupForestOverall = TRUE,
     subgroupForestTestSubgroup = TRUE,
     subgroupForestTestEffect = FALSE,
@@ -2199,6 +2264,8 @@ metaCont <- function(
     leaveOneOutForestMode = "general",
     leaveOneOutForestLayout = "meta",
     leaveOneOutSortBy = "none",
+    leaveOneOutSortDirection = "asc",
+    leaveOneOutSortVariable,
     leaveOneOutForestDetails = FALSE,
     leaveOneOutLabelLeft = "",
     leaveOneOutLabelRight = "",
@@ -2252,9 +2319,12 @@ metaCont <- function(
     if ( ! missing(meanC)) meanC <- jmvcore::resolveQuo(jmvcore::enquo(meanC))
     if ( ! missing(sdC)) sdC <- jmvcore::resolveQuo(jmvcore::enquo(sdC))
     if ( ! missing(nC)) nC <- jmvcore::resolveQuo(jmvcore::enquo(nC))
+    if ( ! missing(sortVariable)) sortVariable <- jmvcore::resolveQuo(jmvcore::enquo(sortVariable))
     if ( ! missing(subgroupVariables)) subgroupVariables <- jmvcore::resolveQuo(jmvcore::enquo(subgroupVariables))
+    if ( ! missing(subgroupSortVariable)) subgroupSortVariable <- jmvcore::resolveQuo(jmvcore::enquo(subgroupSortVariable))
     if ( ! missing(metaRegCovs)) metaRegCovs <- jmvcore::resolveQuo(jmvcore::enquo(metaRegCovs))
     if ( ! missing(metaRegFactors)) metaRegFactors <- jmvcore::resolveQuo(jmvcore::enquo(metaRegFactors))
+    if ( ! missing(leaveOneOutSortVariable)) leaveOneOutSortVariable <- jmvcore::resolveQuo(jmvcore::enquo(leaveOneOutSortVariable))
     if (missing(data))
         data <- jmvcore::marshalData(
             parent.frame(),
@@ -2265,9 +2335,12 @@ metaCont <- function(
             `if`( ! missing(meanC), meanC, NULL),
             `if`( ! missing(sdC), sdC, NULL),
             `if`( ! missing(nC), nC, NULL),
+            `if`( ! missing(sortVariable), sortVariable, NULL),
             `if`( ! missing(subgroupVariables), subgroupVariables, NULL),
+            `if`( ! missing(subgroupSortVariable), subgroupSortVariable, NULL),
             `if`( ! missing(metaRegCovs), metaRegCovs, NULL),
-            `if`( ! missing(metaRegFactors), metaRegFactors, NULL))
+            `if`( ! missing(metaRegFactors), metaRegFactors, NULL),
+            `if`( ! missing(leaveOneOutSortVariable), leaveOneOutSortVariable, NULL))
 
     for (v in subgroupVariables) if (v %in% names(data)) data[[v]] <- as.factor(data[[v]])
     for (v in metaRegFactors) if (v %in% names(data)) data[[v]] <- as.factor(data[[v]])
@@ -2292,6 +2365,8 @@ metaCont <- function(
         forestMode = forestMode,
         forestLayout = forestLayout,
         sortBy = sortBy,
+        sortDirection = sortDirection,
+        sortVariable = sortVariable,
         forestTestOverall = forestTestOverall,
         forestDetails = forestDetails,
         forestPrintI2Ci = forestPrintI2Ci,
@@ -2325,6 +2400,8 @@ metaCont <- function(
         printSubgroupName = printSubgroupName,
         subgroupForestLayout = subgroupForestLayout,
         subgroupSortBy = subgroupSortBy,
+        subgroupSortDirection = subgroupSortDirection,
+        subgroupSortVariable = subgroupSortVariable,
         subgroupForestOverall = subgroupForestOverall,
         subgroupForestTestSubgroup = subgroupForestTestSubgroup,
         subgroupForestTestEffect = subgroupForestTestEffect,
@@ -2367,6 +2444,8 @@ metaCont <- function(
         leaveOneOutForestMode = leaveOneOutForestMode,
         leaveOneOutForestLayout = leaveOneOutForestLayout,
         leaveOneOutSortBy = leaveOneOutSortBy,
+        leaveOneOutSortDirection = leaveOneOutSortDirection,
+        leaveOneOutSortVariable = leaveOneOutSortVariable,
         leaveOneOutForestDetails = leaveOneOutForestDetails,
         leaveOneOutLabelLeft = leaveOneOutLabelLeft,
         leaveOneOutLabelRight = leaveOneOutLabelRight,

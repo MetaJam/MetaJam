@@ -78,9 +78,10 @@ computeBinSubgroupModels <- function(self) {
 #' Events / Total columns and delegates to `renderForest()`.
 #'
 #' @param self The jamovi `self` object.
+#' @param sortKey Precomputed sort key from `calcForestSortKey()`.
 #' @return TRUE if the plot was successfully rendered, FALSE otherwise.
 #' @noRd
-renderBinForest <- function(self) {
+renderBinForest <- function(self, sortKey) {
   model <- self$model
   options <- self$options
 
@@ -92,6 +93,7 @@ renderBinForest <- function(self) {
     renderForest(
       model,
       options,
+      sortKey = sortKey,
       label.e = options$labelE,
       label.c = options$labelC,
       label.e.attach = c("event.e", "n.e"),
@@ -103,6 +105,7 @@ renderBinForest <- function(self) {
     renderForest(
       model,
       options,
+      sortKey = sortKey,
       label.e = options$labelE,
       label.c = options$labelC
     )
@@ -119,9 +122,10 @@ renderBinForest <- function(self) {
 #'
 #' @param self The jamovi `self` object.
 #' @param key The jamovi array item key (e.g. `image$parent$key`).
+#' @param sortKey Precomputed sort key from `calcForestSortKey()`.
 #' @return TRUE if the plot was successfully rendered, FALSE otherwise.
 #' @noRd
-renderBinSubgroupForest <- function(self, key) {
+renderBinSubgroupForest <- function(self, key, sortKey) {
   model <- self$subgroupModels[[key]]
   options <- self$options
 
@@ -133,6 +137,7 @@ renderBinSubgroupForest <- function(self, key) {
     renderSubgroupForest(
       model,
       options,
+      sortKey = sortKey,
       label.e = options$subgroupLabelE,
       label.c = options$subgroupLabelC,
       label.e.attach = c("event.e", "n.e"),
@@ -144,6 +149,7 @@ renderBinSubgroupForest <- function(self, key) {
     renderSubgroupForest(
       model,
       options,
+      sortKey = sortKey,
       label.e = options$subgroupLabelE,
       label.c = options$subgroupLabelC
     )

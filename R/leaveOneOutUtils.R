@@ -70,9 +70,10 @@ populateLeaveOneOutText <- function(self) {
 #' to `forest.metainf` → `forest.metacum` → `forest.meta`.
 #'
 #' @param self The jamovi `self` object.
+#' @param sortKey Precomputed sort key from `calcForestSortKey()`.
 #' @return TRUE if the plot was successfully rendered, FALSE otherwise.
 #' @noRd
-renderLeaveOneOutForest <- function(self) {
+renderLeaveOneOutForest <- function(self, sortKey) {
   leaveOneOutModel <- self$leaveOneOutModel
   options <- self$options
 
@@ -104,17 +105,8 @@ renderLeaveOneOutForest <- function(self) {
     digits.tau = as.integer(options$leaveOneOutDigitsTau2)
   )
 
-  # Sort by leave-one-out result columns (I², τ²)
-  if (options$leaveOneOutSortBy != "none") {
-    args$sortvar <- switch(
-      options$leaveOneOutSortBy,
-      effectAsc = leaveOneOutModel$TE,
-      effectDesc = -leaveOneOutModel$TE,
-      i2Asc = leaveOneOutModel$I2,
-      i2Desc = -leaveOneOutModel$I2,
-      tau2Asc = leaveOneOutModel$tau2,
-      tau2Desc = -leaveOneOutModel$tau2
-    )
+  if (!is.null(sortKey)) {
+    args$sortvar <- sortKey
   }
 
   if (options$leaveOneOutXlimCustom) {

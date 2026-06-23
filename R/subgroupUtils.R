@@ -79,12 +79,13 @@ populateSubgroupTexts <- function(self) {
 #'
 #' @param model A `meta` object with subgroup results.
 #' @param options A Jamovi options object with `subgroup*` fields.
+#' @param sortKey Precomputed sort key from `calcForestSortKey()`.
 #' @param ... Extra arguments forwarded to `renderForest()` and then
 #'   `meta::forest()`. Used by analysis-specific wrappers for
 #'   type-specific args.
 #' @return The (invisible) return value of `meta::forest()`.
 #' @noRd
-renderSubgroupForest <- function(model, options, ...) {
+renderSubgroupForest <- function(model, options, sortKey, ...) {
   # Map subgroup-prefixed options → standard option names for renderForest()
   mapped <- list(
     forestLayout = options$subgroupForestLayout,
@@ -114,6 +115,7 @@ renderSubgroupForest <- function(model, options, ...) {
   renderForest(
     model,
     mapped,
+    sortKey = sortKey,
     overall = options$subgroupForestOverall,
     overall.hetstat = options$subgroupForestOverall,
     test.effect.subgroup = options$subgroupForestTestEffect,

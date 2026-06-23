@@ -85,9 +85,10 @@ computeContSubgroupModels <- function(self) {
 #' spans the Mean / SD / N columns) and delegates to `renderForest()`.
 #'
 #' @param self The jamovi `self` object.
+#' @param sortKey Precomputed sort key from `calcForestSortKey()`.
 #' @return TRUE if the plot was successfully rendered, FALSE otherwise.
 #' @noRd
-renderContForest <- function(self) {
+renderContForest <- function(self, sortKey) {
   model <- self$model
   options <- self$options
 
@@ -99,6 +100,7 @@ renderContForest <- function(self) {
     renderForest(
       model,
       options,
+      sortKey = sortKey,
       label.e = options$labelE,
       label.c = options$labelC,
       label.e.attach = c("n.e", "mean.e", "sd.e"),
@@ -112,6 +114,7 @@ renderContForest <- function(self) {
     renderForest(
       model,
       options,
+      sortKey = sortKey,
       label.e = options$labelE,
       label.c = options$labelC,
       digits.mean = as.integer(options$digitsMean),
@@ -131,9 +134,10 @@ renderContForest <- function(self) {
 #'
 #' @param self The jamovi `self` object.
 #' @param key The jamovi array item key (e.g., `image$parent$key`).
+#' @param sortKey Precomputed sort key from `calcForestSortKey()`.
 #' @return TRUE if the plot was successfully rendered, FALSE otherwise.
 #' @noRd
-renderContSubgroupForest <- function(self, key) {
+renderContSubgroupForest <- function(self, key, sortKey) {
   model <- self$subgroupModels[[key]]
   options <- self$options
 
@@ -145,6 +149,7 @@ renderContSubgroupForest <- function(self, key) {
     renderSubgroupForest(
       model,
       options,
+      sortKey = sortKey,
       label.e = options$subgroupLabelE,
       label.c = options$subgroupLabelC,
       label.e.attach = c("n.e", "mean.e", "sd.e"),
@@ -158,6 +163,7 @@ renderContSubgroupForest <- function(self, key) {
     renderSubgroupForest(
       model,
       options,
+      sortKey = sortKey,
       label.e = options$subgroupLabelE,
       label.c = options$subgroupLabelC,
       digits.mean = as.integer(options$subgroupDigitsMean),

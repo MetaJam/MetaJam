@@ -54,6 +54,8 @@ items:
       - confidenceLevel
       - forestLayout
       - sortBy
+      - sortDirection
+      - sortVariable
       - forestTestOverall
       - forestDetails
       - forestPrintI2Ci
@@ -128,6 +130,8 @@ items:
             - printSubgroupName
             - subgroupForestLayout
             - subgroupSortBy
+            - subgroupSortDirection
+            - subgroupSortVariable
             - subgroupForestOverall
             - subgroupForestTestSubgroup
             - subgroupForestTestEffect
@@ -257,6 +261,8 @@ items:
       - leaveOneOutPrediction
       - leaveOneOutForestLayout
       - leaveOneOutSortBy
+      - leaveOneOutSortDirection
+      - leaveOneOutSortVariable
       - leaveOneOutForestDetails
       - leaveOneOutLabelLeft
       - leaveOneOutLabelRight

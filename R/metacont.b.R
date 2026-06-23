@@ -115,26 +115,64 @@ metaContClass <- R6::R6Class(
       collector <- newCollector()
       runSafe(
         {
+          sortKey <- calcForestSortKey(
+            model = self$model,
+            sortBy = self$options$sortBy,
+            sortDirection = self$options$sortDirection,
+            sortVariable = self$options$sortVariable,
+            data = self$data
+          )
+          self$results$plot$setState(sortKey)
+
           updateForestSize(
             image = self$results$plot,
             model = self$model,
             sizeCache = self$results$plotSizeCache,
-            renderCall = function() renderContForest(self)
+            renderCall = function() renderContForest(self, sortKey = sortKey)
           )
+
           for (i in seq_along(self$options$subgroupVariables)) {
             group <- self$results$subgroupModels$get(key = i)
+            subgroupModel <- self$subgroupModels[[i]]
+            subgroupSortKey <- calcForestSortKey(
+              model = subgroupModel,
+              sortBy = self$options$subgroupSortBy,
+              sortDirection = self$options$subgroupSortDirection,
+              sortVariable = self$options$subgroupSortVariable,
+              data = self$data
+            )
+            group$subgroupPlot$setState(subgroupSortKey)
+
             updateForestSize(
               image = group$subgroupPlot,
-              model = self$subgroupModels[[i]],
+              model = subgroupModel,
               sizeCache = group$subgroupPlotSizeCache,
-              renderCall = function() renderContSubgroupForest(self, key = i)
+              renderCall = function() {
+                renderContSubgroupForest(
+                  self,
+                  key = i,
+                  sortKey = subgroupSortKey
+                )
+              }
             )
           }
+
+          leaveOneOutSortKey <- calcForestSortKey(
+            model = self$leaveOneOutModel,
+            sortBy = self$options$leaveOneOutSortBy,
+            sortDirection = self$options$leaveOneOutSortDirection,
+            sortVariable = self$options$leaveOneOutSortVariable,
+            data = self$data
+          )
+          self$results$leaveOneOutPlot$setState(leaveOneOutSortKey)
+
           updateForestSize(
             image = self$results$leaveOneOutPlot,
             model = self$leaveOneOutModel,
             sizeCache = self$results$leaveOneOutPlotSizeCache,
-            renderCall = function() renderLeaveOneOutForest(self)
+            renderCall = function() {
+              renderLeaveOneOutForest(self, sortKey = leaveOneOutSortKey)
+            }
           )
 
           populateMainText(self)
@@ -153,11 +191,15 @@ metaContClass <- R6::R6Class(
     # Render functions: called by jmvcore when the corresponding plot needs to
     # be rendered or exported. They delegate to shared rendering utilities.
     .forestPlot = function(image, ...) {
-      renderContForest(self)
+      renderContForest(self, sortKey = image$state)
     },
 
     .subgroupForestPlot = function(image, ...) {
-      renderContSubgroupForest(self, key = image$parent$key)
+      renderContSubgroupForest(
+        self,
+        key = image$parent$key,
+        sortKey = image$state
+      )
     },
 
     .bubblePlot = function(image, ...) {
@@ -165,7 +207,7 @@ metaContClass <- R6::R6Class(
     },
 
     .leaveOneOutForestPlot = function(image, ...) {
-      renderLeaveOneOutForest(self)
+      renderLeaveOneOutForest(self, sortKey = image$state)
     },
 
     .funnelPlot = function(image, ...) {

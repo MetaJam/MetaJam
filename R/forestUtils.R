@@ -9,10 +9,11 @@
 #'
 #' @param model A `meta` object (e.g., from `meta::metacont`).
 #' @param options A Jamovi options object with forest-related fields.
+#' @param sortKey Precomputed sort key from `calcForestSortKey()`.
 #' @param ... Extra arguments forwarded to `meta::forest()`.
 #' @return The (invisible) return value of `meta::forest()`.
 #' @noRd
-renderForest <- function(model, options, ...) {
+renderForest <- function(model, options, sortKey, ...) {
   # Format numeric gaps into strings with units (e.g. "2mm")
   # Values are always present — validated Number inputs in .a.yaml
   colgap <- paste0(options$colgap, options$colgapUnit)
@@ -38,20 +39,8 @@ renderForest <- function(model, options, ...) {
     ...
   )
 
-  # Sort variable
-  if (options$sortBy != "none") {
-    args$sortvar <- switch(
-      options$sortBy,
-      effectAsc = model$TE,
-      effectDesc = -model$TE,
-      # Match meta's default: common weights when common is active
-      weightAsc = if (isTRUE(model$common)) model$w.common else model$w.random,
-      weightDesc = -(if (isTRUE(model$common)) {
-        model$w.common
-      } else {
-        model$w.random
-      })
-    )
+  if (!is.null(sortKey)) {
+    args$sortvar <- sortKey
   }
 
   # When custom, pass xlim; when auto, let meta use its own default
@@ -66,6 +55,50 @@ renderForest <- function(model, options, ...) {
   }
 
   do.call(meta::forest, args)
+}
+
+
+#' Calculate Forest Sort Key
+#'
+#' Resolves the active forest sort option to the numeric key passed to
+#' `meta::forest(sortvar=)`. Returns `NULL` for original ascending order so
+#' `meta::forest()` can use its default study order.
+#'
+#' @param model A `meta` object (e.g., from `meta::metacont`).
+#' @param sortBy Sort option name from the UI.
+#' @param sortDirection Sort direction (`"asc"` or `"desc"`).
+#' @param sortVariable External data variable selected for sorting, if any.
+#' @param data Analysis data frame, used when sorting by a data column.
+#' @return A numeric sort key, or `NULL` for original ascending order.
+#' @noRd
+calcForestSortKey <- function(model, sortBy, sortDirection, sortVariable, data) {
+  if (is.null(model)) {
+    return()
+  }
+
+  if (sortBy == "none" && sortDirection == "asc") {
+    return()
+  }
+
+  sortValue <- switch(
+    sortBy,
+    none = seq_along(model$TE),
+    effect = model$TE,
+    weight = if (isTRUE(model$common)) model$w.common else model$w.random,
+    i2 = model$I2,
+    tau2 = model$tau2
+  )
+
+  if (startsWith(sortBy, "varid::")) {
+    sortValue <- data[[sortVariable]]
+  }
+
+  sortKey <- xtfrm(sortValue)
+  if (sortDirection == "desc") {
+    sortKey <- -sortKey
+  }
+
+  sortKey
 }
 
 
