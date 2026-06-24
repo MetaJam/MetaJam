@@ -15,10 +15,11 @@ the R package [meta](https://cran.r-project.org/package=meta).
 
 ## Analyses
 
-- **Continuous Outcomes Meta-Analysis:** Analyze continuous outcome data using
+### Two-Group Meta-Analysis
+- **Continuous Outcomes:** Analyze continuous outcome data using
   mean, standard deviation, and sample size for the experimental and
   control groups.
-- **Binary Outcomes Meta-Analysis:** Analyze binary outcome data using
+- **Binary Outcomes:** Analyze binary outcome data using
   event counts and sample size for the experimental and control groups.
 
 ## Analysis Options

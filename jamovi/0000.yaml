@@ -1,5 +1,5 @@
 ---
-title: What the Package Does (Title Case)
+title: Meta-Analysis
 name: MetaJam
 version: 0.0.0
 jms: '1.0'
@@ -8,11 +8,19 @@ authors:
   - Ahmed Abdelmageed
   - Ziyad Rezq
 maintainer: Nour Edin Darwish <nouredindarwish@gmail.com>
-date: '1970-01-01'
+date: '2026-06-24'
 type: R
 description: >-
-  More about what it does (maybe more than one line) Use four spaces when
-  indenting paragraphs within the Description.
+  <b>MetaJam</b> is a comprehensive <b>meta</b>-analysis module for
+  <b>jam</b>ovi, powered by the R package meta.<br><br> <b>Two-Group
+  Meta-Analysis:</b> <ul> <li><b>Continuous Outcomes:</b> Analyze continuous
+  outcome data using mean, standard deviation, and sample size.</li>
+  <li><b>Binary Outcomes:</b> Analyze binary outcome data using event counts and
+  sample size.</li> </ul> <b>Analysis Options:</b> Common-effect and
+  random-effects models, subgroup analysis, meta-regression, leave-one-out
+  analysis, and publication bias.<br><br> <small><i>* Note: This module is under
+  active development. Generic effect sizes and additional models will be added
+  in future updates.</i></small>
 analyses:
   - title: Continuous Outcomes Meta-Analysis
     name: metaCont
