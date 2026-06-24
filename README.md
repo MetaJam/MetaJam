@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="analysis-metajam.svg" alt="MetaJam" width="192" height="114">
+<img src="analysis-metajam.svg" alt="MetaJam" width="296" height="176">
 
 # MetaJam
 
@@ -25,8 +25,8 @@ the R package [meta](https://cran.r-project.org/package=meta).
 
 - **Model Settings:** Fit common-effect and random-effects models with
   various effect measures and heterogeneity estimators.
-- **Subgroup Analysis:** Add subgroup variables and test for subgroup
-  differences.
+- **Subgroup Analysis:** Compare effects and test for differences across
+  subgroups.
 - **Meta-Regression:** Fit meta-regression models to explore the effect of
   continuous and categorical predictors.
 - **Leave-One-Out Analysis:** Evaluate the influence of individual studies by
