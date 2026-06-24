@@ -8,7 +8,7 @@
 [![License: GPL ≥ 2](https://img.shields.io/badge/License-GPL%20%E2%89%A5%202-blue.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
 <!-- badges: end -->
 
-A [jamovi](https://www.jamovi.org) module for meta-analysis, powered mainly by
+**MetaJam** is a **meta**-analysis module for **jam**ovi, powered mainly by
 the R package [meta](https://cran.r-project.org/package=meta).
 
 </div>
