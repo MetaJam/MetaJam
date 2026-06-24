@@ -1,3 +1,4 @@
-# MetaJam 0.0.1
+## MetaJam 0.2.0
 
-* Initial CRAN submission.
+* Initial release of the MetaJam module for jamovi.
+* **New Analyses:** Added Continuous Outcomes Meta-Analysis and Binary Outcomes Meta-Analysis.
