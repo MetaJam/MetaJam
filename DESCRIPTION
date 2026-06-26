@@ -8,7 +8,9 @@ Authors@R: c(
     person("Ahmed", "Abdelmageed", , "AhmedElSaeedMassad@gmail.com", role = "aut",
            comment = c(ORCID = "0009-0002-7902-690X")),
     person("Ziyad", "Rezq", , "RezqZiyad@gmail.com", role = "aut",
-           comment = c(ORCID = "0009-0009-1587-7140"))
+           comment = c(ORCID = "0009-0009-1587-7140")),
+    person("Ahmed S.A", "Osman", , "ahmedsayedosman272@gmail.com", role = "aut",
+           comment = c(ORCID = "0009-0002-2871-9925"))
   )
 Description: A comprehensive meta-analysis module for jamovi, powered by
     the R package meta. It features two-group meta-analysis for continuous

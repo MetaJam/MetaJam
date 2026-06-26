@@ -7,6 +7,7 @@ authors:
   - Nour Edin Darwish
   - Ahmed Abdelmageed
   - Ziyad Rezq
+  - Ahmed S.A Osman
 maintainer: Nour Edin Darwish <nouredindarwish@gmail.com>
 date: '2026-06-24'
 type: R
@@ -19,8 +20,8 @@ description: >-
   sample size.</li> </ul> <b>Analysis Options:</b> Common-effect and
   random-effects models, subgroup analysis, meta-regression, leave-one-out
   analysis, and publication bias.<br><br> <small><i>* Note: This module is under
-  active development. Generic effect sizes and additional models will be added
-  in future updates.</i></small>
+  active development. Additional analyses for diverse effect sizes and advanced
+  meta-analytical extensions will be added in future updates.</i></small>
 analyses:
   - title: Continuous Outcomes Meta-Analysis
     name: metaCont
