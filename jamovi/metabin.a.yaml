@@ -77,9 +77,9 @@ options:
         name: Inverse
       - title: Mantel-Haenszel
         name: MH
-      - title: Peto (OR only)
+      - title: Peto (OR/DOR only)
         name: Peto
-      - title: Sample size weighting (OR only)
+      - title: Sample size weighting (OR/DOR only)
         name: SSW
     default: Inverse
 

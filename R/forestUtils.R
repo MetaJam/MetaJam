@@ -9,7 +9,7 @@
 #'
 #' @param model A `meta` object (e.g., from `meta::metacont`).
 #' @param options A Jamovi options object with forest-related fields.
-#' @param sortKey Precomputed sort key from `calcForestSortKey()`.
+#' @param sortKey Precomputed sort key from `prepareForestSortKey()`.
 #' @param ... Extra arguments forwarded to `meta::forest()`.
 #' @return The (invisible) return value of `meta::forest()`.
 #' @noRd
@@ -58,12 +58,14 @@ renderForest <- function(model, options, sortKey, ...) {
 }
 
 
-#' Calculate Forest Sort Key
+#' Prepare Forest Sort Key
 #'
 #' Resolves the active forest sort option to the numeric key passed to
-#' `meta::forest(sortvar=)`. Returns `NULL` for original ascending order so
-#' `meta::forest()` can use its default study order.
+#' `meta::forest(sortvar=)`, caches it in image state, and returns it for the
+#' current run. If the image is hidden or already filled, returns the cached
+#' `sortKey` from image state and does not recompute sorting.
 #'
+#' @param image A jamovi Image result element.
 #' @param model A `meta` object (e.g., from `meta::metacont`).
 #' @param sortBy Sort option name from the UI.
 #' @param sortDirection Sort direction (`"asc"` or `"desc"`).
@@ -71,12 +73,20 @@ renderForest <- function(model, options, sortKey, ...) {
 #' @param data Analysis data frame, used when sorting by a data column.
 #' @return A numeric sort key, or `NULL` for original ascending order.
 #' @noRd
-calcForestSortKey <- function(model, sortBy, sortDirection, sortVariable, data) {
-  if (is.null(model)) {
-    return()
+prepareForestSortKey <- function(
+  image,
+  model,
+  sortBy,
+  sortDirection,
+  sortVariable,
+  data
+) {
+  if (!image$visible || image$isFilled()) {
+    return(image$state$sortKey)
   }
 
-  if (sortBy == "none" && sortDirection == "asc") {
+  if ((sortBy == "none" && sortDirection == "asc") || is.null(model)) {
+    image$setState(list(sortKey = NULL))
     return()
   }
 
@@ -98,6 +108,7 @@ calcForestSortKey <- function(model, sortBy, sortDirection, sortVariable, data) 
     sortKey <- -sortKey
   }
 
+  image$setState(list(sortKey = sortKey))
   sortKey
 }
 

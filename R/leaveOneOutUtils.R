@@ -70,7 +70,7 @@ populateLeaveOneOutText <- function(self) {
 #' to `forest.metainf` → `forest.metacum` → `forest.meta`.
 #'
 #' @param self The jamovi `self` object.
-#' @param sortKey Precomputed sort key from `calcForestSortKey()`.
+#' @param sortKey Precomputed sort key from `prepareForestSortKey()`.
 #' @return TRUE if the plot was successfully rendered, FALSE otherwise.
 #' @noRd
 renderLeaveOneOutForest <- function(self, sortKey) {

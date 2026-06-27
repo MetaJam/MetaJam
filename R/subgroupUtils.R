@@ -79,7 +79,7 @@ populateSubgroupTexts <- function(self) {
 #'
 #' @param model A `meta` object with subgroup results.
 #' @param options A Jamovi options object with `subgroup*` fields.
-#' @param sortKey Precomputed sort key from `calcForestSortKey()`.
+#' @param sortKey Precomputed sort key from `prepareForestSortKey()`.
 #' @param ... Extra arguments forwarded to `renderForest()` and then
 #'   `meta::forest()`. Used by analysis-specific wrappers for
 #'   type-specific args.

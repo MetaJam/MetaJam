@@ -40,17 +40,19 @@ computeBinSubgroupModels <- function(self) {
     return()
   }
 
-  args <- buildBinArgs(self)
-  if (is.null(args)) {
-    return()
-  }
-
   modelsArray <- self$results$subgroupModels
-  args$tau.common <- self$options$tauCommon
-  args$prediction.subgroup <- self$options$predictionSubgroup
-
   models <- vector("list", length(vars))
+  missing <- integer()
 
+  # We must restore cached subgroup models BEFORE entering the calculation path.
+  # If a model is missing from the cache during later lifecycle phases (e.g.,
+  # image rendering or save/export), it means its calculation failed during the
+  # .run() phase and threw an error. In these later phases, jamovi clears
+  # self$data and it becomes NULL. If we attempted to recalculate the missing
+  # model with NULL data via buildBinArgs(), it would crash with a new,
+  # confusing error that masks the original .run() failure. To prevent this,
+  # buildBinArgs() checks if data is NULL and safely aborts, ensuring the true
+  # error is shown.
   for (i in seq_along(vars)) {
     cacheElement <- modelsArray$get(key = i)$subgroupText
 
@@ -59,6 +61,24 @@ computeBinSubgroupModels <- function(self) {
       models[[i]] <- cached
       next
     }
+
+    missing <- c(missing, i)
+  }
+
+  if (length(missing) == 0) {
+    return(models)
+  }
+
+  args <- buildBinArgs(self)
+  if (is.null(args)) {
+    return(models)
+  }
+
+  args$tau.common <- self$options$tauCommon
+  args$prediction.subgroup <- self$options$predictionSubgroup
+
+  for (i in missing) {
+    cacheElement <- modelsArray$get(key = i)$subgroupText
 
     args$subgroup <- as.name(vars[[i]])
 
@@ -78,7 +98,7 @@ computeBinSubgroupModels <- function(self) {
 #' Events / Total columns and delegates to `renderForest()`.
 #'
 #' @param self The jamovi `self` object.
-#' @param sortKey Precomputed sort key from `calcForestSortKey()`.
+#' @param sortKey Precomputed sort key from `prepareForestSortKey()`.
 #' @return TRUE if the plot was successfully rendered, FALSE otherwise.
 #' @noRd
 renderBinForest <- function(self, sortKey) {
@@ -122,7 +142,7 @@ renderBinForest <- function(self, sortKey) {
 #'
 #' @param self The jamovi `self` object.
 #' @param key The jamovi array item key (e.g. `image$parent$key`).
-#' @param sortKey Precomputed sort key from `calcForestSortKey()`.
+#' @param sortKey Precomputed sort key from `prepareForestSortKey()`.
 #' @return TRUE if the plot was successfully rendered, FALSE otherwise.
 #' @noRd
 renderBinSubgroupForest <- function(self, key, sortKey) {
@@ -172,6 +192,19 @@ buildBinArgs <- function(self) {
   data <- self$data
   options <- self$options
   required <- c("eventE", "nE", "eventC", "nC")
+
+  # jamovi lifecycle guard: A user in jamovi cannot pass NULL data; during a
+  # normal .run() cycle, jamovi always provides a data.frame (with at least one
+  # row). The ONLY time self$data is NULL is during later internal phases like
+  # image rendering or save/export, when jamovi actively clears it. In these
+  # later stages, we rely purely on cached models. If a model is missing from
+  # the cache, it means an error occurred during the .run() phase. We do not
+  # need to calculate it again. Furthermore, we cannot calculate it anyway
+  # because using NULL data would crash with a new, confusing error. Returning
+  # NULL here safely aborts the attempt and preserves the original .run() error.
+  if (is.null(data)) {
+    return()
+  }
 
   if (!hasRequiredVars(options, required)) {
     return()

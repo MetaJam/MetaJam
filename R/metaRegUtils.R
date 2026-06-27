@@ -74,14 +74,61 @@ computeMetaRegModels <- function(self) {
     return()
   }
 
-  model <- self$model
-  if (is.null(model)) {
-    return()
-  }
-
   options <- self$options
   modelsArray <- self$results$metaRegModels
+  models <- vector("list", length(blocks))
+  missing <- integer()
+
+  # We must restore cached meta-regression models BEFORE entering the
+  # calculation path. If a model is missing from the cache during later
+  # lifecycle phases (e.g., image rendering or save/export), it means its
+  # calculation failed during the .run() phase and threw an error. In these
+  # later phases, jamovi clears self$data and it becomes NULL. If we attempted
+  # to recalculate the missing model with NULL data, it would crash with a new,
+  # confusing error that masks the original .run() failure. To prevent this, we
+  # explicitly check if data is NULL below and safely abort, ensuring the true
+  # error is shown.
+  for (i in seq_along(blocks)) {
+    terms <- blocks[[i]]
+    if (length(terms) == 0) {
+      next
+    }
+
+    cacheElement <- modelsArray$get(key = i)$metaRegText
+
+    # Cross-cycle cache (restored via clearWith)
+    cached <- cacheElement$state
+    if (!is.null(cached)) {
+      models[[i]] <- cached
+      next
+    }
+
+    missing <- c(missing, i)
+  }
+
+  if (length(missing) == 0) {
+    return(models)
+  }
+
+  model <- self$model
+  if (is.null(model)) {
+    return(models)
+  }
+
   data <- self$data
+  # jamovi lifecycle guard: A user in jamovi cannot pass NULL data; during a
+  # normal .run() cycle, jamovi always provides a data.frame (with at least
+  # one row). The ONLY time self$data is NULL is during later internal phases
+  # like image rendering or save/export, when jamovi actively clears it. In
+  # these later stages, we rely purely on cached models. If a model is missing
+  # from the cache, it means an error occurred during the .run() phase. We do
+  # not need to calculate it again. Furthermore, we cannot calculate it anyway
+  # because using NULL data would crash with a new, confusing error. Returning
+  # the partially restored cache here safely aborts the attempt and preserves
+  # the original .run() error.
+  if (is.null(data)) {
+    return(models)
+  }
 
   # Ensure meta regression covariates are numeric before appending
   data[options$metaRegCovs] <- lapply(
@@ -98,22 +145,9 @@ computeMetaRegModels <- function(self) {
     model$data[missing_cols] <- data[missing_cols]
   }
 
-  models <- vector("list", length(blocks))
-
-  for (i in seq_along(blocks)) {
+  for (i in missing) {
     terms <- blocks[[i]]
-    if (length(terms) == 0) {
-      next
-    }
-
     cacheElement <- modelsArray$get(key = i)$metaRegText
-
-    # Cross-cycle cache (restored via clearWith)
-    cached <- cacheElement$state
-    if (!is.null(cached)) {
-      models[[i]] <- cached
-      next
-    }
 
     composed <- jmvcore::composeTerms(terms)
     formula <- as.formula(paste("~", paste(composed, collapse = " + ")))

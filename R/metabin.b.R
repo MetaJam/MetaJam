@@ -2,9 +2,17 @@ metaBinClass <- R6::R6Class(
   "metaBinClass",
   inherit = metaBinBase,
 
+  # Active bindings for lazy-loaded models. Models are computed only once per
+  # request when first accessed, and then cached in private fields to avoid
+  # redundant computation. FALSE indicates the computation hasn't been attempted
+  # yet. We assign NULL before computing so that if the computation fails, the
+  # state remains NULL rather than FALSE. This cleanly prevents the active
+  # binding from pointlessly retrying a failed calculation when accessed later
+  # in another lifecycle phase (e.g., image rendering).
   active = list(
     model = function() {
       if (isFALSE(private$.model)) {
+        private$.model <- NULL
         private$.model <- computeBinModel(self)
       }
       private$.model
@@ -12,6 +20,7 @@ metaBinClass <- R6::R6Class(
 
     subgroupModels = function() {
       if (isFALSE(private$.subgroupModels)) {
+        private$.subgroupModels <- NULL
         private$.subgroupModels <- computeBinSubgroupModels(self)
       }
       private$.subgroupModels
@@ -19,6 +28,7 @@ metaBinClass <- R6::R6Class(
 
     metaRegModels = function() {
       if (isFALSE(private$.metaRegModels)) {
+        private$.metaRegModels <- NULL
         private$.metaRegModels <- computeMetaRegModels(self)
       }
       private$.metaRegModels
@@ -26,6 +36,7 @@ metaBinClass <- R6::R6Class(
 
     leaveOneOutModel = function() {
       if (isFALSE(private$.leaveOneOutModel)) {
+        private$.leaveOneOutModel <- NULL
         private$.leaveOneOutModel <- computeLeaveOneOutModel(self)
       }
       private$.leaveOneOutModel
@@ -33,6 +44,7 @@ metaBinClass <- R6::R6Class(
 
     trimFillModel = function() {
       if (isFALSE(private$.trimFillModel)) {
+        private$.trimFillModel <- NULL
         private$.trimFillModel <- computeTrimFillModel(self)
       }
       private$.trimFillModel
@@ -105,14 +117,14 @@ metaBinClass <- R6::R6Class(
       collector <- newCollector()
       runSafe(
         {
-          sortKey <- calcForestSortKey(
+          sortKey <- prepareForestSortKey(
+            image = self$results$plot,
             model = self$model,
             sortBy = self$options$sortBy,
             sortDirection = self$options$sortDirection,
             sortVariable = self$options$sortVariable,
             data = self$data
           )
-          self$results$plot$setState(sortKey)
 
           updateForestSize(
             image = self$results$plot,
@@ -123,19 +135,18 @@ metaBinClass <- R6::R6Class(
 
           for (i in seq_along(self$options$subgroupVariables)) {
             group <- self$results$subgroupModels$get(key = i)
-            subgroupModel <- self$subgroupModels[[i]]
-            subgroupSortKey <- calcForestSortKey(
-              model = subgroupModel,
+            subgroupSortKey <- prepareForestSortKey(
+              image = group$subgroupPlot,
+              model = self$subgroupModels[[i]],
               sortBy = self$options$subgroupSortBy,
               sortDirection = self$options$subgroupSortDirection,
               sortVariable = self$options$subgroupSortVariable,
               data = self$data
             )
-            group$subgroupPlot$setState(subgroupSortKey)
 
             updateForestSize(
               image = group$subgroupPlot,
-              model = subgroupModel,
+              model = self$subgroupModels[[i]],
               sizeCache = group$subgroupPlotSizeCache,
               renderCall = function() {
                 renderBinSubgroupForest(
@@ -147,14 +158,14 @@ metaBinClass <- R6::R6Class(
             )
           }
 
-          leaveOneOutSortKey <- calcForestSortKey(
+          leaveOneOutSortKey <- prepareForestSortKey(
+            image = self$results$leaveOneOutPlot,
             model = self$leaveOneOutModel,
             sortBy = self$options$leaveOneOutSortBy,
             sortDirection = self$options$leaveOneOutSortDirection,
             sortVariable = self$options$leaveOneOutSortVariable,
             data = self$data
           )
-          self$results$leaveOneOutPlot$setState(leaveOneOutSortKey)
 
           updateForestSize(
             image = self$results$leaveOneOutPlot,
@@ -164,6 +175,24 @@ metaBinClass <- R6::R6Class(
               renderLeaveOneOutForest(self, sortKey = leaveOneOutSortKey)
             }
           )
+
+          prepareModelForImages(
+            self$model,
+            list(
+              self$results$funnelPlotImage,
+              self$results$asymmetryPlotImage,
+              self$results$doiPlotImage
+            )
+          )
+          prepareModelForImages(
+            self$trimFillModel,
+            self$results$trimFillFunnelPlotImage
+          )
+          bubbleImages <- lapply(
+            seq_along(self$options$metaRegBlocks),
+            function(i) self$results$metaRegModels$get(key = i)$bubblePlot
+          )
+          prepareModelForImages(self$metaRegModels, bubbleImages)
 
           populateMainText(self)
           populateSubgroupTexts(self)
@@ -179,14 +208,14 @@ metaBinClass <- R6::R6Class(
     },
 
     .forestPlot = function(image, ...) {
-      renderBinForest(self, sortKey = image$state)
+      renderBinForest(self, sortKey = image$state$sortKey)
     },
 
     .subgroupForestPlot = function(image, ...) {
       renderBinSubgroupForest(
         self,
         key = image$parent$key,
-        sortKey = image$state
+        sortKey = image$state$sortKey
       )
     },
 
@@ -195,7 +224,7 @@ metaBinClass <- R6::R6Class(
     },
 
     .leaveOneOutForestPlot = function(image, ...) {
-      renderLeaveOneOutForest(self, sortKey = image$state)
+      renderLeaveOneOutForest(self, sortKey = image$state$sortKey)
     },
 
     .funnelPlot = function(image, ...) {

@@ -58,6 +58,39 @@ hasRequiredVars <- function(options, vars) {
 }
 
 
+#' Prepare Model Objects for Fixed-Size Images
+#'
+#' Fixed-size images do not pass through `updateForestSize()`. Forest images
+#' force their model during `.run()` when visible and stale because their
+#' dynamic size must be measured before rendering. Fixed-size images have no
+#' size-preparation step, so this helper prepares their model during `.run()`
+#' before jamovi clears `self$data` and image rendering begins.
+#'
+#' @param model A model active binding, such as `self$model` or
+#'   `self$metaRegModels`. It is only forced when an image needs rendering.
+#' @param images An Image result element, or a list of Image result elements,
+#'   that depend on the model.
+#' @return `NULL` invisibly. Called for the side effect of forcing `model`.
+#' @noRd
+prepareModelForImages <- function(model, images) {
+  if (!is.list(images)) {
+    images <- list(images)
+  }
+
+  needsModel <- any(vapply(
+    images,
+    function(image) image$visible && !image$isFilled(),
+    logical(1)
+  ))
+
+  if (needsModel) {
+    force(model)
+  }
+
+  invisible(NULL)
+}
+
+
 #' Strip Internal Environments to Prevent Memory Leaks
 #'
 #' R's `do.call()` injects entire function closures into the model's `$call`
