@@ -114,25 +114,26 @@ children:
                 name: general
                 children:
                   - type: LayoutBox
+                    fitToGrid: true
                     children:
                       - type: ComboBox
                         name: forestLayout
                         enable: (forestPlot)
-                  - type: LayoutBox
-                    fitToGrid: true
-                    children:
+                        cell:
+                          row: 0
+                          column: 0
                       - type: ComboBox
                         name: sortBy
                         enable: (forestPlot)
                         cell:
-                          row: 0
+                          row: 1
                           column: 0
                       - type: ComboBox
                         name: sortDirection
                         label: ""
                         enable: (forestPlot)
                         cell:
-                          row: 0
+                          row: 1
                           column: 1
                   - type: LayoutBox
                     fitToGrid: true
@@ -331,22 +332,23 @@ children:
                           ({return (ui['subgroupVariables'].value() || []).length > 0 &&
                           ui['subgroupForestPlot'].value();})
                   - type: LayoutBox
+                    fitToGrid: true
                     children:
                       - type: ComboBox
                         name: subgroupForestLayout
                         enable: >
                           ({return (ui['subgroupVariables'].value() || []).length > 0 &&
                           ui['subgroupForestPlot'].value();})
-                  - type: LayoutBox
-                    fitToGrid: true
-                    children:
+                        cell:
+                          row: 0
+                          column: 0
                       - type: ComboBox
                         name: subgroupSortBy
                         enable: >
                           ({return (ui['subgroupVariables'].value() || []).length > 0 &&
                           ui['subgroupForestPlot'].value();})
                         cell:
-                          row: 0
+                          row: 1
                           column: 0
                       - type: ComboBox
                         name: subgroupSortDirection
@@ -355,7 +357,7 @@ children:
                           ({return (ui['subgroupVariables'].value() || []).length > 0 &&
                           ui['subgroupForestPlot'].value();})
                         cell:
-                          row: 0
+                          row: 1
                           column: 1
                   - type: LayoutBox
                     children:
@@ -693,25 +695,26 @@ children:
                 name: general
                 children:
                   - type: LayoutBox
+                    fitToGrid: true
                     children:
                       - type: ComboBox
                         name: leaveOneOutForestLayout
                         enable: (leaveOneOut && leaveOneOutForestPlot)
-                  - type: LayoutBox
-                    fitToGrid: true
-                    children:
+                        cell:
+                          row: 0
+                          column: 0
                       - type: ComboBox
                         name: leaveOneOutSortBy
                         enable: (leaveOneOut && leaveOneOutForestPlot)
                         cell:
-                          row: 0
+                          row: 1
                           column: 0
                       - type: ComboBox
                         name: leaveOneOutSortDirection
                         label: ""
                         enable: (leaveOneOut && leaveOneOutForestPlot)
                         cell:
-                          row: 0
+                          row: 1
                           column: 1
                   - type: LayoutBox
                     children:
