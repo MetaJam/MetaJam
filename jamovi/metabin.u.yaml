@@ -330,6 +330,8 @@ children:
                         enable: >
                           ({return (ui['subgroupVariables'].value() || []).length > 0 &&
                           ui['subgroupForestPlot'].value();})
+                  - type: LayoutBox
+                    children:
                       - type: ComboBox
                         name: subgroupForestLayout
                         enable: >
