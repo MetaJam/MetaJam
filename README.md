@@ -37,13 +37,11 @@ the R package [meta](https://cran.r-project.org/package=meta).
 
 ## Help & Support
 
-This module is actively being developed! If you encounter any issues, have a
-question, or have ideas for new features, please
-[open an issue on GitHub](https://github.com/MetaJam/MetaJam/issues).
+This module is actively being developed! If you encounter any issues, have a question, or have ideas for new features:
 
-## Found this helpful?
+- 💬 Please [open an issue on GitHub](https://github.com/MetaJam/MetaJam/issues)
+- ✉️ Or send an email to [metajamteam@gmail.com](mailto:metajamteam@gmail.com)
 
-If you find this module helpful for your research or work, please don't
-forget to drop a star ⭐️ on our
-[GitHub repository](https://github.com/MetaJam/MetaJam)! It helps a lot
-and motivates further development.
+## Citation & Star
+
+If you find this module helpful for your research or work, please don't forget to **cite us** and drop a star ⭐️ on our [GitHub repository](https://github.com/MetaJam/MetaJam)! It helps a lot and motivates further development.
