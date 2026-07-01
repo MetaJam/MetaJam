@@ -210,6 +210,18 @@ buildBinArgs <- function(self) {
     return()
   }
 
+  if (options$method == "Peto" && options$sm != "OR") {
+    jmvcore::reject(
+      "Peto can only be used when Effect measure is Odds ratio (OR). Change Effect measure or Method." # nolint
+    )
+  }
+
+  if (options$method == "SSW" && options$sm != "OR") {
+    jmvcore::reject(
+      "Sample size weighting can only be used when Effect measure is Odds ratio (OR). Change Effect measure or Method." # nolint
+    )
+  }
+
   numericVars <- c(
     options$eventE,
     options$nE,

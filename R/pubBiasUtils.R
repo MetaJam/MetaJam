@@ -420,6 +420,7 @@ getAsymmetryTestTitle <- function(method) {
     Peters = "Peters' Linear Regression Test for Funnel Plot Asymmetry",
     Macaskill = "Macaskill's Linear Regression Test for Funnel Plot Asymmetry",
     Schwarzer = "Schwarzer's Rank Correlation Test for Funnel Plot Asymmetry",
+    # Kept for future diagnostic-test-accuracy support; not exposed in metabin.
     Deeks = "Deeks' Linear Regression Test for Funnel Plot Asymmetry",
     Pustejovsky = "Pustejovsky and Rodgers' Linear Regression Test for Funnel Plot Asymmetry", # nolint
     "Test for Funnel Plot Asymmetry"

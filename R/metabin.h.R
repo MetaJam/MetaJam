@@ -197,7 +197,6 @@ metaBinOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "RR",
                     "OR",
                     "RD",
-                    "DOR",
                     "VE"),
                 default="RR")
             private$..method <- jmvcore::OptionList$new(
@@ -899,8 +898,7 @@ metaBinOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "Harbord",
                     "Peters",
                     "Macaskill",
-                    "Schwarzer",
-                    "Deeks"),
+                    "Schwarzer"),
                 default="auto")
             private$..asymmetrySummary <- jmvcore::OptionBool$new(
                 "asymmetrySummary",

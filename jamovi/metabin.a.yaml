@@ -63,8 +63,6 @@ options:
         name: OR
       - title: Risk difference (RD)
         name: RD
-      - title: Diagnostic odds ratio (DOR)
-        name: DOR
       - title: Vaccine efficacy/effectiveness (VE)
         name: VE
     default: RR
@@ -77,9 +75,9 @@ options:
         name: Inverse
       - title: Mantel-Haenszel
         name: MH
-      - title: Peto (OR/DOR only)
+      - title: Peto (OR only)
         name: Peto
-      - title: Sample size weighting (OR/DOR only)
+      - title: Sample size weighting (OR only)
         name: SSW
     default: Inverse
 
@@ -1026,7 +1024,7 @@ options:
     title: Method
     type: List
     options:
-      - title: Auto
+      - title: Auto (based on Effect measure)
         name: auto
       - title: Egger
         name: Egger
@@ -1042,8 +1040,6 @@ options:
         name: Macaskill
       - title: Schwarzer
         name: Schwarzer
-      - title: Deeks (DOR only)
-        name: Deeks
     default: auto
 
   - name: asymmetrySummary
