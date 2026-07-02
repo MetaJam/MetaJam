@@ -181,14 +181,14 @@ metaBinClass <- R6::R6Class(
           prepareModelForImages(
             self$model,
             list(
-              self$results$funnelPlotImage,
-              self$results$asymmetryPlotImage,
-              self$results$doiPlotImage
+              self$results$funnelPlot,
+              self$results$asymmetryPlot,
+              self$results$doiPlot
             )
           )
           prepareModelForImages(
             self$trimFillModel,
-            self$results$trimFillFunnelPlotImage
+            self$results$trimFillFunnelPlot
           )
           bubbleImages <- lapply(
             seq_along(self$options$metaRegBlocks),

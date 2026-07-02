@@ -280,7 +280,7 @@ items:
     refs:
       - metaPackage
 
-  - name: funnelPlotImage
+  - name: funnelPlot
     title: Funnel Plot
     type: Image
     width: 550
@@ -332,7 +332,7 @@ items:
     refs:
       - metaPackage
 
-  - name: asymmetryPlotImage
+  - name: asymmetryPlot
     title: Scatter Plot (Test for Funnel Plot Asymmetry)
     type: Image
     width: 550
@@ -381,7 +381,7 @@ items:
     refs:
       - metaPackage
 
-  - name: trimFillFunnelPlotImage
+  - name: trimFillFunnelPlot
     title: Trim & Fill Funnel Plot
     type: Image
     width: 550
@@ -413,7 +413,7 @@ items:
     refs:
       - metaPackage
 
-  - name: doiPlotImage
+  - name: doiPlot
     title: Doi Plot
     type: Image
     width: 550
