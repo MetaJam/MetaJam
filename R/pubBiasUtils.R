@@ -309,18 +309,31 @@ renderTrimFillFunnelPlot <- function(self) {
     fun <- meta::funnel(
       model,
       type = "contour",
-      studlab = opts$trimFillFunnelStudyLabel
+      studlab = opts$trimFillFunnelStudyLabel,
+      # meta uses pch=1 for imputed trim-fill studies, making them
+      # transparent. Use pch=21 for both study types so bg controls the fill:
+      # observed remains darkgray, while imputed stays white over contours.
+      pch = 21,
+      bg = ifelse(model$trimfill, "white", "darkgray")
     )
   } else {
-    meta::funnel(model, studlab = opts$trimFillFunnelStudyLabel)
+    meta::funnel(
+      model,
+      studlab = opts$trimFillFunnelStudyLabel,
+      # meta uses pch=1 for imputed trim-fill studies, making them
+      # transparent. Use pch=21 for both study types so bg controls the fill:
+      # observed remains darkgray, while imputed stays white.
+      pch = 21,
+      bg = ifelse(model$trimfill, "white", "darkgray")
+    )
   }
 
   if (opts$trimFillFunnelLegend) {
     # Shape items: always present for trim-and-fill plots
     shape_labels <- c("Observed Studies", "Imputed Studies")
-    shape_pch <- c(21, 1)
+    shape_pch <- c(21, 21)
     shape_col <- c("black", "black")
-    shape_pt_bg <- c("darkgray", NA)
+    shape_pt_bg <- c("darkgray", "white")
 
     if (opts$trimFillFunnelContour) {
       # Combined legend: shapes + contour bands in one legend call.
