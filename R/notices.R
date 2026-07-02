@@ -46,6 +46,7 @@ runSafe <- function(expr, collector) {
 #'
 #' @param self The jamovi `self` object.
 #' @param collector Environment with `$warnings` and `$messages` vectors
+#' @return `NULL` invisibly. Called for side effects.
 #' @noRd
 displayNotices <- function(self, collector) {
   options <- self$options
@@ -76,4 +77,6 @@ displayNotices <- function(self, collector) {
     warnNotice$setContent(warnContent)
     results$insert(1, warnNotice)
   }
+
+  invisible(NULL)
 }

@@ -8,6 +8,7 @@
 #' @param self The jamovi `self` object.
 #' @param requiredVars Character vector of option names that must be
 #'   assigned for the model to compute.
+#' @return `NULL` invisibly. Called for side effects.
 #' @noRd
 initMetaRegModels <- function(self, requiredVars) {
   modelsArray <- self$results$metaRegModels
@@ -50,6 +51,8 @@ initMetaRegModels <- function(self, requiredVars) {
       group$metaRegText$setContent(asHtml(title = "Model Summary"))
     }
   }
+
+  invisible(NULL)
 }
 
 
@@ -187,6 +190,7 @@ computeMetaRegModels <- function(self) {
 #' empty blocks where the user has not added any terms yet.
 #'
 #' @param self The jamovi `self` object.
+#' @return `NULL` invisibly. Called for side effects.
 #' @noRd
 populateMetaRegTexts <- function(self) {
   modelsArray <- self$results$metaRegModels
@@ -217,6 +221,8 @@ populateMetaRegTexts <- function(self) {
       )
     )
   }
+
+  invisible(NULL)
 }
 
 

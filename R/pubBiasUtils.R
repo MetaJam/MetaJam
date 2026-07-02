@@ -53,6 +53,7 @@ computeTrimFillModel <- function(self) {
 #' Pustejovsky/SMD and Deeks/DOR validation.
 #'
 #' @param self The jamovi `self` object.
+#' @return `NULL` invisibly. Called for side effects.
 #' @noRd
 populateAsymmetryTestText <- function(self) {
   textResult <- self$results$asymmetryTestText
@@ -60,7 +61,7 @@ populateAsymmetryTestText <- function(self) {
   methodBias <- options$asymmetryMethod
 
   if (!textResult$visible || textResult$isFilled() || is.null(self$model)) {
-    return()
+    return(invisible(NULL))
   }
 
   if (methodBias == "Pustejovsky" && options$sm != "smd") {
@@ -108,6 +109,8 @@ populateAsymmetryTestText <- function(self) {
       }
     )
   )
+
+  invisible(NULL)
 }
 
 
@@ -118,6 +121,7 @@ populateAsymmetryTestText <- function(self) {
 #' Renders the rich summary of the trim and fill model as HTML.
 #'
 #' @param self The jamovi `self` object.
+#' @return `NULL` invisibly. Called for side effects.
 #' @noRd
 populateTrimFillText <- function(self) {
   textResult <- self$results$trimFillText
@@ -125,12 +129,14 @@ populateTrimFillText <- function(self) {
   if (
     !textResult$visible || textResult$isFilled() || is.null(self$trimFillModel)
   ) {
-    return()
+    return(invisible(NULL))
   }
 
   textResult$setContent(
     asHtml(summary(self$trimFillModel), title = "Trim & Fill Summary")
   )
+
+  invisible(NULL)
 }
 
 
@@ -141,12 +147,13 @@ populateTrimFillText <- function(self) {
 #' Runs `metasens::lfkindex()` and renders the output as HTML.
 #'
 #' @param self The jamovi `self` object.
+#' @return `NULL` invisibly. Called for side effects.
 #' @noRd
 populateLfkIndexText <- function(self) {
   textResult <- self$results$lfkIndexText
 
   if (!textResult$visible || textResult$isFilled() || is.null(self$model)) {
-    return()
+    return(invisible(NULL))
   }
 
   lfk <- metasens::lfkindex(self$model)
@@ -164,6 +171,8 @@ populateLfkIndexText <- function(self) {
       }
     )
   )
+
+  invisible(NULL)
 }
 
 

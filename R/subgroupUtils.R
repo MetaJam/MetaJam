@@ -11,6 +11,7 @@
 #' @param self The jamovi `self` object.
 #' @param requiredVars Character vector of option names that must be
 #'   assigned for the model to compute.
+#' @return `NULL` invisibly. Called for side effects.
 #' @noRd
 initSubgroupModels <- function(self, requiredVars) {
   modelsArray <- self$results$subgroupModels
@@ -29,6 +30,8 @@ initSubgroupModels <- function(self, requiredVars) {
       group$subgroupText$setContent(asHtml(title = "Subgroup Summary"))
     }
   }
+
+  invisible(NULL)
 }
 
 
@@ -42,6 +45,7 @@ initSubgroupModels <- function(self, requiredVars) {
 #' this line. Although redundant, we keep it for clarity.
 #'
 #' @param self The jamovi `self` object.
+#' @return `NULL` invisibly. Called for side effects.
 #' @noRd
 populateSubgroupTexts <- function(self) {
   modelsArray <- self$results$subgroupModels
@@ -62,6 +66,8 @@ populateSubgroupTexts <- function(self) {
       asHtml(summary(model), title = "Subgroup Summary")
     )
   }
+
+  invisible(NULL)
 }
 
 

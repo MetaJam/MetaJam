@@ -36,6 +36,7 @@ computeLeaveOneOutModel <- function(self) {
 #' redundant, we keep it for clarity.
 #'
 #' @param self The jamovi `self` object.
+#' @return `NULL` invisibly. Called for side effects.
 #' @noRd
 populateLeaveOneOutText <- function(self) {
   textResult <- self$results$leaveOneOutText
@@ -44,7 +45,7 @@ populateLeaveOneOutText <- function(self) {
       textResult$isFilled() ||
       is.null(self$leaveOneOutModel)
   ) {
-    return()
+    return(invisible(NULL))
   }
 
   textResult$setContent(
@@ -60,6 +61,8 @@ populateLeaveOneOutText <- function(self) {
       }
     )
   )
+
+  invisible(NULL)
 }
 
 

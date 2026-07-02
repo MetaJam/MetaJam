@@ -10,11 +10,14 @@
 #' @param requiredVars Character vector of option names that must be
 #'   assigned for the model to compute.
 #' @param title A string to use as the HTML title.
+#' @return `NULL` invisibly. Called for side effects.
 #' @noRd
 initText <- function(textResult, options, requiredVars, title) {
   if (textResult$visible && !hasRequiredVars(options, requiredVars)) {
     textResult$setContent(asHtml(title = title))
   }
+
+  invisible(NULL)
 }
 
 
@@ -28,15 +31,18 @@ initText <- function(textResult, options, requiredVars, title) {
 #' redundant, we keep it for clarity.
 #'
 #' @param self The jamovi `self` object.
+#' @return `NULL` invisibly. Called for side effects.
 #' @noRd
 populateMainText <- function(self) {
   textResult <- self$results$text
   if (!textResult$visible || textResult$isFilled() || is.null(self$model)) {
-    return()
+    return(invisible(NULL))
   }
   textResult$setContent(
     asHtml(summary(self$model), title = "Overall Summary")
   )
+
+  invisible(NULL)
 }
 
 

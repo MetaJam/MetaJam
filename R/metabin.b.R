@@ -111,12 +111,14 @@ metaBinClass <- R6::R6Class(
 
     .run = function() {
       if (!hasRequiredVars(self$options, private$.requiredVars)) {
-        return()
+        return(invisible(NULL))
       }
 
       collector <- newCollector()
       runSafe(
         {
+          warnBinMethodForRandom(self$options)
+
           sortKey <- prepareForestSortKey(
             image = self$results$plot,
             model = self$model,

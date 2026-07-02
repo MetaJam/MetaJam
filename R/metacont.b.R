@@ -118,7 +118,7 @@ metaContClass <- R6::R6Class(
     # results.
     .run = function() {
       if (!hasRequiredVars(self$options, private$.requiredVars)) {
-        return()
+        return(invisible(NULL))
       }
 
       collector <- newCollector()

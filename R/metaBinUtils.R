@@ -212,13 +212,13 @@ buildBinArgs <- function(self) {
 
   if (options$method == "Peto" && options$sm != "OR") {
     jmvcore::reject(
-      "Peto can only be used when Effect measure is Odds ratio (OR). Change Effect measure or Method." # nolint
+      "\"Peto\" can only be used when \"Effect measure\" is \"Odds ratio (OR)\". Change \"Effect measure\" or \"Method\"." # nolint
     )
   }
 
   if (options$method == "SSW" && options$sm != "OR") {
     jmvcore::reject(
-      "Sample size weighting can only be used when Effect measure is Odds ratio (OR). Change Effect measure or Method." # nolint
+      "\"Sample size weighting\" can only be used when \"Effect measure\" is \"Odds ratio (OR)\". Change \"Effect measure\" or \"Method\"." # nolint
     )
   }
 
@@ -285,4 +285,43 @@ buildBinArgs <- function(self) {
   }
 
   args
+}
+
+
+#' Warn About Random-Effects Method Choices
+#'
+#' Emits runtime warnings when the Mantel-Haenszel or Peto method is combined
+#' with a random effects model, explaining how the random effects estimate
+#' was actually computed.
+#'
+#' @param options The `self$options` object from a jamovi analysis.
+#' @return `NULL` invisibly. Called for warning side effects only.
+#' @noRd
+warnBinMethodForRandom <- function(options) {
+  if (!(options$model %in% c("both", "random"))) {
+    return(invisible(NULL))
+  }
+
+  if (options$method == "MH") {
+    warning(
+      "For the random effects model, the inverse variance method was used ",
+      "instead of Mantel-Haenszel. These random effects results are ",
+      "identical to when \"Method\" is set to \"Inverse variance\", ",
+      "with one exception: when the \"Heterogeneity estimator\" is set to ",
+      "\"DerSimonian-Laird\", the Mantel-Haenszel estimator is used in ",
+      "the calculation of Q and Tau\u00b2 (like RevMan 5).",
+      call. = FALSE
+    )
+  }
+
+  if (options$method == "Peto") {
+    warning(
+      "For the random effects model, study-level effect sizes were first ",
+      "calculated using the Peto method and then pooled using the inverse ",
+      "variance method.",
+      call. = FALSE
+    )
+  }
+
+  invisible(NULL)
 }

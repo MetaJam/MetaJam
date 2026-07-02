@@ -136,7 +136,7 @@ updateForestSize <- function(
   renderCall
 ) {
   if (!image$visible || image$isFilled() || is.null(model)) {
-    return()
+    return(invisible(NULL))
   }
 
   dims <- calcForestDims(renderCall = renderCall)
@@ -144,6 +144,8 @@ updateForestSize <- function(
   h <- dims$height * 72
   image$setSize(width = w, height = h)
   sizeCache$setState(list(w = w, h = h))
+
+  invisible(NULL)
 }
 
 
@@ -158,12 +160,15 @@ updateForestSize <- function(
 #' @param image An Image result element (e.g., `self$results$plot`).
 #' @param sizeCache A Group result element with `clearWith: []`
 #'   (e.g., `self$results$plotSizeCache`).
+#' @return `NULL` invisibly. Called for side effects.
 #' @noRd
 applyCachedSize <- function(image, sizeCache) {
   size <- sizeCache$state
   if (!is.null(size) && image$visible && image$isFilled()) {
     image$setSize(size$w, size$h)
   }
+
+  invisible(NULL)
 }
 
 
