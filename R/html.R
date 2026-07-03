@@ -59,16 +59,6 @@ asHtml <- function(..., title = NULL, modifier = NULL) {
 
   # --- CSS Definitions ---
 
-  # Outer wrapper keeps title and body aligned to the widest content line.
-  # We used to inject a scoped <style> rule to widen jamovi's 500px Html
-  # result container, but that CSS could appear when users copied the result.
-  # Now this inner wrapper grows to max-content width instead; jamovi does not
-  # clip the overflow, so wide summaries remain visible without copied CSS.
-  outerCss <- "
-    display: inline-block;
-    width: max-content;
-  "
-
   # Container style matches jamovi table borders:
   # border-bottom: 2px is the same as the table last-row border
   # padding: 8px 0 gives 8px top and bottom spacing inside the box
@@ -100,15 +90,16 @@ asHtml <- function(..., title = NULL, modifier = NULL) {
     return(titleHtml)
   }
 
-  # Structure: Title div (with bottom line) + Content div (with bottom
-  #    border) containing PRE (monospace text), all inside the outer
-  #    MetaJam div so title/body widths align.
+  # 1. Scoped Style: Forces this result container to max-content width
+  #    using :has() (default is 500px, too narrow for wide summary output)
+  # 2. Structure: Title div (with bottom line) + Content div (with bottom
+  #    border) containing PRE (monospace text)
   htmlContent <- paste0(
-    "<div class='metajam-output' style=\"",
-    outerCss,
-    "\">",
+    "<style>
+      .jmv-results-html:has(.metajam-output) { width: max-content !important; }
+    </style>",
     titleHtml,
-    "<div style=\"",
+    "<div class='metajam-output' style=\"",
     bodyCss,
     "\">",
     "<pre style=\"",
@@ -116,7 +107,6 @@ asHtml <- function(..., title = NULL, modifier = NULL) {
     "\">",
     text,
     "</pre>",
-    "</div>",
     "</div>"
   )
 
