@@ -1424,12 +1424,12 @@ metaBinResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         leaveOneOutText = function() private$.items[["leaveOneOutText"]],
         leaveOneOutPlotSizeCache = function() private$.items[["leaveOneOutPlotSizeCache"]],
         leaveOneOutPlot = function() private$.items[["leaveOneOutPlot"]],
-        funnelPlotImage = function() private$.items[["funnelPlotImage"]],
+        funnelPlot = function() private$.items[["funnelPlot"]],
         asymmetryTestText = function() private$.items[["asymmetryTestText"]],
-        asymmetryPlotImage = function() private$.items[["asymmetryPlotImage"]],
+        asymmetryPlot = function() private$.items[["asymmetryPlot"]],
         trimFillText = function() private$.items[["trimFillText"]],
-        trimFillFunnelPlotImage = function() private$.items[["trimFillFunnelPlotImage"]],
-        doiPlotImage = function() private$.items[["doiPlotImage"]],
+        trimFillFunnelPlot = function() private$.items[["trimFillFunnelPlot"]],
+        doiPlot = function() private$.items[["doiPlot"]],
         lfkIndexText = function() private$.items[["lfkIndexText"]]),
     private = list(),
     public=list(
@@ -1753,7 +1753,7 @@ metaBinResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "metaPackage")))
             self$add(jmvcore::Image$new(
                 options=options,
-                name="funnelPlotImage",
+                name="funnelPlot",
                 title="Funnel Plot",
                 width=550,
                 height=500,
@@ -1807,8 +1807,8 @@ metaBinResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "metaPackage")))
             self$add(jmvcore::Image$new(
                 options=options,
-                name="asymmetryPlotImage",
-                title="Scatter Plot (Test for Funnel Plot Asymmetry)",
+                name="asymmetryPlot",
+                title="Plot (Test for Funnel Plot Asymmetry)",
                 width=550,
                 height=500,
                 renderFun=".asymmetryPlot",
@@ -1858,7 +1858,7 @@ metaBinResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "metaPackage")))
             self$add(jmvcore::Image$new(
                 options=options,
-                name="trimFillFunnelPlotImage",
+                name="trimFillFunnelPlot",
                 title="Trim & Fill Funnel Plot",
                 width=550,
                 height=500,
@@ -1891,7 +1891,7 @@ metaBinResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "metaPackage")))
             self$add(jmvcore::Image$new(
                 options=options,
-                name="doiPlotImage",
+                name="doiPlot",
                 title="Doi Plot",
                 width=550,
                 height=500,
@@ -2113,12 +2113,12 @@ metaBinBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'   \code{results$metaRegModels} \tab \tab \tab \tab \tab an array of groups \cr
 #'   \code{results$leaveOneOutText} \tab \tab \tab \tab \tab a html \cr
 #'   \code{results$leaveOneOutPlot} \tab \tab \tab \tab \tab an image \cr
-#'   \code{results$funnelPlotImage} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$funnelPlot} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$asymmetryTestText} \tab \tab \tab \tab \tab a html \cr
-#'   \code{results$asymmetryPlotImage} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$asymmetryPlot} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$trimFillText} \tab \tab \tab \tab \tab a html \cr
-#'   \code{results$trimFillFunnelPlotImage} \tab \tab \tab \tab \tab an image \cr
-#'   \code{results$doiPlotImage} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$trimFillFunnelPlot} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$doiPlot} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$lfkIndexText} \tab \tab \tab \tab \tab a html \cr
 #' }
 #'

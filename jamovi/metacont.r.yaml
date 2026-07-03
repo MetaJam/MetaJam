@@ -333,7 +333,7 @@ items:
       - metaPackage
 
   - name: asymmetryPlot
-    title: Scatter Plot (Test for Funnel Plot Asymmetry)
+    title: Plot (Test for Funnel Plot Asymmetry)
     type: Image
     width: 550
     height: 500
