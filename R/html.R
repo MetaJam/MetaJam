@@ -44,13 +44,16 @@ asHtml <- function(..., title = NULL, modifier = NULL) {
       "padding: 4px 0;",
       # Prevent long titles from wrapping to a second line
       "white-space: nowrap;",
-      # Match content font/weight/color exactly
-      "font-family: 'Fira Code','JetBrains Mono','Roboto Mono',",
-      "'Cascadia Code','Source Code Pro',ui-monospace,SFMono-Regular,",
-      "Menlo,Consolas,'DejaVu Sans Mono',monospace;",
-      "font-size: 12px;",
-      "font-weight: 500;",
-      "color: #333333;",
+      # Use jamovi's native monospace stack:
+      # jamovi/jamovi/client/resultsview/main.css:693
+      "font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;",
+      # Material data tables use 13sp table content; use 13px here as the
+      # CSS-screen equivalent for dense summary output.
+      # https://m1.material.io/components/data-tables.html
+      "font-size: 13px;",
+      # Material table content uses 87% black; on white this is about #212121.
+      # https://m1.material.io/components/data-tables.html
+      "color: #212121;",
       "\">",
       title,
       "</div>"
@@ -69,15 +72,17 @@ asHtml <- function(..., title = NULL, modifier = NULL) {
   "
 
   # Text style (Inner Pre)
-  # Uses a premium font stack with fallback to system monospace
+  # Use jamovi's native monospace stack:
+  # jamovi/jamovi/client/resultsview/main.css:693
+  # Size/color are intentionally stronger than jamovi's inherited 12px/#333:
+  # Material data tables use 13sp table content and 87% black text; use the
+  # CSS-screen equivalents 13px and #212121 here.
+  # https://m1.material.io/components/data-tables.html
   # white-space: pre keeps the printed spacing/alignment from summary().
   preCss <- "
-    font-family: 'Fira Code', 'JetBrains Mono', 'Roboto Mono',
-    'Cascadia Code', 'Source Code Pro', ui-monospace, SFMono-Regular,
-    Menlo, Consolas, 'DejaVu Sans Mono', monospace;
-    font-size: 12px;
-    font-weight: 500;
-    color: #333333;
+    font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+    font-size: 13px;
+    color: #212121;
     line-height: 1.5;
     white-space: pre;
     margin: 0;
