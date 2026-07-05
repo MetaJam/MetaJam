@@ -76,11 +76,14 @@ computeBinSubgroupModels <- function(self) {
 
   args$tau.common <- self$options$tauCommon
   args$prediction.subgroup <- self$options$predictionSubgroup
+  # Subgroup models are only printed/plotted, so avoid caching their data.
+  args$keepdata <- FALSE
 
   for (i in missing) {
     cacheElement <- modelsArray$get(key = i)$subgroupText
 
-    args$subgroup <- as.name(vars[[i]])
+    args$subgroup <- self$data[[vars[[i]]]]
+    args$subgroup.name <- vars[[i]]
 
     models[[i]] <- do.call(meta::metabin, args)
     models[[i]] <- stripModel(models[[i]])
@@ -260,11 +263,10 @@ buildBinArgs <- function(self) {
   }
 
   args <- list(
-    event.e = as.name(options$eventE),
-    n.e = as.name(options$nE),
-    event.c = as.name(options$eventC),
-    n.c = as.name(options$nC),
-    data = data,
+    event.e = data[[options$eventE]],
+    n.e = data[[options$nE]],
+    event.c = data[[options$eventC]],
+    n.c = data[[options$nC]],
     sm = options$sm,
     method = options$method,
     incr = incr,
@@ -281,7 +283,7 @@ buildBinArgs <- function(self) {
   )
 
   if (!is.null(options$studyLabel)) {
-    args$studlab <- as.name(options$studyLabel)
+    args$studlab <- data[[options$studyLabel]]
   }
 
   args

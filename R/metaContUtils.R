@@ -82,11 +82,14 @@ computeContSubgroupModels <- function(self) {
 
   args$tau.common <- self$options$tauCommon
   args$prediction.subgroup <- self$options$predictionSubgroup
+  # Subgroup models are only printed/plotted, so avoid caching their data.
+  args$keepdata <- FALSE
 
   for (i in missing) {
     cacheElement <- modelsArray$get(key = i)$subgroupText
 
-    args$subgroup <- as.name(vars[[i]])
+    args$subgroup <- self$data[[vars[[i]]]]
+    args$subgroup.name <- vars[[i]]
 
     models[[i]] <- do.call(meta::metacont, args)
     models[[i]] <- stripModel(models[[i]])
@@ -246,13 +249,12 @@ buildContArgs <- function(self) {
   level <- options$confidenceLevel / 100
 
   args <- list(
-    n.e = as.name(options$nE),
-    mean.e = as.name(options$meanE),
-    sd.e = as.name(options$sdE),
-    n.c = as.name(options$nC),
-    mean.c = as.name(options$meanC),
-    sd.c = as.name(options$sdC),
-    data = data,
+    n.e = data[[options$nE]],
+    mean.e = data[[options$meanE]],
+    sd.e = data[[options$sdE]],
+    n.c = data[[options$nC]],
+    mean.c = data[[options$meanC]],
+    sd.c = data[[options$sdC]],
     sm = options$sm,
     method.tau = options$methodTau,
     method.smd = options$methodSmd,
@@ -266,7 +268,7 @@ buildContArgs <- function(self) {
   )
 
   if (!is.null(options$studyLabel)) {
-    args$studlab <- as.name(options$studyLabel)
+    args$studlab <- data[[options$studyLabel]]
   }
 
   args
