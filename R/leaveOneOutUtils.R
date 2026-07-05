@@ -20,6 +20,15 @@ computeLeaveOneOutModel <- function(self) {
     self$model,
     prediction = self$options$leaveOneOutPrediction
   )
+
+  # metainf keeps the source meta object in $x for package bookkeeping, but
+  # MetaJam only prints/plots the leave-one-out result, so do not cache it.
+  result$x <- NULL
+
+  # Match stripModel(): calls are not used by MetaJam and can become large if
+  # this calculation is ever changed to a call-capturing path such as do.call().
+  result$call <- NULL
+
   # Cache for next cycle
   self$results$leaveOneOutText$setState(result)
   result
