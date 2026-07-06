@@ -23,6 +23,7 @@ items:
       - prediction
       - confidenceLevel
     refs:
+      - MetaJam
       - metaPackage
 
   - name: plotSizeCache
@@ -79,6 +80,7 @@ items:
       - digitsI2
       - digitsTau2
     refs:
+      - MetaJam
       - metaPackage
 
   - name: subgroupModels
@@ -113,6 +115,7 @@ items:
           visible: (subgroupSummary && length(subgroupVariables) > 0)
           clearWith: []
           refs:
+            - MetaJam
             - metaPackage
 
         - name: subgroupPlotSizeCache
@@ -158,6 +161,7 @@ items:
             - subgroupDigitsI2
             - subgroupDigitsTau2
           refs:
+            - MetaJam
             - metaPackage
 
   - name: metaRegModels
@@ -193,6 +197,7 @@ items:
           visible: (metaRegSummary && (length(metaRegCovs) > 0 || length(metaRegFactors) > 0))
           clearWith: []
           refs:
+            - MetaJam
             - metaPackage
 
         - name: bubblePlot
@@ -206,6 +211,7 @@ items:
             - bubbleRegline
             - bubbleStudyLabel
           refs:
+            - MetaJam
             - metaPackage
 
   - name: leaveOneOutText
@@ -229,6 +235,7 @@ items:
       - confidenceLevel
       - leaveOneOutPrediction
     refs:
+      - MetaJam
       - metaPackage
 
   - name: leaveOneOutPlotSizeCache
@@ -280,6 +287,7 @@ items:
       - leaveOneOutDigitsI2
       - leaveOneOutDigitsTau2
     refs:
+      - MetaJam
       - metaPackage
 
   - name: funnelPlot
@@ -311,6 +319,7 @@ items:
       - funnelLegendPos
       - funnelLegendCex
     refs:
+      - MetaJam
       - metaPackage
 
   - name: asymmetryTestText
@@ -334,6 +343,7 @@ items:
       - confidenceLevel
       - asymmetryMethod
     refs:
+      - MetaJam
       - metaPackage
 
   - name: asymmetryPlot
@@ -361,6 +371,7 @@ items:
       - confidenceLevel
       - asymmetryMethod
     refs:
+      - MetaJam
       - metaPackage
 
   - name: trimFillText
@@ -385,6 +396,7 @@ items:
       - trimFillSide
       - trimFillEstimator
     refs:
+      - MetaJam
       - metaPackage
 
   - name: trimFillFunnelPlot
@@ -418,6 +430,7 @@ items:
       - trimFillFunnelLegendPos
       - trimFillFunnelLegendCex
     refs:
+      - MetaJam
       - metaPackage
 
   - name: doiPlot
@@ -447,6 +460,7 @@ items:
       - doiPlotLegendPos
       - doiPlotLegendCex
     refs:
+      - MetaJam
       - metasensPackage
 
   - name: lfkIndexText
@@ -469,4 +483,5 @@ items:
       - prediction
       - confidenceLevel
     refs:
+      - MetaJam
       - metasensPackage

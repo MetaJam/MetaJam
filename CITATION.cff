@@ -1,0 +1,48 @@
+cff-version: 1.2.0
+title: "MetaJam: Meta-Analysis for jamovi"
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Nour Edin
+    family-names: Darwish
+    email: nouredindarwish@gmail.com
+    affiliation: >-
+      Faculty of Medicine, Mansoura University, Mansoura,
+      Egypt
+    orcid: "https://orcid.org/0009-0009-5527-4539"
+  - given-names: Ahmed
+    family-names: Abdelmageed
+    email: AhmedElSaeedMassad@gmail.com
+    affiliation: >-
+      Faculty of Medicine, Mansoura University, Mansoura,
+      Egypt
+    orcid: "https://orcid.org/0009-0002-7902-690X"
+  - given-names: Ziyad
+    family-names: Rezq
+    email: RezqZiyad@gmail.com
+    affiliation: >-
+      Faculty of Medicine, Mansoura University, Mansoura,
+      Egypt
+    orcid: "https://orcid.org/0009-0009-1587-7140"
+  - given-names: Ahmed S.A
+    family-names: Osman
+    email: ahmedsayedosman272@gmail.com
+    affiliation: >-
+      Faculty of Medicine, Minia University, Minia,
+      Egypt
+    orcid: "https://orcid.org/0009-0002-2871-9925"
+doi: 10.5281/zenodo.21226177
+date-released: "2026-07-06"
+repository-code: "https://github.com/MetaJam/MetaJam"
+license: GPL-2.0-or-later
+keywords:
+  - jamovi
+  - jamovi-module
+  - meta-analysis
+  - evidence-synthesis
+  - forest-plot
+  - subgroup-analysis
+  - meta-regression
+  - publication-bias

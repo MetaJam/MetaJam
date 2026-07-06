@@ -1,4 +1,12 @@
 refs:
+    MetaJam:
+        type: "software"
+        title: "MetaJam: Meta-Analysis for jamovi"
+        author: "Darwish, N. E., Abdelmageed, A., Rezq, Z., & Osman, A. S. A."
+        year: 2026
+        publisher: "https://doi.org/10.5281/zenodo.21226177"
+        url: https://doi.org/10.5281/zenodo.21226177
+
     metaPackage:
         type: "article"
         author: "Balduzzi, S., Rücker, G., & Schwarzer, G."
