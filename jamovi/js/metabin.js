@@ -33,15 +33,19 @@ module.exports = {
     sort.syncVariable(ui, ui.mainVariablesSupplier, sort.leaveOneOut);
   },
 
+  // Fires when the Supplier needs to refresh its available items.
+  // Keep this supplier-only: block syncing belongs to covs/factors changes.
   metaRegModelSupplier_updated: function (ui) {
-    regression.updateModelTerms(ui, this);
+    regression.updateModelSupplier(ui);
   },
 
+  // Fires when the user adds/removes variables in Covariates.
   metaRegCovs_changed: function (ui) {
     regression.updateModelTerms(ui, this);
     regression.updateEnableState(ui);
   },
 
+  // Fires when the user adds/removes variables in Factors.
   metaRegFactors_changed: function (ui) {
     regression.updateModelTerms(ui, this);
     regression.updateEnableState(ui);

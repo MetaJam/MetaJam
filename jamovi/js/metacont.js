@@ -35,8 +35,9 @@ module.exports = {
   },
 
   // Fires when the Supplier needs to refresh its available items.
+  // Keep this supplier-only: block syncing belongs to covs/factors changes.
   metaRegModelSupplier_updated: function (ui) {
-    regression.updateModelTerms(ui, this);
+    regression.updateModelSupplier(ui);
   },
 
   // Fires when the user adds/removes variables in Covariates
