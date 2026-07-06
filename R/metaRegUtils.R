@@ -178,6 +178,9 @@ computeMetaRegModels <- function(self) {
     if (!is.null(models[[i]]$.meta$formula)) {
       environment(models[[i]]$.meta$formula) <- baseenv()
     }
+    # Prevent future do.call() paths from caching the full source model in the
+    # call.
+    models[[i]]$.meta$call <- NULL
 
     # Cache for next cycle
     cacheElement$setState(models[[i]])
