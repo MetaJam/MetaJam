@@ -133,33 +133,39 @@ computeMetaRegModels <- function(self) {
     return(models)
   }
 
-  # Ensure meta regression covariates are numeric before appending
+  # Only selected moderators are appended to the cached meta object. They are
+  # stored under B64 names so meta::bubble() can parse formula text safely and
+  # so user columns cannot collide with meta's internal dot-prefixed columns.
+  moderators <- c(options$metaRegCovs, options$metaRegFactors)
+  b64Map <- buildB64Map(moderators)
+
   data[options$metaRegCovs] <- lapply(
     data[options$metaRegCovs],
     jmvcore::toNumeric
   )
 
-  # Safely append missing columns from Jamovi data into model data
-  # We give priority to meta's internal columns (.exclude, .subgroup, etc.)
-  # TODO: We may use base64 encoding for user column names in the future to
-  # completely avoid any collisions with `meta`'s internal dot-prefixed columns.
-  missing_cols <- setdiff(names(data), names(model$data))
-  if (length(missing_cols) > 0) {
-    model$data[missing_cols] <- data[missing_cols]
-  }
+  moderatorData <- data[moderators]
+  names(moderatorData) <- jmvcore::toB64(moderators)
+  model$data[names(moderatorData)] <- moderatorData
 
   for (i in missing) {
     terms <- blocks[[i]]
     cacheElement <- modelsArray$get(key = i)$metaRegText
 
-    composed <- jmvcore::composeTerms(terms)
+    termsB64 <- lapply(terms, jmvcore::toB64)
+    composed <- jmvcore::composeTerms(termsB64)
     formula <- as.formula(paste("~", paste(composed, collapse = " + ")))
 
-    models[[i]] <- meta::metareg(
-      model,
-      formula,
-      intercept = options$metaRegIntercept
+    models[[i]] <- decodeB64Conditions(
+      meta::metareg(
+        model,
+        formula,
+        intercept = options$metaRegIntercept
+      ),
+      b64Map
     )
+
+    models[[i]]$.metajam <- list(b64Map = b64Map)
 
     # meta::metareg is an S3 generic. R's S3 dispatch injects the local
     # execution environment (which in Jamovi contains the heavy R6 `self`
@@ -209,6 +215,23 @@ populateMetaRegTexts <- function(self) {
     }
 
     scaleLabel <- getMetaRegScaleLabel(metaRegModel)
+    b64Map <- metaRegModel$.metajam$b64Map
+
+    # metafor's print methods build the "Model Results" table from
+    # rownames(x$beta) before fixed-width printing. Decode these names before
+    # summary() is captured so table alignment is calculated from displayed
+    # names, not internal B64 names. Source checkpoints:
+    # - metafor/R/print.rma.uni.r: lines 240-247
+    # - metafor/R/print.rma.glmm.r: lines 133-138
+    # - metafor/R/print.rma.mv.r: lines 396-403
+    rownames(metaRegModel$beta) <- decodeB64(
+      rownames(metaRegModel$beta),
+      b64Map
+    )
+    rownames(metaRegModel$beta)[
+      rownames(metaRegModel$beta) == "intrcpt"
+    ] <- "Intercept"
+
     textResult$setContent(
       asHtml(
         summary(metaRegModel),
@@ -254,13 +277,66 @@ renderBubblePlot <- function(self, key) {
     return(FALSE)
   }
 
-  meta::bubble(
-    metaRegModel,
+  b64Map <- metaRegModel$.metajam$b64Map
+  args <- list(
+    x = metaRegModel,
     regline = options$bubbleRegline,
     studlab = options$bubbleStudyLabel
   )
 
+  xlab <- bubbleB64Xlab(metaRegModel, b64Map)
+  if (!is.null(xlab)) {
+    args$xlab <- xlab
+  }
+
+  decodeB64Conditions(do.call(meta::bubble, args), b64Map)
+
   TRUE
+}
+
+
+#' Build a decoded x-axis label for B64 bubble plots
+#'
+#' Mirrors only meta::bubble.metareg's naming branches, not its plotting logic.
+#' Source checkpoints in meta/R/bubble.R:
+#' - lines 244-248 recover the first covariate name from formula text
+#' - lines 277-285 keep factor moderator xlab empty
+#' - lines 299-311 build continuous moderator xlab and multi-covariate xlab
+#' - lines 497-499 draw factor level labels directly on the x-axis
+#'
+#' @param metaRegModel A `metareg` object.
+#' @param b64Map Named character vector from `buildB64Map()`.
+#' @return A decoded x-axis label, or `NULL` to keep bubble's native label.
+#' @noRd
+bubbleB64Xlab <- function(metaRegModel, b64Map) {
+  charform <- as.character(metaRegModel$.meta$formula)[2]
+  splitform <- strsplit(charform, " ")[[1]]
+  covarName <- splitform[1]
+
+  if (covarName %in% c("1", "-1")) {
+    covarName <- splitform[3]
+  }
+
+  covar <- metaRegModel$.meta$x$data[[covarName]]
+  if (is.character(covar) || is.factor(covar)) {
+    return()
+  }
+
+  originalName <- decodeB64(covarName, b64Map)
+  covarNames <- names(stats::coef(metaRegModel))
+  covarNames <- covarNames[covarNames != "intrcpt"]
+
+  if (length(covarNames) > 1) {
+    return(paste0(
+      "Covariate ",
+      originalName,
+      " (meta-regression: ",
+      decodeB64(charform, b64Map),
+      ")"
+    ))
+  }
+
+  paste("Covariate", originalName)
 }
 
 

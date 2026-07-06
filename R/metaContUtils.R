@@ -204,9 +204,9 @@ renderContSubgroupForest <- function(self, key, sortKey) {
 #' returns the argument list ready for `meta::metacont()`. Shared by
 #' `computeContModel()` and `computeContSubgroupModel()`.
 #'
-#' Passing `data=` ensures that `model$data` retains all original
-#' columns — downstream consumers (`computeMetaRegModel`) can read
-#' moderator columns directly from `model$data`.
+#' Core study data are passed as vectors rather than via `data=` so cached
+#' meta objects do not retain the full Jamovi data frame. Meta-regression
+#' appends only its selected moderator columns later.
 #'
 #' @param self The jamovi `self` object.
 #' @return A named list of arguments for `meta::metacont()`, or `NULL`

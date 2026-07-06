@@ -187,6 +187,10 @@ renderBinSubgroupForest <- function(self, key, sortKey) {
 #' Loads data from the analysis object, curates numeric columns, and returns the
 #' argument list ready for `meta::metabin()`.
 #'
+#' Core study data are passed as vectors rather than via `data=` so cached
+#' meta objects do not retain the full Jamovi data frame. Meta-regression
+#' appends only its selected moderator columns later.
+#'
 #' @param self The jamovi `self` object.
 #' @return A named list of arguments for `meta::metabin()`, or `NULL` if
 #'   required columns are missing.
