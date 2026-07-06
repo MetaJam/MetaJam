@@ -19,9 +19,12 @@ description: >-
   <li><b>Binary Outcomes:</b> Analyze binary outcome data using event counts and
   sample size.</li> </ul> <b>Analysis Options:</b> Common-effect and
   random-effects models, subgroup analysis, meta-regression, leave-one-out
-  analysis, and publication bias.<br><br> <small><i>* Note: This module is under
-  active development. Additional analyses for diverse effect sizes and advanced
-  meta-analytical extensions will be added in future updates.</i></small>
+  analysis, and publication bias.<br><br> <b>For documentation, tutorials, and
+  support, please visit:</b> <a href="https://metajam.pages.dev"
+  target="_blank">metajam.pages.dev</a><br><br> <small><i>* Note: This module is
+  under active development. Additional analyses for diverse effect sizes and
+  advanced meta-analytical extensions will be added in future
+  updates.</i></small>
 analyses:
   - title: Continuous Outcomes Meta-Analysis
     name: metaCont

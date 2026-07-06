@@ -11,6 +11,8 @@
 **MetaJam** is a **meta**-analysis module for **jam**ovi, powered mainly by
 the R package [meta](https://cran.r-project.org/package=meta).
 
+**[📖 Read the Documentation](https://metajam.pages.dev)**
+
 </div>
 
 ## Analyses
