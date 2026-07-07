@@ -41,6 +41,10 @@ const updateModelSupplier = function (ui) {
  * This mirrors jmv's regression model-builder pattern: slot changes update the
  * Supplier, diff the current moderator list against the previous one stored in
  * the View workspace, then remove or auto-add terms in metaRegBlocks.
+ * updateModelTerms() is also called from view_updated. That first panel-update
+ * call seeds findChanges() with the initial predictor list, matching jmv's
+ * regression model builder. Without this seed, the first user-added moderator
+ * becomes the baseline and is not reported in diff.added.
  *
  * Uses the `utils` and `FormatDef` globals that jamovi injects into every
  * module's JS context (both jus 2.0 and 3.0).

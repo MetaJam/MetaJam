@@ -3,8 +3,11 @@ const sort = require("./sort");
 
 module.exports = {
   view_updated: function (ui) {
-    regression.updateEnableState(ui);
     regression.updateModelLabels(ui.metaRegBlocks);
+    // See regression.updateModelTerms(): this panel-update call seeds
+    // findChanges() before the first user-added moderator.
+    regression.updateModelTerms(ui, this);
+    regression.updateEnableState(ui);
   },
 
   // Fires when the main VariableSupplier refreshes its available variables.
