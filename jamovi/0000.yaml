@@ -42,6 +42,26 @@ analyses:
     menuSubgroup: Two-Group Meta-Analysis
     menuTitle: Binary Outcomes
     menuSubtitle: Events, Total
+datasets:
+  - name: Nedocromil Sodium
+    path: NedocromilSodium.omv
+    description: >-
+      Results from 17 trials, 11 studies in children and 6 studies in adults, on
+      nedocromil sodium for preventing exercise-induced bronchoconstriction,
+      reporting the maximum fall in forced expiratory volume in 1 second (FEV1)
+      over the course of follow-up, expressed as a percentage (Spooner et al.,
+      2002).
+    tags:
+      - Meta-Analysis
+      - Continuous Outcomes
+  - name: BCG Vaccine
+    path: BCG.omv
+    description: >-
+      Results from 13 studies examining the effectiveness of the Bacillus
+      Calmette-Guerin (BCG) vaccine against tuberculosis (Colditz et al., 1994).
+    tags:
+      - Meta-Analysis
+      - Binary Outcomes
 usesNative: true
 minApp: 2.7.27
 
