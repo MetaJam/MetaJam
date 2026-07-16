@@ -224,7 +224,7 @@ renderFunnelPlot <- function(self) {
       # we must manually multiply the custom pt.cex values by the scale factor
       # (cex) to keep symbols proportional and avoid box overflow.
       scale <- options$funnelLegendCex / 100
-      legend(
+      graphics::legend(
         options$funnelLegendPos,
         legend = contour_labels,
         pch = rep(22, 4),
@@ -352,7 +352,7 @@ renderTrimFillFunnelPlot <- function(self) {
       )
       contour_colors <- c("white", fun$col.contour)
       scale <- opts$trimFillFunnelLegendCex / 100
-      legend(
+      graphics::legend(
         opts$trimFillFunnelLegendPos,
         legend = c(shape_labels, contour_labels),
         pch = c(shape_pch, rep(22, 4)),
@@ -367,7 +367,7 @@ renderTrimFillFunnelPlot <- function(self) {
       )
     } else {
       # Shape items only
-      legend(
+      graphics::legend(
         opts$trimFillFunnelLegendPos,
         legend = shape_labels,
         pch = shape_pch,
@@ -412,7 +412,7 @@ renderDoiPlot <- function(self) {
 
   # Add our own legend with size control
   if (opts$doiPlotLegend) {
-    legend(
+    graphics::legend(
       opts$doiPlotLegendPos,
       legend = paste("LFK index", round(lfk$lfkindex, 2)),
       bg = "white",

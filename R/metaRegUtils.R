@@ -154,7 +154,7 @@ computeMetaRegModels <- function(self) {
 
     termsB64 <- lapply(terms, jmvcore::toB64)
     composed <- jmvcore::composeTerms(termsB64)
-    formula <- as.formula(paste("~", paste(composed, collapse = " + ")))
+    formula <- stats::as.formula(paste("~", paste(composed, collapse = " + ")))
 
     models[[i]] <- decodeB64Conditions(
       meta::metareg(

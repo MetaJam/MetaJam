@@ -20,7 +20,7 @@ asHtml <- function(..., title = NULL, modifier = NULL) {
   on.exit(options(old_opts), add = TRUE)
 
   # Capture the printed output of the expression(s)
-  text <- capture.output(...)
+  text <- utils::capture.output(...)
 
   if (!is.null(modifier)) {
     text <- modifier(text)
