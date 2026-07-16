@@ -1060,6 +1060,182 @@ options:
     type: Bool
     default: true
 
+  - name: cumulativeForestPlot
+    title: Forest plot
+    type: Bool
+    default: true
+
+  - name: cumulativeForestMode
+    title: ""
+    type: List
+    options:
+      - title: General
+        name: general
+      - title: Dimensions
+        name: dimensions
+      - title: Rounding
+        name: rounding
+    default: general
+
+  - name: cumulativeForestLayout
+    title: Theme
+    type: List
+    options:
+      - title: Default
+        name: meta
+      - title: RevMan 5
+        name: RevMan5
+      - title: JAMA
+        name: JAMA
+      - title: BMJ
+        name: BMJ
+    default: meta
+
+  - name: cumulativeForestDetails
+    title: Analysis details
+    type: Bool
+    default: false
+
+  - name: cumulativeLabelLeft
+    title: X-axis left label
+    type: String
+    default: ""
+
+  - name: cumulativeLabelRight
+    title: X-axis right label
+    type: String
+    default: ""
+
+  - name: cumulativeXlimCustom
+    title: Custom x-axis range
+    type: Bool
+    default: false
+
+  - name: cumulativeXlimLower
+    title: Minimum
+    type: Number
+    default: -10
+
+  - name: cumulativeXlimUpper
+    title: Maximum
+    type: Number
+    default: 10
+
+  - name: cumulativeAddrowsCustom
+    title: Custom space above footnotes
+    type: Bool
+    default: false
+
+  - name: cumulativeAddrowsBelowOverall
+    title: ""
+    type: Integer
+    min: 0
+    default: 0
+
+  - name: cumulativeColgap
+    title: Space between columns
+    type: Number
+    min: 0
+    default: 2
+
+  - name: cumulativeColgapUnit
+    title: ""
+    type: List
+    options:
+      - title: mm
+        name: mm
+      - title: cm
+        name: cm
+      - title: in
+        name: inch
+    default: mm
+
+  - name: cumulativeColgapForest
+    title: Space around plot
+    type: Number
+    min: 0
+    default: 2
+
+  - name: cumulativeColgapForestUnit
+    title: ""
+    type: List
+    options:
+      - title: mm
+        name: mm
+      - title: cm
+        name: cm
+      - title: in
+        name: inch
+    default: mm
+
+  - name: cumulativeDigitsEffect
+    title: Effect size & CI
+    type: List
+    options:
+      - name: "0"
+        title: "0"
+      - name: "1"
+        title: "1"
+      - name: "2"
+        title: "2"
+      - name: "3"
+        title: "3"
+      - name: "4"
+        title: "4"
+      - name: "5"
+        title: "5"
+    default: "2"
+
+  - name: cumulativeDigitsPval
+    title: P-value
+    type: List
+    options:
+      - name: "2"
+        title: "2"
+      - name: "3"
+        title: "3"
+      - name: "4"
+        title: "4"
+      - name: "5"
+        title: "5"
+    default: "4"
+
+  - name: cumulativeDigitsI2
+    title: I²
+    type: List
+    options:
+      - name: "0"
+        title: "0"
+      - name: "1"
+        title: "1"
+      - name: "2"
+        title: "2"
+      - name: "3"
+        title: "3"
+      - name: "4"
+        title: "4"
+      - name: "5"
+        title: "5"
+    default: "1"
+
+  - name: cumulativeDigitsTau2
+    title: Tau² & Tau
+    type: List
+    options:
+      - name: "0"
+        title: "0"
+      - name: "1"
+        title: "1"
+      - name: "2"
+        title: "2"
+      - name: "3"
+        title: "3"
+      - name: "4"
+        title: "4"
+      - name: "5"
+        title: "5"
+    default: "4"
+
   - name: pubBiasMode
     title: ""
     type: List

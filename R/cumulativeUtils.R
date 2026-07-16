@@ -104,3 +104,58 @@ populateCumulativeText <- function(self) {
 
   invisible(NULL)
 }
+
+
+#' Render a Cumulative Forest Plot
+#'
+#' Renders a forest plot for the cumulative meta-analysis.
+#'
+#' @param self The jamovi `self` object.
+#'
+#' @return TRUE if the plot was successfully rendered, FALSE otherwise.
+#'
+#' @noRd
+renderCumulativeForest <- function(self) {
+  cumulativeModel <- self$cumulativeModel
+  options <- self$options
+
+  if (is.null(cumulativeModel)) {
+    return(FALSE)
+  }
+
+  colgap <- paste0(options$cumulativeColgap, options$cumulativeColgapUnit)
+  colgap.forest <- paste0(
+    options$cumulativeColgapForest,
+    options$cumulativeColgapForestUnit
+  )
+
+  args <- list(
+    x = cumulativeModel,
+    layout = options$cumulativeForestLayout,
+    label.left = options$cumulativeLabelLeft,
+    label.right = options$cumulativeLabelRight,
+    colgap = colgap,
+    colgap.forest = colgap.forest,
+    details = options$cumulativeForestDetails,
+    # Use superscript column headers for I2 and Tau2
+    label.tau2 = "Tau\u00b2",
+    label.I2 = "I\u00b2",
+    digits = as.integer(options$cumulativeDigitsEffect),
+    digits.pval = as.integer(options$cumulativeDigitsPval),
+    digits.I2 = as.integer(options$cumulativeDigitsI2),
+    digits.tau2 = as.integer(options$cumulativeDigitsTau2),
+    digits.tau = as.integer(options$cumulativeDigitsTau2)
+  )
+
+  if (options$cumulativeXlimCustom) {
+    args$xlim <- c(options$cumulativeXlimLower, options$cumulativeXlimUpper)
+  }
+
+  if (options$cumulativeAddrowsCustom) {
+    args$addrows.below.overall <- options$cumulativeAddrowsBelowOverall
+  }
+
+  do.call(meta::forest, args)
+
+  TRUE
+}

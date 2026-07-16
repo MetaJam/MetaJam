@@ -314,6 +314,57 @@ items:
       - MetaJam
       - metaPackage
 
+  - name: cumulativePlotSizeCache
+    type: Group
+    visible: false
+    clearWith: []
+    items: []
+
+  - name: cumulativePlot
+    title: Cumulative Forest Plot
+    type: Image
+    renderFun: .cumulativeForestPlot
+    visible: (cumulative && cumulativeForestPlot)
+    clearWith:
+      - studyLabel
+      - meanE
+      - sdE
+      - nE
+      - meanC
+      - sdC
+      - nC
+      - sm
+      - methodSmd
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - cumulativeSortBy
+      - cumulativeSortDirection
+      - cumulativeSortVariable
+      - cumulativePrediction
+      - cumulativeForestLayout
+      - cumulativeForestDetails
+      - cumulativeLabelLeft
+      - cumulativeLabelRight
+      - cumulativeXlimCustom
+      - cumulativeXlimLower
+      - cumulativeXlimUpper
+      - cumulativeAddrowsCustom
+      - cumulativeAddrowsBelowOverall
+      - cumulativeColgap
+      - cumulativeColgapUnit
+      - cumulativeColgapForest
+      - cumulativeColgapForestUnit
+      - cumulativeDigitsEffect
+      - cumulativeDigitsPval
+      - cumulativeDigitsI2
+      - cumulativeDigitsTau2
+    refs:
+      - MetaJam
+      - metaPackage
+
   - name: funnelPlot
     title: Funnel Plot
     type: Image

@@ -122,6 +122,11 @@ metaBinClass <- R6::R6Class(
         self$results$leaveOneOutPlot,
         self$results$leaveOneOutPlotSizeCache
       )
+
+      applyCachedSize(
+        self$results$cumulativePlot,
+        self$results$cumulativePlotSizeCache
+      )
     },
 
     .run = function() {
@@ -193,6 +198,13 @@ metaBinClass <- R6::R6Class(
             }
           )
 
+          updateForestSize(
+            image = self$results$cumulativePlot,
+            model = self$cumulativeModel,
+            sizeCache = self$results$cumulativePlotSizeCache,
+            renderCall = function() renderCumulativeForest(self)
+          )
+
           prepareModelForImages(
             self$model,
             list(
@@ -243,6 +255,10 @@ metaBinClass <- R6::R6Class(
 
     .leaveOneOutForestPlot = function(image, ...) {
       renderLeaveOneOutForest(self, sortKey = image$state$sortKey)
+    },
+
+    .cumulativeForestPlot = function(image, ...) {
+      renderCumulativeForest(self)
     },
 
     .funnelPlot = function(image, ...) {

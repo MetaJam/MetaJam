@@ -129,6 +129,25 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             cumulativeSortVariable = NULL,
             cumulativePrediction = FALSE,
             cumulativeSummary = TRUE,
+            cumulativeForestPlot = TRUE,
+            cumulativeForestMode = "general",
+            cumulativeForestLayout = "meta",
+            cumulativeForestDetails = FALSE,
+            cumulativeLabelLeft = "",
+            cumulativeLabelRight = "",
+            cumulativeXlimCustom = FALSE,
+            cumulativeXlimLower = -10,
+            cumulativeXlimUpper = 10,
+            cumulativeAddrowsCustom = FALSE,
+            cumulativeAddrowsBelowOverall = 0,
+            cumulativeColgap = 2,
+            cumulativeColgapUnit = "mm",
+            cumulativeColgapForest = 2,
+            cumulativeColgapForestUnit = "mm",
+            cumulativeDigitsEffect = "2",
+            cumulativeDigitsPval = "4",
+            cumulativeDigitsI2 = "1",
+            cumulativeDigitsTau2 = "4",
             pubBiasMode = "funnelPlot",
             funnelPlot = FALSE,
             funnelStudyLabel = FALSE,
@@ -922,6 +941,128 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "cumulativeSummary",
                 cumulativeSummary,
                 default=TRUE)
+            private$..cumulativeForestPlot <- jmvcore::OptionBool$new(
+                "cumulativeForestPlot",
+                cumulativeForestPlot,
+                default=TRUE)
+            private$..cumulativeForestMode <- jmvcore::OptionList$new(
+                "cumulativeForestMode",
+                cumulativeForestMode,
+                options=list(
+                    "general",
+                    "dimensions",
+                    "rounding"),
+                default="general")
+            private$..cumulativeForestLayout <- jmvcore::OptionList$new(
+                "cumulativeForestLayout",
+                cumulativeForestLayout,
+                options=list(
+                    "meta",
+                    "RevMan5",
+                    "JAMA",
+                    "BMJ"),
+                default="meta")
+            private$..cumulativeForestDetails <- jmvcore::OptionBool$new(
+                "cumulativeForestDetails",
+                cumulativeForestDetails,
+                default=FALSE)
+            private$..cumulativeLabelLeft <- jmvcore::OptionString$new(
+                "cumulativeLabelLeft",
+                cumulativeLabelLeft,
+                default="")
+            private$..cumulativeLabelRight <- jmvcore::OptionString$new(
+                "cumulativeLabelRight",
+                cumulativeLabelRight,
+                default="")
+            private$..cumulativeXlimCustom <- jmvcore::OptionBool$new(
+                "cumulativeXlimCustom",
+                cumulativeXlimCustom,
+                default=FALSE)
+            private$..cumulativeXlimLower <- jmvcore::OptionNumber$new(
+                "cumulativeXlimLower",
+                cumulativeXlimLower,
+                default=-10)
+            private$..cumulativeXlimUpper <- jmvcore::OptionNumber$new(
+                "cumulativeXlimUpper",
+                cumulativeXlimUpper,
+                default=10)
+            private$..cumulativeAddrowsCustom <- jmvcore::OptionBool$new(
+                "cumulativeAddrowsCustom",
+                cumulativeAddrowsCustom,
+                default=FALSE)
+            private$..cumulativeAddrowsBelowOverall <- jmvcore::OptionInteger$new(
+                "cumulativeAddrowsBelowOverall",
+                cumulativeAddrowsBelowOverall,
+                min=0,
+                default=0)
+            private$..cumulativeColgap <- jmvcore::OptionNumber$new(
+                "cumulativeColgap",
+                cumulativeColgap,
+                min=0,
+                default=2)
+            private$..cumulativeColgapUnit <- jmvcore::OptionList$new(
+                "cumulativeColgapUnit",
+                cumulativeColgapUnit,
+                options=list(
+                    "mm",
+                    "cm",
+                    "inch"),
+                default="mm")
+            private$..cumulativeColgapForest <- jmvcore::OptionNumber$new(
+                "cumulativeColgapForest",
+                cumulativeColgapForest,
+                min=0,
+                default=2)
+            private$..cumulativeColgapForestUnit <- jmvcore::OptionList$new(
+                "cumulativeColgapForestUnit",
+                cumulativeColgapForestUnit,
+                options=list(
+                    "mm",
+                    "cm",
+                    "inch"),
+                default="mm")
+            private$..cumulativeDigitsEffect <- jmvcore::OptionList$new(
+                "cumulativeDigitsEffect",
+                cumulativeDigitsEffect,
+                options=list(
+                    "0",
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"),
+                default="2")
+            private$..cumulativeDigitsPval <- jmvcore::OptionList$new(
+                "cumulativeDigitsPval",
+                cumulativeDigitsPval,
+                options=list(
+                    "2",
+                    "3",
+                    "4",
+                    "5"),
+                default="4")
+            private$..cumulativeDigitsI2 <- jmvcore::OptionList$new(
+                "cumulativeDigitsI2",
+                cumulativeDigitsI2,
+                options=list(
+                    "0",
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"),
+                default="1")
+            private$..cumulativeDigitsTau2 <- jmvcore::OptionList$new(
+                "cumulativeDigitsTau2",
+                cumulativeDigitsTau2,
+                options=list(
+                    "0",
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"),
+                default="4")
             private$..pubBiasMode <- jmvcore::OptionList$new(
                 "pubBiasMode",
                 pubBiasMode,
@@ -1186,6 +1327,25 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..cumulativeSortVariable)
             self$.addOption(private$..cumulativePrediction)
             self$.addOption(private$..cumulativeSummary)
+            self$.addOption(private$..cumulativeForestPlot)
+            self$.addOption(private$..cumulativeForestMode)
+            self$.addOption(private$..cumulativeForestLayout)
+            self$.addOption(private$..cumulativeForestDetails)
+            self$.addOption(private$..cumulativeLabelLeft)
+            self$.addOption(private$..cumulativeLabelRight)
+            self$.addOption(private$..cumulativeXlimCustom)
+            self$.addOption(private$..cumulativeXlimLower)
+            self$.addOption(private$..cumulativeXlimUpper)
+            self$.addOption(private$..cumulativeAddrowsCustom)
+            self$.addOption(private$..cumulativeAddrowsBelowOverall)
+            self$.addOption(private$..cumulativeColgap)
+            self$.addOption(private$..cumulativeColgapUnit)
+            self$.addOption(private$..cumulativeColgapForest)
+            self$.addOption(private$..cumulativeColgapForestUnit)
+            self$.addOption(private$..cumulativeDigitsEffect)
+            self$.addOption(private$..cumulativeDigitsPval)
+            self$.addOption(private$..cumulativeDigitsI2)
+            self$.addOption(private$..cumulativeDigitsTau2)
             self$.addOption(private$..pubBiasMode)
             self$.addOption(private$..funnelPlot)
             self$.addOption(private$..funnelStudyLabel)
@@ -1336,6 +1496,25 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         cumulativeSortVariable = function() private$..cumulativeSortVariable$value,
         cumulativePrediction = function() private$..cumulativePrediction$value,
         cumulativeSummary = function() private$..cumulativeSummary$value,
+        cumulativeForestPlot = function() private$..cumulativeForestPlot$value,
+        cumulativeForestMode = function() private$..cumulativeForestMode$value,
+        cumulativeForestLayout = function() private$..cumulativeForestLayout$value,
+        cumulativeForestDetails = function() private$..cumulativeForestDetails$value,
+        cumulativeLabelLeft = function() private$..cumulativeLabelLeft$value,
+        cumulativeLabelRight = function() private$..cumulativeLabelRight$value,
+        cumulativeXlimCustom = function() private$..cumulativeXlimCustom$value,
+        cumulativeXlimLower = function() private$..cumulativeXlimLower$value,
+        cumulativeXlimUpper = function() private$..cumulativeXlimUpper$value,
+        cumulativeAddrowsCustom = function() private$..cumulativeAddrowsCustom$value,
+        cumulativeAddrowsBelowOverall = function() private$..cumulativeAddrowsBelowOverall$value,
+        cumulativeColgap = function() private$..cumulativeColgap$value,
+        cumulativeColgapUnit = function() private$..cumulativeColgapUnit$value,
+        cumulativeColgapForest = function() private$..cumulativeColgapForest$value,
+        cumulativeColgapForestUnit = function() private$..cumulativeColgapForestUnit$value,
+        cumulativeDigitsEffect = function() private$..cumulativeDigitsEffect$value,
+        cumulativeDigitsPval = function() private$..cumulativeDigitsPval$value,
+        cumulativeDigitsI2 = function() private$..cumulativeDigitsI2$value,
+        cumulativeDigitsTau2 = function() private$..cumulativeDigitsTau2$value,
         pubBiasMode = function() private$..pubBiasMode$value,
         funnelPlot = function() private$..funnelPlot$value,
         funnelStudyLabel = function() private$..funnelStudyLabel$value,
@@ -1485,6 +1664,25 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..cumulativeSortVariable = NA,
         ..cumulativePrediction = NA,
         ..cumulativeSummary = NA,
+        ..cumulativeForestPlot = NA,
+        ..cumulativeForestMode = NA,
+        ..cumulativeForestLayout = NA,
+        ..cumulativeForestDetails = NA,
+        ..cumulativeLabelLeft = NA,
+        ..cumulativeLabelRight = NA,
+        ..cumulativeXlimCustom = NA,
+        ..cumulativeXlimLower = NA,
+        ..cumulativeXlimUpper = NA,
+        ..cumulativeAddrowsCustom = NA,
+        ..cumulativeAddrowsBelowOverall = NA,
+        ..cumulativeColgap = NA,
+        ..cumulativeColgapUnit = NA,
+        ..cumulativeColgapForest = NA,
+        ..cumulativeColgapForestUnit = NA,
+        ..cumulativeDigitsEffect = NA,
+        ..cumulativeDigitsPval = NA,
+        ..cumulativeDigitsI2 = NA,
+        ..cumulativeDigitsTau2 = NA,
         ..pubBiasMode = NA,
         ..funnelPlot = NA,
         ..funnelStudyLabel = NA,
@@ -1526,6 +1724,8 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         leaveOneOutPlotSizeCache = function() private$.items[["leaveOneOutPlotSizeCache"]],
         leaveOneOutPlot = function() private$.items[["leaveOneOutPlot"]],
         cumulativeText = function() private$.items[["cumulativeText"]],
+        cumulativePlotSizeCache = function() private$.items[["cumulativePlotSizeCache"]],
+        cumulativePlot = function() private$.items[["cumulativePlot"]],
         funnelPlot = function() private$.items[["funnelPlot"]],
         asymmetryTestText = function() private$.items[["asymmetryTestText"]],
         asymmetryPlot = function() private$.items[["asymmetryPlot"]],
@@ -1885,6 +2085,62 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 refs=list(
                     "MetaJam",
                     "metaPackage")))
+            self$add(R6::R6Class(
+                inherit = jmvcore::Group,
+                active = list(),
+                private = list(),
+                public=list(
+                    initialize=function(options) {
+                        super$initialize(
+                            options=options,
+                            name="cumulativePlotSizeCache",
+                            title="no title",
+                            clearWith=list())}))$new(options=options))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="cumulativePlot",
+                title="Cumulative Forest Plot",
+                renderFun=".cumulativeForestPlot",
+                visible="(cumulative && cumulativeForestPlot)",
+                clearWith=list(
+                    "studyLabel",
+                    "meanE",
+                    "sdE",
+                    "nE",
+                    "meanC",
+                    "sdC",
+                    "nC",
+                    "sm",
+                    "methodSmd",
+                    "model",
+                    "methodTau",
+                    "methodRandomCi",
+                    "prediction",
+                    "confidenceLevel",
+                    "cumulativeSortBy",
+                    "cumulativeSortDirection",
+                    "cumulativeSortVariable",
+                    "cumulativePrediction",
+                    "cumulativeForestLayout",
+                    "cumulativeForestDetails",
+                    "cumulativeLabelLeft",
+                    "cumulativeLabelRight",
+                    "cumulativeXlimCustom",
+                    "cumulativeXlimLower",
+                    "cumulativeXlimUpper",
+                    "cumulativeAddrowsCustom",
+                    "cumulativeAddrowsBelowOverall",
+                    "cumulativeColgap",
+                    "cumulativeColgapUnit",
+                    "cumulativeColgapForest",
+                    "cumulativeColgapForestUnit",
+                    "cumulativeDigitsEffect",
+                    "cumulativeDigitsPval",
+                    "cumulativeDigitsI2",
+                    "cumulativeDigitsTau2"),
+                refs=list(
+                    "MetaJam",
+                    "metaPackage")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="funnelPlot",
@@ -2222,6 +2478,25 @@ metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param cumulativeSortVariable .
 #' @param cumulativePrediction .
 #' @param cumulativeSummary .
+#' @param cumulativeForestPlot .
+#' @param cumulativeForestMode .
+#' @param cumulativeForestLayout .
+#' @param cumulativeForestDetails .
+#' @param cumulativeLabelLeft .
+#' @param cumulativeLabelRight .
+#' @param cumulativeXlimCustom .
+#' @param cumulativeXlimLower .
+#' @param cumulativeXlimUpper .
+#' @param cumulativeAddrowsCustom .
+#' @param cumulativeAddrowsBelowOverall .
+#' @param cumulativeColgap .
+#' @param cumulativeColgapUnit .
+#' @param cumulativeColgapForest .
+#' @param cumulativeColgapForestUnit .
+#' @param cumulativeDigitsEffect .
+#' @param cumulativeDigitsPval .
+#' @param cumulativeDigitsI2 .
+#' @param cumulativeDigitsTau2 .
 #' @param pubBiasMode .
 #' @param funnelPlot .
 #' @param funnelStudyLabel .
@@ -2257,6 +2532,7 @@ metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'   \code{results$leaveOneOutText} \tab \tab \tab \tab \tab a html \cr
 #'   \code{results$leaveOneOutPlot} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$cumulativeText} \tab \tab \tab \tab \tab a html \cr
+#'   \code{results$cumulativePlot} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$funnelPlot} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$asymmetryTestText} \tab \tab \tab \tab \tab a html \cr
 #'   \code{results$asymmetryPlot} \tab \tab \tab \tab \tab an image \cr
@@ -2392,6 +2668,25 @@ metaCont <- function(
     cumulativeSortVariable,
     cumulativePrediction = FALSE,
     cumulativeSummary = TRUE,
+    cumulativeForestPlot = TRUE,
+    cumulativeForestMode = "general",
+    cumulativeForestLayout = "meta",
+    cumulativeForestDetails = FALSE,
+    cumulativeLabelLeft = "",
+    cumulativeLabelRight = "",
+    cumulativeXlimCustom = FALSE,
+    cumulativeXlimLower = -10,
+    cumulativeXlimUpper = 10,
+    cumulativeAddrowsCustom = FALSE,
+    cumulativeAddrowsBelowOverall = 0,
+    cumulativeColgap = 2,
+    cumulativeColgapUnit = "mm",
+    cumulativeColgapForest = 2,
+    cumulativeColgapForestUnit = "mm",
+    cumulativeDigitsEffect = "2",
+    cumulativeDigitsPval = "4",
+    cumulativeDigitsI2 = "1",
+    cumulativeDigitsTau2 = "4",
     pubBiasMode = "funnelPlot",
     funnelPlot = FALSE,
     funnelStudyLabel = FALSE,
@@ -2580,6 +2875,25 @@ metaCont <- function(
         cumulativeSortVariable = cumulativeSortVariable,
         cumulativePrediction = cumulativePrediction,
         cumulativeSummary = cumulativeSummary,
+        cumulativeForestPlot = cumulativeForestPlot,
+        cumulativeForestMode = cumulativeForestMode,
+        cumulativeForestLayout = cumulativeForestLayout,
+        cumulativeForestDetails = cumulativeForestDetails,
+        cumulativeLabelLeft = cumulativeLabelLeft,
+        cumulativeLabelRight = cumulativeLabelRight,
+        cumulativeXlimCustom = cumulativeXlimCustom,
+        cumulativeXlimLower = cumulativeXlimLower,
+        cumulativeXlimUpper = cumulativeXlimUpper,
+        cumulativeAddrowsCustom = cumulativeAddrowsCustom,
+        cumulativeAddrowsBelowOverall = cumulativeAddrowsBelowOverall,
+        cumulativeColgap = cumulativeColgap,
+        cumulativeColgapUnit = cumulativeColgapUnit,
+        cumulativeColgapForest = cumulativeColgapForest,
+        cumulativeColgapForestUnit = cumulativeColgapForestUnit,
+        cumulativeDigitsEffect = cumulativeDigitsEffect,
+        cumulativeDigitsPval = cumulativeDigitsPval,
+        cumulativeDigitsI2 = cumulativeDigitsI2,
+        cumulativeDigitsTau2 = cumulativeDigitsTau2,
         pubBiasMode = pubBiasMode,
         funnelPlot = funnelPlot,
         funnelStudyLabel = funnelStudyLabel,
