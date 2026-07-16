@@ -123,6 +123,12 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             leaveOneOutDigitsPval = "4",
             leaveOneOutDigitsI2 = "1",
             leaveOneOutDigitsTau2 = "4",
+            cumulative = FALSE,
+            cumulativeSortBy = "none",
+            cumulativeSortDirection = "asc",
+            cumulativeSortVariable = NULL,
+            cumulativePrediction = FALSE,
+            cumulativeSummary = TRUE,
             pubBiasMode = "funnelPlot",
             funnelPlot = FALSE,
             funnelStudyLabel = FALSE,
@@ -885,6 +891,37 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "4",
                     "5"),
                 default="4")
+            private$..cumulative <- jmvcore::OptionBool$new(
+                "cumulative",
+                cumulative,
+                default=FALSE)
+            private$..cumulativeSortBy <- jmvcore::OptionString$new(
+                "cumulativeSortBy",
+                cumulativeSortBy,
+                default="none")
+            private$..cumulativeSortDirection <- jmvcore::OptionList$new(
+                "cumulativeSortDirection",
+                cumulativeSortDirection,
+                options=list(
+                    "asc",
+                    "desc"),
+                default="asc")
+            private$..cumulativeSortVariable <- jmvcore::OptionVariable$new(
+                "cumulativeSortVariable",
+                cumulativeSortVariable,
+                hidden=TRUE,
+                permitted=list(
+                    "numeric",
+                    "factor",
+                    "id"))
+            private$..cumulativePrediction <- jmvcore::OptionBool$new(
+                "cumulativePrediction",
+                cumulativePrediction,
+                default=FALSE)
+            private$..cumulativeSummary <- jmvcore::OptionBool$new(
+                "cumulativeSummary",
+                cumulativeSummary,
+                default=TRUE)
             private$..pubBiasMode <- jmvcore::OptionList$new(
                 "pubBiasMode",
                 pubBiasMode,
@@ -1143,6 +1180,12 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..leaveOneOutDigitsPval)
             self$.addOption(private$..leaveOneOutDigitsI2)
             self$.addOption(private$..leaveOneOutDigitsTau2)
+            self$.addOption(private$..cumulative)
+            self$.addOption(private$..cumulativeSortBy)
+            self$.addOption(private$..cumulativeSortDirection)
+            self$.addOption(private$..cumulativeSortVariable)
+            self$.addOption(private$..cumulativePrediction)
+            self$.addOption(private$..cumulativeSummary)
             self$.addOption(private$..pubBiasMode)
             self$.addOption(private$..funnelPlot)
             self$.addOption(private$..funnelStudyLabel)
@@ -1287,6 +1330,12 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         leaveOneOutDigitsPval = function() private$..leaveOneOutDigitsPval$value,
         leaveOneOutDigitsI2 = function() private$..leaveOneOutDigitsI2$value,
         leaveOneOutDigitsTau2 = function() private$..leaveOneOutDigitsTau2$value,
+        cumulative = function() private$..cumulative$value,
+        cumulativeSortBy = function() private$..cumulativeSortBy$value,
+        cumulativeSortDirection = function() private$..cumulativeSortDirection$value,
+        cumulativeSortVariable = function() private$..cumulativeSortVariable$value,
+        cumulativePrediction = function() private$..cumulativePrediction$value,
+        cumulativeSummary = function() private$..cumulativeSummary$value,
         pubBiasMode = function() private$..pubBiasMode$value,
         funnelPlot = function() private$..funnelPlot$value,
         funnelStudyLabel = function() private$..funnelStudyLabel$value,
@@ -1430,6 +1479,12 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..leaveOneOutDigitsPval = NA,
         ..leaveOneOutDigitsI2 = NA,
         ..leaveOneOutDigitsTau2 = NA,
+        ..cumulative = NA,
+        ..cumulativeSortBy = NA,
+        ..cumulativeSortDirection = NA,
+        ..cumulativeSortVariable = NA,
+        ..cumulativePrediction = NA,
+        ..cumulativeSummary = NA,
         ..pubBiasMode = NA,
         ..funnelPlot = NA,
         ..funnelStudyLabel = NA,
@@ -1470,6 +1525,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         leaveOneOutText = function() private$.items[["leaveOneOutText"]],
         leaveOneOutPlotSizeCache = function() private$.items[["leaveOneOutPlotSizeCache"]],
         leaveOneOutPlot = function() private$.items[["leaveOneOutPlot"]],
+        cumulativeText = function() private$.items[["cumulativeText"]],
         funnelPlot = function() private$.items[["funnelPlot"]],
         asymmetryTestText = function() private$.items[["asymmetryTestText"]],
         asymmetryPlot = function() private$.items[["asymmetryPlot"]],
@@ -1800,6 +1856,32 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "leaveOneOutDigitsPval",
                     "leaveOneOutDigitsI2",
                     "leaveOneOutDigitsTau2"),
+                refs=list(
+                    "MetaJam",
+                    "metaPackage")))
+            self$add(jmvcore::Html$new(
+                options=options,
+                name="cumulativeText",
+                visible="(cumulative && cumulativeSummary)",
+                clearWith=list(
+                    "studyLabel",
+                    "meanE",
+                    "sdE",
+                    "nE",
+                    "meanC",
+                    "sdC",
+                    "nC",
+                    "sm",
+                    "methodSmd",
+                    "model",
+                    "methodTau",
+                    "methodRandomCi",
+                    "prediction",
+                    "confidenceLevel",
+                    "cumulativeSortBy",
+                    "cumulativeSortDirection",
+                    "cumulativeSortVariable",
+                    "cumulativePrediction"),
                 refs=list(
                     "MetaJam",
                     "metaPackage")))
@@ -2134,6 +2216,12 @@ metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param leaveOneOutDigitsPval .
 #' @param leaveOneOutDigitsI2 .
 #' @param leaveOneOutDigitsTau2 .
+#' @param cumulative .
+#' @param cumulativeSortBy .
+#' @param cumulativeSortDirection .
+#' @param cumulativeSortVariable .
+#' @param cumulativePrediction .
+#' @param cumulativeSummary .
 #' @param pubBiasMode .
 #' @param funnelPlot .
 #' @param funnelStudyLabel .
@@ -2168,6 +2256,7 @@ metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'   \code{results$metaRegModels} \tab \tab \tab \tab \tab an array of groups \cr
 #'   \code{results$leaveOneOutText} \tab \tab \tab \tab \tab a html \cr
 #'   \code{results$leaveOneOutPlot} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$cumulativeText} \tab \tab \tab \tab \tab a html \cr
 #'   \code{results$funnelPlot} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$asymmetryTestText} \tab \tab \tab \tab \tab a html \cr
 #'   \code{results$asymmetryPlot} \tab \tab \tab \tab \tab an image \cr
@@ -2297,6 +2386,12 @@ metaCont <- function(
     leaveOneOutDigitsPval = "4",
     leaveOneOutDigitsI2 = "1",
     leaveOneOutDigitsTau2 = "4",
+    cumulative = FALSE,
+    cumulativeSortBy = "none",
+    cumulativeSortDirection = "asc",
+    cumulativeSortVariable,
+    cumulativePrediction = FALSE,
+    cumulativeSummary = TRUE,
     pubBiasMode = "funnelPlot",
     funnelPlot = FALSE,
     funnelStudyLabel = FALSE,
@@ -2340,6 +2435,7 @@ metaCont <- function(
     if ( ! missing(metaRegCovs)) metaRegCovs <- jmvcore::resolveQuo(jmvcore::enquo(metaRegCovs))
     if ( ! missing(metaRegFactors)) metaRegFactors <- jmvcore::resolveQuo(jmvcore::enquo(metaRegFactors))
     if ( ! missing(leaveOneOutSortVariable)) leaveOneOutSortVariable <- jmvcore::resolveQuo(jmvcore::enquo(leaveOneOutSortVariable))
+    if ( ! missing(cumulativeSortVariable)) cumulativeSortVariable <- jmvcore::resolveQuo(jmvcore::enquo(cumulativeSortVariable))
     if (missing(data))
         data <- jmvcore::marshalData(
             parent.frame(),
@@ -2355,7 +2451,8 @@ metaCont <- function(
             `if`( ! missing(subgroupSortVariable), subgroupSortVariable, NULL),
             `if`( ! missing(metaRegCovs), metaRegCovs, NULL),
             `if`( ! missing(metaRegFactors), metaRegFactors, NULL),
-            `if`( ! missing(leaveOneOutSortVariable), leaveOneOutSortVariable, NULL))
+            `if`( ! missing(leaveOneOutSortVariable), leaveOneOutSortVariable, NULL),
+            `if`( ! missing(cumulativeSortVariable), cumulativeSortVariable, NULL))
 
     for (v in subgroupVariables) if (v %in% names(data)) data[[v]] <- as.factor(data[[v]])
     for (v in metaRegFactors) if (v %in% names(data)) data[[v]] <- as.factor(data[[v]])
@@ -2477,6 +2574,12 @@ metaCont <- function(
         leaveOneOutDigitsPval = leaveOneOutDigitsPval,
         leaveOneOutDigitsI2 = leaveOneOutDigitsI2,
         leaveOneOutDigitsTau2 = leaveOneOutDigitsTau2,
+        cumulative = cumulative,
+        cumulativeSortBy = cumulativeSortBy,
+        cumulativeSortDirection = cumulativeSortDirection,
+        cumulativeSortVariable = cumulativeSortVariable,
+        cumulativePrediction = cumulativePrediction,
+        cumulativeSummary = cumulativeSummary,
         pubBiasMode = pubBiasMode,
         funnelPlot = funnelPlot,
         funnelStudyLabel = funnelStudyLabel,

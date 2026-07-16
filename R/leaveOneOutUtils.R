@@ -16,10 +16,10 @@ computeLeaveOneOutModel <- function(self) {
     return()
   }
 
-  result <- meta::metainf(
-    self$model,
-    prediction = self$options$leaveOneOutPrediction
-  )
+  prediction <- self$options$leaveOneOutPrediction &&
+    self$options$model == "random"
+
+  result <- meta::metainf(self$model, prediction = prediction)
 
   # metainf keeps the source meta object in $x for package bookkeeping, but
   # MetaJam only prints/plots the leave-one-out result, so do not cache it.

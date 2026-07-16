@@ -94,6 +94,7 @@ children:
             enable: (!model:common)
       - type: CheckBox
         name: prediction
+        enable: (!model:common)
       - type: LayoutBox
         children:
           - type: TextBox
@@ -310,7 +311,9 @@ children:
         enable: ({return (ui['subgroupVariables'].value() || []).length > 0;})
       - type: CheckBox
         name: predictionSubgroup
-        enable: ({return (ui['subgroupVariables'].value() || []).length > 0;})
+        enable: >
+          ({return (ui['subgroupVariables'].value() || []).length > 0;} &&
+          !model:common)
       - type: CheckBox
         name: subgroupSummary
         enable: ({return (ui['subgroupVariables'].value() || []).length > 0;})
@@ -680,7 +683,7 @@ children:
         name: leaveOneOut
       - type: CheckBox
         name: leaveOneOutPrediction
-        enable: (leaveOneOut)
+        enable: (leaveOneOut && model:random)
       - type: CheckBox
         name: leaveOneOutSummary
         enable: (leaveOneOut)
@@ -831,6 +834,36 @@ children:
                         cell:
                           row: 1
                           column: 1
+
+  - type: CollapseBox
+    label: Cumulative Analysis
+    collapsed: true
+    stretchFactor: 1
+    children:
+      - type: CheckBox
+        name: cumulative
+      - type: LayoutBox
+        fitToGrid: true
+        children:
+          - type: ComboBox
+            name: cumulativeSortBy
+            enable: (cumulative)
+            cell:
+              row: 0
+              column: 0
+          - type: ComboBox
+            name: cumulativeSortDirection
+            label: ""
+            enable: (cumulative)
+            cell:
+              row: 0
+              column: 1
+      - type: CheckBox
+        name: cumulativePrediction
+        enable: (cumulative && model:random)
+      - type: CheckBox
+        name: cumulativeSummary
+        enable: (cumulative)
 
   - type: CollapseBox
     label: Publication Bias

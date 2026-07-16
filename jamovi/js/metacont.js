@@ -18,6 +18,7 @@ module.exports = {
       sort.main,
       sort.subgroup,
       sort.leaveOneOut,
+      sort.cumulative,
     ]);
   },
 
@@ -35,6 +36,11 @@ module.exports = {
   // Fires when the user changes the leave-one-out forest plot Sort by ComboBox.
   leaveOneOutSortBy_changed: function (ui) {
     sort.syncVariable(ui, ui.mainVariablesSupplier, sort.leaveOneOut);
+  },
+
+  // Fires when the user changes the cumulative analysis Sort by ComboBox.
+  cumulativeSortBy_changed: function (ui) {
+    sort.syncVariable(ui, ui.mainVariablesSupplier, sort.cumulative);
   },
 
   // Fires when the Supplier needs to refresh its available items.

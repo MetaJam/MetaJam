@@ -42,6 +42,14 @@ metaBinClass <- R6::R6Class(
       private$.leaveOneOutModel
     },
 
+    cumulativeModel = function() {
+      if (isFALSE(private$.cumulativeModel)) {
+        private$.cumulativeModel <- NULL
+        private$.cumulativeModel <- computeCumulativeModel(self)
+      }
+      private$.cumulativeModel
+    },
+
     trimFillModel = function() {
       if (isFALSE(private$.trimFillModel)) {
         private$.trimFillModel <- NULL
@@ -56,6 +64,7 @@ metaBinClass <- R6::R6Class(
     .subgroupModels = FALSE,
     .metaRegModels = FALSE,
     .leaveOneOutModel = FALSE,
+    .cumulativeModel = FALSE,
     .trimFillModel = FALSE,
     .requiredVars = c("eventE", "nE", "eventC", "nC"),
 
@@ -74,6 +83,12 @@ metaBinClass <- R6::R6Class(
         self$options,
         private$.requiredVars,
         "Leave-One-Out Summary"
+      )
+      initText(
+        self$results$cumulativeText,
+        self$options,
+        private$.requiredVars,
+        "Cumulative Analysis Summary"
       )
       initText(
         self$results$asymmetryTestText,
@@ -200,6 +215,7 @@ metaBinClass <- R6::R6Class(
           populateSubgroupTexts(self)
           populateMetaRegTexts(self)
           populateLeaveOneOutText(self)
+          populateCumulativeText(self)
           populateAsymmetryTestText(self)
           populateTrimFillText(self)
           populateLfkIndexText(self)

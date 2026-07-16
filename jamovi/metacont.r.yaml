@@ -288,6 +288,32 @@ items:
       - MetaJam
       - metaPackage
 
+  - name: cumulativeText
+    type: Html
+    visible: (cumulative && cumulativeSummary)
+    clearWith:
+      - studyLabel
+      - meanE
+      - sdE
+      - nE
+      - meanC
+      - sdC
+      - nC
+      - sm
+      - methodSmd
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - cumulativeSortBy
+      - cumulativeSortDirection
+      - cumulativeSortVariable
+      - cumulativePrediction
+    refs:
+      - MetaJam
+      - metaPackage
+
   - name: funnelPlot
     title: Funnel Plot
     type: Image

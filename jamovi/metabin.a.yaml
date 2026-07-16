@@ -962,6 +962,45 @@ options:
         title: "5"
     default: "4"
 
+  - name: cumulative
+    title: Cumulative analysis
+    type: Bool
+    default: false
+
+  - name: cumulativeSortBy
+    title: Sort by
+    type: String
+    default: none
+
+  - name: cumulativeSortDirection
+    title: ""
+    type: List
+    options:
+      - title: Ascending
+        name: asc
+      - title: Descending
+        name: desc
+    default: asc
+
+  - name: cumulativeSortVariable
+    title: Sort variable
+    type: Variable
+    hidden: true
+    permitted:
+      - numeric
+      - factor
+      - id
+
+  - name: cumulativePrediction
+    title: Prediction interval
+    type: Bool
+    default: false
+
+  - name: cumulativeSummary
+    title: Summary
+    type: Bool
+    default: true
+
   - name: pubBiasMode
     title: ""
     type: List
