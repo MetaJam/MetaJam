@@ -19,11 +19,16 @@ Description: A comprehensive meta-analysis module for jamovi, powered by
     leave-one-out analysis, and publication bias.
 License: GPL (>= 2)
 Imports: 
+    graphics,
+    grDevices,
+    grid,
     jmvcore (>= 0.8.5),
     meta (>= 8.3.0),
     metabook (>= 0.2.0),
     metasens,
-    R6
+    R6,
+    stats,
+    utils
 Remotes: 
     guido-s/metabook@a6ed112037848941c4b27071a12c4165af6edffd,
     guido-s/meta@c354e36b67e118bb83ea37b9f52701c7d4fb23c2
