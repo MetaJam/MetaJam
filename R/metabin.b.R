@@ -76,19 +76,19 @@ metaBinClass <- R6::R6Class(
         self$results$text,
         self$options,
         private$.requiredVars,
-        "Overall Summary"
+        "Meta-Analysis Summary"
       )
       initText(
         self$results$leaveOneOutText,
         self$options,
         private$.requiredVars,
-        "Leave-One-Out Summary"
+        "Leave-One-Out Analysis Summary"
       )
       initText(
         self$results$cumulativeText,
         self$options,
         private$.requiredVars,
-        "Cumulative Analysis Summary"
+        "Cumulative Meta-Analysis Summary"
       )
       initText(
         self$results$asymmetryTestText,
@@ -100,7 +100,7 @@ metaBinClass <- R6::R6Class(
         self$results$trimFillText,
         self$options,
         private$.requiredVars,
-        "Trim & Fill Summary"
+        "Trim-and-Fill Analysis Summary"
       )
       initText(
         self$results$lfkIndexText,

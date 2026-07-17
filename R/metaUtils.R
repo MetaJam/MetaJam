@@ -39,7 +39,7 @@ populateMainText <- function(self) {
     return(invisible(NULL))
   }
   textResult$setContent(
-    asHtml(summary(self$model), title = "Overall Summary")
+    asHtml(summary(self$model), title = "Meta-Analysis Summary")
   )
 
   invisible(NULL)

@@ -66,7 +66,7 @@ computeCumulativeModel <- function(self) {
 }
 
 
-#' Populate the Cumulative Analysis Text
+#' Populate the Cumulative Meta-Analysis Text
 #'
 #' Called from `.run()` after `hasRequiredVars()` has passed.
 #' Guards: skips when hidden, already filled (clearWith cache hit),
@@ -91,7 +91,7 @@ populateCumulativeText <- function(self) {
   textResult$setContent(
     asHtml(
       summary(self$cumulativeModel),
-      title = "Cumulative Analysis Summary",
+      title = "Cumulative Meta-Analysis Summary",
       modifier = function(out) {
         if (length(out) > 0 && out[1] == "Cumulative meta-analysis") {
           out[-c(1, 2)]

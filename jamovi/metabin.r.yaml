@@ -33,7 +33,7 @@ items:
     items: []
 
   - name: plot
-    title: Overall Forest Plot
+    title: Meta-Analysis Forest Plot
     type: Image
     renderFun: .forestPlot
     visible: (forestPlot)
@@ -125,7 +125,7 @@ items:
           items: []
 
         - name: subgroupPlot
-          title: Subgroup Forest Plot
+          title: Subgroup Analysis Forest Plot
           type: Image
           renderFun: .subgroupForestPlot
           visible: (subgroupForestPlot && length(subgroupVariables) > 0)
@@ -245,7 +245,7 @@ items:
     items: []
 
   - name: leaveOneOutPlot
-    title: Leave-One-Out Forest Plot
+    title: Leave-One-Out Analysis Forest Plot
     type: Image
     renderFun: .leaveOneOutForestPlot
     visible: (leaveOneOut && leaveOneOutForestPlot)
@@ -324,7 +324,7 @@ items:
     items: []
 
   - name: cumulativePlot
-    title: Cumulative Forest Plot
+    title: Cumulative Meta-Analysis Forest Plot
     type: Image
     renderFun: .cumulativeForestPlot
     visible: (cumulative && cumulativeForestPlot)
@@ -479,7 +479,7 @@ items:
       - metaPackage
 
   - name: trimFillFunnelPlot
-    title: Trim & Fill Funnel Plot
+    title: Trim-and-Fill Analysis Funnel Plot
     type: Image
     width: 550
     height: 500

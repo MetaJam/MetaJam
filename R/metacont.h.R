@@ -1776,7 +1776,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot",
-                title="Overall Forest Plot",
+                title="Meta-Analysis Forest Plot",
                 renderFun=".forestPlot",
                 visible="(forestPlot)",
                 clearWith=list(
@@ -1883,7 +1883,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                             self$add(jmvcore::Image$new(
                                 options=options,
                                 name="subgroupPlot",
-                                title="Subgroup Forest Plot",
+                                title="Subgroup Analysis Forest Plot",
                                 renderFun=".subgroupForestPlot",
                                 visible="(subgroupForestPlot && length(subgroupVariables) > 0)",
                                 clearWith=list(
@@ -2017,7 +2017,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Image$new(
                 options=options,
                 name="leaveOneOutPlot",
-                title="Leave-One-Out Forest Plot",
+                title="Leave-One-Out Analysis Forest Plot",
                 renderFun=".leaveOneOutForestPlot",
                 visible="(leaveOneOut && leaveOneOutForestPlot)",
                 clearWith=list(
@@ -2099,7 +2099,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Image$new(
                 options=options,
                 name="cumulativePlot",
-                title="Cumulative Forest Plot",
+                title="Cumulative Meta-Analysis Forest Plot",
                 renderFun=".cumulativeForestPlot",
                 visible="(cumulative && cumulativeForestPlot)",
                 clearWith=list(
@@ -2249,7 +2249,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Image$new(
                 options=options,
                 name="trimFillFunnelPlot",
-                title="Trim & Fill Funnel Plot",
+                title="Trim-and-Fill Analysis Funnel Plot",
                 width=550,
                 height=500,
                 renderFun=".trimFillFunnelPlot",

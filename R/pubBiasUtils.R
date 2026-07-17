@@ -1,4 +1,4 @@
-#' Compute Trim and Fill Model
+#' Compute Trim-and-Fill Model
 #'
 #' Analysis-agnostic: works with any `meta` object. The trim-and-fill object is
 #' a plain list (class metagen/meta/trimfill), `trimfill()` internally sets
@@ -6,7 +6,7 @@
 #' is not needed.
 #'
 #' @param self The jamovi `self` object.
-#' @return The trim and fill model or NULL if base model is not ready.
+#' @return The trim-and-fill model or NULL if base model is not ready.
 #' @noRd
 computeTrimFillModel <- function(self) {
   # Cross-cycle cache (restored via clearWith)
@@ -114,11 +114,11 @@ populateAsymmetryTestText <- function(self) {
 }
 
 
-#' Populate the Trim and Fill Summary
+#' Populate the Trim-and-Fill Analysis Summary
 #'
 #' Called from `.run()` after `hasRequiredVars()` has passed.
 #' Guards: skips when hidden, already filled, or model is NULL.
-#' Renders the rich summary of the trim and fill model as HTML.
+#' Renders the rich summary of the trim-and-fill model as HTML.
 #'
 #' @param self The jamovi `self` object.
 #' @return `NULL` invisibly. Called for side effects.
@@ -133,7 +133,10 @@ populateTrimFillText <- function(self) {
   }
 
   textResult$setContent(
-    asHtml(summary(self$trimFillModel), title = "Trim & Fill Summary")
+    asHtml(
+      summary(self$trimFillModel),
+      title = "Trim-and-Fill Analysis Summary"
+    )
   )
 
   invisible(NULL)
@@ -285,7 +288,7 @@ renderAsymmetryPlot <- function(self) {
 }
 
 
-#' Render Trim and Fill Funnel Plot
+#' Render Trim-and-Fill Analysis Funnel Plot
 #'
 #' Draws a funnel plot for the trim-and-fill model, showing both original and
 #' imputed (filled) studies. Builds a dynamic legend that always shows the

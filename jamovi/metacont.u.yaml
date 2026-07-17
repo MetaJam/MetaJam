@@ -855,7 +855,7 @@ children:
                           column: 1
 
   - type: CollapseBox
-    label: Cumulative Analysis
+    label: Cumulative Meta-Analysis
     collapsed: true
     stretchFactor: 1
     children:

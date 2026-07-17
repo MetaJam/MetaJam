@@ -37,7 +37,7 @@ module.exports = {
     sort.syncVariable(ui, ui.mainVariablesSupplier, sort.leaveOneOut);
   },
 
-  // Fires when the user changes the cumulative analysis Sort by ComboBox.
+  // Fires when the user changes the cumulative meta-analysis Sort by ComboBox.
   cumulativeSortBy_changed: function (ui) {
     sort.syncVariable(ui, ui.mainVariablesSupplier, sort.cumulative);
   },

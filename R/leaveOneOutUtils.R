@@ -60,7 +60,7 @@ populateLeaveOneOutText <- function(self) {
   textResult$setContent(
     asHtml(
       summary(self$leaveOneOutModel),
-      title = "Leave-One-Out Summary",
+      title = "Leave-One-Out Analysis Summary",
       modifier = function(out) {
         if (length(out) > 0 && out[1] == "Leave-one-out meta-analysis") {
           out[-c(1, 2)]
