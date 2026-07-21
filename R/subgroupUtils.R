@@ -27,7 +27,9 @@ initSubgroupModels <- function(self, requiredVars) {
     )
 
     if (group$subgroupText$visible && !hasVars) {
-      group$subgroupText$setContent(asHtml(title = "Subgroup Summary"))
+      group$subgroupText$setContent(
+        asHtml(title = "Subgroup Analysis Summary")
+      )
     }
   }
 
@@ -63,7 +65,7 @@ populateSubgroupTexts <- function(self) {
     }
 
     textResult$setContent(
-      asHtml(summary(model), title = "Subgroup Summary")
+      asHtml(summary(model), title = "Subgroup Analysis Summary")
     )
   }
 

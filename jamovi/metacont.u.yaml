@@ -85,6 +85,7 @@ children:
             enable: (!model:common)
       - type: CheckBox
         name: prediction
+        enable: (!model:common)
       - type: LayoutBox
         children:
           - type: TextBox
@@ -313,7 +314,9 @@ children:
         enable: ({return (ui['subgroupVariables'].value() || []).length > 0;})
       - type: CheckBox
         name: predictionSubgroup
-        enable: ({return (ui['subgroupVariables'].value() || []).length > 0;})
+        enable: >
+          ({return (ui['subgroupVariables'].value() || []).length > 0;} &&
+          !model:common)
       - type: CheckBox
         name: subgroupSummary
         enable: ({return (ui['subgroupVariables'].value() || []).length > 0;})
@@ -699,7 +702,7 @@ children:
         name: leaveOneOut
       - type: CheckBox
         name: leaveOneOutPrediction
-        enable: (leaveOneOut)
+        enable: (leaveOneOut && model:random)
       - type: CheckBox
         name: leaveOneOutSummary
         enable: (leaveOneOut)
@@ -847,6 +850,162 @@ children:
                       - type: ComboBox
                         name: leaveOneOutDigitsTau2
                         enable: (leaveOneOut && leaveOneOutForestPlot)
+                        cell:
+                          row: 1
+                          column: 1
+
+  - type: CollapseBox
+    label: Cumulative Meta-Analysis
+    collapsed: true
+    stretchFactor: 1
+    children:
+      - type: CheckBox
+        name: cumulative
+      - type: LayoutBox
+        fitToGrid: true
+        children:
+          - type: ComboBox
+            name: cumulativeSortBy
+            enable: (cumulative)
+            cell:
+              row: 0
+              column: 0
+          - type: ComboBox
+            name: cumulativeSortDirection
+            label: ""
+            enable: (cumulative)
+            cell:
+              row: 0
+              column: 1
+      - type: CheckBox
+        name: cumulativePrediction
+        enable: (cumulative && model:random)
+      - type: CheckBox
+        name: cumulativeSummary
+        enable: (cumulative)
+      - type: CheckBox
+        name: cumulativeForestPlot
+        enable: (cumulative)
+        children:
+          - type: ModeSelector
+            name: cumulativeForestMode
+            children:
+              - type: Content
+                name: general
+                children:
+                  - type: LayoutBox
+                    children:
+                      - type: ComboBox
+                        name: cumulativeForestLayout
+                        enable: (cumulative && cumulativeForestPlot)
+                  - type: CheckBox
+                    name: cumulativeForestDetails
+                    enable: (cumulative && cumulativeForestPlot)
+                  - type: TextBox
+                    name: cumulativeLabelLeft
+                    format: string
+                    enable: (cumulative && cumulativeForestPlot)
+                    width: largest
+                    suggestedValues:
+                      - Favours Experimental
+                      - Favours Control
+                  - type: TextBox
+                    name: cumulativeLabelRight
+                    format: string
+                    enable: (cumulative && cumulativeForestPlot)
+                    width: largest
+                    suggestedValues:
+                      - Favours Experimental
+                      - Favours Control
+              - type: Content
+                name: dimensions
+                children:
+                  - type: CheckBox
+                    name: cumulativeXlimCustom
+                    enable: (cumulative && cumulativeForestPlot)
+                    children:
+                      - type: LayoutBox
+                        fitToGrid: true
+                        children:
+                          - type: TextBox
+                            name: cumulativeXlimLower
+                            format: number
+                            enable: (cumulative && cumulativeForestPlot && cumulativeXlimCustom)
+                            cell:
+                              row: 0
+                              column: 0
+                          - type: TextBox
+                            name: cumulativeXlimUpper
+                            format: number
+                            enable: (cumulative && cumulativeForestPlot && cumulativeXlimCustom)
+                            cell:
+                              row: 0
+                              column: 1
+                  - type: CheckBox
+                    name: cumulativeAddrowsCustom
+                    enable: (cumulative && cumulativeForestPlot)
+                    children:
+                      - type: TextBox
+                        name: cumulativeAddrowsBelowOverall
+                        format: number
+                        suffix: rows
+                        enable: (cumulative && cumulativeForestPlot && cumulativeAddrowsCustom)
+                  - type: LayoutBox
+                    fitToGrid: true
+                    children:
+                      - type: TextBox
+                        name: cumulativeColgap
+                        format: number
+                        enable: (cumulative && cumulativeForestPlot)
+                        cell:
+                          row: 0
+                          column: 0
+                      - type: ComboBox
+                        name: cumulativeColgapUnit
+                        enable: (cumulative && cumulativeForestPlot)
+                        cell:
+                          row: 0
+                          column: 1
+                      - type: TextBox
+                        name: cumulativeColgapForest
+                        format: number
+                        enable: (cumulative && cumulativeForestPlot)
+                        cell:
+                          row: 1
+                          column: 0
+                      - type: ComboBox
+                        name: cumulativeColgapForestUnit
+                        enable: (cumulative && cumulativeForestPlot)
+                        cell:
+                          row: 1
+                          column: 1
+              - type: Content
+                name: rounding
+                children:
+                  - type: LayoutBox
+                    fitToGrid: true
+                    children:
+                      - type: ComboBox
+                        name: cumulativeDigitsEffect
+                        enable: (cumulative && cumulativeForestPlot)
+                        cell:
+                          row: 0
+                          column: 0
+                      - type: ComboBox
+                        name: cumulativeDigitsI2
+                        enable: (cumulative && cumulativeForestPlot)
+                        cell:
+                          row: 0
+                          column: 1
+                      - type: ComboBox
+                        name: cumulativeDigitsPval
+                        enable: (cumulative && cumulativeForestPlot)
+                        cell:
+                          row: 1
+                          column: 0
+                      - type: ComboBox
+                        name: cumulativeDigitsTau2
+                        enable: (cumulative && cumulativeForestPlot)
                         cell:
                           row: 1
                           column: 1

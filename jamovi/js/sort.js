@@ -21,6 +21,14 @@ const leaveOneOutSortChoices = [
 ];
 
 /**
+ * Fixed sort choices used by cumulative analyses.
+ */
+const cumulativeSortChoices = [
+  { title: "Original order", name: DEFAULT_VALUE },
+  { title: "Standard error", name: "se" },
+];
+
+/**
  * Sort option names for the main forest plot.
  */
 const main = {
@@ -45,6 +53,15 @@ const leaveOneOut = {
   sortBy: "leaveOneOutSortBy",
   sortVariable: "leaveOneOutSortVariable",
   choices: leaveOneOutSortChoices,
+};
+
+/**
+ * Sort option names for cumulative analyses.
+ */
+const cumulative = {
+  sortBy: "cumulativeSortBy",
+  sortVariable: "cumulativeSortVariable",
+  choices: cumulativeSortChoices,
 };
 
 /**
@@ -177,6 +194,7 @@ module.exports = {
   main: main,
   subgroup: subgroup,
   leaveOneOut: leaveOneOut,
+  cumulative: cumulative,
   refresh: refresh,
   syncVariable: syncVariable,
 };

@@ -42,6 +42,14 @@ metaBinClass <- R6::R6Class(
       private$.leaveOneOutModel
     },
 
+    cumulativeModel = function() {
+      if (isFALSE(private$.cumulativeModel)) {
+        private$.cumulativeModel <- NULL
+        private$.cumulativeModel <- computeCumulativeModel(self)
+      }
+      private$.cumulativeModel
+    },
+
     trimFillModel = function() {
       if (isFALSE(private$.trimFillModel)) {
         private$.trimFillModel <- NULL
@@ -56,6 +64,7 @@ metaBinClass <- R6::R6Class(
     .subgroupModels = FALSE,
     .metaRegModels = FALSE,
     .leaveOneOutModel = FALSE,
+    .cumulativeModel = FALSE,
     .trimFillModel = FALSE,
     .requiredVars = c("eventE", "nE", "eventC", "nC"),
 
@@ -67,13 +76,19 @@ metaBinClass <- R6::R6Class(
         self$results$text,
         self$options,
         private$.requiredVars,
-        "Overall Summary"
+        "Meta-Analysis Summary"
       )
       initText(
         self$results$leaveOneOutText,
         self$options,
         private$.requiredVars,
-        "Leave-One-Out Summary"
+        "Leave-One-Out Analysis Summary"
+      )
+      initText(
+        self$results$cumulativeText,
+        self$options,
+        private$.requiredVars,
+        "Cumulative Meta-Analysis Summary"
       )
       initText(
         self$results$asymmetryTestText,
@@ -85,7 +100,7 @@ metaBinClass <- R6::R6Class(
         self$results$trimFillText,
         self$options,
         private$.requiredVars,
-        "Trim & Fill Summary"
+        "Trim-and-Fill Analysis Summary"
       )
       initText(
         self$results$lfkIndexText,
@@ -106,6 +121,11 @@ metaBinClass <- R6::R6Class(
       applyCachedSize(
         self$results$leaveOneOutPlot,
         self$results$leaveOneOutPlotSizeCache
+      )
+
+      applyCachedSize(
+        self$results$cumulativePlot,
+        self$results$cumulativePlotSizeCache
       )
     },
 
@@ -178,6 +198,13 @@ metaBinClass <- R6::R6Class(
             }
           )
 
+          updateForestSize(
+            image = self$results$cumulativePlot,
+            model = self$cumulativeModel,
+            sizeCache = self$results$cumulativePlotSizeCache,
+            renderCall = function() renderCumulativeForest(self)
+          )
+
           prepareModelForImages(
             self$model,
             list(
@@ -200,6 +227,7 @@ metaBinClass <- R6::R6Class(
           populateSubgroupTexts(self)
           populateMetaRegTexts(self)
           populateLeaveOneOutText(self)
+          populateCumulativeText(self)
           populateAsymmetryTestText(self)
           populateTrimFillText(self)
           populateLfkIndexText(self)
@@ -227,6 +255,10 @@ metaBinClass <- R6::R6Class(
 
     .leaveOneOutForestPlot = function(image, ...) {
       renderLeaveOneOutForest(self, sortKey = image$state$sortKey)
+    },
+
+    .cumulativeForestPlot = function(image, ...) {
+      renderCumulativeForest(self)
     },
 
     .funnelPlot = function(image, ...) {

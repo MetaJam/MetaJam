@@ -81,7 +81,8 @@ computeContSubgroupModels <- function(self) {
   }
 
   args$tau.common <- self$options$tauCommon
-  args$prediction.subgroup <- self$options$predictionSubgroup
+  args$prediction.subgroup <- self$options$predictionSubgroup &&
+    self$options$model %in% c("both", "random")
   # Subgroup models are only printed/plotted, so avoid caching their data.
   args$keepdata <- FALSE
 
@@ -260,7 +261,7 @@ buildContArgs <- function(self) {
     method.smd = options$methodSmd,
     common = options$model %in% c("both", "common"),
     random = options$model %in% c("both", "random"),
-    prediction = options$prediction,
+    prediction = options$prediction && options$model %in% c("both", "random"),
     level = level,
     level.ma = level,
     level.predict = level,

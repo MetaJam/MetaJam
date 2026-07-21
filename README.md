@@ -35,6 +35,8 @@ the R package [meta](https://cran.r-project.org/package=meta).
   continuous and categorical predictors.
 - **Leave-One-Out Analysis:** Evaluate the influence of individual studies by
   omitting them one at a time.
+- **Cumulative Meta-Analysis:** Examine how the pooled effect changes as studies
+  are added sequentially in a selected order.
 - **Publication Bias:** Assess publication bias using funnel plots,
   trim-and-fill analysis, and the Doi plot / LFK index.
 

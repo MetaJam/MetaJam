@@ -16,7 +16,8 @@ Description: A comprehensive meta-analysis module for jamovi, powered by
     the R package meta. It features two-group meta-analysis for continuous
     and binary outcomes. Analysis options include common-effect and
     random-effects models, subgroup analysis, meta-regression,
-    leave-one-out analysis, and publication bias.
+    leave-one-out analysis, cumulative meta-analysis, and publication
+    bias.
 License: GPL (>= 2)
 Imports: 
     graphics,
