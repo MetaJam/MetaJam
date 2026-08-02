@@ -5,8 +5,10 @@
 # MetaJam
 
 <!-- badges: start -->
+
 [![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.21226177-blue.svg)](https://doi.org/10.5281/zenodo.21226177)
 [![License: GPL ≥ 2](https://img.shields.io/badge/License-GPL%20%E2%89%A5%202-blue.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
+
 <!-- badges: end -->
 
 **MetaJam** is a **meta**-analysis module for **jam**ovi, powered mainly by
@@ -16,14 +18,16 @@ the R package [meta](https://cran.r-project.org/package=meta).
 
 </div>
 
-## Analyses
+## Available Analyses
 
-### Two-Group Meta-Analysis
-- **Continuous Outcomes:** Analyze continuous outcome data using
-  mean, standard deviation, and sample size for the experimental and
-  control groups.
-- **Binary Outcomes:** Analyze binary outcome data using
-  event counts and sample size for the experimental and control groups.
+- **Two-Group Meta-Analysis:**
+  - **Continuous Outcomes:** Analyze continuous outcome data using
+    mean, standard deviation, and sample size for the experimental and
+    control groups.
+  - **Binary Outcomes:** Analyze binary outcome data using
+    event counts and sample size for the experimental and control groups.
+- **Precomputed Effect Sizes Meta-Analysis:** Analyze precomputed effect sizes
+  and standard errors using the inverse-variance method.
 
 ## Analysis Options
 

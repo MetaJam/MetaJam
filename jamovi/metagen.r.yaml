@@ -1,0 +1,22 @@
+name: metaGen
+title: Precomputed Effect Sizes Meta-Analysis
+jrs: "1.1"
+
+items:
+  - name: text
+    type: Html
+    visible: (summary)
+    clearWith:
+      - sm
+      - studyLabel
+      - effectSize
+      - standardError
+      - total
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+    refs:
+      - MetaJam
+      - metaPackage

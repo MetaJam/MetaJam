@@ -1,0 +1,131 @@
+name: metaGen
+title: Precomputed Effect Sizes Meta-Analysis
+menuGroup: MetaJam
+menuSubgroup: Precomputed Effect Sizes Meta-Analysis
+menuTitle: Precomputed Effect Sizes
+menuSubtitle: Effect Size, SE
+version: "1.0.0"
+jas: "1.2"
+
+options:
+  - name: data
+    type: Data
+
+  - name: sm
+    title: Effect measure
+    type: List
+    options:
+      - title: Generic effect size
+        name: GEN
+      - title: Hazard ratio (HR)
+        name: HR
+      - title: Mean difference (MD)
+        name: MD
+      - title: Standardised mean difference (SMD)
+        name: SMD
+      - title: Ratio of means (ROM)
+        name: ROM
+      - title: Risk ratio (RR)
+        name: RR
+      - title: Odds ratio (OR)
+        name: OR
+      - title: Risk difference (RD)
+        name: RD
+      - title: Incidence rate ratio (IRR)
+        name: IRR
+    default: GEN
+
+  - name: studyLabel
+    title: Study Label
+    type: Variable
+    suggested:
+      - nominal
+      - id
+    permitted:
+      - factor
+      - id
+
+  - name: effectSize
+    title: Effect Size
+    type: Variable
+    suggested:
+      - continuous
+    permitted:
+      - numeric
+
+  - name: standardError
+    title: Standard Error
+    type: Variable
+    suggested:
+      - continuous
+    permitted:
+      - numeric
+
+  - name: total
+    title: Total (optional)
+    type: Variable
+    suggested:
+      - continuous
+    permitted:
+      - numeric
+
+  - name: model
+    title: Model
+    type: List
+    options:
+      - title: Random & common
+        name: both
+      - title: Random effects
+        name: random
+      - title: Common effect
+        name: common
+    default: both
+
+  - name: methodTau
+    title: Heterogeneity estimator
+    type: List
+    options:
+      - title: Restricted maximum-likelihood
+        name: REML
+      - title: Paule-Mandel
+        name: PM
+      - title: DerSimonian-Laird
+        name: DL
+      - title: Maximum-likelihood
+        name: ML
+      - title: Hunter-Schmidt
+        name: HS
+      - title: Sidik-Jonkman
+        name: SJ
+      - title: Hedges
+        name: HE
+      - title: Empirical Bayes
+        name: EB
+    default: REML
+
+  - name: methodRandomCi
+    title: Random effects CI method
+    type: List
+    options:
+      - title: Classic
+        name: classic
+      - title: Hartung-Knapp
+        name: HK
+    default: classic
+
+  - name: prediction
+    title: Prediction interval
+    type: Bool
+    default: false
+
+  - name: confidenceLevel
+    title: Confidence level
+    type: Number
+    min: 50
+    max: 99.9
+    default: 95
+
+  - name: summary
+    title: Summary
+    type: Bool
+    default: true
