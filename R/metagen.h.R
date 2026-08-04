@@ -36,7 +36,10 @@ metaGenOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "RR",
                     "OR",
                     "RD",
-                    "IRR"),
+                    "VE",
+                    "IRR",
+                    "IRD",
+                    "IRSD"),
                 default="GEN")
             private$..studyLabel <- jmvcore::OptionVariable$new(
                 "studyLabel",

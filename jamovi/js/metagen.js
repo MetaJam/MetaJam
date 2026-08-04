@@ -7,7 +7,10 @@ const effectSizeLabels = {
   RR: "Log Risk Ratio",
   OR: "Log Odds Ratio",
   RD: "Risk Difference",
+  VE: "Log Vaccine Ratio",
   IRR: "Log Incidence Rate Ratio",
+  IRD: "Incidence Rate Difference",
+  IRSD: "Square Root Transformed Incidence Rate Difference",
 };
 
 const updateEffectSizeLabel = function (ui) {
