@@ -3,7 +3,7 @@ title: Precomputed Effect Sizes Meta-Analysis
 menuGroup: MetaJam
 menuSubgroup: Precomputed Effect Sizes Meta-Analysis
 menuTitle: Precomputed Effect Sizes
-menuSubtitle: Effect Size, SE
+menuSubtitle: Effect Size, SE/CI
 version: "1.0.0"
 jas: "1.2"
 
@@ -41,6 +41,16 @@ options:
         name: IRSD
     default: GEN
 
+  - name: inputMode
+    title: ""
+    type: List
+    options:
+      - title: Effect Size & SE
+        name: se
+      - title: Effect Size & CI
+        name: ci
+    default: se
+
   - name: studyLabel
     title: Study Label
     type: Variable
@@ -68,6 +78,55 @@ options:
       - numeric
 
   - name: total
+    title: Total (optional)
+    type: Variable
+    suggested:
+      - continuous
+    permitted:
+      - numeric
+
+  - name: ciStudyLabel
+    title: Study Label
+    type: Variable
+    suggested:
+      - nominal
+      - id
+    permitted:
+      - factor
+      - id
+
+  - name: ciEffectSize
+    title: Effect Size
+    type: Variable
+    suggested:
+      - continuous
+    permitted:
+      - numeric
+
+  - name: ciLevel
+    title: Confidence level
+    type: Number
+    min: 50
+    max: 99.9
+    default: 95
+
+  - name: ciLower
+    title: Lower confidence limit
+    type: Variable
+    suggested:
+      - continuous
+    permitted:
+      - numeric
+
+  - name: ciUpper
+    title: Upper confidence limit
+    type: Variable
+    suggested:
+      - continuous
+    permitted:
+      - numeric
+
+  - name: ciTotal
     title: Total (optional)
     type: Variable
     suggested:

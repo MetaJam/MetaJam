@@ -1,4 +1,4 @@
-const effectSizeLabels = {
+const analysisScaleEffectSizeLabels = {
   GEN: "Effect Size",
   HR: "Log Hazard Ratio",
   MD: "Mean Difference",
@@ -13,9 +13,31 @@ const effectSizeLabels = {
   IRSD: "Square Root Transformed Incidence Rate Difference",
 };
 
+const naturalScaleEffectSizeLabels = {
+  GEN: "Effect Size",
+  HR: "Hazard Ratio",
+  MD: "Mean Difference",
+  SMD: "Standardised Mean Difference",
+  ROM: "Ratio of Means",
+  RR: "Risk Ratio",
+  OR: "Odds Ratio",
+  RD: "Risk Difference",
+  VE: "Vaccine Efficacy/Effectiveness",
+  IRR: "Incidence Rate Ratio",
+  IRD: "Incidence Rate Difference",
+  IRSD: "Square Root Transformed Incidence Rate Difference",
+};
+
 const updateEffectSizeLabel = function (ui) {
-  const label = effectSizeLabels[ui.sm.value()];
-  ui.effectSizeTarget.setPropertyValue("label", label);
+  const effectMeasure = ui.sm.value();
+  ui.effectSizeTarget.setPropertyValue(
+    "label",
+    analysisScaleEffectSizeLabels[effectMeasure],
+  );
+  ui.ciEffectSizeTarget.setPropertyValue(
+    "label",
+    naturalScaleEffectSizeLabels[effectMeasure],
+  );
 };
 
 module.exports = {

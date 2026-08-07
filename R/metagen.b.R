@@ -22,7 +22,13 @@ metaGenClass <- R6::R6Class(
   private = list(
     # State tracking for lazy models and required core variables
     .model = FALSE,
-    .requiredVars = c("effectSize", "standardError"),
+    .requiredVars = function() {
+      if (self$options$inputMode == "ci") {
+        c("ciEffectSize", "ciLower", "ciUpper")
+      } else {
+        c("effectSize", "standardError")
+      }
+    },
 
     # Initialization: runs before the model is computed. Sets up dynamic arrays
     # (subgroup, meta-regression) and displays placeholder titles.
@@ -30,7 +36,7 @@ metaGenClass <- R6::R6Class(
       initText(
         self$results$text,
         self$options,
-        private$.requiredVars,
+        private$.requiredVars(),
         "Meta-Analysis Summary"
       )
     },
@@ -38,7 +44,7 @@ metaGenClass <- R6::R6Class(
     # Main execution: Calculate plot dimensions for caching and populate textual
     # results.
     .run = function() {
-      if (!hasRequiredVars(self$options, private$.requiredVars)) {
+      if (!hasRequiredVars(self$options, private$.requiredVars())) {
         return(invisible(NULL))
       }
 

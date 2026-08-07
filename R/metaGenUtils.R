@@ -29,10 +29,9 @@ computeGenModel <- function(self) {
 #' Build Common metagen() Arguments
 #'
 #' Loads the selected columns, converts numeric inputs safely, and returns an
-#' argument list for `meta::metagen()`. Effect estimates and standard errors
-#' are supplied on the scale used for pooling: the log scale for ratio measures
-#' and the identity scale otherwise. Ratio measures are back-transformed for
-#' presentation.
+#' argument list for `meta::metagen()`. In SE mode, effects and standard errors
+#' are supplied on the scale used for pooling. In CI mode, effects and limits
+#' are supplied on the reported scale and transformed by `meta::metagen()`.
 #'
 #' Core study data are passed as vectors rather than via `data=` so cached
 #' meta objects do not retain the full Jamovi data frame. Meta-regression
@@ -45,7 +44,7 @@ computeGenModel <- function(self) {
 buildGenArgs <- function(self) {
   data <- self$data
   options <- self$options
-  required <- c("effectSize", "standardError")
+  ciMode <- options$inputMode == "ci"
 
   # jamovi lifecycle guard: A user in jamovi cannot pass NULL data; during a
   # normal .run() cycle, jamovi always provides a data.frame (with at least one
@@ -57,16 +56,27 @@ buildGenArgs <- function(self) {
     return()
   }
 
-  if (!hasRequiredVars(options, required)) {
+  requiredVars <- if (ciMode) {
+    c("ciEffectSize", "ciLower", "ciUpper")
+  } else {
+    c("effectSize", "standardError")
+  }
+
+  if (!hasRequiredVars(options, requiredVars)) {
     return()
   }
 
   # Curate numeric columns: core vars
-  numericVars <- c(
-    options$effectSize,
-    options$standardError,
-    options$total
-  )
+  numericVars <- if (ciMode) {
+    c(
+      options$ciEffectSize,
+      options$ciLower,
+      options$ciUpper,
+      options$ciTotal
+    )
+  } else {
+    c(options$effectSize, options$standardError, options$total)
+  }
   data[numericVars] <- lapply(data[numericVars], jmvcore::toNumeric)
 
   # Confidence / prediction level (shared)
@@ -74,27 +84,48 @@ buildGenArgs <- function(self) {
 
   sm <- if (options$sm == "GEN") "Effect Size" else options$sm
 
-  args <- list(
-    TE = data[[options$effectSize]],
-    seTE = data[[options$standardError]],
-    sm = sm,
-    common = options$model %in% c("both", "common"),
-    random = options$model %in% c("both", "random"),
-    method.tau = options$methodTau,
-    method.random.ci = options$methodRandomCi,
-    prediction = options$prediction && options$model %in% c("both", "random"),
-    level = level,
-    level.ma = level,
-    level.predict = level,
-    level.hetstat = level
-  )
-
-  if (!is.null(options$studyLabel)) {
-    args$studlab <- data[[options$studyLabel]]
+  inputArgs <- if (ciMode) {
+    list(
+      TE = data[[options$ciEffectSize]],
+      lower = data[[options$ciLower]],
+      upper = data[[options$ciUpper]],
+      level.ci = options$ciLevel / 100,
+      # Do not derive missing effect estimates from CI limits
+      approx.TE = "",
+      transf = FALSE
+    )
+  } else {
+    list(
+      TE = data[[options$effectSize]],
+      seTE = data[[options$standardError]],
+      transf = TRUE
+    )
   }
 
-  if (!is.null(options$total)) {
-    args$n.e <- data[[options$total]]
+  args <- c(
+    inputArgs,
+    list(
+      sm = sm,
+      common = options$model %in% c("both", "common"),
+      random = options$model %in% c("both", "random"),
+      method.tau = options$methodTau,
+      method.random.ci = options$methodRandomCi,
+      prediction = options$prediction && options$model %in% c("both", "random"),
+      level = level,
+      level.ma = level,
+      level.predict = level,
+      level.hetstat = level
+    )
+  )
+
+  studyLabel <- if (ciMode) options$ciStudyLabel else options$studyLabel
+  if (!is.null(studyLabel)) {
+    args$studlab <- data[[studyLabel]]
+  }
+
+  total <- if (ciMode) options$ciTotal else options$total
+  if (!is.null(total)) {
+    args$n.e <- data[[total]]
   }
 
   args

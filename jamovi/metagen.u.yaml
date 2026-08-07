@@ -9,41 +9,100 @@ children:
       - type: ComboBox
         name: sm
 
-  - type: VariableSupplier
-    name: mainVariablesSupplier
-    persistentItems: false
+  - type: ModeSelector
+    name: inputMode
     stretchFactor: 1
-    permitted:
-      - numeric
-      - factor
-      - id
     children:
-      - type: TargetLayoutBox
+      - type: Content
+        name: se
         children:
-          - type: VariablesListBox
-            name: studyLabel
-            maxItemCount: 1
-            isTarget: true
-      - type: TargetLayoutBox
-        name: effectSizeTarget
-        label: Effect Size
+          - type: VariableSupplier
+            name: mainVariablesSupplier
+            persistentItems: false
+            stretchFactor: 1
+            permitted:
+              - numeric
+              - factor
+              - id
+            children:
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: studyLabel
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                name: effectSizeTarget
+                label: Effect Size
+                children:
+                  - type: VariablesListBox
+                    name: effectSize
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: standardError
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: total
+                    maxItemCount: 1
+                    isTarget: true
+
+      - type: Content
+        name: ci
         children:
-          - type: VariablesListBox
-            name: effectSize
-            maxItemCount: 1
-            isTarget: true
-      - type: TargetLayoutBox
-        children:
-          - type: VariablesListBox
-            name: standardError
-            maxItemCount: 1
-            isTarget: true
-      - type: TargetLayoutBox
-        children:
-          - type: VariablesListBox
-            name: total
-            maxItemCount: 1
-            isTarget: true
+          - type: VariableSupplier
+            name: ciVariablesSupplier
+            persistentItems: false
+            stretchFactor: 1
+            permitted:
+              - numeric
+              - factor
+              - id
+            children:
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: ciStudyLabel
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                name: ciEffectSizeTarget
+                label: Effect Size
+                children:
+                  - type: VariablesListBox
+                    name: ciEffectSize
+                    maxItemCount: 1
+                    isTarget: true
+              - type: LayoutBox
+                children:
+                  - type: TextBox
+                    name: ciLevel
+                    format: number
+                    width: normal
+                    suffix: "%"
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: ciLower
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: ciUpper
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: ciTotal
+                    maxItemCount: 1
+                    isTarget: true
 
   - type: CollapseBox
     label: Meta-Analysis

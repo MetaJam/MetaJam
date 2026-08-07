@@ -8,10 +8,17 @@ items:
     visible: (summary)
     clearWith:
       - sm
+      - inputMode
       - studyLabel
       - effectSize
       - standardError
       - total
+      - ciStudyLabel
+      - ciEffectSize
+      - ciLevel
+      - ciLower
+      - ciUpper
+      - ciTotal
       - model
       - methodTau
       - methodRandomCi

@@ -27,7 +27,7 @@ the R package [meta](https://cran.r-project.org/package=meta).
   - **Binary Outcomes:** Analyze binary outcome data using
     event counts and sample size for the experimental and control groups.
 - **Precomputed Effect Sizes Meta-Analysis:** Analyze precomputed effect sizes
-  and standard errors.
+  with standard errors or confidence intervals.
 
 ## Analysis Options
 

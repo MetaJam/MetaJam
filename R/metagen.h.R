@@ -7,10 +7,17 @@ metaGenOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     public = list(
         initialize = function(
             sm = "GEN",
+            inputMode = "se",
             studyLabel = NULL,
             effectSize = NULL,
             standardError = NULL,
             total = NULL,
+            ciStudyLabel = NULL,
+            ciEffectSize = NULL,
+            ciLevel = 95,
+            ciLower = NULL,
+            ciUpper = NULL,
+            ciTotal = NULL,
             model = "both",
             methodTau = "REML",
             methodRandomCi = "classic",
@@ -41,6 +48,13 @@ metaGenOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "IRD",
                     "IRSD"),
                 default="GEN")
+            private$..inputMode <- jmvcore::OptionList$new(
+                "inputMode",
+                inputMode,
+                options=list(
+                    "se",
+                    "ci"),
+                default="se")
             private$..studyLabel <- jmvcore::OptionVariable$new(
                 "studyLabel",
                 studyLabel,
@@ -67,6 +81,49 @@ metaGenOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..total <- jmvcore::OptionVariable$new(
                 "total",
                 total,
+                suggested=list(
+                    "continuous"),
+                permitted=list(
+                    "numeric"))
+            private$..ciStudyLabel <- jmvcore::OptionVariable$new(
+                "ciStudyLabel",
+                ciStudyLabel,
+                suggested=list(
+                    "nominal",
+                    "id"),
+                permitted=list(
+                    "factor",
+                    "id"))
+            private$..ciEffectSize <- jmvcore::OptionVariable$new(
+                "ciEffectSize",
+                ciEffectSize,
+                suggested=list(
+                    "continuous"),
+                permitted=list(
+                    "numeric"))
+            private$..ciLevel <- jmvcore::OptionNumber$new(
+                "ciLevel",
+                ciLevel,
+                min=50,
+                max=99.9,
+                default=95)
+            private$..ciLower <- jmvcore::OptionVariable$new(
+                "ciLower",
+                ciLower,
+                suggested=list(
+                    "continuous"),
+                permitted=list(
+                    "numeric"))
+            private$..ciUpper <- jmvcore::OptionVariable$new(
+                "ciUpper",
+                ciUpper,
+                suggested=list(
+                    "continuous"),
+                permitted=list(
+                    "numeric"))
+            private$..ciTotal <- jmvcore::OptionVariable$new(
+                "ciTotal",
+                ciTotal,
                 suggested=list(
                     "continuous"),
                 permitted=list(
@@ -115,10 +172,17 @@ metaGenOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 default=TRUE)
 
             self$.addOption(private$..sm)
+            self$.addOption(private$..inputMode)
             self$.addOption(private$..studyLabel)
             self$.addOption(private$..effectSize)
             self$.addOption(private$..standardError)
             self$.addOption(private$..total)
+            self$.addOption(private$..ciStudyLabel)
+            self$.addOption(private$..ciEffectSize)
+            self$.addOption(private$..ciLevel)
+            self$.addOption(private$..ciLower)
+            self$.addOption(private$..ciUpper)
+            self$.addOption(private$..ciTotal)
             self$.addOption(private$..model)
             self$.addOption(private$..methodTau)
             self$.addOption(private$..methodRandomCi)
@@ -128,10 +192,17 @@ metaGenOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         }),
     active = list(
         sm = function() private$..sm$value,
+        inputMode = function() private$..inputMode$value,
         studyLabel = function() private$..studyLabel$value,
         effectSize = function() private$..effectSize$value,
         standardError = function() private$..standardError$value,
         total = function() private$..total$value,
+        ciStudyLabel = function() private$..ciStudyLabel$value,
+        ciEffectSize = function() private$..ciEffectSize$value,
+        ciLevel = function() private$..ciLevel$value,
+        ciLower = function() private$..ciLower$value,
+        ciUpper = function() private$..ciUpper$value,
+        ciTotal = function() private$..ciTotal$value,
         model = function() private$..model$value,
         methodTau = function() private$..methodTau$value,
         methodRandomCi = function() private$..methodRandomCi$value,
@@ -140,10 +211,17 @@ metaGenOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         summary = function() private$..summary$value),
     private = list(
         ..sm = NA,
+        ..inputMode = NA,
         ..studyLabel = NA,
         ..effectSize = NA,
         ..standardError = NA,
         ..total = NA,
+        ..ciStudyLabel = NA,
+        ..ciEffectSize = NA,
+        ..ciLevel = NA,
+        ..ciLower = NA,
+        ..ciUpper = NA,
+        ..ciTotal = NA,
         ..model = NA,
         ..methodTau = NA,
         ..methodRandomCi = NA,
@@ -170,10 +248,17 @@ metaGenResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 visible="(summary)",
                 clearWith=list(
                     "sm",
+                    "inputMode",
                     "studyLabel",
                     "effectSize",
                     "standardError",
                     "total",
+                    "ciStudyLabel",
+                    "ciEffectSize",
+                    "ciLevel",
+                    "ciLower",
+                    "ciUpper",
+                    "ciTotal",
                     "model",
                     "methodTau",
                     "methodRandomCi",
@@ -209,10 +294,17 @@ metaGenBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' 
 #' @param data .
 #' @param sm .
+#' @param inputMode .
 #' @param studyLabel .
 #' @param effectSize .
 #' @param standardError .
 #' @param total .
+#' @param ciStudyLabel .
+#' @param ciEffectSize .
+#' @param ciLevel .
+#' @param ciLower .
+#' @param ciUpper .
+#' @param ciTotal .
 #' @param model .
 #' @param methodTau .
 #' @param methodRandomCi .
@@ -228,10 +320,17 @@ metaGenBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 metaGen <- function(
     data,
     sm = "GEN",
+    inputMode = "se",
     studyLabel,
     effectSize,
     standardError,
     total,
+    ciStudyLabel,
+    ciEffectSize,
+    ciLevel = 95,
+    ciLower,
+    ciUpper,
+    ciTotal,
     model = "both",
     methodTau = "REML",
     methodRandomCi = "classic",
@@ -246,21 +345,38 @@ metaGen <- function(
     if ( ! missing(effectSize)) effectSize <- jmvcore::resolveQuo(jmvcore::enquo(effectSize))
     if ( ! missing(standardError)) standardError <- jmvcore::resolveQuo(jmvcore::enquo(standardError))
     if ( ! missing(total)) total <- jmvcore::resolveQuo(jmvcore::enquo(total))
+    if ( ! missing(ciStudyLabel)) ciStudyLabel <- jmvcore::resolveQuo(jmvcore::enquo(ciStudyLabel))
+    if ( ! missing(ciEffectSize)) ciEffectSize <- jmvcore::resolveQuo(jmvcore::enquo(ciEffectSize))
+    if ( ! missing(ciLower)) ciLower <- jmvcore::resolveQuo(jmvcore::enquo(ciLower))
+    if ( ! missing(ciUpper)) ciUpper <- jmvcore::resolveQuo(jmvcore::enquo(ciUpper))
+    if ( ! missing(ciTotal)) ciTotal <- jmvcore::resolveQuo(jmvcore::enquo(ciTotal))
     if (missing(data))
         data <- jmvcore::marshalData(
             parent.frame(),
             `if`( ! missing(studyLabel), studyLabel, NULL),
             `if`( ! missing(effectSize), effectSize, NULL),
             `if`( ! missing(standardError), standardError, NULL),
-            `if`( ! missing(total), total, NULL))
+            `if`( ! missing(total), total, NULL),
+            `if`( ! missing(ciStudyLabel), ciStudyLabel, NULL),
+            `if`( ! missing(ciEffectSize), ciEffectSize, NULL),
+            `if`( ! missing(ciLower), ciLower, NULL),
+            `if`( ! missing(ciUpper), ciUpper, NULL),
+            `if`( ! missing(ciTotal), ciTotal, NULL))
 
 
     options <- metaGenOptions$new(
         sm = sm,
+        inputMode = inputMode,
         studyLabel = studyLabel,
         effectSize = effectSize,
         standardError = standardError,
         total = total,
+        ciStudyLabel = ciStudyLabel,
+        ciEffectSize = ciEffectSize,
+        ciLevel = ciLevel,
+        ciLower = ciLower,
+        ciUpper = ciUpper,
+        ciTotal = ciTotal,
         model = model,
         methodTau = methodTau,
         methodRandomCi = methodRandomCi,
