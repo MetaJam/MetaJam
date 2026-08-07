@@ -19,8 +19,10 @@ computeCumulativeModel <- function(self) {
 
   options <- self$options
 
-  # metacum() uses a single pooled model. By leaving `pooled` unspecified,
-  # MetaJam follows meta's common-first rule when both models are available.
+  # metacum() uses one pooled model. MetaJam always passes `prediction`
+  # explicitly and enables it only for a random-only analysis. Thus, leaving
+  # `pooled` unspecified selects common for "both" and random for "random".
+  # If prediction is later enabled for "both", meta will select random.
   prediction <- options$cumulativePrediction && options$model == "random"
 
   result <- if (

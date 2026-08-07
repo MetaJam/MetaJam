@@ -1,7 +1,7 @@
 Type: Package
 Package: MetaJam
 Title: Meta-Analysis for jamovi
-Version: 0.2.0
+Version: 0.3.0
 Authors@R: c(
     person("Nour Edin", "Darwish", , "nouredindarwish@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0009-0009-5527-4539")),
@@ -32,7 +32,7 @@ Imports:
     utils
 Remotes: 
     guido-s/metabook@a6ed112037848941c4b27071a12c4165af6edffd,
-    guido-s/meta@c354e36b67e118bb83ea37b9f52701c7d4fb23c2
+    guido-s/meta@0bc39d7d17078c20312063b6797772b3307ecca9
 Config/roxygen2/version: 8.0.0
 Encoding: UTF-8
 LazyData: true
