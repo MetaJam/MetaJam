@@ -129,6 +129,9 @@ renderSubgroupForest <- function(model, options, sortKey, ...) {
     test.effect.subgroup = options$subgroupForestTestEffect,
     test.subgroup = options$subgroupForestTestSubgroup,
     print.subgroup.name = options$printSubgroupName,
+    # Although meta now defaults calcwidth.hetstat to TRUE, keep this explicit
+    # subgroup-only rule so MetaJam's behavior is stable across upstream
+    # changes.
     calcwidth.hetstat = options$subgroupForestLayout == "subgroup",
     calcwidth.tests = options$subgroupForestLayout == "subgroup",
     ...

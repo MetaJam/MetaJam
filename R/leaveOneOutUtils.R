@@ -16,6 +16,9 @@ computeLeaveOneOutModel <- function(self) {
     return()
   }
 
+  # metainf() follows the same pooled-model rule as metacum(): MetaJam's
+  # explicit prediction gating selects common for "both" and random for
+  # "random". If prediction is later enabled for "both", meta selects random.
   prediction <- self$options$leaveOneOutPrediction &&
     self$options$model == "random"
 
