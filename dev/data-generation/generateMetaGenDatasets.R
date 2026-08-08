@@ -31,10 +31,7 @@ hackshaw_descriptions <- c(
     "Log odds ratio for lung cancer in women exposed versus unexposed to",
     "environmental tobacco smoke from their smoking spouse"
   ),
-  "Standard Error" = paste(
-    "Standard error of the log odds ratio, back-calculated from the",
-    "reported 95% confidence interval"
-  ),
+  "Standard Error" = "Standard error of the log odds ratio",
   "Odds Ratio" = paste(
     "Odds ratio for lung cancer in women exposed versus unexposed to",
     "environmental tobacco smoke from their smoking spouse"
