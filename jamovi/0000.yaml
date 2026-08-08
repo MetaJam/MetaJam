@@ -72,6 +72,26 @@ datasets:
     tags:
       - Meta-Analysis
       - Binary Outcomes
+  - name: Environmental Tobacco Smoke
+    path: EnvironmentalTobaccoSmoke.omv
+    description: >-
+      Results from 37 studies examining the risk of lung cancer in lifelong
+      nonsmoking women exposed to environmental tobacco smoke from their smoking
+      spouse (Hackshaw et al., 1997).
+    tags:
+      - Meta-Analysis
+      - Precomputed Effect Sizes
+      - Odds Ratios
+  - name: Purine Analogues
+    path: PurineAnalogues.omv
+    description: >-
+      Results from 4 trials comparing single-agent purine analogues with
+      alkylator-based regimens in patients with chronic lymphocytic leukaemia
+      (Steurer et al., 2006).
+    tags:
+      - Meta-Analysis
+      - Precomputed Effect Sizes
+      - Hazard Ratios
 usesNative: true
 minApp: 2.7.27
 
