@@ -27,3 +27,360 @@ items:
     refs:
       - MetaJam
       - metaPackage
+
+  - name: plotSizeCache
+    type: Group
+    visible: false
+    clearWith: []
+    items: []
+
+  - name: plot
+    title: Meta-Analysis Forest Plot
+    type: Image
+    renderFun: .forestPlot
+    visible: (forestPlot)
+    clearWith:
+      - sm
+      - inputMode
+      - studyLabel
+      - effectSize
+      - standardError
+      - total
+      - ciStudyLabel
+      - ciEffectSize
+      - ciLevel
+      - ciLower
+      - ciUpper
+      - ciTotal
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - forestLayout
+      - sortBy
+      - sortDirection
+      - sortVariable
+      - forestTestOverall
+      - forestDetails
+      - forestPrintI2Ci
+      - forestPrintTau2Ci
+      - labelLeft
+      - labelRight
+      - xlimCustom
+      - xlimLower
+      - xlimUpper
+      - addrowsCustom
+      - addrowsBelowOverall
+      - colgap
+      - colgapUnit
+      - colgapForest
+      - colgapForestUnit
+      - digitsEffect
+      - digitsInputEffect
+      - digitsSe
+      - digitsPval
+      - digitsWeight
+      - digitsI2
+      - digitsTau2
+    refs:
+      - MetaJam
+      - metaPackage
+
+  - name: subgroupModels
+    title: ""
+    type: Array
+    hideHeadingOnlyChild: true
+    clearWith:
+      - sm
+      - inputMode
+      - studyLabel
+      - effectSize
+      - standardError
+      - total
+      - ciStudyLabel
+      - ciEffectSize
+      - ciLevel
+      - ciLower
+      - ciUpper
+      - ciTotal
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - subgroupVariables
+      - tauCommon
+      - predictionSubgroup
+    template:
+      title: ""
+      type: Group
+      items:
+        - name: subgroupText
+          type: Html
+          visible: (subgroupSummary && length(subgroupVariables) > 0)
+          clearWith: []
+          refs:
+            - MetaJam
+            - metaPackage
+
+        - name: subgroupPlotSizeCache
+          type: Group
+          visible: false
+          clearWith: []
+          items: []
+
+        - name: subgroupPlot
+          title: Subgroup Analysis Forest Plot
+          type: Image
+          renderFun: .subgroupForestPlot
+          visible: (subgroupForestPlot && length(subgroupVariables) > 0)
+          clearWith:
+            - printSubgroupName
+            - subgroupForestLayout
+            - subgroupSortBy
+            - subgroupSortDirection
+            - subgroupSortVariable
+            - subgroupForestOverall
+            - subgroupForestTestSubgroup
+            - subgroupForestTestEffect
+            - subgroupForestTestOverall
+            - subgroupForestPrintI2Ci
+            - subgroupForestPrintTau2Ci
+            - subgroupForestDetails
+            - subgroupLabelLeft
+            - subgroupLabelRight
+            - subgroupXlimCustom
+            - subgroupXlimLower
+            - subgroupXlimUpper
+            - subgroupAddrowsCustom
+            - subgroupAddrowsBelowOverall
+            - subgroupColgap
+            - subgroupColgapUnit
+            - subgroupColgapForest
+            - subgroupColgapForestUnit
+            - subgroupDigitsEffect
+            - subgroupDigitsInputEffect
+            - subgroupDigitsSe
+            - subgroupDigitsPval
+            - subgroupDigitsWeight
+            - subgroupDigitsI2
+            - subgroupDigitsTau2
+          refs:
+            - MetaJam
+            - metaPackage
+
+  - name: metaRegModels
+    title: ""
+    type: Array
+    hideHeadingOnlyChild: true
+    clearWith:
+      - sm
+      - inputMode
+      - studyLabel
+      - effectSize
+      - standardError
+      - total
+      - ciStudyLabel
+      - ciEffectSize
+      - ciLevel
+      - ciLower
+      - ciUpper
+      - ciTotal
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - metaRegCovs
+      - metaRegFactors
+      - metaRegBlocks
+      - metaRegIntercept
+    template:
+      title: ""
+      type: Group
+      items:
+        - name: metaRegText
+          type: Html
+          visible: (metaRegSummary && (length(metaRegCovs) > 0 || length(metaRegFactors) > 0))
+          clearWith: []
+          refs:
+            - MetaJam
+            - metaPackage
+
+        - name: bubblePlot
+          title: Bubble Plot
+          type: Image
+          width: 700
+          height: 500
+          renderFun: .bubblePlot
+          visible: (bubblePlot && (length(metaRegCovs) > 0 || length(metaRegFactors) > 0))
+          clearWith:
+            - bubbleRegline
+            - bubbleStudyLabel
+          refs:
+            - MetaJam
+            - metaPackage
+
+  - name: leaveOneOutText
+    type: Html
+    visible: (leaveOneOut && leaveOneOutSummary)
+    clearWith:
+      - sm
+      - inputMode
+      - studyLabel
+      - effectSize
+      - standardError
+      - total
+      - ciStudyLabel
+      - ciEffectSize
+      - ciLevel
+      - ciLower
+      - ciUpper
+      - ciTotal
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - leaveOneOutPrediction
+    refs:
+      - MetaJam
+      - metaPackage
+
+  - name: leaveOneOutPlotSizeCache
+    type: Group
+    visible: false
+    clearWith: []
+    items: []
+
+  - name: leaveOneOutPlot
+    title: Leave-One-Out Analysis Forest Plot
+    type: Image
+    renderFun: .leaveOneOutForestPlot
+    visible: (leaveOneOut && leaveOneOutForestPlot)
+    clearWith:
+      - sm
+      - inputMode
+      - studyLabel
+      - effectSize
+      - standardError
+      - total
+      - ciStudyLabel
+      - ciEffectSize
+      - ciLevel
+      - ciLower
+      - ciUpper
+      - ciTotal
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - leaveOneOutPrediction
+      - leaveOneOutForestLayout
+      - leaveOneOutSortBy
+      - leaveOneOutSortDirection
+      - leaveOneOutSortVariable
+      - leaveOneOutForestDetails
+      - leaveOneOutLabelLeft
+      - leaveOneOutLabelRight
+      - leaveOneOutXlimCustom
+      - leaveOneOutXlimLower
+      - leaveOneOutXlimUpper
+      - leaveOneOutAddrowsCustom
+      - leaveOneOutAddrowsBelowOverall
+      - leaveOneOutColgap
+      - leaveOneOutColgapUnit
+      - leaveOneOutColgapForest
+      - leaveOneOutColgapForestUnit
+      - leaveOneOutDigitsEffect
+      - leaveOneOutDigitsPval
+      - leaveOneOutDigitsI2
+      - leaveOneOutDigitsTau2
+    refs:
+      - MetaJam
+      - metaPackage
+
+  - name: cumulativeText
+    type: Html
+    visible: (cumulative && cumulativeSummary)
+    clearWith:
+      - sm
+      - inputMode
+      - studyLabel
+      - effectSize
+      - standardError
+      - total
+      - ciStudyLabel
+      - ciEffectSize
+      - ciLevel
+      - ciLower
+      - ciUpper
+      - ciTotal
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - cumulativeSortBy
+      - cumulativeSortDirection
+      - cumulativeSortVariable
+      - cumulativePrediction
+    refs:
+      - MetaJam
+      - metaPackage
+
+  - name: cumulativePlotSizeCache
+    type: Group
+    visible: false
+    clearWith: []
+    items: []
+
+  - name: cumulativePlot
+    title: Cumulative Meta-Analysis Forest Plot
+    type: Image
+    renderFun: .cumulativeForestPlot
+    visible: (cumulative && cumulativeForestPlot)
+    clearWith:
+      - sm
+      - inputMode
+      - studyLabel
+      - effectSize
+      - standardError
+      - total
+      - ciStudyLabel
+      - ciEffectSize
+      - ciLevel
+      - ciLower
+      - ciUpper
+      - ciTotal
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - cumulativeSortBy
+      - cumulativeSortDirection
+      - cumulativeSortVariable
+      - cumulativePrediction
+      - cumulativeForestLayout
+      - cumulativeForestDetails
+      - cumulativeLabelLeft
+      - cumulativeLabelRight
+      - cumulativeXlimCustom
+      - cumulativeXlimLower
+      - cumulativeXlimUpper
+      - cumulativeAddrowsCustom
+      - cumulativeAddrowsBelowOverall
+      - cumulativeColgap
+      - cumulativeColgapUnit
+      - cumulativeColgapForest
+      - cumulativeColgapForestUnit
+      - cumulativeDigitsEffect
+      - cumulativeDigitsPval
+      - cumulativeDigitsI2
+      - cumulativeDigitsTau2
+    refs:
+      - MetaJam
+      - metaPackage

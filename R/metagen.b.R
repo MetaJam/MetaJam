@@ -16,12 +16,48 @@ metaGenClass <- R6::R6Class(
         private$.model <- computeGenModel(self)
       }
       private$.model
+    },
+
+    subgroupModels = function() {
+      if (isFALSE(private$.subgroupModels)) {
+        private$.subgroupModels <- NULL
+        private$.subgroupModels <- computeGenSubgroupModels(self)
+      }
+      private$.subgroupModels
+    },
+
+    metaRegModels = function() {
+      if (isFALSE(private$.metaRegModels)) {
+        private$.metaRegModels <- NULL
+        private$.metaRegModels <- computeMetaRegModels(self)
+      }
+      private$.metaRegModels
+    },
+
+    leaveOneOutModel = function() {
+      if (isFALSE(private$.leaveOneOutModel)) {
+        private$.leaveOneOutModel <- NULL
+        private$.leaveOneOutModel <- computeLeaveOneOutModel(self)
+      }
+      private$.leaveOneOutModel
+    },
+
+    cumulativeModel = function() {
+      if (isFALSE(private$.cumulativeModel)) {
+        private$.cumulativeModel <- NULL
+        private$.cumulativeModel <- computeCumulativeModel(self)
+      }
+      private$.cumulativeModel
     }
   ),
 
   private = list(
     # State tracking for lazy models and required core variables
     .model = FALSE,
+    .subgroupModels = FALSE,
+    .metaRegModels = FALSE,
+    .leaveOneOutModel = FALSE,
+    .cumulativeModel = FALSE,
     .requiredVars = function() {
       if (self$options$inputMode == "ci") {
         c("ciEffectSize", "ciLower", "ciUpper")
@@ -33,11 +69,47 @@ metaGenClass <- R6::R6Class(
     # Initialization: runs before the model is computed. Sets up dynamic arrays
     # (subgroup, meta-regression) and displays placeholder titles.
     .init = function() {
+      initSubgroupModels(self, private$.requiredVars())
+      initMetaRegModels(self, private$.requiredVars())
+
       initText(
         self$results$text,
         self$options,
         private$.requiredVars(),
         "Meta-Analysis Summary"
+      )
+      initText(
+        self$results$leaveOneOutText,
+        self$options,
+        private$.requiredVars(),
+        "Leave-One-Out Analysis Summary"
+      )
+      initText(
+        self$results$cumulativeText,
+        self$options,
+        private$.requiredVars(),
+        "Cumulative Meta-Analysis Summary"
+      )
+    },
+
+    # Post-initialization: runs after .init() but before .run() or render
+    # functions.
+    .postInit = function() {
+      applyCachedSize(self$results$plot, self$results$plotSizeCache)
+
+      for (i in seq_along(self$options$subgroupVariables)) {
+        group <- self$results$subgroupModels$get(key = i)
+        applyCachedSize(group$subgroupPlot, group$subgroupPlotSizeCache)
+      }
+
+      applyCachedSize(
+        self$results$leaveOneOutPlot,
+        self$results$leaveOneOutPlotSizeCache
+      )
+
+      applyCachedSize(
+        self$results$cumulativePlot,
+        self$results$cumulativePlotSizeCache
       )
     },
 
@@ -50,10 +122,114 @@ metaGenClass <- R6::R6Class(
 
       collector <- newCollector()
       runSafe(
-        populateMainText(self),
+        {
+          sortKey <- prepareForestSortKey(
+            image = self$results$plot,
+            model = self$model,
+            sortBy = self$options$sortBy,
+            sortDirection = self$options$sortDirection,
+            sortVariable = self$options$sortVariable,
+            data = self$data
+          )
+
+          updateForestSize(
+            image = self$results$plot,
+            model = self$model,
+            sizeCache = self$results$plotSizeCache,
+            renderCall = function() renderGenForest(self, sortKey = sortKey)
+          )
+
+          for (i in seq_along(self$options$subgroupVariables)) {
+            group <- self$results$subgroupModels$get(key = i)
+            subgroupSortKey <- prepareForestSortKey(
+              image = group$subgroupPlot,
+              model = self$subgroupModels[[i]],
+              sortBy = self$options$subgroupSortBy,
+              sortDirection = self$options$subgroupSortDirection,
+              sortVariable = self$options$subgroupSortVariable,
+              data = self$data
+            )
+
+            updateForestSize(
+              image = group$subgroupPlot,
+              model = self$subgroupModels[[i]],
+              sizeCache = group$subgroupPlotSizeCache,
+              renderCall = function() {
+                renderGenSubgroupForest(
+                  self,
+                  key = i,
+                  sortKey = subgroupSortKey
+                )
+              }
+            )
+          }
+
+          leaveOneOutSortKey <- prepareForestSortKey(
+            image = self$results$leaveOneOutPlot,
+            model = self$leaveOneOutModel,
+            sortBy = self$options$leaveOneOutSortBy,
+            sortDirection = self$options$leaveOneOutSortDirection,
+            sortVariable = self$options$leaveOneOutSortVariable,
+            data = self$data
+          )
+
+          updateForestSize(
+            image = self$results$leaveOneOutPlot,
+            model = self$leaveOneOutModel,
+            sizeCache = self$results$leaveOneOutPlotSizeCache,
+            renderCall = function() {
+              renderLeaveOneOutForest(self, sortKey = leaveOneOutSortKey)
+            }
+          )
+
+          updateForestSize(
+            image = self$results$cumulativePlot,
+            model = self$cumulativeModel,
+            sizeCache = self$results$cumulativePlotSizeCache,
+            renderCall = function() renderCumulativeForest(self)
+          )
+
+          bubbleImages <- lapply(
+            seq_along(self$options$metaRegBlocks),
+            function(i) self$results$metaRegModels$get(key = i)$bubblePlot
+          )
+          prepareModelForImages(self$metaRegModels, bubbleImages)
+
+          populateMainText(self)
+          populateSubgroupTexts(self)
+          populateMetaRegTexts(self)
+          populateLeaveOneOutText(self)
+          populateCumulativeText(self)
+        },
         collector
       )
       displayNotices(self, collector)
+    },
+
+    # Render functions: called by jmvcore when the corresponding plot needs to
+    # be rendered or exported. They delegate to shared rendering utilities.
+    .forestPlot = function(image, ...) {
+      renderGenForest(self, sortKey = image$state$sortKey)
+    },
+
+    .subgroupForestPlot = function(image, ...) {
+      renderGenSubgroupForest(
+        self,
+        key = image$parent$key,
+        sortKey = image$state$sortKey
+      )
+    },
+
+    .bubblePlot = function(image, ...) {
+      renderBubblePlot(self, key = image$parent$key)
+    },
+
+    .leaveOneOutForestPlot = function(image, ...) {
+      renderLeaveOneOutForest(self, sortKey = image$state$sortKey)
+    },
+
+    .cumulativeForestPlot = function(image, ...) {
+      renderCumulativeForest(self)
     }
   )
 )
