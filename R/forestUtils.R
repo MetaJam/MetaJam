@@ -93,7 +93,17 @@ prepareForestSortKey <- function(
   sortValue <- switch(
     sortBy,
     none = seq_along(model$TE),
-    effect = model$TE,
+    effect = if (
+      identical(model$sm, "VE") &&
+        isTRUE(model$backtransf)
+    ) {
+      # meta displays VE as 100 * (1 - exp(TE)), which decreases as TE
+      # increases. Negating TE therefore gives the same displayed-scale
+      # ordering without calculating the complete back-transformation.
+      -model$TE
+    } else {
+      model$TE
+    },
     weight = if (isTRUE(model$common)) model$w.common else model$w.random,
     i2 = model$I2,
     tau2 = model$tau2
