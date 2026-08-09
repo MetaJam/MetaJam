@@ -288,7 +288,7 @@ options:
   - name: xlimLower
     title: Minimum
     type: Number
-    default: -10
+    default: 0.1
 
   - name: xlimUpper
     title: Maximum
@@ -603,7 +603,7 @@ options:
   - name: subgroupXlimLower
     title: Minimum
     type: Number
-    default: -10
+    default: 0.1
 
   - name: subgroupXlimUpper
     title: Maximum
@@ -920,7 +920,7 @@ options:
   - name: leaveOneOutXlimLower
     title: Minimum
     type: Number
-    default: -10
+    default: 0.1
 
   - name: leaveOneOutXlimUpper
     title: Maximum
@@ -1135,7 +1135,7 @@ options:
   - name: cumulativeXlimLower
     title: Minimum
     type: Number
-    default: -10
+    default: 0.1
 
   - name: cumulativeXlimUpper
     title: Maximum

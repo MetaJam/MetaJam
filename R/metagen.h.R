@@ -37,7 +37,7 @@ metaGenOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             labelLeft = "",
             labelRight = "",
             xlimCustom = FALSE,
-            xlimLower = -10,
+            xlimLower = 0.1,
             xlimUpper = 10,
             addrowsCustom = FALSE,
             addrowsBelowOverall = 0,
@@ -73,7 +73,7 @@ metaGenOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             subgroupLabelLeft = "",
             subgroupLabelRight = "",
             subgroupXlimCustom = FALSE,
-            subgroupXlimLower = -10,
+            subgroupXlimLower = 0.1,
             subgroupXlimUpper = 10,
             subgroupAddrowsCustom = FALSE,
             subgroupAddrowsBelowOverall = 0,
@@ -110,7 +110,7 @@ metaGenOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             leaveOneOutLabelLeft = "",
             leaveOneOutLabelRight = "",
             leaveOneOutXlimCustom = FALSE,
-            leaveOneOutXlimLower = -10,
+            leaveOneOutXlimLower = 0.1,
             leaveOneOutXlimUpper = 10,
             leaveOneOutAddrowsCustom = FALSE,
             leaveOneOutAddrowsBelowOverall = 0,
@@ -135,7 +135,7 @@ metaGenOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             cumulativeLabelLeft = "",
             cumulativeLabelRight = "",
             cumulativeXlimCustom = FALSE,
-            cumulativeXlimLower = -10,
+            cumulativeXlimLower = 0.1,
             cumulativeXlimUpper = 10,
             cumulativeAddrowsCustom = FALSE,
             cumulativeAddrowsBelowOverall = 0,
@@ -364,7 +364,7 @@ metaGenOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..xlimLower <- jmvcore::OptionNumber$new(
                 "xlimLower",
                 xlimLower,
-                default=-10)
+                default=0.1)
             private$..xlimUpper <- jmvcore::OptionNumber$new(
                 "xlimUpper",
                 xlimUpper,
@@ -587,7 +587,7 @@ metaGenOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..subgroupXlimLower <- jmvcore::OptionNumber$new(
                 "subgroupXlimLower",
                 subgroupXlimLower,
-                default=-10)
+                default=0.1)
             private$..subgroupXlimUpper <- jmvcore::OptionNumber$new(
                 "subgroupXlimUpper",
                 subgroupXlimUpper,
@@ -815,7 +815,7 @@ metaGenOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..leaveOneOutXlimLower <- jmvcore::OptionNumber$new(
                 "leaveOneOutXlimLower",
                 leaveOneOutXlimLower,
-                default=-10)
+                default=0.1)
             private$..leaveOneOutXlimUpper <- jmvcore::OptionNumber$new(
                 "leaveOneOutXlimUpper",
                 leaveOneOutXlimUpper,
@@ -968,7 +968,7 @@ metaGenOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..cumulativeXlimLower <- jmvcore::OptionNumber$new(
                 "cumulativeXlimLower",
                 cumulativeXlimLower,
-                default=-10)
+                default=0.1)
             private$..cumulativeXlimUpper <- jmvcore::OptionNumber$new(
                 "cumulativeXlimUpper",
                 cumulativeXlimUpper,
@@ -2131,7 +2131,7 @@ metaGen <- function(
     labelLeft = "",
     labelRight = "",
     xlimCustom = FALSE,
-    xlimLower = -10,
+    xlimLower = 0.1,
     xlimUpper = 10,
     addrowsCustom = FALSE,
     addrowsBelowOverall = 0,
@@ -2167,7 +2167,7 @@ metaGen <- function(
     subgroupLabelLeft = "",
     subgroupLabelRight = "",
     subgroupXlimCustom = FALSE,
-    subgroupXlimLower = -10,
+    subgroupXlimLower = 0.1,
     subgroupXlimUpper = 10,
     subgroupAddrowsCustom = FALSE,
     subgroupAddrowsBelowOverall = 0,
@@ -2204,7 +2204,7 @@ metaGen <- function(
     leaveOneOutLabelLeft = "",
     leaveOneOutLabelRight = "",
     leaveOneOutXlimCustom = FALSE,
-    leaveOneOutXlimLower = -10,
+    leaveOneOutXlimLower = 0.1,
     leaveOneOutXlimUpper = 10,
     leaveOneOutAddrowsCustom = FALSE,
     leaveOneOutAddrowsBelowOverall = 0,
@@ -2229,7 +2229,7 @@ metaGen <- function(
     cumulativeLabelLeft = "",
     cumulativeLabelRight = "",
     cumulativeXlimCustom = FALSE,
-    cumulativeXlimLower = -10,
+    cumulativeXlimLower = 0.1,
     cumulativeXlimUpper = 10,
     cumulativeAddrowsCustom = FALSE,
     cumulativeAddrowsBelowOverall = 0,
