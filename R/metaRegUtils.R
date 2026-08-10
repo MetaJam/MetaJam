@@ -352,9 +352,10 @@ bubbleB64Xlab <- function(metaRegModel, b64Map) {
 #'
 #' Since backtransf is always FALSE, xlab_meta never returns "".
 #'
-#' NOTE: For future metagen() support with custom transforms, pass func.transf /
-#' func.backtransf to xlab_meta. See meta:::xlab_meta in meta/R/meta-xlab.R
-#' L150-161 and bubble.R L349-362 for the empty-label fallback.
+#' NOTE: xlab_meta labels standard sm values directly. If MetaJam later adds a
+#' non-standard effect measure, define its analysis-scale label explicitly
+#' rather than passing func.transf / func.backtransf to xlab_meta; for an
+#' unknown sm, those arguments only trigger its technical fallback labeling.
 #'
 #' @param metaRegModel A `metareg` object.
 #' @return A character string label.

@@ -279,12 +279,13 @@ buildBinArgs <- function(self) {
     allstudies = allstudies,
     common = options$model %in% c("both", "common"),
     random = options$model %in% c("both", "random"),
+    method.tau = options$methodTau,
+    method.random.ci = options$methodRandomCi,
     prediction = options$prediction && options$model %in% c("both", "random"),
     level = level,
     level.ma = level,
     level.predict = level,
-    method.tau = options$methodTau,
-    method.random.ci = options$methodRandomCi
+    level.hetstat = level
   )
 
   if (!is.null(options$studyLabel)) {

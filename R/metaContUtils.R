@@ -1,7 +1,7 @@
 #' Compute a Continuous Outcome Meta-Analysis Model
 #'
-#' Builds the shared argument list via `buildContArgs()` (with moderator
-#' covariates included) and calls `meta::metacont()`.
+#' Builds the shared argument list via `buildContArgs()` and calls
+#' `meta::metacont()`.
 #'
 #' @param self The jamovi `self` object.
 #' @return A `meta::metacont` object, or `NULL` if required columns are
@@ -257,15 +257,16 @@ buildContArgs <- function(self) {
     mean.c = data[[options$meanC]],
     sd.c = data[[options$sdC]],
     sm = options$sm,
-    method.tau = options$methodTau,
     method.smd = options$methodSmd,
     common = options$model %in% c("both", "common"),
     random = options$model %in% c("both", "random"),
+    method.tau = options$methodTau,
+    method.random.ci = options$methodRandomCi,
     prediction = options$prediction && options$model %in% c("both", "random"),
     level = level,
     level.ma = level,
     level.predict = level,
-    method.random.ci = options$methodRandomCi
+    level.hetstat = level
   )
 
   if (!is.null(options$studyLabel)) {

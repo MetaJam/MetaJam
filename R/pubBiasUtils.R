@@ -64,7 +64,7 @@ populateAsymmetryTestText <- function(self) {
     return(invisible(NULL))
   }
 
-  if (methodBias == "Pustejovsky" && options$sm != "smd") {
+  if (methodBias == "Pustejovsky" && options$sm != "SMD") {
     jmvcore::reject(
       "The Pustejovsky and Rodgers test is only available when the effect measure is standardised mean difference (SMD)." # nolint
     )

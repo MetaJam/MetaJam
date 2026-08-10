@@ -13,11 +13,13 @@ date: '2026-08-07'
 type: R
 description: >-
   <b>MetaJam</b> is a comprehensive <b>meta</b>-analysis module for
-  <b>jam</b>ovi, powered by the R package meta.<br><br> <b>Two-Group
-  Meta-Analysis:</b> <ul> <li><b>Continuous Outcomes:</b> Analyze continuous
-  outcome data using mean, standard deviation, and sample size.</li>
-  <li><b>Binary Outcomes:</b> Analyze binary outcome data using event counts and
-  sample size.</li> </ul> <b>Analysis Options:</b> Common-effect and
+  <b>jam</b>ovi, powered by the R package meta.<br><br> <b>Available
+  Analyses:</b> <ul> <li><b>Two-Group Meta-Analysis:</b> <ul> <li><b>Continuous
+  Outcomes:</b> Analyze continuous outcome data using mean, standard deviation,
+  and sample size.</li> <li><b>Binary Outcomes:</b> Analyze binary outcome data
+  using event counts and sample size.</li> </ul> </li> <li><b>Precomputed Effect
+  Sizes Meta-Analysis:</b> Analyze precomputed effect sizes with standard errors
+  or confidence intervals.</li> </ul> <b>Analysis Options:</b> Common-effect and
   random-effects models, subgroup analysis, meta-regression, leave-one-out
   analysis, cumulative meta-analysis, and publication bias.<br><br> <b>For
   documentation, tutorials, and support, please visit:</b> <a
@@ -42,6 +44,14 @@ analyses:
     menuSubgroup: Two-Group Meta-Analysis
     menuTitle: Binary Outcomes
     menuSubtitle: Events, Total
+  - title: Precomputed Effect Sizes Meta-Analysis
+    name: metaGen
+    ns: MetaJam
+    category: analyses
+    menuGroup: MetaJam
+    menuSubgroup: Precomputed Effect Sizes Meta-Analysis
+    menuTitle: Precomputed Effect Sizes
+    menuSubtitle: Effect Size, SE/CI
 datasets:
   - name: Nedocromil Sodium
     path: NedocromilSodium.omv
@@ -62,6 +72,26 @@ datasets:
     tags:
       - Meta-Analysis
       - Binary Outcomes
+  - name: Environmental Tobacco Smoke
+    path: EnvironmentalTobaccoSmoke.omv
+    description: >-
+      Results from 37 studies examining the risk of lung cancer in lifelong
+      nonsmoking women exposed to environmental tobacco smoke from their smoking
+      spouse (Hackshaw et al., 1997).
+    tags:
+      - Meta-Analysis
+      - Precomputed Effect Sizes
+      - Odds Ratios
+  - name: Purine Analogues
+    path: PurineAnalogues.omv
+    description: >-
+      Results from 4 trials comparing single-agent purine analogues with
+      alkylator-based regimens in patients with chronic lymphocytic leukaemia
+      (Steurer et al., 2006).
+    tags:
+      - Meta-Analysis
+      - Precomputed Effect Sizes
+      - Hazard Ratios
 usesNative: true
 minApp: 2.7.27
 

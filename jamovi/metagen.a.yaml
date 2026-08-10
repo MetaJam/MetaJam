@@ -1,15 +1,55 @@
-name: metaCont
-title: Continuous Outcomes Meta-Analysis
+name: metaGen
+title: Precomputed Effect Sizes Meta-Analysis
 menuGroup: MetaJam
-menuSubgroup: Two-Group Meta-Analysis
-menuTitle: Continuous Outcomes
-menuSubtitle: Mean, SD, Total
+menuSubgroup: Precomputed Effect Sizes Meta-Analysis
+menuTitle: Precomputed Effect Sizes
+menuSubtitle: Effect Size, SE/CI
 version: "1.0.0"
 jas: "1.2"
 
 options:
   - name: data
     type: Data
+
+  - name: sm
+    title: Effect measure
+    type: List
+    options:
+      - title: Generic effect size
+        name: GEN
+      - title: Hazard ratio (HR)
+        name: HR
+      - title: Mean difference (MD)
+        name: MD
+      - title: Standardised mean difference (SMD)
+        name: SMD
+      - title: Ratio of means (ROM)
+        name: ROM
+      - title: Risk ratio (RR)
+        name: RR
+      - title: Odds ratio (OR)
+        name: OR
+      - title: Risk difference (RD)
+        name: RD
+      - title: Vaccine efficacy/effectiveness (VE)
+        name: VE
+      - title: Incidence rate ratio (IRR)
+        name: IRR
+      - title: Incidence rate difference (IRD)
+        name: IRD
+      - title: Square root transformed incidence rate difference (IRSD)
+        name: IRSD
+    default: GEN
+
+  - name: inputMode
+    title: ""
+    type: List
+    options:
+      - title: Effect Size & SE
+        name: se
+      - title: Effect Size & CI
+        name: ci
+    default: se
 
   - name: studyLabel
     title: Study Label
@@ -21,77 +61,78 @@ options:
       - factor
       - id
 
-  - name: meanE
-    title: Mean (Experimental)
+  - name: effectSize
+    title: Effect Size
     type: Variable
     suggested:
       - continuous
     permitted:
       - numeric
 
-  - name: sdE
-    title: SD (Experimental)
+  - name: standardError
+    title: Standard Error
     type: Variable
     suggested:
       - continuous
     permitted:
       - numeric
 
-  - name: nE
-    title: Total (Experimental)
+  - name: total
+    title: Total (optional)
     type: Variable
     suggested:
       - continuous
     permitted:
       - numeric
 
-  - name: meanC
-    title: Mean (Control)
+  - name: ciStudyLabel
+    title: Study Label
+    type: Variable
+    suggested:
+      - nominal
+      - id
+    permitted:
+      - factor
+      - id
+
+  - name: ciEffectSize
+    title: Effect Size
     type: Variable
     suggested:
       - continuous
     permitted:
       - numeric
 
-  - name: sdC
-    title: SD (Control)
+  - name: ciLevel
+    title: Confidence level
+    type: Number
+    min: 50
+    max: 99.9
+    default: 95
+
+  - name: ciLower
+    title: Lower confidence limit
     type: Variable
     suggested:
       - continuous
     permitted:
       - numeric
 
-  - name: nC
-    title: Total (Control)
+  - name: ciUpper
+    title: Upper confidence limit
     type: Variable
     suggested:
       - continuous
     permitted:
       - numeric
 
-  - name: sm
-    title: Effect measure
-    type: List
-    options:
-      - title: Mean difference (MD)
-        name: MD
-      - title: Standardised mean difference (SMD)
-        name: SMD
-      - title: Ratio of means (ROM)
-        name: ROM
-    default: MD
-
-  - name: methodSmd
-    title: SMD type
-    type: List
-    options:
-      - title: Hedges' g
-        name: Hedges
-      - title: Cohen's d
-        name: Cohen
-      - title: Glass' delta
-        name: Glass
-    default: Hedges
+  - name: ciTotal
+    title: Total (optional)
+    type: Variable
+    suggested:
+      - continuous
+    permitted:
+      - numeric
 
   - name: model
     title: Model
@@ -229,16 +270,6 @@ options:
     type: Bool
     default: false
 
-  - name: labelE
-    title: Experimental label
-    type: String
-    default: Experimental
-
-  - name: labelC
-    title: Control label
-    type: String
-    default: Control
-
   - name: labelLeft
     title: X-axis left label
     type: String
@@ -257,7 +288,7 @@ options:
   - name: xlimLower
     title: Minimum
     type: Number
-    default: -10
+    default: 0.1
 
   - name: xlimUpper
     title: Maximum
@@ -329,8 +360,8 @@ options:
         title: "5"
     default: "2"
 
-  - name: digitsMean
-    title: Mean
+  - name: digitsInputEffect
+    title: Input effect size
     type: List
     options:
       - name: "0"
@@ -347,8 +378,8 @@ options:
         title: "5"
     default: "2"
 
-  - name: digitsSd
-    title: SD
+  - name: digitsSe
+    title: Standard error
     type: List
     options:
       - name: "0"
@@ -554,16 +585,6 @@ options:
     type: Bool
     default: false
 
-  - name: subgroupLabelE
-    title: Experimental label
-    type: String
-    default: Experimental
-
-  - name: subgroupLabelC
-    title: Control label
-    type: String
-    default: Control
-
   - name: subgroupLabelLeft
     title: X-axis left label
     type: String
@@ -582,7 +603,7 @@ options:
   - name: subgroupXlimLower
     title: Minimum
     type: Number
-    default: -10
+    default: 0.1
 
   - name: subgroupXlimUpper
     title: Maximum
@@ -654,8 +675,8 @@ options:
         title: "5"
     default: "2"
 
-  - name: subgroupDigitsMean
-    title: Mean
+  - name: subgroupDigitsInputEffect
+    title: Input effect size
     type: List
     options:
       - name: "0"
@@ -672,8 +693,8 @@ options:
         title: "5"
     default: "2"
 
-  - name: subgroupDigitsSd
-    title: SD
+  - name: subgroupDigitsSe
+    title: Standard error
     type: List
     options:
       - name: "0"
@@ -796,15 +817,15 @@ options:
     type: Bool
     default: false
 
-  - name: bubbleRegline
-    title: Regression line
-    type: Bool
-    default: true
-
   - name: bubbleStudyLabel
     title: Study labels
     type: Bool
     default: false
+
+  - name: bubbleRegline
+    title: Regression line
+    type: Bool
+    default: true
 
   - name: leaveOneOut
     title: Leave-one-out analysis
@@ -899,7 +920,7 @@ options:
   - name: leaveOneOutXlimLower
     title: Minimum
     type: Number
-    default: -10
+    default: 0.1
 
   - name: leaveOneOutXlimUpper
     title: Maximum
@@ -1114,7 +1135,7 @@ options:
   - name: cumulativeXlimLower
     title: Minimum
     type: Number
-    default: -10
+    default: 0.1
 
   - name: cumulativeXlimUpper
     title: Maximum
@@ -1304,8 +1325,6 @@ options:
         name: Begg
       - title: Thompson
         name: Thompson
-      - title: Pustejovsky (SMD only)
-        name: Pustejovsky
     default: Egger
 
   - name: asymmetrySummary
