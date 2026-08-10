@@ -48,6 +48,14 @@ metaGenClass <- R6::R6Class(
         private$.cumulativeModel <- computeCumulativeModel(self)
       }
       private$.cumulativeModel
+    },
+
+    trimFillModel = function() {
+      if (isFALSE(private$.trimFillModel)) {
+        private$.trimFillModel <- NULL
+        private$.trimFillModel <- computeTrimFillModel(self)
+      }
+      private$.trimFillModel
     }
   ),
 
@@ -58,6 +66,7 @@ metaGenClass <- R6::R6Class(
     .metaRegModels = FALSE,
     .leaveOneOutModel = FALSE,
     .cumulativeModel = FALSE,
+    .trimFillModel = FALSE,
     .requiredVars = function() {
       if (self$options$inputMode == "ci") {
         c("ciEffectSize", "ciLower", "ciUpper")
@@ -89,6 +98,24 @@ metaGenClass <- R6::R6Class(
         self$options,
         private$.requiredVars(),
         "Cumulative Meta-Analysis Summary"
+      )
+      initText(
+        self$results$asymmetryTestText,
+        self$options,
+        private$.requiredVars(),
+        getAsymmetryTestTitle(self$options$asymmetryMethod)
+      )
+      initText(
+        self$results$trimFillText,
+        self$options,
+        private$.requiredVars(),
+        "Trim-and-Fill Analysis Summary"
+      )
+      initText(
+        self$results$lfkIndexText,
+        self$options,
+        private$.requiredVars(),
+        "LFK Index"
       )
     },
 
@@ -189,6 +216,18 @@ metaGenClass <- R6::R6Class(
             renderCall = function() renderCumulativeForest(self)
           )
 
+          prepareModelForImages(
+            self$model,
+            list(
+              self$results$funnelPlot,
+              self$results$asymmetryPlot,
+              self$results$doiPlot
+            )
+          )
+          prepareModelForImages(
+            self$trimFillModel,
+            self$results$trimFillFunnelPlot
+          )
           bubbleImages <- lapply(
             seq_along(self$options$metaRegBlocks),
             function(i) self$results$metaRegModels$get(key = i)$bubblePlot
@@ -200,6 +239,9 @@ metaGenClass <- R6::R6Class(
           populateMetaRegTexts(self)
           populateLeaveOneOutText(self)
           populateCumulativeText(self)
+          populateAsymmetryTestText(self)
+          populateTrimFillText(self)
+          populateLfkIndexText(self)
         },
         collector
       )
@@ -230,6 +272,22 @@ metaGenClass <- R6::R6Class(
 
     .cumulativeForestPlot = function(image, ...) {
       renderCumulativeForest(self)
+    },
+
+    .funnelPlot = function(image, ...) {
+      renderFunnelPlot(self)
+    },
+
+    .asymmetryPlot = function(image, ...) {
+      renderAsymmetryPlot(self)
+    },
+
+    .trimFillFunnelPlot = function(image, ...) {
+      renderTrimFillFunnelPlot(self)
+    },
+
+    .doiPlot = function(image, ...) {
+      renderDoiPlot(self)
     }
   )
 )

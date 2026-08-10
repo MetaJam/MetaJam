@@ -69,7 +69,7 @@ children:
         children:
           - type: ComboBox
             name: methodSmd
-            enable: (sm:smd)
+            enable: (sm:SMD)
       - type: LayoutBox
         children:
           - type: ComboBox

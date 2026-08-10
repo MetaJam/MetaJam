@@ -13,7 +13,7 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             meanC = NULL,
             sdC = NULL,
             nC = NULL,
-            sm = "md",
+            sm = "MD",
             methodSmd = "Hedges",
             model = "both",
             methodTau = "REML",
@@ -236,10 +236,10 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "sm",
                 sm,
                 options=list(
-                    "md",
-                    "smd",
-                    "rom"),
-                default="md")
+                    "MD",
+                    "SMD",
+                    "ROM"),
+                default="MD")
             private$..methodSmd <- jmvcore::OptionList$new(
                 "methodSmd",
                 methodSmd,
@@ -2552,7 +2552,7 @@ metaCont <- function(
     meanC,
     sdC,
     nC,
-    sm = "md",
+    sm = "MD",
     methodSmd = "Hedges",
     model = "both",
     methodTau = "REML",

@@ -384,3 +384,213 @@ items:
     refs:
       - MetaJam
       - metaPackage
+
+  - name: funnelPlot
+    title: Funnel Plot
+    type: Image
+    width: 550
+    height: 500
+    renderFun: .funnelPlot
+    visible: (funnelPlot)
+    clearWith:
+      - sm
+      - inputMode
+      - studyLabel
+      - effectSize
+      - standardError
+      - total
+      - ciStudyLabel
+      - ciEffectSize
+      - ciLevel
+      - ciLower
+      - ciUpper
+      - ciTotal
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - funnelStudyLabel
+      - funnelContour
+      - funnelLegend
+      - funnelLegendPos
+      - funnelLegendCex
+    refs:
+      - MetaJam
+      - metaPackage
+
+  - name: asymmetryTestText
+    type: Html
+    visible: (asymmetryTest && asymmetrySummary)
+    clearWith:
+      - sm
+      - inputMode
+      - studyLabel
+      - effectSize
+      - standardError
+      - total
+      - ciStudyLabel
+      - ciEffectSize
+      - ciLevel
+      - ciLower
+      - ciUpper
+      - ciTotal
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - asymmetryMethod
+    refs:
+      - MetaJam
+      - metaPackage
+
+  - name: asymmetryPlot
+    title: Plot (Test for Funnel Plot Asymmetry)
+    type: Image
+    width: 550
+    height: 500
+    renderFun: .asymmetryPlot
+    visible: (asymmetryTest && asymmetryPlot)
+    clearWith:
+      - sm
+      - inputMode
+      - studyLabel
+      - effectSize
+      - standardError
+      - total
+      - ciStudyLabel
+      - ciEffectSize
+      - ciLevel
+      - ciLower
+      - ciUpper
+      - ciTotal
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - asymmetryMethod
+    refs:
+      - MetaJam
+      - metaPackage
+
+  - name: trimFillText
+    type: Html
+    visible: (trimFill && trimFillSummary)
+    clearWith:
+      - sm
+      - inputMode
+      - studyLabel
+      - effectSize
+      - standardError
+      - total
+      - ciStudyLabel
+      - ciEffectSize
+      - ciLevel
+      - ciLower
+      - ciUpper
+      - ciTotal
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - trimFillSide
+      - trimFillEstimator
+    refs:
+      - MetaJam
+      - metaPackage
+
+  - name: trimFillFunnelPlot
+    title: Trim-and-Fill Analysis Funnel Plot
+    type: Image
+    width: 550
+    height: 500
+    renderFun: .trimFillFunnelPlot
+    visible: (trimFill && trimFillFunnelPlot)
+    clearWith:
+      - sm
+      - inputMode
+      - studyLabel
+      - effectSize
+      - standardError
+      - total
+      - ciStudyLabel
+      - ciEffectSize
+      - ciLevel
+      - ciLower
+      - ciUpper
+      - ciTotal
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - trimFillSide
+      - trimFillEstimator
+      - trimFillFunnelStudyLabel
+      - trimFillFunnelContour
+      - trimFillFunnelLegend
+      - trimFillFunnelLegendPos
+      - trimFillFunnelLegendCex
+    refs:
+      - MetaJam
+      - metaPackage
+
+  - name: doiPlot
+    title: Doi Plot
+    type: Image
+    width: 550
+    height: 500
+    renderFun: .doiPlot
+    visible: (doiPlot)
+    clearWith:
+      - sm
+      - inputMode
+      - studyLabel
+      - effectSize
+      - standardError
+      - total
+      - ciStudyLabel
+      - ciEffectSize
+      - ciLevel
+      - ciLower
+      - ciUpper
+      - ciTotal
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - doiPlotLegend
+      - doiPlotLegendPos
+      - doiPlotLegendCex
+    refs:
+      - MetaJam
+      - metasensPackage
+
+  - name: lfkIndexText
+    type: Html
+    visible: (lfkIndex)
+    clearWith:
+      - sm
+      - inputMode
+      - studyLabel
+      - effectSize
+      - standardError
+      - total
+      - ciStudyLabel
+      - ciEffectSize
+      - ciLevel
+      - ciLower
+      - ciUpper
+      - ciTotal
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+    refs:
+      - MetaJam
+      - metasensPackage

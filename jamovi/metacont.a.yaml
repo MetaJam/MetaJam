@@ -74,12 +74,12 @@ options:
     type: List
     options:
       - title: Mean difference (MD)
-        name: md
+        name: MD
       - title: Standardised mean difference (SMD)
-        name: smd
+        name: SMD
       - title: Ratio of means (ROM)
-        name: rom
-    default: md
+        name: ROM
+    default: MD
 
   - name: methodSmd
     title: SMD type

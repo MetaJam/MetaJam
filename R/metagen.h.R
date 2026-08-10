@@ -146,7 +146,33 @@ metaGenOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             cumulativeDigitsEffect = "2",
             cumulativeDigitsPval = "4",
             cumulativeDigitsI2 = "1",
-            cumulativeDigitsTau2 = "4", ...) {
+            cumulativeDigitsTau2 = "4",
+            pubBiasMode = "funnelPlot",
+            funnelPlot = FALSE,
+            funnelStudyLabel = FALSE,
+            funnelContour = FALSE,
+            funnelLegend = TRUE,
+            funnelLegendPos = "topright",
+            funnelLegendCex = 100,
+            asymmetryTest = FALSE,
+            asymmetryMethod = "Egger",
+            asymmetrySummary = TRUE,
+            asymmetryPlot = FALSE,
+            trimFill = FALSE,
+            trimFillSide = "auto",
+            trimFillEstimator = "L",
+            trimFillSummary = TRUE,
+            trimFillFunnelPlot = TRUE,
+            trimFillFunnelStudyLabel = FALSE,
+            trimFillFunnelContour = FALSE,
+            trimFillFunnelLegend = TRUE,
+            trimFillFunnelLegendPos = "topright",
+            trimFillFunnelLegendCex = 100,
+            doiPlot = FALSE,
+            doiPlotLegend = TRUE,
+            doiPlotLegendPos = "topright",
+            doiPlotLegendCex = 100,
+            lfkIndex = FALSE, ...) {
 
             super$initialize(
                 package="MetaJam",
@@ -1050,6 +1076,146 @@ metaGenOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "4",
                     "5"),
                 default="4")
+            private$..pubBiasMode <- jmvcore::OptionList$new(
+                "pubBiasMode",
+                pubBiasMode,
+                options=list(
+                    "funnelPlot",
+                    "trimFill",
+                    "doiLfk"),
+                default="funnelPlot")
+            private$..funnelPlot <- jmvcore::OptionBool$new(
+                "funnelPlot",
+                funnelPlot,
+                default=FALSE)
+            private$..funnelStudyLabel <- jmvcore::OptionBool$new(
+                "funnelStudyLabel",
+                funnelStudyLabel,
+                default=FALSE)
+            private$..funnelContour <- jmvcore::OptionBool$new(
+                "funnelContour",
+                funnelContour,
+                default=FALSE)
+            private$..funnelLegend <- jmvcore::OptionBool$new(
+                "funnelLegend",
+                funnelLegend,
+                default=TRUE)
+            private$..funnelLegendPos <- jmvcore::OptionList$new(
+                "funnelLegendPos",
+                funnelLegendPos,
+                options=list(
+                    "topright",
+                    "topleft",
+                    "bottomright",
+                    "bottomleft"),
+                default="topright")
+            private$..funnelLegendCex <- jmvcore::OptionNumber$new(
+                "funnelLegendCex",
+                funnelLegendCex,
+                min=50,
+                max=200,
+                default=100)
+            private$..asymmetryTest <- jmvcore::OptionBool$new(
+                "asymmetryTest",
+                asymmetryTest,
+                default=FALSE)
+            private$..asymmetryMethod <- jmvcore::OptionList$new(
+                "asymmetryMethod",
+                asymmetryMethod,
+                options=list(
+                    "Egger",
+                    "Begg",
+                    "Thompson"),
+                default="Egger")
+            private$..asymmetrySummary <- jmvcore::OptionBool$new(
+                "asymmetrySummary",
+                asymmetrySummary,
+                default=TRUE)
+            private$..asymmetryPlot <- jmvcore::OptionBool$new(
+                "asymmetryPlot",
+                asymmetryPlot,
+                default=FALSE)
+            private$..trimFill <- jmvcore::OptionBool$new(
+                "trimFill",
+                trimFill,
+                default=FALSE)
+            private$..trimFillSide <- jmvcore::OptionList$new(
+                "trimFillSide",
+                trimFillSide,
+                options=list(
+                    "auto",
+                    "left",
+                    "right"),
+                default="auto")
+            private$..trimFillEstimator <- jmvcore::OptionList$new(
+                "trimFillEstimator",
+                trimFillEstimator,
+                options=list(
+                    "L",
+                    "R"),
+                default="L")
+            private$..trimFillSummary <- jmvcore::OptionBool$new(
+                "trimFillSummary",
+                trimFillSummary,
+                default=TRUE)
+            private$..trimFillFunnelPlot <- jmvcore::OptionBool$new(
+                "trimFillFunnelPlot",
+                trimFillFunnelPlot,
+                default=TRUE)
+            private$..trimFillFunnelStudyLabel <- jmvcore::OptionBool$new(
+                "trimFillFunnelStudyLabel",
+                trimFillFunnelStudyLabel,
+                default=FALSE)
+            private$..trimFillFunnelContour <- jmvcore::OptionBool$new(
+                "trimFillFunnelContour",
+                trimFillFunnelContour,
+                default=FALSE)
+            private$..trimFillFunnelLegend <- jmvcore::OptionBool$new(
+                "trimFillFunnelLegend",
+                trimFillFunnelLegend,
+                default=TRUE)
+            private$..trimFillFunnelLegendPos <- jmvcore::OptionList$new(
+                "trimFillFunnelLegendPos",
+                trimFillFunnelLegendPos,
+                options=list(
+                    "topright",
+                    "topleft",
+                    "bottomright",
+                    "bottomleft"),
+                default="topright")
+            private$..trimFillFunnelLegendCex <- jmvcore::OptionNumber$new(
+                "trimFillFunnelLegendCex",
+                trimFillFunnelLegendCex,
+                min=50,
+                max=200,
+                default=100)
+            private$..doiPlot <- jmvcore::OptionBool$new(
+                "doiPlot",
+                doiPlot,
+                default=FALSE)
+            private$..doiPlotLegend <- jmvcore::OptionBool$new(
+                "doiPlotLegend",
+                doiPlotLegend,
+                default=TRUE)
+            private$..doiPlotLegendPos <- jmvcore::OptionList$new(
+                "doiPlotLegendPos",
+                doiPlotLegendPos,
+                options=list(
+                    "topright",
+                    "topleft",
+                    "bottomright",
+                    "bottomleft"),
+                default="topright")
+            private$..doiPlotLegendCex <- jmvcore::OptionNumber$new(
+                "doiPlotLegendCex",
+                doiPlotLegendCex,
+                min=50,
+                max=200,
+                default=100)
+            private$..lfkIndex <- jmvcore::OptionBool$new(
+                "lfkIndex",
+                lfkIndex,
+                default=FALSE)
 
             self$.addOption(private$..sm)
             self$.addOption(private$..inputMode)
@@ -1191,6 +1357,32 @@ metaGenOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..cumulativeDigitsPval)
             self$.addOption(private$..cumulativeDigitsI2)
             self$.addOption(private$..cumulativeDigitsTau2)
+            self$.addOption(private$..pubBiasMode)
+            self$.addOption(private$..funnelPlot)
+            self$.addOption(private$..funnelStudyLabel)
+            self$.addOption(private$..funnelContour)
+            self$.addOption(private$..funnelLegend)
+            self$.addOption(private$..funnelLegendPos)
+            self$.addOption(private$..funnelLegendCex)
+            self$.addOption(private$..asymmetryTest)
+            self$.addOption(private$..asymmetryMethod)
+            self$.addOption(private$..asymmetrySummary)
+            self$.addOption(private$..asymmetryPlot)
+            self$.addOption(private$..trimFill)
+            self$.addOption(private$..trimFillSide)
+            self$.addOption(private$..trimFillEstimator)
+            self$.addOption(private$..trimFillSummary)
+            self$.addOption(private$..trimFillFunnelPlot)
+            self$.addOption(private$..trimFillFunnelStudyLabel)
+            self$.addOption(private$..trimFillFunnelContour)
+            self$.addOption(private$..trimFillFunnelLegend)
+            self$.addOption(private$..trimFillFunnelLegendPos)
+            self$.addOption(private$..trimFillFunnelLegendCex)
+            self$.addOption(private$..doiPlot)
+            self$.addOption(private$..doiPlotLegend)
+            self$.addOption(private$..doiPlotLegendPos)
+            self$.addOption(private$..doiPlotLegendCex)
+            self$.addOption(private$..lfkIndex)
         }),
     active = list(
         sm = function() private$..sm$value,
@@ -1332,7 +1524,33 @@ metaGenOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         cumulativeDigitsEffect = function() private$..cumulativeDigitsEffect$value,
         cumulativeDigitsPval = function() private$..cumulativeDigitsPval$value,
         cumulativeDigitsI2 = function() private$..cumulativeDigitsI2$value,
-        cumulativeDigitsTau2 = function() private$..cumulativeDigitsTau2$value),
+        cumulativeDigitsTau2 = function() private$..cumulativeDigitsTau2$value,
+        pubBiasMode = function() private$..pubBiasMode$value,
+        funnelPlot = function() private$..funnelPlot$value,
+        funnelStudyLabel = function() private$..funnelStudyLabel$value,
+        funnelContour = function() private$..funnelContour$value,
+        funnelLegend = function() private$..funnelLegend$value,
+        funnelLegendPos = function() private$..funnelLegendPos$value,
+        funnelLegendCex = function() private$..funnelLegendCex$value,
+        asymmetryTest = function() private$..asymmetryTest$value,
+        asymmetryMethod = function() private$..asymmetryMethod$value,
+        asymmetrySummary = function() private$..asymmetrySummary$value,
+        asymmetryPlot = function() private$..asymmetryPlot$value,
+        trimFill = function() private$..trimFill$value,
+        trimFillSide = function() private$..trimFillSide$value,
+        trimFillEstimator = function() private$..trimFillEstimator$value,
+        trimFillSummary = function() private$..trimFillSummary$value,
+        trimFillFunnelPlot = function() private$..trimFillFunnelPlot$value,
+        trimFillFunnelStudyLabel = function() private$..trimFillFunnelStudyLabel$value,
+        trimFillFunnelContour = function() private$..trimFillFunnelContour$value,
+        trimFillFunnelLegend = function() private$..trimFillFunnelLegend$value,
+        trimFillFunnelLegendPos = function() private$..trimFillFunnelLegendPos$value,
+        trimFillFunnelLegendCex = function() private$..trimFillFunnelLegendCex$value,
+        doiPlot = function() private$..doiPlot$value,
+        doiPlotLegend = function() private$..doiPlotLegend$value,
+        doiPlotLegendPos = function() private$..doiPlotLegendPos$value,
+        doiPlotLegendCex = function() private$..doiPlotLegendCex$value,
+        lfkIndex = function() private$..lfkIndex$value),
     private = list(
         ..sm = NA,
         ..inputMode = NA,
@@ -1473,7 +1691,33 @@ metaGenOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..cumulativeDigitsEffect = NA,
         ..cumulativeDigitsPval = NA,
         ..cumulativeDigitsI2 = NA,
-        ..cumulativeDigitsTau2 = NA)
+        ..cumulativeDigitsTau2 = NA,
+        ..pubBiasMode = NA,
+        ..funnelPlot = NA,
+        ..funnelStudyLabel = NA,
+        ..funnelContour = NA,
+        ..funnelLegend = NA,
+        ..funnelLegendPos = NA,
+        ..funnelLegendCex = NA,
+        ..asymmetryTest = NA,
+        ..asymmetryMethod = NA,
+        ..asymmetrySummary = NA,
+        ..asymmetryPlot = NA,
+        ..trimFill = NA,
+        ..trimFillSide = NA,
+        ..trimFillEstimator = NA,
+        ..trimFillSummary = NA,
+        ..trimFillFunnelPlot = NA,
+        ..trimFillFunnelStudyLabel = NA,
+        ..trimFillFunnelContour = NA,
+        ..trimFillFunnelLegend = NA,
+        ..trimFillFunnelLegendPos = NA,
+        ..trimFillFunnelLegendCex = NA,
+        ..doiPlot = NA,
+        ..doiPlotLegend = NA,
+        ..doiPlotLegendPos = NA,
+        ..doiPlotLegendCex = NA,
+        ..lfkIndex = NA)
 )
 
 metaGenResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -1490,7 +1734,14 @@ metaGenResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         leaveOneOutPlot = function() private$.items[["leaveOneOutPlot"]],
         cumulativeText = function() private$.items[["cumulativeText"]],
         cumulativePlotSizeCache = function() private$.items[["cumulativePlotSizeCache"]],
-        cumulativePlot = function() private$.items[["cumulativePlot"]]),
+        cumulativePlot = function() private$.items[["cumulativePlot"]],
+        funnelPlot = function() private$.items[["funnelPlot"]],
+        asymmetryTestText = function() private$.items[["asymmetryTestText"]],
+        asymmetryPlot = function() private$.items[["asymmetryPlot"]],
+        trimFillText = function() private$.items[["trimFillText"]],
+        trimFillFunnelPlot = function() private$.items[["trimFillFunnelPlot"]],
+        doiPlot = function() private$.items[["doiPlot"]],
+        lfkIndexText = function() private$.items[["lfkIndexText"]]),
     private = list(),
     public=list(
         initialize=function(options) {
@@ -1918,7 +2169,217 @@ metaGenResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "cumulativeDigitsTau2"),
                 refs=list(
                     "MetaJam",
-                    "metaPackage")))}))
+                    "metaPackage")))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="funnelPlot",
+                title="Funnel Plot",
+                width=550,
+                height=500,
+                renderFun=".funnelPlot",
+                visible="(funnelPlot)",
+                clearWith=list(
+                    "sm",
+                    "inputMode",
+                    "studyLabel",
+                    "effectSize",
+                    "standardError",
+                    "total",
+                    "ciStudyLabel",
+                    "ciEffectSize",
+                    "ciLevel",
+                    "ciLower",
+                    "ciUpper",
+                    "ciTotal",
+                    "model",
+                    "methodTau",
+                    "methodRandomCi",
+                    "prediction",
+                    "confidenceLevel",
+                    "funnelStudyLabel",
+                    "funnelContour",
+                    "funnelLegend",
+                    "funnelLegendPos",
+                    "funnelLegendCex"),
+                refs=list(
+                    "MetaJam",
+                    "metaPackage")))
+            self$add(jmvcore::Html$new(
+                options=options,
+                name="asymmetryTestText",
+                visible="(asymmetryTest && asymmetrySummary)",
+                clearWith=list(
+                    "sm",
+                    "inputMode",
+                    "studyLabel",
+                    "effectSize",
+                    "standardError",
+                    "total",
+                    "ciStudyLabel",
+                    "ciEffectSize",
+                    "ciLevel",
+                    "ciLower",
+                    "ciUpper",
+                    "ciTotal",
+                    "model",
+                    "methodTau",
+                    "methodRandomCi",
+                    "prediction",
+                    "confidenceLevel",
+                    "asymmetryMethod"),
+                refs=list(
+                    "MetaJam",
+                    "metaPackage")))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="asymmetryPlot",
+                title="Plot (Test for Funnel Plot Asymmetry)",
+                width=550,
+                height=500,
+                renderFun=".asymmetryPlot",
+                visible="(asymmetryTest && asymmetryPlot)",
+                clearWith=list(
+                    "sm",
+                    "inputMode",
+                    "studyLabel",
+                    "effectSize",
+                    "standardError",
+                    "total",
+                    "ciStudyLabel",
+                    "ciEffectSize",
+                    "ciLevel",
+                    "ciLower",
+                    "ciUpper",
+                    "ciTotal",
+                    "model",
+                    "methodTau",
+                    "methodRandomCi",
+                    "prediction",
+                    "confidenceLevel",
+                    "asymmetryMethod"),
+                refs=list(
+                    "MetaJam",
+                    "metaPackage")))
+            self$add(jmvcore::Html$new(
+                options=options,
+                name="trimFillText",
+                visible="(trimFill && trimFillSummary)",
+                clearWith=list(
+                    "sm",
+                    "inputMode",
+                    "studyLabel",
+                    "effectSize",
+                    "standardError",
+                    "total",
+                    "ciStudyLabel",
+                    "ciEffectSize",
+                    "ciLevel",
+                    "ciLower",
+                    "ciUpper",
+                    "ciTotal",
+                    "model",
+                    "methodTau",
+                    "methodRandomCi",
+                    "prediction",
+                    "confidenceLevel",
+                    "trimFillSide",
+                    "trimFillEstimator"),
+                refs=list(
+                    "MetaJam",
+                    "metaPackage")))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="trimFillFunnelPlot",
+                title="Trim-and-Fill Analysis Funnel Plot",
+                width=550,
+                height=500,
+                renderFun=".trimFillFunnelPlot",
+                visible="(trimFill && trimFillFunnelPlot)",
+                clearWith=list(
+                    "sm",
+                    "inputMode",
+                    "studyLabel",
+                    "effectSize",
+                    "standardError",
+                    "total",
+                    "ciStudyLabel",
+                    "ciEffectSize",
+                    "ciLevel",
+                    "ciLower",
+                    "ciUpper",
+                    "ciTotal",
+                    "model",
+                    "methodTau",
+                    "methodRandomCi",
+                    "prediction",
+                    "confidenceLevel",
+                    "trimFillSide",
+                    "trimFillEstimator",
+                    "trimFillFunnelStudyLabel",
+                    "trimFillFunnelContour",
+                    "trimFillFunnelLegend",
+                    "trimFillFunnelLegendPos",
+                    "trimFillFunnelLegendCex"),
+                refs=list(
+                    "MetaJam",
+                    "metaPackage")))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="doiPlot",
+                title="Doi Plot",
+                width=550,
+                height=500,
+                renderFun=".doiPlot",
+                visible="(doiPlot)",
+                clearWith=list(
+                    "sm",
+                    "inputMode",
+                    "studyLabel",
+                    "effectSize",
+                    "standardError",
+                    "total",
+                    "ciStudyLabel",
+                    "ciEffectSize",
+                    "ciLevel",
+                    "ciLower",
+                    "ciUpper",
+                    "ciTotal",
+                    "model",
+                    "methodTau",
+                    "methodRandomCi",
+                    "prediction",
+                    "confidenceLevel",
+                    "doiPlotLegend",
+                    "doiPlotLegendPos",
+                    "doiPlotLegendCex"),
+                refs=list(
+                    "MetaJam",
+                    "metasensPackage")))
+            self$add(jmvcore::Html$new(
+                options=options,
+                name="lfkIndexText",
+                visible="(lfkIndex)",
+                clearWith=list(
+                    "sm",
+                    "inputMode",
+                    "studyLabel",
+                    "effectSize",
+                    "standardError",
+                    "total",
+                    "ciStudyLabel",
+                    "ciEffectSize",
+                    "ciLevel",
+                    "ciLower",
+                    "ciUpper",
+                    "ciTotal",
+                    "model",
+                    "methodTau",
+                    "methodRandomCi",
+                    "prediction",
+                    "confidenceLevel"),
+                refs=list(
+                    "MetaJam",
+                    "metasensPackage")))}))
 
 metaGenBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "metaGenBase",
@@ -2085,6 +2546,32 @@ metaGenBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param cumulativeDigitsPval .
 #' @param cumulativeDigitsI2 .
 #' @param cumulativeDigitsTau2 .
+#' @param pubBiasMode .
+#' @param funnelPlot .
+#' @param funnelStudyLabel .
+#' @param funnelContour .
+#' @param funnelLegend .
+#' @param funnelLegendPos .
+#' @param funnelLegendCex .
+#' @param asymmetryTest .
+#' @param asymmetryMethod .
+#' @param asymmetrySummary .
+#' @param asymmetryPlot .
+#' @param trimFill .
+#' @param trimFillSide .
+#' @param trimFillEstimator .
+#' @param trimFillSummary .
+#' @param trimFillFunnelPlot .
+#' @param trimFillFunnelStudyLabel .
+#' @param trimFillFunnelContour .
+#' @param trimFillFunnelLegend .
+#' @param trimFillFunnelLegendPos .
+#' @param trimFillFunnelLegendCex .
+#' @param doiPlot .
+#' @param doiPlotLegend .
+#' @param doiPlotLegendPos .
+#' @param doiPlotLegendCex .
+#' @param lfkIndex .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$text} \tab \tab \tab \tab \tab a html \cr
@@ -2095,6 +2582,13 @@ metaGenBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'   \code{results$leaveOneOutPlot} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$cumulativeText} \tab \tab \tab \tab \tab a html \cr
 #'   \code{results$cumulativePlot} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$funnelPlot} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$asymmetryTestText} \tab \tab \tab \tab \tab a html \cr
+#'   \code{results$asymmetryPlot} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$trimFillText} \tab \tab \tab \tab \tab a html \cr
+#'   \code{results$trimFillFunnelPlot} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$doiPlot} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$lfkIndexText} \tab \tab \tab \tab \tab a html \cr
 #' }
 #'
 #' @export
@@ -2240,7 +2734,33 @@ metaGen <- function(
     cumulativeDigitsEffect = "2",
     cumulativeDigitsPval = "4",
     cumulativeDigitsI2 = "1",
-    cumulativeDigitsTau2 = "4") {
+    cumulativeDigitsTau2 = "4",
+    pubBiasMode = "funnelPlot",
+    funnelPlot = FALSE,
+    funnelStudyLabel = FALSE,
+    funnelContour = FALSE,
+    funnelLegend = TRUE,
+    funnelLegendPos = "topright",
+    funnelLegendCex = 100,
+    asymmetryTest = FALSE,
+    asymmetryMethod = "Egger",
+    asymmetrySummary = TRUE,
+    asymmetryPlot = FALSE,
+    trimFill = FALSE,
+    trimFillSide = "auto",
+    trimFillEstimator = "L",
+    trimFillSummary = TRUE,
+    trimFillFunnelPlot = TRUE,
+    trimFillFunnelStudyLabel = FALSE,
+    trimFillFunnelContour = FALSE,
+    trimFillFunnelLegend = TRUE,
+    trimFillFunnelLegendPos = "topright",
+    trimFillFunnelLegendCex = 100,
+    doiPlot = FALSE,
+    doiPlotLegend = TRUE,
+    doiPlotLegendPos = "topright",
+    doiPlotLegendCex = 100,
+    lfkIndex = FALSE) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("metaGen requires jmvcore to be installed (restart may be required)")
@@ -2424,7 +2944,33 @@ metaGen <- function(
         cumulativeDigitsEffect = cumulativeDigitsEffect,
         cumulativeDigitsPval = cumulativeDigitsPval,
         cumulativeDigitsI2 = cumulativeDigitsI2,
-        cumulativeDigitsTau2 = cumulativeDigitsTau2)
+        cumulativeDigitsTau2 = cumulativeDigitsTau2,
+        pubBiasMode = pubBiasMode,
+        funnelPlot = funnelPlot,
+        funnelStudyLabel = funnelStudyLabel,
+        funnelContour = funnelContour,
+        funnelLegend = funnelLegend,
+        funnelLegendPos = funnelLegendPos,
+        funnelLegendCex = funnelLegendCex,
+        asymmetryTest = asymmetryTest,
+        asymmetryMethod = asymmetryMethod,
+        asymmetrySummary = asymmetrySummary,
+        asymmetryPlot = asymmetryPlot,
+        trimFill = trimFill,
+        trimFillSide = trimFillSide,
+        trimFillEstimator = trimFillEstimator,
+        trimFillSummary = trimFillSummary,
+        trimFillFunnelPlot = trimFillFunnelPlot,
+        trimFillFunnelStudyLabel = trimFillFunnelStudyLabel,
+        trimFillFunnelContour = trimFillFunnelContour,
+        trimFillFunnelLegend = trimFillFunnelLegend,
+        trimFillFunnelLegendPos = trimFillFunnelLegendPos,
+        trimFillFunnelLegendCex = trimFillFunnelLegendCex,
+        doiPlot = doiPlot,
+        doiPlotLegend = doiPlotLegend,
+        doiPlotLegendPos = doiPlotLegendPos,
+        doiPlotLegendCex = doiPlotLegendCex,
+        lfkIndex = lfkIndex)
 
     analysis <- metaGenClass$new(
         options = options,

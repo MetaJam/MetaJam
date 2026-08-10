@@ -1024,3 +1024,110 @@ children:
                         cell:
                           row: 1
                           column: 1
+
+  - type: CollapseBox
+    label: Publication Bias
+    collapsed: true
+    stretchFactor: 1
+    children:
+      - type: ModeSelector
+        name: pubBiasMode
+        children:
+          - type: Content
+            name: funnelPlot
+            children:
+              - type: CheckBox
+                name: funnelPlot
+                children:
+                  - type: CheckBox
+                    name: funnelStudyLabel
+                    enable: (funnelPlot)
+                  - type: CheckBox
+                    name: funnelContour
+                    enable: (funnelPlot)
+                    children:
+                      - type: CheckBox
+                        name: funnelLegend
+                        enable: (funnelPlot && funnelContour)
+                        children:
+                          - type: ComboBox
+                            name: funnelLegendPos
+                            enable: (funnelPlot && funnelContour && funnelLegend)
+                          - type: TextBox
+                            name: funnelLegendCex
+                            format: number
+                            suffix: "%"
+                            enable: (funnelPlot && funnelContour && funnelLegend)
+              - type: CheckBox
+                name: asymmetryTest
+                children:
+                  - type: ComboBox
+                    name: asymmetryMethod
+                    enable: (asymmetryTest)
+                  - type: CheckBox
+                    name: asymmetrySummary
+                    enable: (asymmetryTest)
+                  - type: CheckBox
+                    name: asymmetryPlot
+                    enable: (asymmetryTest)
+          - type: Content
+            name: trimFill
+            children:
+              - type: CheckBox
+                name: trimFill
+                children:
+                  - type: LayoutBox
+                    children:
+                      - type: ComboBox
+                        name: trimFillSide
+                        enable: (trimFill)
+                  - type: LayoutBox
+                    children:
+                      - type: ComboBox
+                        name: trimFillEstimator
+                        enable: (trimFill)
+                  - type: CheckBox
+                    name: trimFillSummary
+                    enable: (trimFill)
+                  - type: CheckBox
+                    name: trimFillFunnelPlot
+                    enable: (trimFill)
+                    children:
+                      - type: CheckBox
+                        name: trimFillFunnelStudyLabel
+                        enable: (trimFill && trimFillFunnelPlot)
+                      - type: CheckBox
+                        name: trimFillFunnelContour
+                        enable: (trimFill && trimFillFunnelPlot)
+                      - type: CheckBox
+                        name: trimFillFunnelLegend
+                        enable: (trimFill && trimFillFunnelPlot)
+                        children:
+                          - type: ComboBox
+                            name: trimFillFunnelLegendPos
+                            enable: (trimFill && trimFillFunnelPlot && trimFillFunnelLegend)
+                          - type: TextBox
+                            name: trimFillFunnelLegendCex
+                            format: number
+                            suffix: "%"
+                            enable: (trimFill && trimFillFunnelPlot && trimFillFunnelLegend)
+          - type: Content
+            name: doiLfk
+            children:
+              - type: CheckBox
+                name: doiPlot
+                children:
+                  - type: CheckBox
+                    name: doiPlotLegend
+                    enable: (doiPlot)
+                    children:
+                      - type: ComboBox
+                        name: doiPlotLegendPos
+                        enable: (doiPlot && doiPlotLegend)
+                      - type: TextBox
+                        name: doiPlotLegendCex
+                        format: number
+                        suffix: "%"
+                        enable: (doiPlot && doiPlotLegend)
+              - type: CheckBox
+                name: lfkIndex
