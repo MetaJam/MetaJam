@@ -1,0 +1,18 @@
+name: Notify website on release
+
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  notify-website:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dispatch website rebuild
+        env:
+          GH_TOKEN: ${{ secrets.METAJAM_WEBSITE_DISPATCH_TOKEN }}
+        run: |
+          gh api repos/MetaJam/MetaJam-Website/dispatches \
+            -f event_type=metajam-release \
+            -F client_payload[release]="${{ github.event.release.tag_name }}"
