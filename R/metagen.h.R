@@ -194,8 +194,7 @@ metaGenOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "RD",
                     "VE",
                     "IRR",
-                    "IRD",
-                    "IRSD"),
+                    "IRD"),
                 default="GEN")
             private$..inputMode <- jmvcore::OptionList$new(
                 "inputMode",

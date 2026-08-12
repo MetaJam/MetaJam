@@ -37,8 +37,6 @@ options:
         name: IRR
       - title: Incidence rate difference (IRD)
         name: IRD
-      - title: Square root transformed incidence rate difference (IRSD)
-        name: IRSD
     default: GEN
 
   - name: inputMode

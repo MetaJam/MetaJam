@@ -13,7 +13,6 @@ const analysisScaleEffectSizeLabels = {
   VE: "Log Vaccine Ratio",
   IRR: "Log Incidence Rate Ratio",
   IRD: "Incidence Rate Difference",
-  IRSD: "Square Root Transformed Incidence Rate Difference",
 };
 
 const naturalScaleEffectSizeLabels = {
@@ -28,7 +27,6 @@ const naturalScaleEffectSizeLabels = {
   VE: "Vaccine Efficacy/Effectiveness",
   IRR: "Incidence Rate Ratio",
   IRD: "Incidence Rate Difference",
-  IRSD: "Square Root Transformed Incidence Rate Difference",
 };
 
 const updateEffectSizeLabel = function (ui) {
