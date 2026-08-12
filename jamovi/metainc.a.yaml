@@ -1,0 +1,157 @@
+name: metaInc
+title: Incidence Rate Outcomes Meta-Analysis
+menuGroup: MetaJam
+menuSubgroup: Two-Group Meta-Analysis
+menuTitle: Incidence Rate Outcomes
+menuSubtitle: Events, Person-Time
+version: "1.0.0"
+jas: "1.2"
+
+options:
+  - name: data
+    type: Data
+
+  - name: studyLabel
+    title: Study Label
+    type: Variable
+    suggested:
+      - nominal
+      - id
+    permitted:
+      - factor
+      - id
+
+  - name: eventE
+    title: Events (Experimental)
+    type: Variable
+    suggested:
+      - continuous
+    permitted:
+      - numeric
+
+  - name: timeE
+    title: Person-Time (Experimental)
+    type: Variable
+    suggested:
+      - continuous
+    permitted:
+      - numeric
+
+  - name: eventC
+    title: Events (Control)
+    type: Variable
+    suggested:
+      - continuous
+    permitted:
+      - numeric
+
+  - name: timeC
+    title: Person-Time (Control)
+    type: Variable
+    suggested:
+      - continuous
+    permitted:
+      - numeric
+
+  - name: sm
+    title: Effect measure
+    type: List
+    options:
+      - title: Incidence rate ratio (IRR)
+        name: IRR
+      - title: Incidence rate difference (IRD)
+        name: IRD
+      - title: Vaccine efficacy/effectiveness (VE)
+        name: VE
+    default: IRR
+
+  - name: method
+    title: Method
+    type: List
+    options:
+      - title: Inverse variance
+        name: Inverse
+      - title: Mantel-Haenszel
+        name: MH
+    default: Inverse
+
+  - name: correctionMethod
+    title: Continuity correction
+    type: List
+    options:
+      - title: No correction
+        name: none
+      - title: Only zero-event studies
+        name: only0
+      - title: All studies if any zero event
+        name: if0all
+      - title: All studies
+        name: all
+    default: only0
+
+  - name: incr
+    title: Increment
+    type: Number
+    min: 0
+    default: 0.5
+
+  - name: model
+    title: Model
+    type: List
+    options:
+      - title: Random & common
+        name: both
+      - title: Random effects
+        name: random
+      - title: Common effect
+        name: common
+    default: both
+
+  - name: methodTau
+    title: Heterogeneity estimator
+    type: List
+    options:
+      - title: Restricted maximum-likelihood
+        name: REML
+      - title: Paule-Mandel
+        name: PM
+      - title: DerSimonian-Laird
+        name: DL
+      - title: Maximum-likelihood
+        name: ML
+      - title: Hunter-Schmidt
+        name: HS
+      - title: Sidik-Jonkman
+        name: SJ
+      - title: Hedges
+        name: HE
+      - title: Empirical Bayes
+        name: EB
+    default: REML
+
+  - name: methodRandomCi
+    title: Random effects CI method
+    type: List
+    options:
+      - title: Classic
+        name: classic
+      - title: Hartung-Knapp
+        name: HK
+    default: classic
+
+  - name: prediction
+    title: Prediction interval
+    type: Bool
+    default: false
+
+  - name: confidenceLevel
+    title: Confidence level
+    type: Number
+    min: 50
+    max: 99.9
+    default: 95
+
+  - name: summary
+    title: Summary
+    type: Bool
+    default: true

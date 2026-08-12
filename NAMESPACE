@@ -3,3 +3,4 @@
 export(metaBin)
 export(metaCont)
 export(metaGen)
+export(metaInc)

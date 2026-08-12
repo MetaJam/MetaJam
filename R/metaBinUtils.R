@@ -312,12 +312,13 @@ warnBinMethodForRandom <- function(options) {
 
   if (options$method == "MH") {
     warning(
-      "For the random effects model, the inverse variance method was used ",
-      "instead of Mantel-Haenszel. These random effects results are ",
-      "identical to when \"Method\" is set to \"Inverse variance\", ",
-      "with one exception: when the \"Heterogeneity estimator\" is set to ",
+      "The Mantel-Haenszel method is available only for the common effect ",
+      "model; the inverse variance method was therefore used for the random ",
+      "effects model. These random effects results are the same as those ",
+      "obtained with \"Method\" set to \"Inverse variance\", with one ",
+      "exception: when \"Heterogeneity estimator\" is set to ",
       "\"DerSimonian-Laird\", the Mantel-Haenszel estimator is used in ",
-      "the calculation of Q and Tau\u00b2 (like RevMan 5).",
+      "the calculation of Q and Tau\u00b2 (as in RevMan 5).",
       call. = FALSE
     )
   }

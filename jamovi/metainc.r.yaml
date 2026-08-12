@@ -1,0 +1,26 @@
+name: metaInc
+title: Incidence Rate Outcomes Meta-Analysis
+jrs: "1.1"
+
+items:
+  - name: text
+    type: Html
+    visible: (summary)
+    clearWith:
+      - studyLabel
+      - eventE
+      - timeE
+      - eventC
+      - timeC
+      - sm
+      - method
+      - correctionMethod
+      - incr
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+    refs:
+      - MetaJam
+      - metaPackage

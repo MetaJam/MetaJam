@@ -13,11 +13,12 @@ Authors@R: c(
            comment = c(ORCID = "0009-0002-2871-9925"))
   )
 Description: A comprehensive meta-analysis module for jamovi, powered by
-    the R package meta. It features two-group meta-analysis for continuous
-    and binary outcomes and precomputed effect sizes meta-analysis. Analysis options include
-    common-effect and random-effects models, subgroup analysis,
-    meta-regression, leave-one-out analysis, cumulative meta-analysis, and
-    publication bias.
+    the R package meta. It features two-group meta-analysis for
+    continuous, binary, and incidence rate outcomes and precomputed effect
+    sizes meta-analysis. Analysis options include common-effect and
+    random-effects models, subgroup analysis, meta-regression,
+    leave-one-out analysis, cumulative meta-analysis, and publication
+    bias.
 License: GPL (>= 2)
 Imports: 
     graphics,
@@ -33,6 +34,6 @@ Imports:
 Remotes: 
     guido-s/metabook@a6ed112037848941c4b27071a12c4165af6edffd,
     guido-s/meta@0bc39d7d17078c20312063b6797772b3307ecca9
-Config/roxygen2/version: 8.0.0
+Config/roxygen2/version: 8.1.0
 Encoding: UTF-8
 LazyData: true

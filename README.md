@@ -26,6 +26,8 @@ the R package [meta](https://cran.r-project.org/package=meta).
     control groups.
   - **Binary Outcomes:** Analyze binary outcome data using
     event counts and sample size for the experimental and control groups.
+  - **Incidence Rate Outcomes:** Analyze incidence rate outcome data using
+    event counts and person-time for the experimental and control groups.
 - **Precomputed Effect Sizes Meta-Analysis:** Analyze precomputed effect sizes
   with standard errors or confidence intervals.
 
