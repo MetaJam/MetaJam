@@ -81,6 +81,15 @@ datasets:
     tags:
       - Meta-Analysis
       - Binary Outcomes
+  - name: Adjusted-Dose Warfarin
+    path: AdjustedDoseWarfarin.omv
+    description: >-
+      Results from 6 clinical trials examining the effectiveness of
+      adjusted-dose warfarin for preventing strokes in patients with atrial
+      fibrillation (Hart et al., 1999).
+    tags:
+      - Meta-Analysis
+      - Incidence Rate Outcomes
   - name: Environmental Tobacco Smoke
     path: EnvironmentalTobaccoSmoke.omv
     description: >-
