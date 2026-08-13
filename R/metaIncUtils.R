@@ -27,10 +27,196 @@ computeIncModel <- function(self) {
 }
 
 
+#' Compute Incidence Rate Outcome Subgroup Models for All Variables
+#'
+#' Iterates over `options$subgroupVariables`, building a model for each
+#' variable by calling `meta::metainc()` with `subgroup=`. Returns a
+#' list of models. Cross-cycle caching is performed per-variable via the
+#' corresponding `subgroupText` result element in the array.
+#'
+#' @param self The jamovi `self` object.
+#' @return A list of `meta::metainc` objects with subgroup results,
+#'   or `NULL` if no subgroup variables are assigned.
+#' @noRd
+computeIncSubgroupModels <- function(self) {
+  vars <- self$options$subgroupVariables
+  if (length(vars) == 0) {
+    return()
+  }
+
+  modelsArray <- self$results$subgroupModels
+  models <- vector("list", length(vars))
+  missing <- integer()
+
+  # We must restore cached subgroup models BEFORE entering the calculation path.
+  # If a model is missing from the cache during later lifecycle phases (e.g.,
+  # image rendering or save/export), it means its calculation failed during the
+  # .run() phase and threw an error. In these later phases, jamovi clears
+  # self$data and it becomes NULL. If we attempted to recalculate the missing
+  # model with NULL data via buildIncArgs(), it would crash with a new,
+  # confusing error that masks the original .run() failure. To prevent this,
+  # buildIncArgs() checks if data is NULL and safely aborts, ensuring the true
+  # error is shown.
+  for (i in seq_along(vars)) {
+    cacheElement <- modelsArray$get(key = i)$subgroupText
+
+    # Cross-cycle cache (restored via clearWith)
+    cached <- cacheElement$state
+    if (!is.null(cached)) {
+      models[[i]] <- cached
+      next
+    }
+
+    missing <- c(missing, i)
+  }
+
+  if (length(missing) == 0) {
+    return(models)
+  }
+
+  args <- buildIncArgs(self)
+  if (is.null(args)) {
+    return(models)
+  }
+
+  args$tau.common <- self$options$tauCommon
+  args$prediction.subgroup <- self$options$predictionSubgroup &&
+    self$options$model %in% c("both", "random")
+  # Subgroup models are only printed/plotted, so avoid caching their data.
+  args$keepdata <- FALSE
+
+  for (i in missing) {
+    cacheElement <- modelsArray$get(key = i)$subgroupText
+
+    args$subgroup <- self$data[[vars[[i]]]]
+    args$subgroup.name <- vars[[i]]
+
+    models[[i]] <- do.call(meta::metainc, args)
+    models[[i]] <- stripModel(models[[i]])
+
+    # Cache for next cycle
+    cacheElement$setState(models[[i]])
+  }
+
+  models
+}
+
+
+#' Render a Metainc-Specific Forest Plot
+#'
+#' Adds metainc-specific column label attachments (so the group header
+#' spans the Events / Person-Time columns) and delegates to `renderForest()`.
+#'
+#' @param self The jamovi `self` object.
+#' @param sortKey Precomputed sort key from `prepareForestSortKey()`.
+#' @return TRUE if the plot was successfully rendered, FALSE otherwise.
+#' @noRd
+renderIncForest <- function(self, sortKey) {
+  model <- self$model
+  options <- self$options
+
+  if (is.null(model)) {
+    return(FALSE)
+  }
+
+  args <- list(
+    model = model,
+    options = options,
+    sortKey = sortKey,
+    label.e = options$labelE,
+    label.c = options$labelC
+  )
+
+  # Omitting digits.time preserves meta::forest()'s native automatic rule:
+  # whole-number person-times use zero decimal places, while fractional
+  # person-times inherit the forest effect-size rounding value, which defaults
+  # to two decimal places.
+  if (options$digitsTime != "auto") {
+    args$digits.time <- as.integer(options$digitsTime)
+  }
+
+  # TODO: Include "BMJ" after meta::forest() permits centered group headings.
+  # In meta/R/forest.R:11392-11402, BMJ forces both headings to use "left"
+  # instead of the requested just.label.e and just.label.c values.
+  if (options$forestLayout %in% c("meta", "RevMan5")) {
+    args <- c(
+      args,
+      list(
+        label.e.attach = c("event.e", "time.e"),
+        label.c.attach = c("event.c", "time.c"),
+        just.label.e = "center",
+        just.label.c = "center"
+      )
+    )
+  }
+
+  do.call(renderForest, args)
+
+  TRUE
+}
+
+
+#' Render a Metainc Subgroup Forest Plot
+#'
+#' Adds metainc-specific column label attachments (so the group header
+#' spans the Events / Person-Time columns) and delegates to
+#' `renderSubgroupForest()`.
+#'
+#' @param self The jamovi `self` object.
+#' @param key The jamovi array item key (e.g., `image$parent$key`).
+#' @param sortKey Precomputed sort key from `prepareForestSortKey()`.
+#' @return TRUE if the plot was successfully rendered, FALSE otherwise.
+#' @noRd
+renderIncSubgroupForest <- function(self, key, sortKey) {
+  model <- self$subgroupModels[[key]]
+  options <- self$options
+
+  if (is.null(model)) {
+    return(FALSE)
+  }
+
+  args <- list(
+    model = model,
+    options = options,
+    sortKey = sortKey,
+    label.e = options$subgroupLabelE,
+    label.c = options$subgroupLabelC
+  )
+
+  # As in the main forest plot, Auto is implemented by omitting digits.time so
+  # meta::forest() can choose zero decimals for whole-number person-times and
+  # inherit the forest effect-size rounding for fractional person-times, which
+  # defaults to two decimal places.
+  if (options$subgroupDigitsTime != "auto") {
+    args$digits.time <- as.integer(options$subgroupDigitsTime)
+  }
+
+  # TODO: Include "BMJ" after meta::forest() permits centered group headings.
+  # In meta/R/forest.R:11392-11402, BMJ forces both headings to use "left"
+  # instead of the requested just.label.e and just.label.c values.
+  if (options$subgroupForestLayout %in% c("meta", "RevMan5")) {
+    args <- c(
+      args,
+      list(
+        label.e.attach = c("event.e", "time.e"),
+        label.c.attach = c("event.c", "time.c"),
+        just.label.e = "center",
+        just.label.c = "center"
+      )
+    )
+  }
+
+  do.call(renderSubgroupForest, args)
+
+  TRUE
+}
+
+
 #' Build Common metainc() Arguments
 #'
-#' Loads data from the analysis object, curates numeric columns, and returns the
-#' argument list ready for `meta::metainc()`.
+#' Loads data from the analysis object, curates numeric columns, and
+#' returns the argument list ready for `meta::metainc()`. Shared by
+#' `computeIncModel()` and `computeIncSubgroupModels()`.
 #'
 #' Core study data are passed as vectors rather than via `data=` so cached
 #' meta objects do not retain the full Jamovi data frame. Meta-regression

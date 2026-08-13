@@ -737,15 +737,15 @@ options:
     type: Bool
     default: false
 
-  - name: bubbleRegline
-    title: Regression line
-    type: Bool
-    default: true
-
   - name: bubbleStudyLabel
     title: Study labels
     type: Bool
     default: false
+
+  - name: bubbleRegline
+    title: Regression line
+    type: Bool
+    default: true
 
   - name: leaveOneOut
     title: Leave-one-out analysis

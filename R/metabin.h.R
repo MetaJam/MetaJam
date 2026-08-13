@@ -93,8 +93,8 @@ metaBinOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             metaRegIntercept = TRUE,
             metaRegSummary = TRUE,
             bubblePlot = FALSE,
-            bubbleRegline = TRUE,
             bubbleStudyLabel = FALSE,
+            bubbleRegline = TRUE,
             leaveOneOut = FALSE,
             leaveOneOutPrediction = FALSE,
             leaveOneOutSummary = TRUE,
@@ -708,14 +708,14 @@ metaBinOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "bubblePlot",
                 bubblePlot,
                 default=FALSE)
-            private$..bubbleRegline <- jmvcore::OptionBool$new(
-                "bubbleRegline",
-                bubbleRegline,
-                default=TRUE)
             private$..bubbleStudyLabel <- jmvcore::OptionBool$new(
                 "bubbleStudyLabel",
                 bubbleStudyLabel,
                 default=FALSE)
+            private$..bubbleRegline <- jmvcore::OptionBool$new(
+                "bubbleRegline",
+                bubbleRegline,
+                default=TRUE)
             private$..leaveOneOut <- jmvcore::OptionBool$new(
                 "leaveOneOut",
                 leaveOneOut,
@@ -1254,8 +1254,8 @@ metaBinOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..metaRegIntercept)
             self$.addOption(private$..metaRegSummary)
             self$.addOption(private$..bubblePlot)
-            self$.addOption(private$..bubbleRegline)
             self$.addOption(private$..bubbleStudyLabel)
+            self$.addOption(private$..bubbleRegline)
             self$.addOption(private$..leaveOneOut)
             self$.addOption(private$..leaveOneOutPrediction)
             self$.addOption(private$..leaveOneOutSummary)
@@ -1420,8 +1420,8 @@ metaBinOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         metaRegIntercept = function() private$..metaRegIntercept$value,
         metaRegSummary = function() private$..metaRegSummary$value,
         bubblePlot = function() private$..bubblePlot$value,
-        bubbleRegline = function() private$..bubbleRegline$value,
         bubbleStudyLabel = function() private$..bubbleStudyLabel$value,
+        bubbleRegline = function() private$..bubbleRegline$value,
         leaveOneOut = function() private$..leaveOneOut$value,
         leaveOneOutPrediction = function() private$..leaveOneOutPrediction$value,
         leaveOneOutSummary = function() private$..leaveOneOutSummary$value,
@@ -1585,8 +1585,8 @@ metaBinOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..metaRegIntercept = NA,
         ..metaRegSummary = NA,
         ..bubblePlot = NA,
-        ..bubbleRegline = NA,
         ..bubbleStudyLabel = NA,
+        ..bubbleRegline = NA,
         ..leaveOneOut = NA,
         ..leaveOneOutPrediction = NA,
         ..leaveOneOutSummary = NA,
@@ -2407,8 +2407,8 @@ metaBinBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param metaRegIntercept .
 #' @param metaRegSummary .
 #' @param bubblePlot .
-#' @param bubbleRegline .
 #' @param bubbleStudyLabel .
+#' @param bubbleRegline .
 #' @param leaveOneOut .
 #' @param leaveOneOutPrediction .
 #' @param leaveOneOutSummary .
@@ -2594,8 +2594,8 @@ metaBin <- function(
     metaRegIntercept = TRUE,
     metaRegSummary = TRUE,
     bubblePlot = FALSE,
-    bubbleRegline = TRUE,
     bubbleStudyLabel = FALSE,
+    bubbleRegline = TRUE,
     leaveOneOut = FALSE,
     leaveOneOutPrediction = FALSE,
     leaveOneOutSummary = TRUE,
@@ -2794,8 +2794,8 @@ metaBin <- function(
         metaRegIntercept = metaRegIntercept,
         metaRegSummary = metaRegSummary,
         bubblePlot = bubblePlot,
-        bubbleRegline = bubbleRegline,
         bubbleStudyLabel = bubbleStudyLabel,
+        bubbleRegline = bubbleRegline,
         leaveOneOut = leaveOneOut,
         leaveOneOutPrediction = leaveOneOutPrediction,
         leaveOneOutSummary = leaveOneOutSummary,
