@@ -1,3 +1,9 @@
+# MetaJam 0.4.0
+
+- **New Analyses:** Added Precomputed Effect Sizes Meta-Analysis and Incidence Rate Outcomes Meta-Analysis.
+- Added the Environmental Tobacco Smoke, Purine Analogues, and Adjusted-Dose Warfarin sample datasets to jamovi's Data Library.
+- General bug-fixes and improvements.
+
 # MetaJam 0.3.0
 
 - Added Cumulative Meta-Analysis.
