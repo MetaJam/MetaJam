@@ -68,10 +68,14 @@ items:
       - xlimUpper
       - addrowsCustom
       - addrowsBelowOverall
-      - colgap
-      - colgapUnit
-      - colgapForest
-      - colgapForestUnit
+      - colgapLeft
+      - colgapLeftUnit
+      - colgapRight
+      - colgapRightUnit
+      - colgapForestLeft
+      - colgapForestLeftUnit
+      - colgapForestRight
+      - colgapForestRightUnit
       - digitsEffect
       - digitsMean
       - digitsSd
@@ -150,10 +154,14 @@ items:
             - subgroupXlimUpper
             - subgroupAddrowsCustom
             - subgroupAddrowsBelowOverall
-            - subgroupColgap
-            - subgroupColgapUnit
-            - subgroupColgapForest
-            - subgroupColgapForestUnit
+            - subgroupColgapLeft
+            - subgroupColgapLeftUnit
+            - subgroupColgapRight
+            - subgroupColgapRightUnit
+            - subgroupColgapForestLeft
+            - subgroupColgapForestLeftUnit
+            - subgroupColgapForestRight
+            - subgroupColgapForestRightUnit
             - subgroupDigitsEffect
             - subgroupDigitsMean
             - subgroupDigitsSd
@@ -276,10 +284,14 @@ items:
       - leaveOneOutXlimUpper
       - leaveOneOutAddrowsCustom
       - leaveOneOutAddrowsBelowOverall
-      - leaveOneOutColgap
-      - leaveOneOutColgapUnit
-      - leaveOneOutColgapForest
-      - leaveOneOutColgapForestUnit
+      - leaveOneOutColgapLeft
+      - leaveOneOutColgapLeftUnit
+      - leaveOneOutColgapRight
+      - leaveOneOutColgapRightUnit
+      - leaveOneOutColgapForestLeft
+      - leaveOneOutColgapForestLeftUnit
+      - leaveOneOutColgapForestRight
+      - leaveOneOutColgapForestRightUnit
       - leaveOneOutDigitsEffect
       - leaveOneOutDigitsPval
       - leaveOneOutDigitsI2
@@ -353,10 +365,14 @@ items:
       - cumulativeXlimUpper
       - cumulativeAddrowsCustom
       - cumulativeAddrowsBelowOverall
-      - cumulativeColgap
-      - cumulativeColgapUnit
-      - cumulativeColgapForest
-      - cumulativeColgapForestUnit
+      - cumulativeColgapLeft
+      - cumulativeColgapLeftUnit
+      - cumulativeColgapRight
+      - cumulativeColgapRightUnit
+      - cumulativeColgapForestLeft
+      - cumulativeColgapForestLeftUnit
+      - cumulativeColgapForestRight
+      - cumulativeColgapForestRightUnit
       - cumulativeDigitsEffect
       - cumulativeDigitsPval
       - cumulativeDigitsI2

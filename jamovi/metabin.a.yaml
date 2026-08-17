@@ -288,13 +288,13 @@ options:
     min: 0
     default: 0
 
-  - name: colgap
-    title: Space between columns
+  - name: colgapLeft
+    title: Space between left columns
     type: Number
     min: 0
     default: 2
 
-  - name: colgapUnit
+  - name: colgapLeftUnit
     title: ""
     type: List
     options:
@@ -306,13 +306,49 @@ options:
         name: inch
     default: mm
 
-  - name: colgapForest
-    title: Space around plot
+  - name: colgapRight
+    title: Space between right columns
     type: Number
     min: 0
     default: 2
 
-  - name: colgapForestUnit
+  - name: colgapRightUnit
+    title: ""
+    type: List
+    options:
+      - title: mm
+        name: mm
+      - title: cm
+        name: cm
+      - title: in
+        name: inch
+    default: mm
+
+  - name: colgapForestLeft
+    title: Space between left columns and plot
+    type: Number
+    min: 0
+    default: 2
+
+  - name: colgapForestLeftUnit
+    title: ""
+    type: List
+    options:
+      - title: mm
+        name: mm
+      - title: cm
+        name: cm
+      - title: in
+        name: inch
+    default: mm
+
+  - name: colgapForestRight
+    title: Space between right columns and plot
+    type: Number
+    min: 0
+    default: 2
+
+  - name: colgapForestRightUnit
     title: ""
     type: List
     options:
@@ -577,13 +613,13 @@ options:
     min: 0
     default: 0
 
-  - name: subgroupColgap
-    title: Space between columns
+  - name: subgroupColgapLeft
+    title: Space between left columns
     type: Number
     min: 0
     default: 2
 
-  - name: subgroupColgapUnit
+  - name: subgroupColgapLeftUnit
     title: ""
     type: List
     options:
@@ -595,13 +631,49 @@ options:
         name: inch
     default: mm
 
-  - name: subgroupColgapForest
-    title: Space around plot
+  - name: subgroupColgapRight
+    title: Space between right columns
     type: Number
     min: 0
     default: 2
 
-  - name: subgroupColgapForestUnit
+  - name: subgroupColgapRightUnit
+    title: ""
+    type: List
+    options:
+      - title: mm
+        name: mm
+      - title: cm
+        name: cm
+      - title: in
+        name: inch
+    default: mm
+
+  - name: subgroupColgapForestLeft
+    title: Space between left columns and plot
+    type: Number
+    min: 0
+    default: 2
+
+  - name: subgroupColgapForestLeftUnit
+    title: ""
+    type: List
+    options:
+      - title: mm
+        name: mm
+      - title: cm
+        name: cm
+      - title: in
+        name: inch
+    default: mm
+
+  - name: subgroupColgapForestRight
+    title: Space between right columns and plot
+    type: Number
+    min: 0
+    default: 2
+
+  - name: subgroupColgapForestRightUnit
     title: ""
     type: List
     options:
@@ -858,13 +930,13 @@ options:
     min: 0
     default: 0
 
-  - name: leaveOneOutColgap
-    title: Space between columns
+  - name: leaveOneOutColgapLeft
+    title: Space between left columns
     type: Number
     min: 0
     default: 2
 
-  - name: leaveOneOutColgapUnit
+  - name: leaveOneOutColgapLeftUnit
     title: ""
     type: List
     options:
@@ -876,13 +948,49 @@ options:
         name: inch
     default: mm
 
-  - name: leaveOneOutColgapForest
-    title: Space around plot
+  - name: leaveOneOutColgapRight
+    title: Space between right columns
     type: Number
     min: 0
     default: 2
 
-  - name: leaveOneOutColgapForestUnit
+  - name: leaveOneOutColgapRightUnit
+    title: ""
+    type: List
+    options:
+      - title: mm
+        name: mm
+      - title: cm
+        name: cm
+      - title: in
+        name: inch
+    default: mm
+
+  - name: leaveOneOutColgapForestLeft
+    title: Space between left columns and plot
+    type: Number
+    min: 0
+    default: 2
+
+  - name: leaveOneOutColgapForestLeftUnit
+    title: ""
+    type: List
+    options:
+      - title: mm
+        name: mm
+      - title: cm
+        name: cm
+      - title: in
+        name: inch
+    default: mm
+
+  - name: leaveOneOutColgapForestRight
+    title: Space between right columns and plot
+    type: Number
+    min: 0
+    default: 2
+
+  - name: leaveOneOutColgapForestRightUnit
     title: ""
     type: List
     options:
@@ -1073,13 +1181,13 @@ options:
     min: 0
     default: 0
 
-  - name: cumulativeColgap
-    title: Space between columns
+  - name: cumulativeColgapLeft
+    title: Space between left columns
     type: Number
     min: 0
     default: 2
 
-  - name: cumulativeColgapUnit
+  - name: cumulativeColgapLeftUnit
     title: ""
     type: List
     options:
@@ -1091,13 +1199,49 @@ options:
         name: inch
     default: mm
 
-  - name: cumulativeColgapForest
-    title: Space around plot
+  - name: cumulativeColgapRight
+    title: Space between right columns
     type: Number
     min: 0
     default: 2
 
-  - name: cumulativeColgapForestUnit
+  - name: cumulativeColgapRightUnit
+    title: ""
+    type: List
+    options:
+      - title: mm
+        name: mm
+      - title: cm
+        name: cm
+      - title: in
+        name: inch
+    default: mm
+
+  - name: cumulativeColgapForestLeft
+    title: Space between left columns and plot
+    type: Number
+    min: 0
+    default: 2
+
+  - name: cumulativeColgapForestLeftUnit
+    title: ""
+    type: List
+    options:
+      - title: mm
+        name: mm
+      - title: cm
+        name: cm
+      - title: in
+        name: inch
+    default: mm
+
+  - name: cumulativeColgapForestRight
+    title: Space between right columns and plot
+    type: Number
+    min: 0
+    default: 2
+
+  - name: cumulativeColgapForestRightUnit
     title: ""
     type: List
     options:

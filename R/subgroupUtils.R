@@ -77,9 +77,8 @@ populateSubgroupTexts <- function(self) {
 #'
 #' Generic helper that draws a subgroup `meta::forest()` plot. Maps
 #' subgroup-prefixed Jamovi options to the standard option names that
-#' `renderForest()` expects, then delegates. Subgroup-specific
-#' `forest.meta` arguments (test.effect.subgroup, calcwidth.*, etc.)
-#' are injected alongside any analysis-specific `...` arguments.
+#' `renderForest()` expects, then delegates. Subgroup-specific `forest.meta`
+#' arguments are forwarded alongside any analysis-specific `...` arguments.
 #'
 #' Analysis-specific wrappers (e.g. `renderContSubgroupForest`) should
 #' call this after injecting any type-specific arguments into `...`
@@ -100,10 +99,14 @@ renderSubgroupForest <- function(model, options, sortKey, ...) {
     sortBy = options$subgroupSortBy,
     labelLeft = options$subgroupLabelLeft,
     labelRight = options$subgroupLabelRight,
-    colgap = options$subgroupColgap,
-    colgapUnit = options$subgroupColgapUnit,
-    colgapForest = options$subgroupColgapForest,
-    colgapForestUnit = options$subgroupColgapForestUnit,
+    colgapLeft = options$subgroupColgapLeft,
+    colgapLeftUnit = options$subgroupColgapLeftUnit,
+    colgapRight = options$subgroupColgapRight,
+    colgapRightUnit = options$subgroupColgapRightUnit,
+    colgapForestLeft = options$subgroupColgapForestLeft,
+    colgapForestLeftUnit = options$subgroupColgapForestLeftUnit,
+    colgapForestRight = options$subgroupColgapForestRight,
+    colgapForestRightUnit = options$subgroupColgapForestRightUnit,
     forestTestOverall = options$subgroupForestTestOverall,
     forestDetails = options$subgroupForestDetails,
     forestPrintI2Ci = options$subgroupForestPrintI2Ci,
@@ -129,11 +132,6 @@ renderSubgroupForest <- function(model, options, sortKey, ...) {
     test.effect.subgroup = options$subgroupForestTestEffect,
     test.subgroup = options$subgroupForestTestSubgroup,
     print.subgroup.name = options$printSubgroupName,
-    # Although meta now defaults calcwidth.hetstat to TRUE, keep this explicit
-    # subgroup-only rule so MetaJam's behavior is stable across upstream
-    # changes.
-    calcwidth.hetstat = options$subgroupForestLayout == "subgroup",
-    calcwidth.tests = options$subgroupForestLayout == "subgroup",
     ...
   )
 }

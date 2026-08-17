@@ -41,10 +41,14 @@ metaBinOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             xlimUpper = 10,
             addrowsCustom = FALSE,
             addrowsBelowOverall = 0,
-            colgap = 2,
-            colgapUnit = "mm",
-            colgapForest = 2,
-            colgapForestUnit = "mm",
+            colgapLeft = 2,
+            colgapLeftUnit = "mm",
+            colgapRight = 2,
+            colgapRightUnit = "mm",
+            colgapForestLeft = 2,
+            colgapForestLeftUnit = "mm",
+            colgapForestRight = 2,
+            colgapForestRightUnit = "mm",
             digitsEffect = "2",
             digitsPval = "4",
             digitsWeight = "1",
@@ -77,10 +81,14 @@ metaBinOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             subgroupXlimUpper = 10,
             subgroupAddrowsCustom = FALSE,
             subgroupAddrowsBelowOverall = 0,
-            subgroupColgap = 2,
-            subgroupColgapUnit = "mm",
-            subgroupColgapForest = 2,
-            subgroupColgapForestUnit = "mm",
+            subgroupColgapLeft = 2,
+            subgroupColgapLeftUnit = "mm",
+            subgroupColgapRight = 2,
+            subgroupColgapRightUnit = "mm",
+            subgroupColgapForestLeft = 2,
+            subgroupColgapForestLeftUnit = "mm",
+            subgroupColgapForestRight = 2,
+            subgroupColgapForestRightUnit = "mm",
             subgroupDigitsEffect = "2",
             subgroupDigitsPval = "4",
             subgroupDigitsWeight = "1",
@@ -112,10 +120,14 @@ metaBinOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             leaveOneOutXlimUpper = 10,
             leaveOneOutAddrowsCustom = FALSE,
             leaveOneOutAddrowsBelowOverall = 0,
-            leaveOneOutColgap = 2,
-            leaveOneOutColgapUnit = "mm",
-            leaveOneOutColgapForest = 2,
-            leaveOneOutColgapForestUnit = "mm",
+            leaveOneOutColgapLeft = 2,
+            leaveOneOutColgapLeftUnit = "mm",
+            leaveOneOutColgapRight = 2,
+            leaveOneOutColgapRightUnit = "mm",
+            leaveOneOutColgapForestLeft = 2,
+            leaveOneOutColgapForestLeftUnit = "mm",
+            leaveOneOutColgapForestRight = 2,
+            leaveOneOutColgapForestRightUnit = "mm",
             leaveOneOutDigitsEffect = "2",
             leaveOneOutDigitsPval = "4",
             leaveOneOutDigitsI2 = "1",
@@ -137,10 +149,14 @@ metaBinOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             cumulativeXlimUpper = 10,
             cumulativeAddrowsCustom = FALSE,
             cumulativeAddrowsBelowOverall = 0,
-            cumulativeColgap = 2,
-            cumulativeColgapUnit = "mm",
-            cumulativeColgapForest = 2,
-            cumulativeColgapForestUnit = "mm",
+            cumulativeColgapLeft = 2,
+            cumulativeColgapLeftUnit = "mm",
+            cumulativeColgapRight = 2,
+            cumulativeColgapRightUnit = "mm",
+            cumulativeColgapForestLeft = 2,
+            cumulativeColgapForestLeftUnit = "mm",
+            cumulativeColgapForestRight = 2,
+            cumulativeColgapForestRightUnit = "mm",
             cumulativeDigitsEffect = "2",
             cumulativeDigitsPval = "4",
             cumulativeDigitsI2 = "1",
@@ -386,27 +402,53 @@ metaBinOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 addrowsBelowOverall,
                 min=0,
                 default=0)
-            private$..colgap <- jmvcore::OptionNumber$new(
-                "colgap",
-                colgap,
+            private$..colgapLeft <- jmvcore::OptionNumber$new(
+                "colgapLeft",
+                colgapLeft,
                 min=0,
                 default=2)
-            private$..colgapUnit <- jmvcore::OptionList$new(
-                "colgapUnit",
-                colgapUnit,
+            private$..colgapLeftUnit <- jmvcore::OptionList$new(
+                "colgapLeftUnit",
+                colgapLeftUnit,
                 options=list(
                     "mm",
                     "cm",
                     "inch"),
                 default="mm")
-            private$..colgapForest <- jmvcore::OptionNumber$new(
-                "colgapForest",
-                colgapForest,
+            private$..colgapRight <- jmvcore::OptionNumber$new(
+                "colgapRight",
+                colgapRight,
                 min=0,
                 default=2)
-            private$..colgapForestUnit <- jmvcore::OptionList$new(
-                "colgapForestUnit",
-                colgapForestUnit,
+            private$..colgapRightUnit <- jmvcore::OptionList$new(
+                "colgapRightUnit",
+                colgapRightUnit,
+                options=list(
+                    "mm",
+                    "cm",
+                    "inch"),
+                default="mm")
+            private$..colgapForestLeft <- jmvcore::OptionNumber$new(
+                "colgapForestLeft",
+                colgapForestLeft,
+                min=0,
+                default=2)
+            private$..colgapForestLeftUnit <- jmvcore::OptionList$new(
+                "colgapForestLeftUnit",
+                colgapForestLeftUnit,
+                options=list(
+                    "mm",
+                    "cm",
+                    "inch"),
+                default="mm")
+            private$..colgapForestRight <- jmvcore::OptionNumber$new(
+                "colgapForestRight",
+                colgapForestRight,
+                min=0,
+                default=2)
+            private$..colgapForestRightUnit <- jmvcore::OptionList$new(
+                "colgapForestRightUnit",
+                colgapForestRightUnit,
                 options=list(
                     "mm",
                     "cm",
@@ -595,27 +637,53 @@ metaBinOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 subgroupAddrowsBelowOverall,
                 min=0,
                 default=0)
-            private$..subgroupColgap <- jmvcore::OptionNumber$new(
-                "subgroupColgap",
-                subgroupColgap,
+            private$..subgroupColgapLeft <- jmvcore::OptionNumber$new(
+                "subgroupColgapLeft",
+                subgroupColgapLeft,
                 min=0,
                 default=2)
-            private$..subgroupColgapUnit <- jmvcore::OptionList$new(
-                "subgroupColgapUnit",
-                subgroupColgapUnit,
+            private$..subgroupColgapLeftUnit <- jmvcore::OptionList$new(
+                "subgroupColgapLeftUnit",
+                subgroupColgapLeftUnit,
                 options=list(
                     "mm",
                     "cm",
                     "inch"),
                 default="mm")
-            private$..subgroupColgapForest <- jmvcore::OptionNumber$new(
-                "subgroupColgapForest",
-                subgroupColgapForest,
+            private$..subgroupColgapRight <- jmvcore::OptionNumber$new(
+                "subgroupColgapRight",
+                subgroupColgapRight,
                 min=0,
                 default=2)
-            private$..subgroupColgapForestUnit <- jmvcore::OptionList$new(
-                "subgroupColgapForestUnit",
-                subgroupColgapForestUnit,
+            private$..subgroupColgapRightUnit <- jmvcore::OptionList$new(
+                "subgroupColgapRightUnit",
+                subgroupColgapRightUnit,
+                options=list(
+                    "mm",
+                    "cm",
+                    "inch"),
+                default="mm")
+            private$..subgroupColgapForestLeft <- jmvcore::OptionNumber$new(
+                "subgroupColgapForestLeft",
+                subgroupColgapForestLeft,
+                min=0,
+                default=2)
+            private$..subgroupColgapForestLeftUnit <- jmvcore::OptionList$new(
+                "subgroupColgapForestLeftUnit",
+                subgroupColgapForestLeftUnit,
+                options=list(
+                    "mm",
+                    "cm",
+                    "inch"),
+                default="mm")
+            private$..subgroupColgapForestRight <- jmvcore::OptionNumber$new(
+                "subgroupColgapForestRight",
+                subgroupColgapForestRight,
+                min=0,
+                default=2)
+            private$..subgroupColgapForestRightUnit <- jmvcore::OptionList$new(
+                "subgroupColgapForestRightUnit",
+                subgroupColgapForestRightUnit,
                 options=list(
                     "mm",
                     "cm",
@@ -801,27 +869,53 @@ metaBinOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 leaveOneOutAddrowsBelowOverall,
                 min=0,
                 default=0)
-            private$..leaveOneOutColgap <- jmvcore::OptionNumber$new(
-                "leaveOneOutColgap",
-                leaveOneOutColgap,
+            private$..leaveOneOutColgapLeft <- jmvcore::OptionNumber$new(
+                "leaveOneOutColgapLeft",
+                leaveOneOutColgapLeft,
                 min=0,
                 default=2)
-            private$..leaveOneOutColgapUnit <- jmvcore::OptionList$new(
-                "leaveOneOutColgapUnit",
-                leaveOneOutColgapUnit,
+            private$..leaveOneOutColgapLeftUnit <- jmvcore::OptionList$new(
+                "leaveOneOutColgapLeftUnit",
+                leaveOneOutColgapLeftUnit,
                 options=list(
                     "mm",
                     "cm",
                     "inch"),
                 default="mm")
-            private$..leaveOneOutColgapForest <- jmvcore::OptionNumber$new(
-                "leaveOneOutColgapForest",
-                leaveOneOutColgapForest,
+            private$..leaveOneOutColgapRight <- jmvcore::OptionNumber$new(
+                "leaveOneOutColgapRight",
+                leaveOneOutColgapRight,
                 min=0,
                 default=2)
-            private$..leaveOneOutColgapForestUnit <- jmvcore::OptionList$new(
-                "leaveOneOutColgapForestUnit",
-                leaveOneOutColgapForestUnit,
+            private$..leaveOneOutColgapRightUnit <- jmvcore::OptionList$new(
+                "leaveOneOutColgapRightUnit",
+                leaveOneOutColgapRightUnit,
+                options=list(
+                    "mm",
+                    "cm",
+                    "inch"),
+                default="mm")
+            private$..leaveOneOutColgapForestLeft <- jmvcore::OptionNumber$new(
+                "leaveOneOutColgapForestLeft",
+                leaveOneOutColgapForestLeft,
+                min=0,
+                default=2)
+            private$..leaveOneOutColgapForestLeftUnit <- jmvcore::OptionList$new(
+                "leaveOneOutColgapForestLeftUnit",
+                leaveOneOutColgapForestLeftUnit,
+                options=list(
+                    "mm",
+                    "cm",
+                    "inch"),
+                default="mm")
+            private$..leaveOneOutColgapForestRight <- jmvcore::OptionNumber$new(
+                "leaveOneOutColgapForestRight",
+                leaveOneOutColgapForestRight,
+                min=0,
+                default=2)
+            private$..leaveOneOutColgapForestRightUnit <- jmvcore::OptionList$new(
+                "leaveOneOutColgapForestRightUnit",
+                leaveOneOutColgapForestRightUnit,
                 options=list(
                     "mm",
                     "cm",
@@ -954,27 +1048,53 @@ metaBinOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 cumulativeAddrowsBelowOverall,
                 min=0,
                 default=0)
-            private$..cumulativeColgap <- jmvcore::OptionNumber$new(
-                "cumulativeColgap",
-                cumulativeColgap,
+            private$..cumulativeColgapLeft <- jmvcore::OptionNumber$new(
+                "cumulativeColgapLeft",
+                cumulativeColgapLeft,
                 min=0,
                 default=2)
-            private$..cumulativeColgapUnit <- jmvcore::OptionList$new(
-                "cumulativeColgapUnit",
-                cumulativeColgapUnit,
+            private$..cumulativeColgapLeftUnit <- jmvcore::OptionList$new(
+                "cumulativeColgapLeftUnit",
+                cumulativeColgapLeftUnit,
                 options=list(
                     "mm",
                     "cm",
                     "inch"),
                 default="mm")
-            private$..cumulativeColgapForest <- jmvcore::OptionNumber$new(
-                "cumulativeColgapForest",
-                cumulativeColgapForest,
+            private$..cumulativeColgapRight <- jmvcore::OptionNumber$new(
+                "cumulativeColgapRight",
+                cumulativeColgapRight,
                 min=0,
                 default=2)
-            private$..cumulativeColgapForestUnit <- jmvcore::OptionList$new(
-                "cumulativeColgapForestUnit",
-                cumulativeColgapForestUnit,
+            private$..cumulativeColgapRightUnit <- jmvcore::OptionList$new(
+                "cumulativeColgapRightUnit",
+                cumulativeColgapRightUnit,
+                options=list(
+                    "mm",
+                    "cm",
+                    "inch"),
+                default="mm")
+            private$..cumulativeColgapForestLeft <- jmvcore::OptionNumber$new(
+                "cumulativeColgapForestLeft",
+                cumulativeColgapForestLeft,
+                min=0,
+                default=2)
+            private$..cumulativeColgapForestLeftUnit <- jmvcore::OptionList$new(
+                "cumulativeColgapForestLeftUnit",
+                cumulativeColgapForestLeftUnit,
+                options=list(
+                    "mm",
+                    "cm",
+                    "inch"),
+                default="mm")
+            private$..cumulativeColgapForestRight <- jmvcore::OptionNumber$new(
+                "cumulativeColgapForestRight",
+                cumulativeColgapForestRight,
+                min=0,
+                default=2)
+            private$..cumulativeColgapForestRightUnit <- jmvcore::OptionList$new(
+                "cumulativeColgapForestRightUnit",
+                cumulativeColgapForestRightUnit,
                 options=list(
                     "mm",
                     "cm",
@@ -1203,10 +1323,14 @@ metaBinOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..xlimUpper)
             self$.addOption(private$..addrowsCustom)
             self$.addOption(private$..addrowsBelowOverall)
-            self$.addOption(private$..colgap)
-            self$.addOption(private$..colgapUnit)
-            self$.addOption(private$..colgapForest)
-            self$.addOption(private$..colgapForestUnit)
+            self$.addOption(private$..colgapLeft)
+            self$.addOption(private$..colgapLeftUnit)
+            self$.addOption(private$..colgapRight)
+            self$.addOption(private$..colgapRightUnit)
+            self$.addOption(private$..colgapForestLeft)
+            self$.addOption(private$..colgapForestLeftUnit)
+            self$.addOption(private$..colgapForestRight)
+            self$.addOption(private$..colgapForestRightUnit)
             self$.addOption(private$..digitsEffect)
             self$.addOption(private$..digitsPval)
             self$.addOption(private$..digitsWeight)
@@ -1239,10 +1363,14 @@ metaBinOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..subgroupXlimUpper)
             self$.addOption(private$..subgroupAddrowsCustom)
             self$.addOption(private$..subgroupAddrowsBelowOverall)
-            self$.addOption(private$..subgroupColgap)
-            self$.addOption(private$..subgroupColgapUnit)
-            self$.addOption(private$..subgroupColgapForest)
-            self$.addOption(private$..subgroupColgapForestUnit)
+            self$.addOption(private$..subgroupColgapLeft)
+            self$.addOption(private$..subgroupColgapLeftUnit)
+            self$.addOption(private$..subgroupColgapRight)
+            self$.addOption(private$..subgroupColgapRightUnit)
+            self$.addOption(private$..subgroupColgapForestLeft)
+            self$.addOption(private$..subgroupColgapForestLeftUnit)
+            self$.addOption(private$..subgroupColgapForestRight)
+            self$.addOption(private$..subgroupColgapForestRightUnit)
             self$.addOption(private$..subgroupDigitsEffect)
             self$.addOption(private$..subgroupDigitsPval)
             self$.addOption(private$..subgroupDigitsWeight)
@@ -1273,10 +1401,14 @@ metaBinOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..leaveOneOutXlimUpper)
             self$.addOption(private$..leaveOneOutAddrowsCustom)
             self$.addOption(private$..leaveOneOutAddrowsBelowOverall)
-            self$.addOption(private$..leaveOneOutColgap)
-            self$.addOption(private$..leaveOneOutColgapUnit)
-            self$.addOption(private$..leaveOneOutColgapForest)
-            self$.addOption(private$..leaveOneOutColgapForestUnit)
+            self$.addOption(private$..leaveOneOutColgapLeft)
+            self$.addOption(private$..leaveOneOutColgapLeftUnit)
+            self$.addOption(private$..leaveOneOutColgapRight)
+            self$.addOption(private$..leaveOneOutColgapRightUnit)
+            self$.addOption(private$..leaveOneOutColgapForestLeft)
+            self$.addOption(private$..leaveOneOutColgapForestLeftUnit)
+            self$.addOption(private$..leaveOneOutColgapForestRight)
+            self$.addOption(private$..leaveOneOutColgapForestRightUnit)
             self$.addOption(private$..leaveOneOutDigitsEffect)
             self$.addOption(private$..leaveOneOutDigitsPval)
             self$.addOption(private$..leaveOneOutDigitsI2)
@@ -1298,10 +1430,14 @@ metaBinOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..cumulativeXlimUpper)
             self$.addOption(private$..cumulativeAddrowsCustom)
             self$.addOption(private$..cumulativeAddrowsBelowOverall)
-            self$.addOption(private$..cumulativeColgap)
-            self$.addOption(private$..cumulativeColgapUnit)
-            self$.addOption(private$..cumulativeColgapForest)
-            self$.addOption(private$..cumulativeColgapForestUnit)
+            self$.addOption(private$..cumulativeColgapLeft)
+            self$.addOption(private$..cumulativeColgapLeftUnit)
+            self$.addOption(private$..cumulativeColgapRight)
+            self$.addOption(private$..cumulativeColgapRightUnit)
+            self$.addOption(private$..cumulativeColgapForestLeft)
+            self$.addOption(private$..cumulativeColgapForestLeftUnit)
+            self$.addOption(private$..cumulativeColgapForestRight)
+            self$.addOption(private$..cumulativeColgapForestRightUnit)
             self$.addOption(private$..cumulativeDigitsEffect)
             self$.addOption(private$..cumulativeDigitsPval)
             self$.addOption(private$..cumulativeDigitsI2)
@@ -1369,10 +1505,14 @@ metaBinOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         xlimUpper = function() private$..xlimUpper$value,
         addrowsCustom = function() private$..addrowsCustom$value,
         addrowsBelowOverall = function() private$..addrowsBelowOverall$value,
-        colgap = function() private$..colgap$value,
-        colgapUnit = function() private$..colgapUnit$value,
-        colgapForest = function() private$..colgapForest$value,
-        colgapForestUnit = function() private$..colgapForestUnit$value,
+        colgapLeft = function() private$..colgapLeft$value,
+        colgapLeftUnit = function() private$..colgapLeftUnit$value,
+        colgapRight = function() private$..colgapRight$value,
+        colgapRightUnit = function() private$..colgapRightUnit$value,
+        colgapForestLeft = function() private$..colgapForestLeft$value,
+        colgapForestLeftUnit = function() private$..colgapForestLeftUnit$value,
+        colgapForestRight = function() private$..colgapForestRight$value,
+        colgapForestRightUnit = function() private$..colgapForestRightUnit$value,
         digitsEffect = function() private$..digitsEffect$value,
         digitsPval = function() private$..digitsPval$value,
         digitsWeight = function() private$..digitsWeight$value,
@@ -1405,10 +1545,14 @@ metaBinOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         subgroupXlimUpper = function() private$..subgroupXlimUpper$value,
         subgroupAddrowsCustom = function() private$..subgroupAddrowsCustom$value,
         subgroupAddrowsBelowOverall = function() private$..subgroupAddrowsBelowOverall$value,
-        subgroupColgap = function() private$..subgroupColgap$value,
-        subgroupColgapUnit = function() private$..subgroupColgapUnit$value,
-        subgroupColgapForest = function() private$..subgroupColgapForest$value,
-        subgroupColgapForestUnit = function() private$..subgroupColgapForestUnit$value,
+        subgroupColgapLeft = function() private$..subgroupColgapLeft$value,
+        subgroupColgapLeftUnit = function() private$..subgroupColgapLeftUnit$value,
+        subgroupColgapRight = function() private$..subgroupColgapRight$value,
+        subgroupColgapRightUnit = function() private$..subgroupColgapRightUnit$value,
+        subgroupColgapForestLeft = function() private$..subgroupColgapForestLeft$value,
+        subgroupColgapForestLeftUnit = function() private$..subgroupColgapForestLeftUnit$value,
+        subgroupColgapForestRight = function() private$..subgroupColgapForestRight$value,
+        subgroupColgapForestRightUnit = function() private$..subgroupColgapForestRightUnit$value,
         subgroupDigitsEffect = function() private$..subgroupDigitsEffect$value,
         subgroupDigitsPval = function() private$..subgroupDigitsPval$value,
         subgroupDigitsWeight = function() private$..subgroupDigitsWeight$value,
@@ -1439,10 +1583,14 @@ metaBinOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         leaveOneOutXlimUpper = function() private$..leaveOneOutXlimUpper$value,
         leaveOneOutAddrowsCustom = function() private$..leaveOneOutAddrowsCustom$value,
         leaveOneOutAddrowsBelowOverall = function() private$..leaveOneOutAddrowsBelowOverall$value,
-        leaveOneOutColgap = function() private$..leaveOneOutColgap$value,
-        leaveOneOutColgapUnit = function() private$..leaveOneOutColgapUnit$value,
-        leaveOneOutColgapForest = function() private$..leaveOneOutColgapForest$value,
-        leaveOneOutColgapForestUnit = function() private$..leaveOneOutColgapForestUnit$value,
+        leaveOneOutColgapLeft = function() private$..leaveOneOutColgapLeft$value,
+        leaveOneOutColgapLeftUnit = function() private$..leaveOneOutColgapLeftUnit$value,
+        leaveOneOutColgapRight = function() private$..leaveOneOutColgapRight$value,
+        leaveOneOutColgapRightUnit = function() private$..leaveOneOutColgapRightUnit$value,
+        leaveOneOutColgapForestLeft = function() private$..leaveOneOutColgapForestLeft$value,
+        leaveOneOutColgapForestLeftUnit = function() private$..leaveOneOutColgapForestLeftUnit$value,
+        leaveOneOutColgapForestRight = function() private$..leaveOneOutColgapForestRight$value,
+        leaveOneOutColgapForestRightUnit = function() private$..leaveOneOutColgapForestRightUnit$value,
         leaveOneOutDigitsEffect = function() private$..leaveOneOutDigitsEffect$value,
         leaveOneOutDigitsPval = function() private$..leaveOneOutDigitsPval$value,
         leaveOneOutDigitsI2 = function() private$..leaveOneOutDigitsI2$value,
@@ -1464,10 +1612,14 @@ metaBinOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         cumulativeXlimUpper = function() private$..cumulativeXlimUpper$value,
         cumulativeAddrowsCustom = function() private$..cumulativeAddrowsCustom$value,
         cumulativeAddrowsBelowOverall = function() private$..cumulativeAddrowsBelowOverall$value,
-        cumulativeColgap = function() private$..cumulativeColgap$value,
-        cumulativeColgapUnit = function() private$..cumulativeColgapUnit$value,
-        cumulativeColgapForest = function() private$..cumulativeColgapForest$value,
-        cumulativeColgapForestUnit = function() private$..cumulativeColgapForestUnit$value,
+        cumulativeColgapLeft = function() private$..cumulativeColgapLeft$value,
+        cumulativeColgapLeftUnit = function() private$..cumulativeColgapLeftUnit$value,
+        cumulativeColgapRight = function() private$..cumulativeColgapRight$value,
+        cumulativeColgapRightUnit = function() private$..cumulativeColgapRightUnit$value,
+        cumulativeColgapForestLeft = function() private$..cumulativeColgapForestLeft$value,
+        cumulativeColgapForestLeftUnit = function() private$..cumulativeColgapForestLeftUnit$value,
+        cumulativeColgapForestRight = function() private$..cumulativeColgapForestRight$value,
+        cumulativeColgapForestRightUnit = function() private$..cumulativeColgapForestRightUnit$value,
         cumulativeDigitsEffect = function() private$..cumulativeDigitsEffect$value,
         cumulativeDigitsPval = function() private$..cumulativeDigitsPval$value,
         cumulativeDigitsI2 = function() private$..cumulativeDigitsI2$value,
@@ -1534,10 +1686,14 @@ metaBinOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..xlimUpper = NA,
         ..addrowsCustom = NA,
         ..addrowsBelowOverall = NA,
-        ..colgap = NA,
-        ..colgapUnit = NA,
-        ..colgapForest = NA,
-        ..colgapForestUnit = NA,
+        ..colgapLeft = NA,
+        ..colgapLeftUnit = NA,
+        ..colgapRight = NA,
+        ..colgapRightUnit = NA,
+        ..colgapForestLeft = NA,
+        ..colgapForestLeftUnit = NA,
+        ..colgapForestRight = NA,
+        ..colgapForestRightUnit = NA,
         ..digitsEffect = NA,
         ..digitsPval = NA,
         ..digitsWeight = NA,
@@ -1570,10 +1726,14 @@ metaBinOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..subgroupXlimUpper = NA,
         ..subgroupAddrowsCustom = NA,
         ..subgroupAddrowsBelowOverall = NA,
-        ..subgroupColgap = NA,
-        ..subgroupColgapUnit = NA,
-        ..subgroupColgapForest = NA,
-        ..subgroupColgapForestUnit = NA,
+        ..subgroupColgapLeft = NA,
+        ..subgroupColgapLeftUnit = NA,
+        ..subgroupColgapRight = NA,
+        ..subgroupColgapRightUnit = NA,
+        ..subgroupColgapForestLeft = NA,
+        ..subgroupColgapForestLeftUnit = NA,
+        ..subgroupColgapForestRight = NA,
+        ..subgroupColgapForestRightUnit = NA,
         ..subgroupDigitsEffect = NA,
         ..subgroupDigitsPval = NA,
         ..subgroupDigitsWeight = NA,
@@ -1604,10 +1764,14 @@ metaBinOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..leaveOneOutXlimUpper = NA,
         ..leaveOneOutAddrowsCustom = NA,
         ..leaveOneOutAddrowsBelowOverall = NA,
-        ..leaveOneOutColgap = NA,
-        ..leaveOneOutColgapUnit = NA,
-        ..leaveOneOutColgapForest = NA,
-        ..leaveOneOutColgapForestUnit = NA,
+        ..leaveOneOutColgapLeft = NA,
+        ..leaveOneOutColgapLeftUnit = NA,
+        ..leaveOneOutColgapRight = NA,
+        ..leaveOneOutColgapRightUnit = NA,
+        ..leaveOneOutColgapForestLeft = NA,
+        ..leaveOneOutColgapForestLeftUnit = NA,
+        ..leaveOneOutColgapForestRight = NA,
+        ..leaveOneOutColgapForestRightUnit = NA,
         ..leaveOneOutDigitsEffect = NA,
         ..leaveOneOutDigitsPval = NA,
         ..leaveOneOutDigitsI2 = NA,
@@ -1629,10 +1793,14 @@ metaBinOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..cumulativeXlimUpper = NA,
         ..cumulativeAddrowsCustom = NA,
         ..cumulativeAddrowsBelowOverall = NA,
-        ..cumulativeColgap = NA,
-        ..cumulativeColgapUnit = NA,
-        ..cumulativeColgapForest = NA,
-        ..cumulativeColgapForestUnit = NA,
+        ..cumulativeColgapLeft = NA,
+        ..cumulativeColgapLeftUnit = NA,
+        ..cumulativeColgapRight = NA,
+        ..cumulativeColgapRightUnit = NA,
+        ..cumulativeColgapForestLeft = NA,
+        ..cumulativeColgapForestLeftUnit = NA,
+        ..cumulativeColgapForestRight = NA,
+        ..cumulativeColgapForestRightUnit = NA,
         ..cumulativeDigitsEffect = NA,
         ..cumulativeDigitsPval = NA,
         ..cumulativeDigitsI2 = NA,
@@ -1767,10 +1935,14 @@ metaBinResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "xlimUpper",
                     "addrowsCustom",
                     "addrowsBelowOverall",
-                    "colgap",
-                    "colgapUnit",
-                    "colgapForest",
-                    "colgapForestUnit",
+                    "colgapLeft",
+                    "colgapLeftUnit",
+                    "colgapRight",
+                    "colgapRightUnit",
+                    "colgapForestLeft",
+                    "colgapForestLeftUnit",
+                    "colgapForestRight",
+                    "colgapForestRightUnit",
                     "digitsEffect",
                     "digitsPval",
                     "digitsWeight",
@@ -1863,10 +2035,14 @@ metaBinResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                                     "subgroupXlimUpper",
                                     "subgroupAddrowsCustom",
                                     "subgroupAddrowsBelowOverall",
-                                    "subgroupColgap",
-                                    "subgroupColgapUnit",
-                                    "subgroupColgapForest",
-                                    "subgroupColgapForestUnit",
+                                    "subgroupColgapLeft",
+                                    "subgroupColgapLeftUnit",
+                                    "subgroupColgapRight",
+                                    "subgroupColgapRightUnit",
+                                    "subgroupColgapForestLeft",
+                                    "subgroupColgapForestLeftUnit",
+                                    "subgroupColgapForestRight",
+                                    "subgroupColgapForestRightUnit",
                                     "subgroupDigitsEffect",
                                     "subgroupDigitsPval",
                                     "subgroupDigitsWeight",
@@ -2004,10 +2180,14 @@ metaBinResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "leaveOneOutXlimUpper",
                     "leaveOneOutAddrowsCustom",
                     "leaveOneOutAddrowsBelowOverall",
-                    "leaveOneOutColgap",
-                    "leaveOneOutColgapUnit",
-                    "leaveOneOutColgapForest",
-                    "leaveOneOutColgapForestUnit",
+                    "leaveOneOutColgapLeft",
+                    "leaveOneOutColgapLeftUnit",
+                    "leaveOneOutColgapRight",
+                    "leaveOneOutColgapRightUnit",
+                    "leaveOneOutColgapForestLeft",
+                    "leaveOneOutColgapForestLeftUnit",
+                    "leaveOneOutColgapForestRight",
+                    "leaveOneOutColgapForestRightUnit",
                     "leaveOneOutDigitsEffect",
                     "leaveOneOutDigitsPval",
                     "leaveOneOutDigitsI2",
@@ -2088,10 +2268,14 @@ metaBinResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "cumulativeXlimUpper",
                     "cumulativeAddrowsCustom",
                     "cumulativeAddrowsBelowOverall",
-                    "cumulativeColgap",
-                    "cumulativeColgapUnit",
-                    "cumulativeColgapForest",
-                    "cumulativeColgapForestUnit",
+                    "cumulativeColgapLeft",
+                    "cumulativeColgapLeftUnit",
+                    "cumulativeColgapRight",
+                    "cumulativeColgapRightUnit",
+                    "cumulativeColgapForestLeft",
+                    "cumulativeColgapForestLeftUnit",
+                    "cumulativeColgapForestRight",
+                    "cumulativeColgapForestRightUnit",
                     "cumulativeDigitsEffect",
                     "cumulativeDigitsPval",
                     "cumulativeDigitsI2",
@@ -2356,10 +2540,14 @@ metaBinBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param xlimUpper .
 #' @param addrowsCustom .
 #' @param addrowsBelowOverall .
-#' @param colgap .
-#' @param colgapUnit .
-#' @param colgapForest .
-#' @param colgapForestUnit .
+#' @param colgapLeft .
+#' @param colgapLeftUnit .
+#' @param colgapRight .
+#' @param colgapRightUnit .
+#' @param colgapForestLeft .
+#' @param colgapForestLeftUnit .
+#' @param colgapForestRight .
+#' @param colgapForestRightUnit .
 #' @param digitsEffect .
 #' @param digitsPval .
 #' @param digitsWeight .
@@ -2392,10 +2580,14 @@ metaBinBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param subgroupXlimUpper .
 #' @param subgroupAddrowsCustom .
 #' @param subgroupAddrowsBelowOverall .
-#' @param subgroupColgap .
-#' @param subgroupColgapUnit .
-#' @param subgroupColgapForest .
-#' @param subgroupColgapForestUnit .
+#' @param subgroupColgapLeft .
+#' @param subgroupColgapLeftUnit .
+#' @param subgroupColgapRight .
+#' @param subgroupColgapRightUnit .
+#' @param subgroupColgapForestLeft .
+#' @param subgroupColgapForestLeftUnit .
+#' @param subgroupColgapForestRight .
+#' @param subgroupColgapForestRightUnit .
 #' @param subgroupDigitsEffect .
 #' @param subgroupDigitsPval .
 #' @param subgroupDigitsWeight .
@@ -2426,10 +2618,14 @@ metaBinBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param leaveOneOutXlimUpper .
 #' @param leaveOneOutAddrowsCustom .
 #' @param leaveOneOutAddrowsBelowOverall .
-#' @param leaveOneOutColgap .
-#' @param leaveOneOutColgapUnit .
-#' @param leaveOneOutColgapForest .
-#' @param leaveOneOutColgapForestUnit .
+#' @param leaveOneOutColgapLeft .
+#' @param leaveOneOutColgapLeftUnit .
+#' @param leaveOneOutColgapRight .
+#' @param leaveOneOutColgapRightUnit .
+#' @param leaveOneOutColgapForestLeft .
+#' @param leaveOneOutColgapForestLeftUnit .
+#' @param leaveOneOutColgapForestRight .
+#' @param leaveOneOutColgapForestRightUnit .
 #' @param leaveOneOutDigitsEffect .
 #' @param leaveOneOutDigitsPval .
 #' @param leaveOneOutDigitsI2 .
@@ -2451,10 +2647,14 @@ metaBinBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param cumulativeXlimUpper .
 #' @param cumulativeAddrowsCustom .
 #' @param cumulativeAddrowsBelowOverall .
-#' @param cumulativeColgap .
-#' @param cumulativeColgapUnit .
-#' @param cumulativeColgapForest .
-#' @param cumulativeColgapForestUnit .
+#' @param cumulativeColgapLeft .
+#' @param cumulativeColgapLeftUnit .
+#' @param cumulativeColgapRight .
+#' @param cumulativeColgapRightUnit .
+#' @param cumulativeColgapForestLeft .
+#' @param cumulativeColgapForestLeftUnit .
+#' @param cumulativeColgapForestRight .
+#' @param cumulativeColgapForestRightUnit .
 #' @param cumulativeDigitsEffect .
 #' @param cumulativeDigitsPval .
 #' @param cumulativeDigitsI2 .
@@ -2542,10 +2742,14 @@ metaBin <- function(
     xlimUpper = 10,
     addrowsCustom = FALSE,
     addrowsBelowOverall = 0,
-    colgap = 2,
-    colgapUnit = "mm",
-    colgapForest = 2,
-    colgapForestUnit = "mm",
+    colgapLeft = 2,
+    colgapLeftUnit = "mm",
+    colgapRight = 2,
+    colgapRightUnit = "mm",
+    colgapForestLeft = 2,
+    colgapForestLeftUnit = "mm",
+    colgapForestRight = 2,
+    colgapForestRightUnit = "mm",
     digitsEffect = "2",
     digitsPval = "4",
     digitsWeight = "1",
@@ -2578,10 +2782,14 @@ metaBin <- function(
     subgroupXlimUpper = 10,
     subgroupAddrowsCustom = FALSE,
     subgroupAddrowsBelowOverall = 0,
-    subgroupColgap = 2,
-    subgroupColgapUnit = "mm",
-    subgroupColgapForest = 2,
-    subgroupColgapForestUnit = "mm",
+    subgroupColgapLeft = 2,
+    subgroupColgapLeftUnit = "mm",
+    subgroupColgapRight = 2,
+    subgroupColgapRightUnit = "mm",
+    subgroupColgapForestLeft = 2,
+    subgroupColgapForestLeftUnit = "mm",
+    subgroupColgapForestRight = 2,
+    subgroupColgapForestRightUnit = "mm",
     subgroupDigitsEffect = "2",
     subgroupDigitsPval = "4",
     subgroupDigitsWeight = "1",
@@ -2613,10 +2821,14 @@ metaBin <- function(
     leaveOneOutXlimUpper = 10,
     leaveOneOutAddrowsCustom = FALSE,
     leaveOneOutAddrowsBelowOverall = 0,
-    leaveOneOutColgap = 2,
-    leaveOneOutColgapUnit = "mm",
-    leaveOneOutColgapForest = 2,
-    leaveOneOutColgapForestUnit = "mm",
+    leaveOneOutColgapLeft = 2,
+    leaveOneOutColgapLeftUnit = "mm",
+    leaveOneOutColgapRight = 2,
+    leaveOneOutColgapRightUnit = "mm",
+    leaveOneOutColgapForestLeft = 2,
+    leaveOneOutColgapForestLeftUnit = "mm",
+    leaveOneOutColgapForestRight = 2,
+    leaveOneOutColgapForestRightUnit = "mm",
     leaveOneOutDigitsEffect = "2",
     leaveOneOutDigitsPval = "4",
     leaveOneOutDigitsI2 = "1",
@@ -2638,10 +2850,14 @@ metaBin <- function(
     cumulativeXlimUpper = 10,
     cumulativeAddrowsCustom = FALSE,
     cumulativeAddrowsBelowOverall = 0,
-    cumulativeColgap = 2,
-    cumulativeColgapUnit = "mm",
-    cumulativeColgapForest = 2,
-    cumulativeColgapForestUnit = "mm",
+    cumulativeColgapLeft = 2,
+    cumulativeColgapLeftUnit = "mm",
+    cumulativeColgapRight = 2,
+    cumulativeColgapRightUnit = "mm",
+    cumulativeColgapForestLeft = 2,
+    cumulativeColgapForestLeftUnit = "mm",
+    cumulativeColgapForestRight = 2,
+    cumulativeColgapForestRightUnit = "mm",
     cumulativeDigitsEffect = "2",
     cumulativeDigitsPval = "4",
     cumulativeDigitsI2 = "1",
@@ -2743,10 +2959,14 @@ metaBin <- function(
         xlimUpper = xlimUpper,
         addrowsCustom = addrowsCustom,
         addrowsBelowOverall = addrowsBelowOverall,
-        colgap = colgap,
-        colgapUnit = colgapUnit,
-        colgapForest = colgapForest,
-        colgapForestUnit = colgapForestUnit,
+        colgapLeft = colgapLeft,
+        colgapLeftUnit = colgapLeftUnit,
+        colgapRight = colgapRight,
+        colgapRightUnit = colgapRightUnit,
+        colgapForestLeft = colgapForestLeft,
+        colgapForestLeftUnit = colgapForestLeftUnit,
+        colgapForestRight = colgapForestRight,
+        colgapForestRightUnit = colgapForestRightUnit,
         digitsEffect = digitsEffect,
         digitsPval = digitsPval,
         digitsWeight = digitsWeight,
@@ -2779,10 +2999,14 @@ metaBin <- function(
         subgroupXlimUpper = subgroupXlimUpper,
         subgroupAddrowsCustom = subgroupAddrowsCustom,
         subgroupAddrowsBelowOverall = subgroupAddrowsBelowOverall,
-        subgroupColgap = subgroupColgap,
-        subgroupColgapUnit = subgroupColgapUnit,
-        subgroupColgapForest = subgroupColgapForest,
-        subgroupColgapForestUnit = subgroupColgapForestUnit,
+        subgroupColgapLeft = subgroupColgapLeft,
+        subgroupColgapLeftUnit = subgroupColgapLeftUnit,
+        subgroupColgapRight = subgroupColgapRight,
+        subgroupColgapRightUnit = subgroupColgapRightUnit,
+        subgroupColgapForestLeft = subgroupColgapForestLeft,
+        subgroupColgapForestLeftUnit = subgroupColgapForestLeftUnit,
+        subgroupColgapForestRight = subgroupColgapForestRight,
+        subgroupColgapForestRightUnit = subgroupColgapForestRightUnit,
         subgroupDigitsEffect = subgroupDigitsEffect,
         subgroupDigitsPval = subgroupDigitsPval,
         subgroupDigitsWeight = subgroupDigitsWeight,
@@ -2813,10 +3037,14 @@ metaBin <- function(
         leaveOneOutXlimUpper = leaveOneOutXlimUpper,
         leaveOneOutAddrowsCustom = leaveOneOutAddrowsCustom,
         leaveOneOutAddrowsBelowOverall = leaveOneOutAddrowsBelowOverall,
-        leaveOneOutColgap = leaveOneOutColgap,
-        leaveOneOutColgapUnit = leaveOneOutColgapUnit,
-        leaveOneOutColgapForest = leaveOneOutColgapForest,
-        leaveOneOutColgapForestUnit = leaveOneOutColgapForestUnit,
+        leaveOneOutColgapLeft = leaveOneOutColgapLeft,
+        leaveOneOutColgapLeftUnit = leaveOneOutColgapLeftUnit,
+        leaveOneOutColgapRight = leaveOneOutColgapRight,
+        leaveOneOutColgapRightUnit = leaveOneOutColgapRightUnit,
+        leaveOneOutColgapForestLeft = leaveOneOutColgapForestLeft,
+        leaveOneOutColgapForestLeftUnit = leaveOneOutColgapForestLeftUnit,
+        leaveOneOutColgapForestRight = leaveOneOutColgapForestRight,
+        leaveOneOutColgapForestRightUnit = leaveOneOutColgapForestRightUnit,
         leaveOneOutDigitsEffect = leaveOneOutDigitsEffect,
         leaveOneOutDigitsPval = leaveOneOutDigitsPval,
         leaveOneOutDigitsI2 = leaveOneOutDigitsI2,
@@ -2838,10 +3066,14 @@ metaBin <- function(
         cumulativeXlimUpper = cumulativeXlimUpper,
         cumulativeAddrowsCustom = cumulativeAddrowsCustom,
         cumulativeAddrowsBelowOverall = cumulativeAddrowsBelowOverall,
-        cumulativeColgap = cumulativeColgap,
-        cumulativeColgapUnit = cumulativeColgapUnit,
-        cumulativeColgapForest = cumulativeColgapForest,
-        cumulativeColgapForestUnit = cumulativeColgapForestUnit,
+        cumulativeColgapLeft = cumulativeColgapLeft,
+        cumulativeColgapLeftUnit = cumulativeColgapLeftUnit,
+        cumulativeColgapRight = cumulativeColgapRight,
+        cumulativeColgapRightUnit = cumulativeColgapRightUnit,
+        cumulativeColgapForestLeft = cumulativeColgapForestLeft,
+        cumulativeColgapForestLeftUnit = cumulativeColgapForestLeftUnit,
+        cumulativeColgapForestRight = cumulativeColgapForestRight,
+        cumulativeColgapForestRightUnit = cumulativeColgapForestRightUnit,
         cumulativeDigitsEffect = cumulativeDigitsEffect,
         cumulativeDigitsPval = cumulativeDigitsPval,
         cumulativeDigitsI2 = cumulativeDigitsI2,

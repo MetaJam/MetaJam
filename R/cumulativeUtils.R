@@ -142,10 +142,21 @@ renderCumulativeForest <- function(self) {
     return(FALSE)
   }
 
-  colgap <- paste0(options$cumulativeColgap, options$cumulativeColgapUnit)
-  colgap.forest <- paste0(
-    options$cumulativeColgapForest,
-    options$cumulativeColgapForestUnit
+  colgap.left <- paste0(
+    options$cumulativeColgapLeft,
+    options$cumulativeColgapLeftUnit
+  )
+  colgap.right <- paste0(
+    options$cumulativeColgapRight,
+    options$cumulativeColgapRightUnit
+  )
+  colgap.forest.left <- paste0(
+    options$cumulativeColgapForestLeft,
+    options$cumulativeColgapForestLeftUnit
+  )
+  colgap.forest.right <- paste0(
+    options$cumulativeColgapForestRight,
+    options$cumulativeColgapForestRightUnit
   )
 
   args <- list(
@@ -153,8 +164,13 @@ renderCumulativeForest <- function(self) {
     layout = options$cumulativeForestLayout,
     label.left = options$cumulativeLabelLeft,
     label.right = options$cumulativeLabelRight,
-    colgap = colgap,
-    colgap.forest = colgap.forest,
+    colgap.left = colgap.left,
+    colgap.right = colgap.right,
+    colgap.forest.left = colgap.forest.left,
+    colgap.forest.right = colgap.forest.right,
+    # Follow the compact-width policy documented in renderForest().
+    calcwidth.hetstat = FALSE,
+    calcwidth.tests = FALSE,
     details = options$cumulativeForestDetails,
     # Use superscript column headers for I2 and Tau2
     label.tau2 = "Tau\u00b2",

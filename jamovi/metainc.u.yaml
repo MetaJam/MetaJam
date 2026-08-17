@@ -185,6 +185,11 @@ children:
                         suggestedValues:
                           - Favours Experimental
                           - Favours Control
+                  - type: LayoutBox
+                    margin: large
+                    children:
+                      - type: Label
+                        label: "Note: If text overlaps in the forest plot, adjust spacing in the Dimensions tab."
               - type: Content
                 name: dimensions
                 children:
@@ -222,30 +227,56 @@ children:
                     fitToGrid: true
                     children:
                       - type: TextBox
-                        name: colgap
+                        name: colgapLeft
                         format: number
                         enable: (forestPlot)
                         cell:
                           row: 0
                           column: 0
                       - type: ComboBox
-                        name: colgapUnit
+                        name: colgapLeftUnit
                         enable: (forestPlot)
                         cell:
                           row: 0
                           column: 1
                       - type: TextBox
-                        name: colgapForest
+                        name: colgapRight
                         format: number
                         enable: (forestPlot)
                         cell:
                           row: 1
                           column: 0
                       - type: ComboBox
-                        name: colgapForestUnit
+                        name: colgapRightUnit
                         enable: (forestPlot)
                         cell:
                           row: 1
+                          column: 1
+                      - type: TextBox
+                        name: colgapForestLeft
+                        format: number
+                        enable: (forestPlot)
+                        cell:
+                          row: 2
+                          column: 0
+                      - type: ComboBox
+                        name: colgapForestLeftUnit
+                        enable: (forestPlot)
+                        cell:
+                          row: 2
+                          column: 1
+                      - type: TextBox
+                        name: colgapForestRight
+                        format: number
+                        enable: (forestPlot)
+                        cell:
+                          row: 3
+                          column: 0
+                      - type: ComboBox
+                        name: colgapForestRightUnit
+                        enable: (forestPlot)
+                        cell:
+                          row: 3
                           column: 1
               - type: Content
                 name: rounding
@@ -457,6 +488,11 @@ children:
                         suggestedValues:
                           - Favours Experimental
                           - Favours Control
+                  - type: LayoutBox
+                    margin: large
+                    children:
+                      - type: Label
+                        label: "Note: If text overlaps in the forest plot, adjust spacing in the Dimensions tab."
               - type: Content
                 name: dimensions
                 children:
@@ -507,7 +543,7 @@ children:
                     fitToGrid: true
                     children:
                       - type: TextBox
-                        name: subgroupColgap
+                        name: subgroupColgapLeft
                         format: number
                         enable: >
                           ({return (ui['subgroupVariables'].value() || []).length > 0 &&
@@ -516,7 +552,7 @@ children:
                           row: 0
                           column: 0
                       - type: ComboBox
-                        name: subgroupColgapUnit
+                        name: subgroupColgapLeftUnit
                         enable: >
                           ({return (ui['subgroupVariables'].value() || []).length > 0 &&
                           ui['subgroupForestPlot'].value();})
@@ -524,7 +560,7 @@ children:
                           row: 0
                           column: 1
                       - type: TextBox
-                        name: subgroupColgapForest
+                        name: subgroupColgapRight
                         format: number
                         enable: >
                           ({return (ui['subgroupVariables'].value() || []).length > 0 &&
@@ -533,12 +569,46 @@ children:
                           row: 1
                           column: 0
                       - type: ComboBox
-                        name: subgroupColgapForestUnit
+                        name: subgroupColgapRightUnit
                         enable: >
                           ({return (ui['subgroupVariables'].value() || []).length > 0 &&
                           ui['subgroupForestPlot'].value();})
                         cell:
                           row: 1
+                          column: 1
+                      - type: TextBox
+                        name: subgroupColgapForestLeft
+                        format: number
+                        enable: >
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
+                          ui['subgroupForestPlot'].value();})
+                        cell:
+                          row: 2
+                          column: 0
+                      - type: ComboBox
+                        name: subgroupColgapForestLeftUnit
+                        enable: >
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
+                          ui['subgroupForestPlot'].value();})
+                        cell:
+                          row: 2
+                          column: 1
+                      - type: TextBox
+                        name: subgroupColgapForestRight
+                        format: number
+                        enable: >
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
+                          ui['subgroupForestPlot'].value();})
+                        cell:
+                          row: 3
+                          column: 0
+                      - type: ComboBox
+                        name: subgroupColgapForestRightUnit
+                        enable: >
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
+                          ui['subgroupForestPlot'].value();})
+                        cell:
+                          row: 3
                           column: 1
               - type: Content
                 name: rounding
@@ -787,30 +857,56 @@ children:
                     fitToGrid: true
                     children:
                       - type: TextBox
-                        name: leaveOneOutColgap
+                        name: leaveOneOutColgapLeft
                         format: number
                         enable: (leaveOneOut && leaveOneOutForestPlot)
                         cell:
                           row: 0
                           column: 0
                       - type: ComboBox
-                        name: leaveOneOutColgapUnit
+                        name: leaveOneOutColgapLeftUnit
                         enable: (leaveOneOut && leaveOneOutForestPlot)
                         cell:
                           row: 0
                           column: 1
                       - type: TextBox
-                        name: leaveOneOutColgapForest
+                        name: leaveOneOutColgapRight
                         format: number
                         enable: (leaveOneOut && leaveOneOutForestPlot)
                         cell:
                           row: 1
                           column: 0
                       - type: ComboBox
-                        name: leaveOneOutColgapForestUnit
+                        name: leaveOneOutColgapRightUnit
                         enable: (leaveOneOut && leaveOneOutForestPlot)
                         cell:
                           row: 1
+                          column: 1
+                      - type: TextBox
+                        name: leaveOneOutColgapForestLeft
+                        format: number
+                        enable: (leaveOneOut && leaveOneOutForestPlot)
+                        cell:
+                          row: 2
+                          column: 0
+                      - type: ComboBox
+                        name: leaveOneOutColgapForestLeftUnit
+                        enable: (leaveOneOut && leaveOneOutForestPlot)
+                        cell:
+                          row: 2
+                          column: 1
+                      - type: TextBox
+                        name: leaveOneOutColgapForestRight
+                        format: number
+                        enable: (leaveOneOut && leaveOneOutForestPlot)
+                        cell:
+                          row: 3
+                          column: 0
+                      - type: ComboBox
+                        name: leaveOneOutColgapForestRightUnit
+                        enable: (leaveOneOut && leaveOneOutForestPlot)
+                        cell:
+                          row: 3
                           column: 1
               - type: Content
                 name: rounding
@@ -943,30 +1039,56 @@ children:
                     fitToGrid: true
                     children:
                       - type: TextBox
-                        name: cumulativeColgap
+                        name: cumulativeColgapLeft
                         format: number
                         enable: (cumulative && cumulativeForestPlot)
                         cell:
                           row: 0
                           column: 0
                       - type: ComboBox
-                        name: cumulativeColgapUnit
+                        name: cumulativeColgapLeftUnit
                         enable: (cumulative && cumulativeForestPlot)
                         cell:
                           row: 0
                           column: 1
                       - type: TextBox
-                        name: cumulativeColgapForest
+                        name: cumulativeColgapRight
                         format: number
                         enable: (cumulative && cumulativeForestPlot)
                         cell:
                           row: 1
                           column: 0
                       - type: ComboBox
-                        name: cumulativeColgapForestUnit
+                        name: cumulativeColgapRightUnit
                         enable: (cumulative && cumulativeForestPlot)
                         cell:
                           row: 1
+                          column: 1
+                      - type: TextBox
+                        name: cumulativeColgapForestLeft
+                        format: number
+                        enable: (cumulative && cumulativeForestPlot)
+                        cell:
+                          row: 2
+                          column: 0
+                      - type: ComboBox
+                        name: cumulativeColgapForestLeftUnit
+                        enable: (cumulative && cumulativeForestPlot)
+                        cell:
+                          row: 2
+                          column: 1
+                      - type: TextBox
+                        name: cumulativeColgapForestRight
+                        format: number
+                        enable: (cumulative && cumulativeForestPlot)
+                        cell:
+                          row: 3
+                          column: 0
+                      - type: ComboBox
+                        name: cumulativeColgapForestRightUnit
+                        enable: (cumulative && cumulativeForestPlot)
+                        cell:
+                          row: 3
                           column: 1
               - type: Content
                 name: rounding

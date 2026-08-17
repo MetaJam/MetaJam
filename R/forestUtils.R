@@ -14,18 +14,70 @@
 #' @return The (invisible) return value of `meta::forest()`.
 #' @noRd
 renderForest <- function(model, options, sortKey, ...) {
+  extraArgs <- list(...)
+
   # Format numeric gaps into strings with units (e.g. "2mm")
   # Values are always present — validated Number inputs in .a.yaml
-  colgap <- paste0(options$colgap, options$colgapUnit)
-  colgap.forest <- paste0(options$colgapForest, options$colgapForestUnit)
+  colgap.left <- paste0(options$colgapLeft, options$colgapLeftUnit)
+  colgap.right <- paste0(options$colgapRight, options$colgapRightUnit)
+  colgap.forest.left <- paste0(
+    options$colgapForestLeft,
+    options$colgapForestLeftUnit
+  )
+  colgap.forest.right <- paste0(
+    options$colgapForestRight,
+    options$colgapForestRightUnit
+  )
 
   args <- list(
     x = model,
     layout = options$forestLayout,
     label.left = options$labelLeft,
     label.right = options$labelRight,
-    colgap = colgap,
-    colgap.forest = colgap.forest,
+    colgap.left = colgap.left,
+    colgap.right = colgap.right,
+    colgap.forest.left = colgap.forest.left,
+    colgap.forest.right = colgap.forest.right,
+    # meta now defaults calcwidth.hetstat to TRUE. In standard layouts, when
+    # other left columns follow Study, the calculated width is added after the
+    # study-label column. This separates Study from the numeric columns and
+    # makes rows harder to trace. MetaJam leaves it disabled there: users move
+    # footer text down (preferred) or increase colgap.forest.left, which moves
+    # the complete left table away from the plot without widening the gap after
+    # Study.
+    #
+    # The subgroup-only layout has one column left of the plot. Subgroup
+    # heterogeneity is printed in that column, overlaps the plot, and cannot be
+    # moved to the footer. In this layout, calcwidth.hetstat has the same effect
+    # as manually increasing colgap.forest.left, so MetaJam enables it for
+    # convenience and a non-overlapping default.
+    calcwidth.hetstat = options$forestLayout == "subgroup",
+
+    # meta currently defaults calcwidth.tests to FALSE. MetaJam keeps it FALSE
+    # except in the subgroup-only layout when both models are shown and the
+    # Subgroup effect test is used. In that case, the two model-specific test
+    # lines are repeated inside every subgroup and overlap the plot, and cannot
+    # be moved to the footer. In this layout, calcwidth.tests follows the same
+    # logic as calcwidth.hetstat: enabling it has the same effect as manually
+    # increasing colgap.forest.left.
+    #
+    # calcwidth.tests measures all displayed tests, including footer tests.
+    # Therefore, a longer subgroup-difference or overall test can make the plot
+    # slightly wider than the subgroup-effect lines alone require. MetaJam
+    # accepts that extra space here to keep the repeated subgroup lines from
+    # colliding with the plot.
+    #
+    # With one model, the heterogeneity line normally already provides enough
+    # width for the subgroup-effect test. The rare exceptions are when all
+    # subgroups contain one study or when extreme rounding settings make the
+    # test line slightly longer. MetaJam does not add automatic spacing for
+    # those impractical edge cases because doing so would reduce flexibility in
+    # common one-model layouts. Users can still adjust colgap.forest.left
+    # manually if one occurs.
+    calcwidth.tests = options$forestLayout == "subgroup" &&
+      isTRUE(model$common) &&
+      isTRUE(model$random) &&
+      isTRUE(extraArgs$test.effect.subgroup),
     test.overall = options$forestTestOverall,
     details = options$forestDetails,
     print.I2.ci = options$forestPrintI2Ci,
@@ -35,9 +87,10 @@ renderForest <- function(model, options, sortKey, ...) {
     digits.pval.Q = as.integer(options$digitsPval),
     digits.weight = as.integer(options$digitsWeight),
     digits.I2 = as.integer(options$digitsI2),
-    digits.tau2 = as.integer(options$digitsTau2),
-    ...
+    digits.tau2 = as.integer(options$digitsTau2)
   )
+
+  args <- c(args, extraArgs)
 
   if (!is.null(sortKey)) {
     args$sortvar <- sortKey
