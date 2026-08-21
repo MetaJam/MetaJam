@@ -39,7 +39,24 @@ computeCumulativeModel <- function(self) {
     )
 
     if (startsWith(options$cumulativeSortBy, "varid::")) {
-      sortValue <- self$data[[options$cumulativeSortVariable]]
+      data <- self$data
+      # jamovi lifecycle guard: A user in jamovi cannot pass NULL data;
+      # during a normal .run() cycle, jamovi always provides a data.frame
+      # (with at least one row). The ONLY time self$data is NULL is during
+      # later internal phases like image rendering or save/export, when
+      # jamovi actively clears it. In these later stages, we rely purely on
+      # cached models. If the cumulative model is missing from the cache, it
+      # means an error occurred during the .run() phase. We do not need to
+      # calculate it again. Furthermore, calculating a cumulative model sorted
+      # by a selected variable requires the original data, which are unavailable
+      # in this phase. Attempting this with NULL data would crash with a new,
+      # confusing error. Returning NULL safely aborts the attempt and preserves
+      # the original .run() error.
+      if (is.null(data)) {
+        return()
+      }
+
+      sortValue <- data[[options$cumulativeSortVariable]]
     }
 
     sortKey <- xtfrm(sortValue)
