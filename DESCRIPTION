@@ -33,7 +33,7 @@ Imports:
     utils
 Remotes: 
     guido-s/metabook@a6ed112037848941c4b27071a12c4165af6edffd,
-    guido-s/meta@91481e6fc5cb2b256c5d46fe33c8f6860d9c9b0a
+    guido-s/meta@445d9f946c77376048c99eb297943d7fc7743a7f
 Config/roxygen2/version: 8.1.0
 Encoding: UTF-8
 LazyData: true
