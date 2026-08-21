@@ -28,6 +28,13 @@ asHtml <- function(..., title = NULL, modifier = NULL) {
 
   text <- paste0(text, collapse = "\n")
 
+  # Mirror jmvcore::htmlEscape(attribute = FALSE) for minApp compatibility.
+  # Escape & first so the entities introduced for < and > are not re-escaped.
+  # Source: jmvcore/R/utils.R:1360-1364.
+  text <- gsub("&", "&amp;", text, fixed = TRUE)
+  text <- gsub("<", "&lt;", text, fixed = TRUE)
+  text <- gsub(">", "&gt;", text, fixed = TRUE)
+
   # Build optional title styled to match jamovi table titles visually.
   # We only take what we actually need from .jmv-results-table-title-cell:
   #   - the 1px bottom border (the line under the title)
