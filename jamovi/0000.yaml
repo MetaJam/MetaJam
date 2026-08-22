@@ -90,6 +90,16 @@ datasets:
     tags:
       - Meta-Analysis
       - Incidence Rate Outcomes
+  - name: Depression Severity
+    path: DepressionSeverity.omv
+    description: >-
+      Baseline depression severity scores from 6 clinical trials of
+      psychotherapy and antidepressant treatment in patients with major
+      depression, measured using the Beck Depression Inventory-II (BDI-II)
+      (Furukawa et al., 2020).
+    tags:
+      - Meta-Analysis
+      - Single Means
   - name: Environmental Tobacco Smoke
     path: EnvironmentalTobaccoSmoke.omv
     description: >-
