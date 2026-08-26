@@ -120,6 +120,38 @@ datasets:
       - Meta-Analysis
       - Precomputed Effect Sizes
       - Hazard Ratios
+  - name: RoB 2
+    path: RoB2.omv
+    description: Example risk-of-bias assessments for 9 studies using the RoB 2 tool.
+    tags:
+      - Risk of Bias
+  - name: RoB 2 (cluster)
+    path: RoB2Cluster.omv
+    description: >-
+      Example risk-of-bias assessments for 9 studies using RoB 2 for
+      cluster-randomized trials.
+    tags:
+      - Risk of Bias
+  - name: ROBINS-I
+    path: ROBINSI.omv
+    description: Example risk-of-bias assessments for 10 studies using the ROBINS-I tool.
+    tags:
+      - Risk of Bias
+  - name: ROBINS-E
+    path: ROBINSE.omv
+    description: Example risk-of-bias assessments for 10 studies using the ROBINS-E tool.
+    tags:
+      - Risk of Bias
+  - name: QUADAS-2
+    path: QUADAS2.omv
+    description: Example risk-of-bias assessments for 12 studies using the QUADAS-2 tool.
+    tags:
+      - Risk of Bias
+  - name: QUIPS
+    path: QUIPS.omv
+    description: Example risk-of-bias assessments for 12 studies using the QUIPS tool.
+    tags:
+      - Risk of Bias
 usesNative: true
 minApp: 2.7.27
 
