@@ -1,0 +1,425 @@
+name: rob
+title: Risk of Bias Plots
+jus: "3.0"
+stage: 0
+compilerMode: tame
+children:
+  - type: ModeSelector
+    name: tool
+    label: Assessment tool
+    form: listbox
+    stretchFactor: 1
+    children:
+      - type: Content
+        name: ROB2
+        children:
+          - type: VariableSupplier
+            persistentItems: false
+            stretchFactor: 1
+            permitted:
+              - numeric
+              - factor
+              - id
+            children:
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: rob2Study
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: rob2D1
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: rob2D2
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: rob2D3
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: rob2D4
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: rob2D5
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: rob2Overall
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: rob2Weight
+                    maxItemCount: 1
+                    isTarget: true
+
+      - type: Content
+        name: ROB2-Cluster
+        children:
+          - type: VariableSupplier
+            persistentItems: false
+            stretchFactor: 1
+            permitted:
+              - numeric
+              - factor
+              - id
+            children:
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: rob2ClusterStudy
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: rob2ClusterD1
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: rob2ClusterD1b
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: rob2ClusterD2
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: rob2ClusterD3
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: rob2ClusterD4
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: rob2ClusterD5
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: rob2ClusterOverall
+                    maxItemCount: 1
+                    isTarget: true
+
+      - type: Content
+        name: ROBINS-I
+        children:
+          - type: VariableSupplier
+            persistentItems: false
+            stretchFactor: 1
+            permitted:
+              - numeric
+              - factor
+              - id
+            children:
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: robinsIStudy
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: robinsID1
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: robinsID2
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: robinsID3
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: robinsID4
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: robinsID5
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: robinsID6
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: robinsID7
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: robinsIOverall
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: robinsIWeight
+                    maxItemCount: 1
+                    isTarget: true
+
+      - type: Content
+        name: ROBINS-E
+        children:
+          - type: VariableSupplier
+            persistentItems: false
+            stretchFactor: 1
+            permitted:
+              - numeric
+              - factor
+              - id
+            children:
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: robinsEStudy
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: robinsED1
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: robinsED2
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: robinsED3
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: robinsED4
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: robinsED5
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: robinsED6
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: robinsED7
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: robinsEOverall
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: robinsEWeight
+                    maxItemCount: 1
+                    isTarget: true
+
+      - type: Content
+        name: QUADAS-2
+        children:
+          - type: VariableSupplier
+            persistentItems: false
+            stretchFactor: 1
+            permitted:
+              - numeric
+              - factor
+              - id
+            children:
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: quadas2Study
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: quadas2D1
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: quadas2D2
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: quadas2D3
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: quadas2D4
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: quadas2Overall
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: quadas2Weight
+                    maxItemCount: 1
+                    isTarget: true
+
+      - type: Content
+        name: QUIPS
+        children:
+          - type: VariableSupplier
+            persistentItems: false
+            stretchFactor: 1
+            permitted:
+              - numeric
+              - factor
+              - id
+            children:
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: quipsStudy
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: quipsD1
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: quipsD2
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: quipsD3
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: quipsD4
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: quipsD5
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: quipsD6
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: quipsOverall
+                    maxItemCount: 1
+                    isTarget: true
+              - type: TargetLayoutBox
+                children:
+                  - type: VariablesListBox
+                    name: quipsWeight
+                    maxItemCount: 1
+                    isTarget: true
+
+  - type: LayoutBox
+    margin: large
+    stretchFactor: 1
+    children:
+      - type: Label
+        label: Plots
+        stretchFactor: 1
+        cell:
+          row: 0
+          column: 0
+        children:
+          - type: CheckBox
+            name: summaryPlot
+            enable: (!tool:ROB2-Cluster)
+          - type: CheckBox
+            name: trafficPlot
+      - type: Label
+        label: Appearance
+        stretchFactor: 1
+        cell:
+          row: 0
+          column: 1
+        children:
+          - type: ComboBox
+            name: colour
+          - type: TextBox
+            name: pointSize
+            format: number
+            enable: (trafficPlot)

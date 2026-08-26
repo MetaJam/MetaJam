@@ -1,0 +1,133 @@
+name: rob
+title: Risk of Bias Plots
+jrs: "1.1"
+
+items:
+  - name: summaryPlot
+    title: Summary Plot
+    type: Image
+    # robvis:::get_width(type = "summ") returns 8 inches
+    # (robvis/R/helpers.R:597-613); 8 * 72 = 576.
+    width: 576
+    # robvis:::get_height(type = "summ") returns 2.41 inches
+    # (robvis/R/helpers.R:584-594); 2.41 * 72 = 173.52.
+    # Rounded to 174, as jamovi requires an integer.
+    height: 174
+    renderFun: .summaryPlot
+    visible: (summaryPlot && tool != "ROB2-Cluster")
+    clearWith:
+      - tool
+      - rob2Study
+      - rob2D1
+      - rob2D2
+      - rob2D3
+      - rob2D4
+      - rob2D5
+      - rob2Overall
+      - rob2Weight
+      - robinsIStudy
+      - robinsID1
+      - robinsID2
+      - robinsID3
+      - robinsID4
+      - robinsID5
+      - robinsID6
+      - robinsID7
+      - robinsIOverall
+      - robinsIWeight
+      - robinsEStudy
+      - robinsED1
+      - robinsED2
+      - robinsED3
+      - robinsED4
+      - robinsED5
+      - robinsED6
+      - robinsED7
+      - robinsEOverall
+      - robinsEWeight
+      - quadas2Study
+      - quadas2D1
+      - quadas2D2
+      - quadas2D3
+      - quadas2D4
+      - quadas2Overall
+      - quadas2Weight
+      - quipsStudy
+      - quipsD1
+      - quipsD2
+      - quipsD3
+      - quipsD4
+      - quipsD5
+      - quipsD6
+      - quipsOverall
+      - quipsWeight
+      - colour
+    refs:
+      - MetaJam
+      - robvisPackage
+
+  - name: trafficPlotSizeCache
+    type: Group
+    visible: false
+    clearWith: []
+    items: []
+
+  - name: trafficPlot
+    title: Traffic-Light Plot
+    type: Image
+    renderFun: .trafficPlot
+    visible: (trafficPlot)
+    clearWith:
+      - tool
+      - rob2Study
+      - rob2D1
+      - rob2D2
+      - rob2D3
+      - rob2D4
+      - rob2D5
+      - rob2Overall
+      - rob2ClusterStudy
+      - rob2ClusterD1
+      - rob2ClusterD1b
+      - rob2ClusterD2
+      - rob2ClusterD3
+      - rob2ClusterD4
+      - rob2ClusterD5
+      - rob2ClusterOverall
+      - robinsIStudy
+      - robinsID1
+      - robinsID2
+      - robinsID3
+      - robinsID4
+      - robinsID5
+      - robinsID6
+      - robinsID7
+      - robinsIOverall
+      - robinsEStudy
+      - robinsED1
+      - robinsED2
+      - robinsED3
+      - robinsED4
+      - robinsED5
+      - robinsED6
+      - robinsED7
+      - robinsEOverall
+      - quadas2Study
+      - quadas2D1
+      - quadas2D2
+      - quadas2D3
+      - quadas2D4
+      - quadas2Overall
+      - quipsStudy
+      - quipsD1
+      - quipsD2
+      - quipsD3
+      - quipsD4
+      - quipsD5
+      - quipsD6
+      - quipsOverall
+      - colour
+      - pointSize
+    refs:
+      - MetaJam
+      - robvisPackage

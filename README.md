@@ -30,8 +30,11 @@ the R package [meta](https://cran.r-project.org/package=meta).
     event counts and person-time for the experimental and control groups.
 - **Precomputed Effect Sizes Meta-Analysis:** Analyze precomputed effect sizes
   with standard errors or confidence intervals.
+- **Risk of Bias Plots:** Create summary and traffic-light plots from
+  risk-of-bias assessments using RoB 2, RoB 2 (cluster), ROBINS-I, ROBINS-E,
+  QUADAS-2, and QUIPS.
 
-## Analysis Options
+## Meta-Analysis Features
 
 - **Model Settings:** Fit common-effect and random-effects models with
   various effect measures and heterogeneity estimators.
