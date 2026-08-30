@@ -3,9 +3,41 @@ robClass <- R6::R6Class(
   inherit = robBase,
 
   private = list(
+    .setCombinedPlotSize = function(image, trafficWidth, trafficHeight) {
+      # Under plot.tag.location = "margin", enabling panel tags (18 pt bold)
+      # expands the patchwork layout by inserting a left column and two rows
+      # (one per subplot) for the tag labels. We add tagWidth and tagHeight
+      # so the calculated plot dimensions remain unaffected by the tags:
+      # - tagHeight adds the combined height of the two tag rows (fixed at
+      #   0.4722... in, as all supported styles measured the same).
+      # - tagWidth adds the tag column width (dynamic across styles, as
+      #   measured widths vary by tag style).
+      # Values are the raw physical inches measured from the gtable layout;
+      # multiplying by 72 converts them into jamovi's 72-units-per-inch image
+      # scale.
+      tagWidth <- switch(
+        self$options$combinedTags,
+        A = 0.1805555555555556 * 72,
+        "1" = 0.1391059027777778 * 72,
+        I = 0.1388888888888889 * 72,
+        none = 0
+      )
+      tagHeight <- if (self$options$combinedTags == "none") {
+        0
+      } else {
+        0.4722222222222222 * 72
+      }
+
+      image$setSize(
+        max(8 * 72, trafficWidth) + tagWidth,
+        2.41 * 72 + trafficHeight + tagHeight
+      )
+    },
+
     .postInit = function() {
-      image <- self$results$trafficPlot
-      size <- self$results$trafficPlotSizeCache$state
+      trafficImage <- self$results$trafficPlot
+      combinedImage <- self$results$combinedPlot
+      trafficSize <- self$results$trafficPlotSizeCache$state
 
       # Each request creates a new image at the YAML/default size; jamovi
       # restores result state but not the dimensions. Reapply the last
@@ -15,14 +47,25 @@ robClass <- R6::R6Class(
       # first from the old size to the YAML/default size and then changing again
       # to the current size; the plot changes only once, directly from the old
       # size to the current size.
-      if (image$visible && !is.null(size)) {
-        image$setSize(size$width, size$height)
+      if (!is.null(trafficSize)) {
+        if (trafficImage$visible) {
+          trafficImage$setSize(trafficSize$width, trafficSize$height)
+        }
+
+        if (combinedImage$visible) {
+          private$.setCombinedPlotSize(
+            combinedImage,
+            trafficSize$width,
+            trafficSize$height
+          )
+        }
       }
     },
 
     .run = function() {
       summaryImage <- self$results$summaryPlot
       trafficImage <- self$results$trafficPlot
+      combinedImage <- self$results$combinedPlot
 
       # Use state as a proxy for clearWith to decide whether plot preparation
       # must be recalculated. This analysis always stores non-NULL state after
@@ -34,8 +77,9 @@ robClass <- R6::R6Class(
       # redundant data preparation and size calculation.
       needsSummary <- summaryImage$visible && is.null(summaryImage$state)
       needsTraffic <- trafficImage$visible && is.null(trafficImage$state)
+      needsCombined <- combinedImage$visible && is.null(combinedImage$state)
 
-      if (!needsSummary && !needsTraffic) {
+      if (!needsSummary && !needsTraffic && !needsCombined) {
         return(invisible(NULL))
       }
 
@@ -143,7 +187,7 @@ robClass <- R6::R6Class(
           self$data[[self$options[[toolSpec$overall]]]]
       }
 
-      if (needsSummary) {
+      if (needsSummary || needsCombined) {
         summaryData <- data
         weighted <- !is.null(self$options[[toolSpec$weight]])
 
@@ -153,16 +197,16 @@ robClass <- R6::R6Class(
           )
         }
 
-        summaryImage$setState(list(
+        summaryState <- list(
           data = summaryData,
           tool = self$options$tool,
           overall = overall,
           weighted = weighted,
           colour = self$options$colour
-        ))
+        )
       }
 
-      if (needsTraffic) {
+      if (needsTraffic || needsCombined) {
         # get_width() returns NA when any Study label is missing because max()
         # receives an NA character count. Use a separate sizing copy to avoid
         # that NA result without changing the original data passed to the plot.
@@ -184,17 +228,41 @@ robClass <- R6::R6Class(
         ) *
           72
 
-        trafficImage$setSize(width, height)
-        self$results$trafficPlotSizeCache$setState(list(
-          width = width,
-          height = height
-        ))
-        trafficImage$setState(list(
+        trafficState <- list(
           data = data,
           tool = self$options$tool,
           overall = overall,
           colour = self$options$colour,
           pointSize = self$options$pointSize
+        )
+
+        self$results$trafficPlotSizeCache$setState(list(
+          width = width,
+          height = height
+        ))
+      }
+
+      if (needsSummary) {
+        summaryImage$setState(summaryState)
+      }
+
+      if (needsTraffic) {
+        trafficImage$setSize(width, height)
+        trafficImage$setState(trafficState)
+      }
+
+      if (needsCombined) {
+        private$.setCombinedPlotSize(
+          combinedImage,
+          width,
+          height
+        )
+
+        combinedImage$setState(list(
+          summary = summaryState,
+          traffic = trafficState,
+          order = self$options$combinedOrder,
+          tags = self$options$combinedTags
         ))
       }
     },
@@ -228,6 +296,121 @@ robClass <- R6::R6Class(
         psize = state$pointSize,
         overall = state$overall
       ))
+      TRUE
+    },
+
+    .combinedPlot = function(image, ...) {
+      if (is.null(image$state)) {
+        return(FALSE)
+      }
+
+      state <- image$state
+      summaryState <- state$summary
+      trafficState <- state$traffic
+      trafficSize <- self$results$trafficPlotSizeCache$state
+
+      summaryPlot <- robvis::rob_summary(
+        data = summaryState$data,
+        tool = summaryState$tool,
+        overall = summaryState$overall,
+        weighted = summaryState$weighted,
+        colour = summaryState$colour
+      )
+      trafficPlot <- robvis::rob_traffic_light(
+        data = trafficState$data,
+        tool = trafficState$tool,
+        colour = trafficState$colour,
+        psize = trafficState$pointSize,
+        overall = trafficState$overall
+      )
+
+      # patchwork normally aligns grid tracks across plots in the same column.
+      # The most visible issue is on the left side: the summary plot's long
+      # domain labels force a shared axis alignment that creates unwanted
+      # white space on the left of the traffic-light plot.
+      #
+      # In addition, un-freed plots retain fixed outer tracks (axes, legends,
+      # captions), meaning row 'heights' apply only to the relative panel area
+      # and distort the final plot dimensions. Freeing both plots on all four
+      # sides isolates them completely, eliminating the white space gap and
+      # allowing each plot to resolve its standalone layout independently.
+      summaryPlot <- patchwork::free(
+        summaryPlot,
+        type = "panel",
+        side = "trbl"
+      )
+      trafficPlot <- patchwork::free(
+        trafficPlot,
+        type = "panel",
+        side = "trbl"
+      )
+
+      # patchwork's 'heights' scale only the flexible panel area, but each freed
+      # child plot still retains its default 5.5 pt top and bottom theme margins
+      # as fixed tracks in the master layout.
+      #
+      # Because the final rendered height of each row is the sum of its fixed
+      # margins plus its allocated panel height, passing raw standalone heights
+      # would prevent the rows from matching their target heights and distort
+      # their proportions.
+      #
+      # We calculate the fixed margin height in jamovi's 72-units-per-inch scale
+      # (grid defines 72.27 pt per inch) and subtract it from each target height.
+      # This ensures that once grid adds the fixed margins back during rendering,
+      # the total height of each child row matches its exact standalone target:
+      plotMarginHeight <- 2 * 5.5 * 72 / 72.27
+
+      if (state$order == "summaryFirst") {
+        plots <- list(summaryPlot, trafficPlot)
+        heights <- c(
+          2.41 * 72 - plotMarginHeight,
+          trafficSize$height - plotMarginHeight
+        )
+      } else {
+        plots <- list(trafficPlot, summaryPlot)
+        heights <- c(
+          trafficSize$height - plotMarginHeight,
+          2.41 * 72 - plotMarginHeight
+        )
+      }
+
+      combinedPlot <- patchwork::wrap_plots(
+        plots,
+        ncol = 1,
+        heights = heights
+      ) +
+        patchwork::plot_annotation(
+          tag_levels = if (state$tags == "none") {
+            character()
+          } else {
+            state$tags
+          },
+          theme = ggplot2::theme(
+            # Remove only the top-level patchwork margin. The original robvis
+            # child margins remain intact and are accounted for in the
+            # panel-row weights above.
+            plot.margin = ggplot2::margin(0, 0, 0, 0)
+          )
+        )
+
+      if (state$tags != "none") {
+        combinedPlot <- combinedPlot &
+          ggplot2::theme(
+            plot.tag = ggplot2::element_text(
+              # Keep panel tags clearly above robvis's 6 to 10 pt text hierarchy.
+              size = 18,
+              face = "bold",
+              # Default is 0 margin (no extra padding around tag text)
+              margin = ggplot2::margin(0, 0, 0, 0)
+            ),
+            # Default is "topleft"
+            plot.tag.position = "topleft",
+            # Default is "margin" for named tag positions
+            plot.tag.location = "margin"
+          )
+      }
+
+      print(combinedPlot)
       TRUE
     }
   )

@@ -61,6 +61,9 @@ robOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             quipsWeight = NULL,
             summaryPlot = TRUE,
             trafficPlot = TRUE,
+            combinedPlot = FALSE,
+            combinedOrder = "summaryFirst",
+            combinedTags = "A",
             colour = "cochrane",
             pointSize = 10, ...) {
 
@@ -465,6 +468,26 @@ robOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "trafficPlot",
                 trafficPlot,
                 default=TRUE)
+            private$..combinedPlot <- jmvcore::OptionBool$new(
+                "combinedPlot",
+                combinedPlot,
+                default=FALSE)
+            private$..combinedOrder <- jmvcore::OptionList$new(
+                "combinedOrder",
+                combinedOrder,
+                options=list(
+                    "summaryFirst",
+                    "trafficFirst"),
+                default="summaryFirst")
+            private$..combinedTags <- jmvcore::OptionList$new(
+                "combinedTags",
+                combinedTags,
+                options=list(
+                    "A",
+                    "1",
+                    "I",
+                    "none"),
+                default="A")
             private$..colour <- jmvcore::OptionList$new(
                 "colour",
                 colour,
@@ -533,6 +556,9 @@ robOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..quipsWeight)
             self$.addOption(private$..summaryPlot)
             self$.addOption(private$..trafficPlot)
+            self$.addOption(private$..combinedPlot)
+            self$.addOption(private$..combinedOrder)
+            self$.addOption(private$..combinedTags)
             self$.addOption(private$..colour)
             self$.addOption(private$..pointSize)
         }),
@@ -592,6 +618,9 @@ robOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         quipsWeight = function() private$..quipsWeight$value,
         summaryPlot = function() private$..summaryPlot$value,
         trafficPlot = function() private$..trafficPlot$value,
+        combinedPlot = function() private$..combinedPlot$value,
+        combinedOrder = function() private$..combinedOrder$value,
+        combinedTags = function() private$..combinedTags$value,
         colour = function() private$..colour$value,
         pointSize = function() private$..pointSize$value),
     private = list(
@@ -650,6 +679,9 @@ robOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..quipsWeight = NA,
         ..summaryPlot = NA,
         ..trafficPlot = NA,
+        ..combinedPlot = NA,
+        ..combinedOrder = NA,
+        ..combinedTags = NA,
         ..colour = NA,
         ..pointSize = NA)
 )
@@ -660,7 +692,8 @@ robResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     active = list(
         summaryPlot = function() private$.items[["summaryPlot"]],
         trafficPlotSizeCache = function() private$.items[["trafficPlotSizeCache"]],
-        trafficPlot = function() private$.items[["trafficPlot"]]),
+        trafficPlot = function() private$.items[["trafficPlot"]],
+        combinedPlot = function() private$.items[["combinedPlot"]]),
     private = list(),
     public=list(
         initialize=function(options) {
@@ -796,6 +829,65 @@ robResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "pointSize"),
                 refs=list(
                     "MetaJam",
+                    "robvisPackage")))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="combinedPlot",
+                title="Combined Plot",
+                renderFun=".combinedPlot",
+                visible="(combinedPlot && tool != \"ROB2-Cluster\")",
+                clearWith=list(
+                    "tool",
+                    "rob2Study",
+                    "rob2D1",
+                    "rob2D2",
+                    "rob2D3",
+                    "rob2D4",
+                    "rob2D5",
+                    "rob2Overall",
+                    "rob2Weight",
+                    "robinsIStudy",
+                    "robinsID1",
+                    "robinsID2",
+                    "robinsID3",
+                    "robinsID4",
+                    "robinsID5",
+                    "robinsID6",
+                    "robinsID7",
+                    "robinsIOverall",
+                    "robinsIWeight",
+                    "robinsEStudy",
+                    "robinsED1",
+                    "robinsED2",
+                    "robinsED3",
+                    "robinsED4",
+                    "robinsED5",
+                    "robinsED6",
+                    "robinsED7",
+                    "robinsEOverall",
+                    "robinsEWeight",
+                    "quadas2Study",
+                    "quadas2D1",
+                    "quadas2D2",
+                    "quadas2D3",
+                    "quadas2D4",
+                    "quadas2Overall",
+                    "quadas2Weight",
+                    "quipsStudy",
+                    "quipsD1",
+                    "quipsD2",
+                    "quipsD3",
+                    "quipsD4",
+                    "quipsD5",
+                    "quipsD6",
+                    "quipsOverall",
+                    "quipsWeight",
+                    "colour",
+                    "pointSize",
+                    "combinedOrder",
+                    "combinedTags"),
+                refs=list(
+                    "MetaJam",
                     "robvisPackage")))}))
 
 robBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -878,12 +970,16 @@ robBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param quipsWeight .
 #' @param summaryPlot .
 #' @param trafficPlot .
+#' @param combinedPlot .
+#' @param combinedOrder .
+#' @param combinedTags .
 #' @param colour .
 #' @param pointSize .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$summaryPlot} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$trafficPlot} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$combinedPlot} \tab \tab \tab \tab \tab an image \cr
 #' }
 #'
 #' @export
@@ -944,6 +1040,9 @@ rob <- function(
     quipsWeight,
     summaryPlot = TRUE,
     trafficPlot = TRUE,
+    combinedPlot = FALSE,
+    combinedOrder = "summaryFirst",
+    combinedTags = "A",
     colour = "cochrane",
     pointSize = 10) {
 
@@ -1156,6 +1255,9 @@ rob <- function(
         quipsWeight = quipsWeight,
         summaryPlot = summaryPlot,
         trafficPlot = trafficPlot,
+        combinedPlot = combinedPlot,
+        combinedOrder = combinedOrder,
+        combinedTags = combinedTags,
         colour = colour,
         pointSize = pointSize)
 

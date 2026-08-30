@@ -410,6 +410,16 @@ children:
             enable: (!tool:ROB2-Cluster)
           - type: CheckBox
             name: trafficPlot
+          - type: CheckBox
+            name: combinedPlot
+            enable: (!tool:ROB2-Cluster)
+            children:
+              - type: ComboBox
+                name: combinedOrder
+                enable: (combinedPlot && !tool:ROB2-Cluster)
+              - type: ComboBox
+                name: combinedTags
+                enable: (combinedPlot && !tool:ROB2-Cluster)
       - type: Label
         label: Appearance
         stretchFactor: 1
@@ -422,4 +432,4 @@ children:
           - type: TextBox
             name: pointSize
             format: number
-            enable: (trafficPlot)
+            enable: (trafficPlot || (combinedPlot && !tool:ROB2-Cluster))

@@ -466,6 +466,35 @@ options:
     type: Bool
     default: true
 
+  - name: combinedPlot
+    title: Combined plot
+    type: Bool
+    default: false
+
+  - name: combinedOrder
+    title: Panel order
+    type: List
+    options:
+      - title: Summary plot first
+        name: summaryFirst
+      - title: Traffic-light plot first
+        name: trafficFirst
+    default: summaryFirst
+
+  - name: combinedTags
+    title: Panel labels
+    type: List
+    options:
+      - title: A, B
+        name: A
+      - title: 1, 2
+        name: "1"
+      - title: I, II
+        name: I
+      - title: None
+        name: none
+    default: A
+
   - name: colour
     title: Colour palette
     type: List

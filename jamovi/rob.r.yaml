@@ -11,7 +11,9 @@ items:
     width: 576
     # robvis:::get_height(type = "summ") returns 2.41 inches
     # (robvis/R/helpers.R:584-594); 2.41 * 72 = 173.52.
-    # Rounded to 174, as jamovi requires an integer.
+    # The jamovi Image schema requires integer YAML dimensions, so 173.52 is
+    # invalid here. Use 174; runtime setSize() values are also rounded by
+    # jmvcore at the final image boundary (jmvcore/R/image.R:57-58).
     height: 174
     renderFun: .summaryPlot
     visible: (summaryPlot && tool != "ROB2-Cluster")
@@ -128,6 +130,65 @@ items:
       - quipsOverall
       - colour
       - pointSize
+    refs:
+      - MetaJam
+      - robvisPackage
+
+  - name: combinedPlot
+    title: Combined Plot
+    type: Image
+    renderFun: .combinedPlot
+    visible: (combinedPlot && tool != "ROB2-Cluster")
+    clearWith:
+      - tool
+      - rob2Study
+      - rob2D1
+      - rob2D2
+      - rob2D3
+      - rob2D4
+      - rob2D5
+      - rob2Overall
+      - rob2Weight
+      - robinsIStudy
+      - robinsID1
+      - robinsID2
+      - robinsID3
+      - robinsID4
+      - robinsID5
+      - robinsID6
+      - robinsID7
+      - robinsIOverall
+      - robinsIWeight
+      - robinsEStudy
+      - robinsED1
+      - robinsED2
+      - robinsED3
+      - robinsED4
+      - robinsED5
+      - robinsED6
+      - robinsED7
+      - robinsEOverall
+      - robinsEWeight
+      - quadas2Study
+      - quadas2D1
+      - quadas2D2
+      - quadas2D3
+      - quadas2D4
+      - quadas2Overall
+      - quadas2Weight
+      - quipsStudy
+      - quipsD1
+      - quipsD2
+      - quipsD3
+      - quipsD4
+      - quipsD5
+      - quipsD6
+      - quipsOverall
+      - quipsWeight
+      - colour
+      - pointSize
+      - combinedOrder
+      - combinedTags
     refs:
       - MetaJam
       - robvisPackage
