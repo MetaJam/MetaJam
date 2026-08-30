@@ -6,6 +6,16 @@ items:
   - name: summaryPlot
     title: Summary Plot
     type: Image
+    # TODO: Revisit after https://github.com/mcguinlu/robvis/issues/180.
+    # Default ROBINS-E plots have overlap/clipping issues with built-in data:
+    # - Traffic-light plot has caption and legend overlap at the bottom. Because
+    #   MetaJam sizes it dynamically, it will automatically adopt the upstream fix
+    #   once robvis updates.
+    # - Summary plot has right-side clipping. It currently uses fixed dimensions;
+    #   if robvis introduces dynamic sizing for summary plots upstream, we can make
+    #   summary plots dynamic here too.
+    # In the meantime, jamovi users can resize plots manually in the results panel.
+    #
     # robvis:::get_width(type = "summ") returns 8 inches
     # (robvis/R/helpers.R:597-613); 8 * 72 = 576.
     width: 576

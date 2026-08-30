@@ -83,6 +83,9 @@ robClass <- R6::R6Class(
         return(invisible(NULL))
       }
 
+      # Tool-specific judgements, validation checks, and error handling are
+      # based on the robvis Shiny app. Revisit if robvis updates its tool
+      # definitions.
       toolSpec <- switch(
         self$options$tool,
         "ROB2" = list(
@@ -95,7 +98,13 @@ robClass <- R6::R6Class(
             rob2D5 = "D5"
           ),
           overall = "rob2Overall",
-          weight = "rob2Weight"
+          weight = "rob2Weight",
+          judgements = c(
+            "Low",
+            "Some concerns",
+            "High",
+            "No information"
+          )
         ),
         "ROB2-Cluster" = list(
           study = "rob2ClusterStudy",
@@ -107,7 +116,14 @@ robClass <- R6::R6Class(
             rob2ClusterD4 = "D4",
             rob2ClusterD5 = "D5"
           ),
-          overall = "rob2ClusterOverall"
+          overall = "rob2ClusterOverall",
+          judgements = c(
+            "Low",
+            "Some concerns",
+            "High",
+            "No information",
+            "Not applicable"
+          )
         ),
         "ROBINS-I" = list(
           study = "robinsIStudy",
@@ -121,7 +137,14 @@ robClass <- R6::R6Class(
             robinsID7 = "D7"
           ),
           overall = "robinsIOverall",
-          weight = "robinsIWeight"
+          weight = "robinsIWeight",
+          judgements = c(
+            "Low",
+            "Moderate",
+            "Serious",
+            "Critical",
+            "No information"
+          )
         ),
         "ROBINS-E" = list(
           study = "robinsEStudy",
@@ -135,7 +158,14 @@ robClass <- R6::R6Class(
             robinsED7 = "D7"
           ),
           overall = "robinsEOverall",
-          weight = "robinsEWeight"
+          weight = "robinsEWeight",
+          judgements = c(
+            "Low",
+            "Some concerns",
+            "High",
+            "Very high",
+            "No information"
+          )
         ),
         "QUADAS-2" = list(
           study = "quadas2Study",
@@ -146,7 +176,13 @@ robClass <- R6::R6Class(
             quadas2D4 = "D4"
           ),
           overall = "quadas2Overall",
-          weight = "quadas2Weight"
+          weight = "quadas2Weight",
+          judgements = c(
+            "Low",
+            "Some concerns",
+            "High",
+            "No information"
+          )
         ),
         "QUIPS" = list(
           study = "quipsStudy",
@@ -159,7 +195,13 @@ robClass <- R6::R6Class(
             quipsD6 = "D6"
           ),
           overall = "quipsOverall",
-          weight = "quipsWeight"
+          weight = "quipsWeight",
+          judgements = c(
+            "Low",
+            "Moderate",
+            "High",
+            "No information"
+          )
         )
       )
 
@@ -187,14 +229,47 @@ robClass <- R6::R6Class(
           self$data[[self$options[[toolSpec$overall]]]]
       }
 
+      if (anyDuplicated(data$Study) > 0) {
+        jmvcore::reject("Study labels must be unique.")
+      }
+
+      judgementData <- data[setdiff(names(data), "Study")]
+      judgements <- unlist(
+        lapply(judgementData, as.character),
+        use.names = FALSE
+      )
+      judgements <- trimws(tolower(judgements))
+
+      if (any(!(judgements %in% tolower(toolSpec$judgements)))) {
+        jmvcore::reject(
+          paste0(
+            "Judgements must be one of: ",
+            paste(toolSpec$judgements, collapse = ", "),
+            "."
+          )
+        )
+      }
+
       if (needsSummary || needsCombined) {
         summaryData <- data
         weighted <- !is.null(self$options[[toolSpec$weight]])
 
         if (weighted) {
-          summaryData$Weight <- jmvcore::toNumeric(
+          weights <- jmvcore::toNumeric(
             self$data[[self$options[[toolSpec$weight]]]]
           )
+
+          if (any(!is.finite(weights) | weights < 0)) {
+            jmvcore::reject(
+              "Weights must not be missing, infinite, or negative."
+            )
+          }
+
+          if (!any(weights > 0)) {
+            jmvcore::reject("At least one weight must be greater than zero.")
+          }
+
+          summaryData$Weight <- weights
         }
 
         summaryState <- list(
