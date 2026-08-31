@@ -1,0 +1,204 @@
+name: rob
+title: Risk of Bias Plots
+jrs: "1.1"
+
+items:
+  - name: summaryPlot
+    title: Summary Plot
+    type: Image
+    # TODO: Revisit after https://github.com/mcguinlu/robvis/issues/180.
+    # Default ROBINS-E plots have overlap/clipping issues with built-in data:
+    # - Traffic-light plot has caption and legend overlap at the bottom. Because
+    #   MetaJam sizes it dynamically, it will automatically adopt the upstream fix
+    #   once robvis updates.
+    # - Summary plot has right-side clipping. It currently uses fixed dimensions;
+    #   if robvis introduces dynamic sizing for summary plots upstream, we can make
+    #   summary plots dynamic here too.
+    # In the meantime, jamovi users can resize plots manually in the results panel.
+    #
+    # robvis:::get_width(type = "summ") returns 8 inches
+    # (robvis/R/helpers.R:597-613); 8 * 72 = 576.
+    width: 576
+    # robvis:::get_height(type = "summ") returns 2.41 inches
+    # (robvis/R/helpers.R:584-594); 2.41 * 72 = 173.52.
+    # The jamovi Image schema requires integer YAML dimensions, so 173.52 is
+    # invalid here. Use 174; runtime setSize() values are also rounded by
+    # jmvcore at the final image boundary (jmvcore/R/image.R:57-58).
+    height: 174
+    renderFun: .summaryPlot
+    visible: (summaryPlot && tool != "ROB2-Cluster")
+    clearWith:
+      - tool
+      - rob2Study
+      - rob2D1
+      - rob2D2
+      - rob2D3
+      - rob2D4
+      - rob2D5
+      - rob2Overall
+      - rob2Weight
+      - robinsIStudy
+      - robinsID1
+      - robinsID2
+      - robinsID3
+      - robinsID4
+      - robinsID5
+      - robinsID6
+      - robinsID7
+      - robinsIOverall
+      - robinsIWeight
+      - robinsEStudy
+      - robinsED1
+      - robinsED2
+      - robinsED3
+      - robinsED4
+      - robinsED5
+      - robinsED6
+      - robinsED7
+      - robinsEOverall
+      - robinsEWeight
+      - quadas2Study
+      - quadas2D1
+      - quadas2D2
+      - quadas2D3
+      - quadas2D4
+      - quadas2Overall
+      - quadas2Weight
+      - quipsStudy
+      - quipsD1
+      - quipsD2
+      - quipsD3
+      - quipsD4
+      - quipsD5
+      - quipsD6
+      - quipsOverall
+      - quipsWeight
+      - colour
+    refs:
+      - MetaJam
+      - robvisPackage
+
+  - name: trafficPlotSizeCache
+    type: Group
+    visible: false
+    clearWith: []
+    items: []
+
+  - name: trafficPlot
+    title: Traffic-Light Plot
+    type: Image
+    renderFun: .trafficPlot
+    visible: (trafficPlot)
+    clearWith:
+      - tool
+      - rob2Study
+      - rob2D1
+      - rob2D2
+      - rob2D3
+      - rob2D4
+      - rob2D5
+      - rob2Overall
+      - rob2ClusterStudy
+      - rob2ClusterD1
+      - rob2ClusterD1b
+      - rob2ClusterD2
+      - rob2ClusterD3
+      - rob2ClusterD4
+      - rob2ClusterD5
+      - rob2ClusterOverall
+      - robinsIStudy
+      - robinsID1
+      - robinsID2
+      - robinsID3
+      - robinsID4
+      - robinsID5
+      - robinsID6
+      - robinsID7
+      - robinsIOverall
+      - robinsEStudy
+      - robinsED1
+      - robinsED2
+      - robinsED3
+      - robinsED4
+      - robinsED5
+      - robinsED6
+      - robinsED7
+      - robinsEOverall
+      - quadas2Study
+      - quadas2D1
+      - quadas2D2
+      - quadas2D3
+      - quadas2D4
+      - quadas2Overall
+      - quipsStudy
+      - quipsD1
+      - quipsD2
+      - quipsD3
+      - quipsD4
+      - quipsD5
+      - quipsD6
+      - quipsOverall
+      - colour
+      - pointSize
+    refs:
+      - MetaJam
+      - robvisPackage
+
+  - name: combinedPlot
+    title: Combined Plot
+    type: Image
+    renderFun: .combinedPlot
+    visible: (combinedPlot && tool != "ROB2-Cluster")
+    clearWith:
+      - tool
+      - rob2Study
+      - rob2D1
+      - rob2D2
+      - rob2D3
+      - rob2D4
+      - rob2D5
+      - rob2Overall
+      - rob2Weight
+      - robinsIStudy
+      - robinsID1
+      - robinsID2
+      - robinsID3
+      - robinsID4
+      - robinsID5
+      - robinsID6
+      - robinsID7
+      - robinsIOverall
+      - robinsIWeight
+      - robinsEStudy
+      - robinsED1
+      - robinsED2
+      - robinsED3
+      - robinsED4
+      - robinsED5
+      - robinsED6
+      - robinsED7
+      - robinsEOverall
+      - robinsEWeight
+      - quadas2Study
+      - quadas2D1
+      - quadas2D2
+      - quadas2D3
+      - quadas2D4
+      - quadas2Overall
+      - quadas2Weight
+      - quipsStudy
+      - quipsD1
+      - quipsD2
+      - quipsD3
+      - quipsD4
+      - quipsD5
+      - quipsD6
+      - quipsOverall
+      - quipsWeight
+      - colour
+      - pointSize
+      - combinedOrder
+      - combinedTags
+    refs:
+      - MetaJam
+      - robvisPackage

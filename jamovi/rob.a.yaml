@@ -1,0 +1,512 @@
+name: rob
+title: Risk of Bias Plots
+menuGroup: MetaJam
+menuSubgroup: Supporting Tools
+menuTitle: Risk of Bias Plots
+version: "1.0.0"
+jas: "1.2"
+
+options:
+  - name: data
+    type: Data
+
+  - name: tool
+    title: Assessment tool
+    type: List
+    options:
+      - title: RoB 2
+        name: ROB2
+      - title: RoB 2 (cluster)
+        name: ROB2-Cluster
+      - title: ROBINS-I
+        name: ROBINS-I
+      - title: ROBINS-E
+        name: ROBINS-E
+      - title: QUADAS-2
+        name: QUADAS-2
+      - title: QUIPS
+        name: QUIPS
+    default: ROB2
+
+  - name: rob2Study
+    title: Study Label
+    type: Variable
+    suggested:
+      - id
+      - nominal
+    permitted:
+      - id
+      - factor
+
+  - name: rob2D1
+    title: D1
+    type: Variable
+    suggested:
+      - nominal
+    permitted:
+      - factor
+
+  - name: rob2D2
+    title: D2
+    type: Variable
+    suggested:
+      - nominal
+    permitted:
+      - factor
+
+  - name: rob2D3
+    title: D3
+    type: Variable
+    suggested:
+      - nominal
+    permitted:
+      - factor
+
+  - name: rob2D4
+    title: D4
+    type: Variable
+    suggested:
+      - nominal
+    permitted:
+      - factor
+
+  - name: rob2D5
+    title: D5
+    type: Variable
+    suggested:
+      - nominal
+    permitted:
+      - factor
+
+  - name: rob2Overall
+    title: Overall (optional)
+    type: Variable
+    suggested:
+      - nominal
+    permitted:
+      - factor
+
+  - name: rob2Weight
+    title: Weight (optional)
+    type: Variable
+    suggested:
+      - continuous
+    permitted:
+      - numeric
+
+  - name: rob2ClusterStudy
+    title: Study Label
+    type: Variable
+    suggested:
+      - id
+      - nominal
+    permitted:
+      - id
+      - factor
+
+  - name: rob2ClusterD1
+    title: D1
+    type: Variable
+    suggested:
+      - nominal
+    permitted:
+      - factor
+
+  - name: rob2ClusterD1b
+    title: D1b
+    type: Variable
+    suggested:
+      - nominal
+    permitted:
+      - factor
+
+  - name: rob2ClusterD2
+    title: D2
+    type: Variable
+    suggested:
+      - nominal
+    permitted:
+      - factor
+
+  - name: rob2ClusterD3
+    title: D3
+    type: Variable
+    suggested:
+      - nominal
+    permitted:
+      - factor
+
+  - name: rob2ClusterD4
+    title: D4
+    type: Variable
+    suggested:
+      - nominal
+    permitted:
+      - factor
+
+  - name: rob2ClusterD5
+    title: D5
+    type: Variable
+    suggested:
+      - nominal
+    permitted:
+      - factor
+
+  - name: rob2ClusterOverall
+    title: Overall (optional)
+    type: Variable
+    suggested:
+      - nominal
+    permitted:
+      - factor
+
+  - name: robinsIStudy
+    title: Study Label
+    type: Variable
+    suggested:
+      - id
+      - nominal
+    permitted:
+      - id
+      - factor
+
+  - name: robinsID1
+    title: D1
+    type: Variable
+    suggested:
+      - nominal
+    permitted:
+      - factor
+
+  - name: robinsID2
+    title: D2
+    type: Variable
+    suggested:
+      - nominal
+    permitted:
+      - factor
+
+  - name: robinsID3
+    title: D3
+    type: Variable
+    suggested:
+      - nominal
+    permitted:
+      - factor
+
+  - name: robinsID4
+    title: D4
+    type: Variable
+    suggested:
+      - nominal
+    permitted:
+      - factor
+
+  - name: robinsID5
+    title: D5
+    type: Variable
+    suggested:
+      - nominal
+    permitted:
+      - factor
+
+  - name: robinsID6
+    title: D6
+    type: Variable
+    suggested:
+      - nominal
+    permitted:
+      - factor
+
+  - name: robinsID7
+    title: D7
+    type: Variable
+    suggested:
+      - nominal
+    permitted:
+      - factor
+
+  - name: robinsIOverall
+    title: Overall (optional)
+    type: Variable
+    suggested:
+      - nominal
+    permitted:
+      - factor
+
+  - name: robinsIWeight
+    title: Weight (optional)
+    type: Variable
+    suggested:
+      - continuous
+    permitted:
+      - numeric
+
+  - name: robinsEStudy
+    title: Study Label
+    type: Variable
+    suggested:
+      - id
+      - nominal
+    permitted:
+      - id
+      - factor
+
+  - name: robinsED1
+    title: D1
+    type: Variable
+    suggested:
+      - nominal
+    permitted:
+      - factor
+
+  - name: robinsED2
+    title: D2
+    type: Variable
+    suggested:
+      - nominal
+    permitted:
+      - factor
+
+  - name: robinsED3
+    title: D3
+    type: Variable
+    suggested:
+      - nominal
+    permitted:
+      - factor
+
+  - name: robinsED4
+    title: D4
+    type: Variable
+    suggested:
+      - nominal
+    permitted:
+      - factor
+
+  - name: robinsED5
+    title: D5
+    type: Variable
+    suggested:
+      - nominal
+    permitted:
+      - factor
+
+  - name: robinsED6
+    title: D6
+    type: Variable
+    suggested:
+      - nominal
+    permitted:
+      - factor
+
+  - name: robinsED7
+    title: D7
+    type: Variable
+    suggested:
+      - nominal
+    permitted:
+      - factor
+
+  - name: robinsEOverall
+    title: Overall (optional)
+    type: Variable
+    suggested:
+      - nominal
+    permitted:
+      - factor
+
+  - name: robinsEWeight
+    title: Weight (optional)
+    type: Variable
+    suggested:
+      - continuous
+    permitted:
+      - numeric
+
+  - name: quadas2Study
+    title: Study Label
+    type: Variable
+    suggested:
+      - id
+      - nominal
+    permitted:
+      - id
+      - factor
+
+  - name: quadas2D1
+    title: D1
+    type: Variable
+    suggested:
+      - nominal
+    permitted:
+      - factor
+
+  - name: quadas2D2
+    title: D2
+    type: Variable
+    suggested:
+      - nominal
+    permitted:
+      - factor
+
+  - name: quadas2D3
+    title: D3
+    type: Variable
+    suggested:
+      - nominal
+    permitted:
+      - factor
+
+  - name: quadas2D4
+    title: D4
+    type: Variable
+    suggested:
+      - nominal
+    permitted:
+      - factor
+
+  - name: quadas2Overall
+    title: Overall (optional)
+    type: Variable
+    suggested:
+      - nominal
+    permitted:
+      - factor
+
+  - name: quadas2Weight
+    title: Weight (optional)
+    type: Variable
+    suggested:
+      - continuous
+    permitted:
+      - numeric
+
+  - name: quipsStudy
+    title: Study Label
+    type: Variable
+    suggested:
+      - id
+      - nominal
+    permitted:
+      - id
+      - factor
+
+  - name: quipsD1
+    title: D1
+    type: Variable
+    suggested:
+      - nominal
+    permitted:
+      - factor
+
+  - name: quipsD2
+    title: D2
+    type: Variable
+    suggested:
+      - nominal
+    permitted:
+      - factor
+
+  - name: quipsD3
+    title: D3
+    type: Variable
+    suggested:
+      - nominal
+    permitted:
+      - factor
+
+  - name: quipsD4
+    title: D4
+    type: Variable
+    suggested:
+      - nominal
+    permitted:
+      - factor
+
+  - name: quipsD5
+    title: D5
+    type: Variable
+    suggested:
+      - nominal
+    permitted:
+      - factor
+
+  - name: quipsD6
+    title: D6
+    type: Variable
+    suggested:
+      - nominal
+    permitted:
+      - factor
+
+  - name: quipsOverall
+    title: Overall (optional)
+    type: Variable
+    suggested:
+      - nominal
+    permitted:
+      - factor
+
+  - name: quipsWeight
+    title: Weight (optional)
+    type: Variable
+    suggested:
+      - continuous
+    permitted:
+      - numeric
+
+  - name: summaryPlot
+    title: Summary plot
+    type: Bool
+    default: true
+
+  - name: trafficPlot
+    title: Traffic-light plot
+    type: Bool
+    default: true
+
+  - name: combinedPlot
+    title: Combined plot
+    type: Bool
+    default: false
+
+  - name: combinedOrder
+    title: Panel order
+    type: List
+    options:
+      - title: Summary plot first
+        name: summaryFirst
+      - title: Traffic-light plot first
+        name: trafficFirst
+    default: summaryFirst
+
+  - name: combinedTags
+    title: Panel labels
+    type: List
+    options:
+      - title: A, B
+        name: A
+      - title: 1, 2
+        name: "1"
+      - title: I, II
+        name: I
+      - title: None
+        name: none
+    default: A
+
+  - name: colour
+    title: Colour palette
+    type: List
+    options:
+      - title: Cochrane
+        name: cochrane
+      - title: Colour-blind friendly
+        name: colourblind
+    default: cochrane
+
+  - name: pointSize
+    title: Traffic-light size
+    type: Number
+    default: 10
+    min: 0
