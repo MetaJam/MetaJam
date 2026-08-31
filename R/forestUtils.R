@@ -15,6 +15,9 @@
 #' @noRd
 renderForest <- function(model, options, sortKey, ...) {
   extraArgs <- list(...)
+  hasReference <-
+    !inherits(model, c("metamean", "metaprop", "metarate")) ||
+    !is.na(model$null.effect)
 
   # Format numeric gaps into strings with units (e.g. "2mm")
   # Values are always present — validated Number inputs in .a.yaml
@@ -32,8 +35,8 @@ renderForest <- function(model, options, sortKey, ...) {
   args <- list(
     x = model,
     layout = options$forestLayout,
-    label.left = options$labelLeft,
-    label.right = options$labelRight,
+    label.left = if (hasReference) options$labelLeft else "",
+    label.right = if (hasReference) options$labelRight else "",
     colgap.left = colgap.left,
     colgap.right = colgap.right,
     colgap.forest.left = colgap.forest.left,
@@ -78,7 +81,8 @@ renderForest <- function(model, options, sortKey, ...) {
       isTRUE(model$common) &&
       isTRUE(model$random) &&
       isTRUE(extraArgs$test.effect.subgroup),
-    test.overall = options$forestTestOverall,
+    # Single-arm models only test overall effect when a null value is specified
+    test.overall = options$forestTestOverall && hasReference,
     details = options$forestDetails,
     print.I2.ci = options$forestPrintI2Ci,
     print.tau2.ci = options$forestPrintTau2Ci,

@@ -19,15 +19,18 @@ description: >-
   and sample size.</li> <li><b>Binary Outcomes:</b> Analyze binary outcome data
   using event counts and sample size.</li> <li><b>Incidence Rate Outcomes:</b>
   Analyze incidence rate outcome data using event counts and person-time.</li>
-  </ul> </li> <li><b>Precomputed Effect Sizes Meta-Analysis:</b> Analyze
-  precomputed effect sizes with standard errors or confidence intervals.</li>
-  </ul> <b>Analysis Options:</b> Common-effect and random-effects models,
-  subgroup analysis, meta-regression, leave-one-out analysis, cumulative
-  meta-analysis, and publication bias.<br><br> <b>For documentation, tutorials,
-  and support, please visit:</b> <a href="https://metajam.pages.dev"
-  target="_blank">metajam.pages.dev</a><br><br> <small><i>* Note: This module is
-  under active development. Future updates will add single-group and correlation
-  meta-analyses, along with advanced meta-analytical extensions.</i></small>
+  </ul> </li> <li><b>Single-Group Meta-Analysis:</b> <ul> <li><b>Single
+  Means:</b> Analyze single-group data using mean, standard deviation, and
+  sample size.</li> </ul> </li> <li><b>Precomputed Effect Sizes
+  Meta-Analysis:</b> Analyze precomputed effect sizes with standard errors or
+  confidence intervals.</li> </ul> <b>Analysis Options:</b> Common-effect and
+  random-effects models, subgroup analysis, meta-regression, leave-one-out
+  analysis, cumulative meta-analysis, and publication bias.<br><br> <b>For
+  documentation, tutorials, and support, please visit:</b> <a
+  href="https://metajam.pages.dev" target="_blank">metajam.pages.dev</a><br><br>
+  <small><i>* Note: This module is under active development. Future updates will
+  add single proportions, single incidence rates, and correlation meta-analyses,
+  along with advanced meta-analytical extensions.</i></small>
 analyses:
   - title: Continuous Outcomes Meta-Analysis
     name: metaCont
@@ -53,6 +56,14 @@ analyses:
     menuSubgroup: Two-Group Meta-Analysis
     menuTitle: Incidence Rate Outcomes
     menuSubtitle: Events, Person-Time
+  - title: Single Means Meta-Analysis
+    name: metaMean
+    ns: MetaJam
+    category: analyses
+    menuGroup: MetaJam
+    menuSubgroup: Single-Group Meta-Analysis
+    menuTitle: Single Means
+    menuSubtitle: Mean, SD, Total
   - title: Precomputed Effect Sizes Meta-Analysis
     name: metaGen
     ns: MetaJam

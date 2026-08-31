@@ -1,0 +1,537 @@
+name: metaMean
+title: Single Means Meta-Analysis
+jrs: "1.1"
+
+items:
+  - name: text
+    type: Html
+    visible: (summary)
+    clearWith:
+      - studyLabel
+      - mean
+      - sd
+      - n
+      - sm
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - nullEffectEnabled
+      - nullEffect
+    refs:
+      - MetaJam
+      - metaPackage
+
+  - name: plotSizeCache
+    type: Group
+    visible: false
+    clearWith: []
+    items: []
+
+  - name: plot
+    title: Meta-Analysis Forest Plot
+    type: Image
+    renderFun: .forestPlot
+    visible: (forestPlot)
+    clearWith:
+      - studyLabel
+      - mean
+      - sd
+      - n
+      - sm
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - nullEffectEnabled
+      - nullEffect
+      - forestLayout
+      - sortBy
+      - sortDirection
+      - sortVariable
+      - forestTestOverall
+      - forestDetails
+      - forestPrintI2Ci
+      - forestPrintTau2Ci
+      - labelLeft
+      - labelRight
+      - xlimCustom
+      - xlimLower
+      - xlimUpper
+      - addrowsCustom
+      - addrowsBelowOverall
+      - colgapLeft
+      - colgapLeftUnit
+      - colgapRight
+      - colgapRightUnit
+      - colgapForestLeft
+      - colgapForestLeftUnit
+      - colgapForestRight
+      - colgapForestRightUnit
+      - digitsEffect
+      - digitsMean
+      - digitsSd
+      - digitsPval
+      - digitsWeight
+      - digitsI2
+      - digitsTau2
+    refs:
+      - MetaJam
+      - metaPackage
+
+  - name: subgroupModels
+    title: ""
+    type: Array
+    hideHeadingOnlyChild: true
+    clearWith:
+      - studyLabel
+      - mean
+      - sd
+      - n
+      - sm
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - nullEffectEnabled
+      - nullEffect
+      - subgroupVariables
+      - tauCommon
+      - predictionSubgroup
+    template:
+      title: ""
+      type: Group
+      items:
+        - name: subgroupText
+          type: Html
+          visible: (subgroupSummary && length(subgroupVariables) > 0)
+          clearWith: []
+          refs:
+            - MetaJam
+            - metaPackage
+
+        - name: subgroupPlotSizeCache
+          type: Group
+          visible: false
+          clearWith: []
+          items: []
+
+        - name: subgroupPlot
+          title: Subgroup Analysis Forest Plot
+          type: Image
+          renderFun: .subgroupForestPlot
+          visible: (subgroupForestPlot && length(subgroupVariables) > 0)
+          clearWith:
+            - printSubgroupName
+            - subgroupForestLayout
+            - subgroupSortBy
+            - subgroupSortDirection
+            - subgroupSortVariable
+            - subgroupForestOverall
+            - subgroupForestTestSubgroup
+            - subgroupForestTestEffect
+            - subgroupForestTestOverall
+            - subgroupForestPrintI2Ci
+            - subgroupForestPrintTau2Ci
+            - subgroupForestDetails
+            - subgroupLabelLeft
+            - subgroupLabelRight
+            - subgroupXlimCustom
+            - subgroupXlimLower
+            - subgroupXlimUpper
+            - subgroupAddrowsCustom
+            - subgroupAddrowsBelowOverall
+            - subgroupColgapLeft
+            - subgroupColgapLeftUnit
+            - subgroupColgapRight
+            - subgroupColgapRightUnit
+            - subgroupColgapForestLeft
+            - subgroupColgapForestLeftUnit
+            - subgroupColgapForestRight
+            - subgroupColgapForestRightUnit
+            - subgroupDigitsEffect
+            - subgroupDigitsMean
+            - subgroupDigitsSd
+            - subgroupDigitsPval
+            - subgroupDigitsWeight
+            - subgroupDigitsI2
+            - subgroupDigitsTau2
+          refs:
+            - MetaJam
+            - metaPackage
+
+  - name: metaRegModels
+    title: ""
+    type: Array
+    hideHeadingOnlyChild: true
+    clearWith:
+      - studyLabel
+      - mean
+      - sd
+      - n
+      - sm
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - nullEffectEnabled
+      - nullEffect
+      - metaRegCovs
+      - metaRegFactors
+      - metaRegBlocks
+      - metaRegIntercept
+    template:
+      title: ""
+      type: Group
+      items:
+        - name: metaRegText
+          type: Html
+          visible: (metaRegSummary && (length(metaRegCovs) > 0 || length(metaRegFactors) > 0))
+          clearWith: []
+          refs:
+            - MetaJam
+            - metaPackage
+
+        - name: bubblePlot
+          title: Bubble Plot
+          type: Image
+          width: 700
+          height: 500
+          renderFun: .bubblePlot
+          visible: (bubblePlot && (length(metaRegCovs) > 0 || length(metaRegFactors) > 0))
+          clearWith:
+            - bubbleRegline
+            - bubbleStudyLabel
+          refs:
+            - MetaJam
+            - metaPackage
+
+  - name: leaveOneOutText
+    type: Html
+    visible: (leaveOneOut && leaveOneOutSummary)
+    clearWith:
+      - studyLabel
+      - mean
+      - sd
+      - n
+      - sm
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - nullEffectEnabled
+      - nullEffect
+      - leaveOneOutPrediction
+    refs:
+      - MetaJam
+      - metaPackage
+
+  - name: leaveOneOutPlotSizeCache
+    type: Group
+    visible: false
+    clearWith: []
+    items: []
+
+  - name: leaveOneOutPlot
+    title: Leave-One-Out Analysis Forest Plot
+    type: Image
+    renderFun: .leaveOneOutForestPlot
+    visible: (leaveOneOut && leaveOneOutForestPlot)
+    clearWith:
+      - studyLabel
+      - mean
+      - sd
+      - n
+      - sm
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - nullEffectEnabled
+      - nullEffect
+      - leaveOneOutPrediction
+      - leaveOneOutForestLayout
+      - leaveOneOutSortBy
+      - leaveOneOutSortDirection
+      - leaveOneOutSortVariable
+      - leaveOneOutForestDetails
+      - leaveOneOutLabelLeft
+      - leaveOneOutLabelRight
+      - leaveOneOutXlimCustom
+      - leaveOneOutXlimLower
+      - leaveOneOutXlimUpper
+      - leaveOneOutAddrowsCustom
+      - leaveOneOutAddrowsBelowOverall
+      - leaveOneOutColgapLeft
+      - leaveOneOutColgapLeftUnit
+      - leaveOneOutColgapRight
+      - leaveOneOutColgapRightUnit
+      - leaveOneOutColgapForestLeft
+      - leaveOneOutColgapForestLeftUnit
+      - leaveOneOutColgapForestRight
+      - leaveOneOutColgapForestRightUnit
+      - leaveOneOutDigitsEffect
+      - leaveOneOutDigitsPval
+      - leaveOneOutDigitsI2
+      - leaveOneOutDigitsTau2
+    refs:
+      - MetaJam
+      - metaPackage
+
+  - name: cumulativeText
+    type: Html
+    visible: (cumulative && cumulativeSummary)
+    clearWith:
+      - studyLabel
+      - mean
+      - sd
+      - n
+      - sm
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - nullEffectEnabled
+      - nullEffect
+      - cumulativeSortBy
+      - cumulativeSortDirection
+      - cumulativeSortVariable
+      - cumulativePrediction
+    refs:
+      - MetaJam
+      - metaPackage
+
+  - name: cumulativePlotSizeCache
+    type: Group
+    visible: false
+    clearWith: []
+    items: []
+
+  - name: cumulativePlot
+    title: Cumulative Meta-Analysis Forest Plot
+    type: Image
+    renderFun: .cumulativeForestPlot
+    visible: (cumulative && cumulativeForestPlot)
+    clearWith:
+      - studyLabel
+      - mean
+      - sd
+      - n
+      - sm
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - nullEffectEnabled
+      - nullEffect
+      - cumulativeSortBy
+      - cumulativeSortDirection
+      - cumulativeSortVariable
+      - cumulativePrediction
+      - cumulativeForestLayout
+      - cumulativeForestDetails
+      - cumulativeLabelLeft
+      - cumulativeLabelRight
+      - cumulativeXlimCustom
+      - cumulativeXlimLower
+      - cumulativeXlimUpper
+      - cumulativeAddrowsCustom
+      - cumulativeAddrowsBelowOverall
+      - cumulativeColgapLeft
+      - cumulativeColgapLeftUnit
+      - cumulativeColgapRight
+      - cumulativeColgapRightUnit
+      - cumulativeColgapForestLeft
+      - cumulativeColgapForestLeftUnit
+      - cumulativeColgapForestRight
+      - cumulativeColgapForestRightUnit
+      - cumulativeDigitsEffect
+      - cumulativeDigitsPval
+      - cumulativeDigitsI2
+      - cumulativeDigitsTau2
+    refs:
+      - MetaJam
+      - metaPackage
+
+  - name: funnelPlot
+    title: Funnel Plot
+    type: Image
+    width: 550
+    height: 500
+    renderFun: .funnelPlot
+    visible: (funnelPlot)
+    clearWith:
+      - studyLabel
+      - mean
+      - sd
+      - n
+      - sm
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - nullEffectEnabled
+      - nullEffect
+      - funnelStudyLabel
+      - funnelContour
+      - funnelLegend
+      - funnelLegendPos
+      - funnelLegendCex
+    refs:
+      - MetaJam
+      - metaPackage
+
+  - name: asymmetryTestText
+    type: Html
+    visible: (asymmetryTest && asymmetrySummary)
+    clearWith:
+      - studyLabel
+      - mean
+      - sd
+      - n
+      - sm
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - nullEffectEnabled
+      - nullEffect
+      - asymmetryMethod
+    refs:
+      - MetaJam
+      - metaPackage
+
+  - name: asymmetryPlot
+    title: Plot (Test for Funnel Plot Asymmetry)
+    type: Image
+    width: 550
+    height: 500
+    renderFun: .asymmetryPlot
+    visible: (asymmetryTest && asymmetryPlot)
+    clearWith:
+      - studyLabel
+      - mean
+      - sd
+      - n
+      - sm
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - nullEffectEnabled
+      - nullEffect
+      - asymmetryMethod
+    refs:
+      - MetaJam
+      - metaPackage
+
+  - name: trimFillText
+    type: Html
+    visible: (trimFill && trimFillSummary)
+    clearWith:
+      - studyLabel
+      - mean
+      - sd
+      - n
+      - sm
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - nullEffectEnabled
+      - nullEffect
+      - trimFillSide
+      - trimFillEstimator
+    refs:
+      - MetaJam
+      - metaPackage
+
+  - name: trimFillFunnelPlot
+    title: Trim-and-Fill Analysis Funnel Plot
+    type: Image
+    width: 550
+    height: 500
+    renderFun: .trimFillFunnelPlot
+    visible: (trimFill && trimFillFunnelPlot)
+    clearWith:
+      - studyLabel
+      - mean
+      - sd
+      - n
+      - sm
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - nullEffectEnabled
+      - nullEffect
+      - trimFillSide
+      - trimFillEstimator
+      - trimFillFunnelStudyLabel
+      - trimFillFunnelContour
+      - trimFillFunnelLegend
+      - trimFillFunnelLegendPos
+      - trimFillFunnelLegendCex
+    refs:
+      - MetaJam
+      - metaPackage
+
+  - name: doiPlot
+    title: Doi Plot
+    type: Image
+    width: 550
+    height: 500
+    renderFun: .doiPlot
+    visible: (doiPlot)
+    clearWith:
+      - studyLabel
+      - mean
+      - sd
+      - n
+      - sm
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - nullEffectEnabled
+      - nullEffect
+      - doiPlotLegend
+      - doiPlotLegendPos
+      - doiPlotLegendCex
+    refs:
+      - MetaJam
+      - metasensPackage
+
+  - name: lfkIndexText
+    type: Html
+    visible: (lfkIndex)
+    clearWith:
+      - studyLabel
+      - mean
+      - sd
+      - n
+      - sm
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - nullEffectEnabled
+      - nullEffect
+    refs:
+      - MetaJam
+      - metasensPackage

@@ -107,7 +107,10 @@ renderSubgroupForest <- function(model, options, sortKey, ...) {
     colgapForestLeftUnit = options$subgroupColgapForestLeftUnit,
     colgapForestRight = options$subgroupColgapForestRight,
     colgapForestRightUnit = options$subgroupColgapForestRightUnit,
-    forestTestOverall = options$subgroupForestTestOverall,
+    # Single-arm models only test overall effect when a null value is specified
+    forestTestOverall = options$subgroupForestTestOverall &&
+      (!inherits(model, c("metamean", "metaprop", "metarate")) ||
+        !is.na(model$null.effect)),
     forestDetails = options$subgroupForestDetails,
     forestPrintI2Ci = options$subgroupForestPrintI2Ci,
     forestPrintTau2Ci = options$subgroupForestPrintTau2Ci,
@@ -129,7 +132,10 @@ renderSubgroupForest <- function(model, options, sortKey, ...) {
     sortKey = sortKey,
     overall = options$subgroupForestOverall,
     overall.hetstat = options$subgroupForestOverall,
-    test.effect.subgroup = options$subgroupForestTestEffect,
+    # Single-arm models only test subgroup effects when a null value is specified
+    test.effect.subgroup = options$subgroupForestTestEffect &&
+      (!inherits(model, c("metamean", "metaprop", "metarate")) ||
+        !is.na(model$null.effect)),
     test.subgroup = options$subgroupForestTestSubgroup,
     print.subgroup.name = options$printSubgroupName,
     ...

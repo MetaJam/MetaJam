@@ -96,6 +96,10 @@ renderLeaveOneOutForest <- function(self, sortKey) {
     return(FALSE)
   }
 
+  hasReference <-
+    !inherits(self$model, c("metamean", "metaprop", "metarate")) ||
+    !is.na(self$model$null.effect)
+
   colgap.left <- paste0(
     options$leaveOneOutColgapLeft,
     options$leaveOneOutColgapLeftUnit
@@ -116,8 +120,8 @@ renderLeaveOneOutForest <- function(self, sortKey) {
   args <- list(
     x = leaveOneOutModel,
     layout = options$leaveOneOutForestLayout,
-    label.left = options$leaveOneOutLabelLeft,
-    label.right = options$leaveOneOutLabelRight,
+    label.left = if (hasReference) options$leaveOneOutLabelLeft else "",
+    label.right = if (hasReference) options$leaveOneOutLabelRight else "",
     colgap.left = colgap.left,
     colgap.right = colgap.right,
     colgap.forest.left = colgap.forest.left,

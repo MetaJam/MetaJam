@@ -142,6 +142,10 @@ renderCumulativeForest <- function(self) {
     return(FALSE)
   }
 
+  hasReference <-
+    !inherits(self$model, c("metamean", "metaprop", "metarate")) ||
+    !is.na(self$model$null.effect)
+
   colgap.left <- paste0(
     options$cumulativeColgapLeft,
     options$cumulativeColgapLeftUnit
@@ -162,8 +166,8 @@ renderCumulativeForest <- function(self) {
   args <- list(
     x = cumulativeModel,
     layout = options$cumulativeForestLayout,
-    label.left = options$cumulativeLabelLeft,
-    label.right = options$cumulativeLabelRight,
+    label.left = if (hasReference) options$cumulativeLabelLeft else "",
+    label.right = if (hasReference) options$cumulativeLabelRight else "",
     colgap.left = colgap.left,
     colgap.right = colgap.right,
     colgap.forest.left = colgap.forest.left,

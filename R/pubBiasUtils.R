@@ -197,7 +197,11 @@ renderFunnelPlot <- function(self) {
     return(FALSE)
   }
 
-  if (options$funnelContour) {
+  useContour <- options$funnelContour &&
+    (!inherits(model, c("metamean", "metaprop", "metarate")) ||
+      !is.na(model$null.effect))
+
+  if (useContour) {
     fun <- meta::funnel(
       model,
       type = "contour",
@@ -307,8 +311,11 @@ renderTrimFillFunnelPlot <- function(self) {
   }
 
   opts <- self$options
+  useContour <- opts$trimFillFunnelContour &&
+    (!inherits(self$model, c("metamean", "metaprop", "metarate")) ||
+      !is.na(self$model$null.effect))
 
-  if (opts$trimFillFunnelContour) {
+  if (useContour) {
     fun <- meta::funnel(
       model,
       type = "contour",
@@ -338,7 +345,7 @@ renderTrimFillFunnelPlot <- function(self) {
     shape_col <- c("black", "black")
     shape_pt_bg <- c("darkgray", "white")
 
-    if (opts$trimFillFunnelContour) {
+    if (useContour) {
       # Combined legend: shapes + contour bands in one legend call.
       # pch=22 (filled square symbol, matching metafor's approach with
       # pt.cex=2) for contour items so all items align on the same
