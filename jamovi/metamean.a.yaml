@@ -1,53 +1,15 @@
-name: metaGen
-title: Precomputed Effect Sizes Meta-Analysis
+name: metaMean
+title: Single Means Meta-Analysis
 menuGroup: MetaJam
-menuSubgroup: Precomputed Effect Sizes Meta-Analysis
-menuTitle: Precomputed Effect Sizes
-menuSubtitle: Effect Size, SE/CI
+menuSubgroup: Single-Group Meta-Analysis
+menuTitle: Single Means
+menuSubtitle: Mean, SD, Total
 version: "1.0.0"
 jas: "1.2"
 
 options:
   - name: data
     type: Data
-
-  - name: sm
-    title: Effect measure
-    type: List
-    options:
-      - title: Generic effect size
-        name: GEN
-      - title: Hazard ratio (HR)
-        name: HR
-      - title: Mean difference (MD)
-        name: MD
-      - title: Standardised mean difference (SMD)
-        name: SMD
-      - title: Ratio of means (ROM)
-        name: ROM
-      - title: Risk ratio (RR)
-        name: RR
-      - title: Odds ratio (OR)
-        name: OR
-      - title: Risk difference (RD)
-        name: RD
-      - title: Vaccine efficacy/effectiveness (VE)
-        name: VE
-      - title: Incidence rate ratio (IRR)
-        name: IRR
-      - title: Incidence rate difference (IRD)
-        name: IRD
-    default: GEN
-
-  - name: inputMode
-    title: ""
-    type: List
-    options:
-      - title: Effect Size & SE
-        name: se
-      - title: Effect Size & CI
-        name: ci
-    default: se
 
   - name: studyLabel
     title: Study Label
@@ -59,78 +21,39 @@ options:
       - factor
       - id
 
-  - name: effectSize
-    title: Effect Size
+  - name: mean
+    title: Mean
     type: Variable
     suggested:
       - continuous
     permitted:
       - numeric
 
-  - name: standardError
-    title: Standard Error
+  - name: sd
+    title: SD
     type: Variable
     suggested:
       - continuous
     permitted:
       - numeric
 
-  - name: total
-    title: Total (optional)
+  - name: n
+    title: Total
     type: Variable
     suggested:
       - continuous
     permitted:
       - numeric
 
-  - name: ciStudyLabel
-    title: Study Label
-    type: Variable
-    suggested:
-      - nominal
-      - id
-    permitted:
-      - factor
-      - id
-
-  - name: ciEffectSize
-    title: Effect Size
-    type: Variable
-    suggested:
-      - continuous
-    permitted:
-      - numeric
-
-  - name: ciLevel
-    title: Confidence level
-    type: Number
-    min: 50
-    max: 99.9
-    default: 95
-
-  - name: ciLower
-    title: Lower confidence limit
-    type: Variable
-    suggested:
-      - continuous
-    permitted:
-      - numeric
-
-  - name: ciUpper
-    title: Upper confidence limit
-    type: Variable
-    suggested:
-      - continuous
-    permitted:
-      - numeric
-
-  - name: ciTotal
-    title: Total (optional)
-    type: Variable
-    suggested:
-      - continuous
-    permitted:
-      - numeric
+  - name: sm
+    title: Transformation
+    type: List
+    options:
+      - title: None
+        name: MRAW
+      - title: Log
+        name: MLN
+    default: MRAW
 
   - name: model
     title: Model
@@ -187,6 +110,16 @@ options:
     min: 50
     max: 99.9
     default: 95
+
+  - name: nullEffectEnabled
+    title: Test against null value
+    type: Bool
+    default: false
+
+  - name: nullEffect
+    title: Null value
+    type: Number
+    default: 0
 
   - name: summary
     title: Summary
@@ -286,7 +219,7 @@ options:
   - name: xlimLower
     title: Minimum
     type: Number
-    default: 0.1
+    default: -10
 
   - name: xlimUpper
     title: Maximum
@@ -394,8 +327,8 @@ options:
         title: "5"
     default: "2"
 
-  - name: digitsInputEffect
-    title: Input effect size
+  - name: digitsMean
+    title: Mean
     type: List
     options:
       - name: "0"
@@ -412,8 +345,8 @@ options:
         title: "5"
     default: "2"
 
-  - name: digitsSe
-    title: Standard error
+  - name: digitsSd
+    title: SD
     type: List
     options:
       - name: "0"
@@ -637,7 +570,7 @@ options:
   - name: subgroupXlimLower
     title: Minimum
     type: Number
-    default: 0.1
+    default: -10
 
   - name: subgroupXlimUpper
     title: Maximum
@@ -745,8 +678,8 @@ options:
         title: "5"
     default: "2"
 
-  - name: subgroupDigitsInputEffect
-    title: Input effect size
+  - name: subgroupDigitsMean
+    title: Mean
     type: List
     options:
       - name: "0"
@@ -763,8 +696,8 @@ options:
         title: "5"
     default: "2"
 
-  - name: subgroupDigitsSe
-    title: Standard error
+  - name: subgroupDigitsSd
+    title: SD
     type: List
     options:
       - name: "0"
@@ -990,7 +923,7 @@ options:
   - name: leaveOneOutXlimLower
     title: Minimum
     type: Number
-    default: 0.1
+    default: -10
 
   - name: leaveOneOutXlimUpper
     title: Maximum
@@ -1241,7 +1174,7 @@ options:
   - name: cumulativeXlimLower
     title: Minimum
     type: Number
-    default: 0.1
+    default: -10
 
   - name: cumulativeXlimUpper
     title: Maximum

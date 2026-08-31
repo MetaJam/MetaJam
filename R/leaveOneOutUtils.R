@@ -96,19 +96,39 @@ renderLeaveOneOutForest <- function(self, sortKey) {
     return(FALSE)
   }
 
-  colgap <- paste0(options$leaveOneOutColgap, options$leaveOneOutColgapUnit)
-  colgap.forest <- paste0(
-    options$leaveOneOutColgapForest,
-    options$leaveOneOutColgapForestUnit
+  hasReference <-
+    !inherits(self$model, c("metamean", "metaprop", "metarate")) ||
+    !is.na(self$model$null.effect)
+
+  colgap.left <- paste0(
+    options$leaveOneOutColgapLeft,
+    options$leaveOneOutColgapLeftUnit
+  )
+  colgap.right <- paste0(
+    options$leaveOneOutColgapRight,
+    options$leaveOneOutColgapRightUnit
+  )
+  colgap.forest.left <- paste0(
+    options$leaveOneOutColgapForestLeft,
+    options$leaveOneOutColgapForestLeftUnit
+  )
+  colgap.forest.right <- paste0(
+    options$leaveOneOutColgapForestRight,
+    options$leaveOneOutColgapForestRightUnit
   )
 
   args <- list(
     x = leaveOneOutModel,
     layout = options$leaveOneOutForestLayout,
-    label.left = options$leaveOneOutLabelLeft,
-    label.right = options$leaveOneOutLabelRight,
-    colgap = colgap,
-    colgap.forest = colgap.forest,
+    label.left = if (hasReference) options$leaveOneOutLabelLeft else "",
+    label.right = if (hasReference) options$leaveOneOutLabelRight else "",
+    colgap.left = colgap.left,
+    colgap.right = colgap.right,
+    colgap.forest.left = colgap.forest.left,
+    colgap.forest.right = colgap.forest.right,
+    # Follow the compact-width policy documented in renderForest().
+    calcwidth.hetstat = FALSE,
+    calcwidth.tests = FALSE,
     details = options$leaveOneOutForestDetails,
     # Use superscript column headers for I2 and Tau2 in leave-one-out plots
     label.tau2 = "Tau\u00b2",

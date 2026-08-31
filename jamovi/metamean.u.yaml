@@ -1,5 +1,5 @@
-name: metaInc
-title: Incidence Rate Outcomes Meta-Analysis
+name: metaMean
+title: Single Means Meta-Analysis
 jus: "3.0"
 stage: 0
 compilerMode: tame
@@ -22,25 +22,19 @@ children:
       - type: TargetLayoutBox
         children:
           - type: VariablesListBox
-            name: eventE
+            name: mean
             maxItemCount: 1
             isTarget: true
       - type: TargetLayoutBox
         children:
           - type: VariablesListBox
-            name: timeE
+            name: sd
             maxItemCount: 1
             isTarget: true
       - type: TargetLayoutBox
         children:
           - type: VariablesListBox
-            name: eventC
-            maxItemCount: 1
-            isTarget: true
-      - type: TargetLayoutBox
-        children:
-          - type: VariablesListBox
-            name: timeC
+            name: n
             maxItemCount: 1
             isTarget: true
 
@@ -53,26 +47,6 @@ children:
         children:
           - type: ComboBox
             name: sm
-      - type: LayoutBox
-        children:
-          - type: ComboBox
-            name: method
-      - type: LayoutBox
-        fitToGrid: true
-        children:
-          - type: ComboBox
-            name: correctionMethod
-            cell:
-              row: 0
-              column: 0
-          - type: TextBox
-            name: incr
-            format: number
-            enable: (!(correctionMethod:none))
-            width: normal
-            cell:
-              row: 0
-              column: 1
       - type: LayoutBox
         children:
           - type: ComboBox
@@ -96,6 +70,13 @@ children:
             format: number
             width: normal
             suffix: "%"
+      - type: CheckBox
+        name: nullEffectEnabled
+        children:
+          - type: TextBox
+            name: nullEffect
+            format: number
+            enable: (nullEffectEnabled)
       - type: CheckBox
         name: summary
 
@@ -135,15 +116,9 @@ children:
                     children:
                       - type: CheckBox
                         name: forestTestOverall
-                        enable: (forestPlot)
+                        enable: (forestPlot && nullEffectEnabled)
                         cell:
                           row: 0
-                          column: 0
-                      - type: CheckBox
-                        name: forestDetails
-                        enable: (forestPlot)
-                        cell:
-                          row: 1
                           column: 0
                       - type: CheckBox
                         name: forestPrintI2Ci
@@ -151,6 +126,12 @@ children:
                         cell:
                           row: 0
                           column: 1
+                      - type: CheckBox
+                        name: forestDetails
+                        enable: (forestPlot)
+                        cell:
+                          row: 1
+                          column: 0
                       - type: CheckBox
                         name: forestPrintTau2Ci
                         enable: (forestPlot)
@@ -160,31 +141,15 @@ children:
                   - type: LayoutBox
                     children:
                       - type: TextBox
-                        name: labelE
-                        format: string
-                        enable: (forestPlot)
-                        width: largest
-                      - type: TextBox
-                        name: labelC
-                        format: string
-                        enable: (forestPlot)
-                        width: largest
-                      - type: TextBox
                         name: labelLeft
                         format: string
-                        enable: (forestPlot)
+                        enable: (forestPlot && nullEffectEnabled)
                         width: largest
-                        suggestedValues:
-                          - Favours Experimental
-                          - Favours Control
                       - type: TextBox
                         name: labelRight
                         format: string
-                        enable: (forestPlot)
+                        enable: (forestPlot && nullEffectEnabled)
                         width: largest
-                        suggestedValues:
-                          - Favours Experimental
-                          - Favours Control
                   - type: LayoutBox
                     margin: large
                     children:
@@ -291,23 +256,17 @@ children:
                           row: 0
                           column: 0
                       - type: ComboBox
-                        name: digitsTime
-                        enable: (forestPlot)
-                        cell:
-                          row: 1
-                          column: 0
-                      - type: ComboBox
-                        name: digitsPval
-                        enable: (forestPlot)
-                        cell:
-                          row: 2
-                          column: 0
-                      - type: ComboBox
                         name: digitsWeight
                         enable: (forestPlot)
                         cell:
                           row: 0
                           column: 1
+                      - type: ComboBox
+                        name: digitsMean
+                        enable: (forestPlot)
+                        cell:
+                          row: 1
+                          column: 0
                       - type: ComboBox
                         name: digitsI2
                         enable: (forestPlot)
@@ -315,11 +274,23 @@ children:
                           row: 1
                           column: 1
                       - type: ComboBox
+                        name: digitsSd
+                        enable: (forestPlot)
+                        cell:
+                          row: 2
+                          column: 0
+                      - type: ComboBox
                         name: digitsTau2
                         enable: (forestPlot)
                         cell:
                           row: 2
                           column: 1
+                      - type: ComboBox
+                        name: digitsPval
+                        enable: (forestPlot)
+                        cell:
+                          row: 3
+                          column: 0
 
   - type: CollapseBox
     label: Subgroup Analysis
@@ -412,23 +383,6 @@ children:
                           row: 0
                           column: 0
                       - type: CheckBox
-                        name: subgroupForestTestEffect
-                        enable: >
-                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
-                          ui['subgroupForestPlot'].value();})
-                        cell:
-                          row: 1
-                          column: 0
-                      - type: CheckBox
-                        name: subgroupForestTestOverall
-                        enable: >
-                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
-                          ui['subgroupForestPlot'].value() &&
-                          ui['subgroupForestOverall'].value();})
-                        cell:
-                          row: 2
-                          column: 0
-                      - type: CheckBox
                         name: subgroupForestPrintI2Ci
                         enable: >
                           ({return (ui['subgroupVariables'].value() || []).length > 0 &&
@@ -437,6 +391,15 @@ children:
                           row: 0
                           column: 1
                       - type: CheckBox
+                        name: subgroupForestTestEffect
+                        enable: >
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
+                          ui['subgroupForestPlot'].value() &&
+                          ui['nullEffectEnabled'].value();})
+                        cell:
+                          row: 1
+                          column: 0
+                      - type: CheckBox
                         name: subgroupForestPrintTau2Ci
                         enable: >
                           ({return (ui['subgroupVariables'].value() || []).length > 0 &&
@@ -444,6 +407,16 @@ children:
                         cell:
                           row: 1
                           column: 1
+                      - type: CheckBox
+                        name: subgroupForestTestOverall
+                        enable: >
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
+                          ui['subgroupForestPlot'].value() &&
+                          ui['subgroupForestOverall'].value() &&
+                          ui['nullEffectEnabled'].value();})
+                        cell:
+                          row: 2
+                          column: 0
                       - type: CheckBox
                         name: subgroupForestDetails
                         enable: >
@@ -455,39 +428,21 @@ children:
                   - type: LayoutBox
                     children:
                       - type: TextBox
-                        name: subgroupLabelE
-                        format: string
-                        enable: >
-                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
-                          ui['subgroupForestPlot'].value();})
-                        width: largest
-                      - type: TextBox
-                        name: subgroupLabelC
-                        format: string
-                        enable: >
-                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
-                          ui['subgroupForestPlot'].value();})
-                        width: largest
-                      - type: TextBox
                         name: subgroupLabelLeft
                         format: string
                         enable: >
                           ({return (ui['subgroupVariables'].value() || []).length > 0 &&
-                          ui['subgroupForestPlot'].value();})
+                          ui['subgroupForestPlot'].value() &&
+                          ui['nullEffectEnabled'].value();})
                         width: largest
-                        suggestedValues:
-                          - Favours Experimental
-                          - Favours Control
                       - type: TextBox
                         name: subgroupLabelRight
                         format: string
                         enable: >
                           ({return (ui['subgroupVariables'].value() || []).length > 0 &&
-                          ui['subgroupForestPlot'].value();})
+                          ui['subgroupForestPlot'].value() &&
+                          ui['nullEffectEnabled'].value();})
                         width: largest
-                        suggestedValues:
-                          - Favours Experimental
-                          - Favours Control
                   - type: LayoutBox
                     margin: large
                     children:
@@ -625,22 +580,6 @@ children:
                           row: 0
                           column: 0
                       - type: ComboBox
-                        name: subgroupDigitsTime
-                        enable: >
-                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
-                          ui['subgroupForestPlot'].value();})
-                        cell:
-                          row: 1
-                          column: 0
-                      - type: ComboBox
-                        name: subgroupDigitsPval
-                        enable: >
-                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
-                          ui['subgroupForestPlot'].value();})
-                        cell:
-                          row: 2
-                          column: 0
-                      - type: ComboBox
                         name: subgroupDigitsWeight
                         enable: >
                           ({return (ui['subgroupVariables'].value() || []).length > 0 &&
@@ -648,6 +587,14 @@ children:
                         cell:
                           row: 0
                           column: 1
+                      - type: ComboBox
+                        name: subgroupDigitsMean
+                        enable: >
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
+                          ui['subgroupForestPlot'].value();})
+                        cell:
+                          row: 1
+                          column: 0
                       - type: ComboBox
                         name: subgroupDigitsI2
                         enable: >
@@ -657,6 +604,14 @@ children:
                           row: 1
                           column: 1
                       - type: ComboBox
+                        name: subgroupDigitsSd
+                        enable: >
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
+                          ui['subgroupForestPlot'].value();})
+                        cell:
+                          row: 2
+                          column: 0
+                      - type: ComboBox
                         name: subgroupDigitsTau2
                         enable: >
                           ({return (ui['subgroupVariables'].value() || []).length > 0 &&
@@ -664,6 +619,14 @@ children:
                         cell:
                           row: 2
                           column: 1
+                      - type: ComboBox
+                        name: subgroupDigitsPval
+                        enable: >
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
+                          ui['subgroupForestPlot'].value();})
+                        cell:
+                          row: 3
+                          column: 0
 
   - type: CollapseBox
     label: Meta-Regression
@@ -807,19 +770,13 @@ children:
                       - type: TextBox
                         name: leaveOneOutLabelLeft
                         format: string
-                        enable: (leaveOneOut && leaveOneOutForestPlot)
+                        enable: (leaveOneOut && leaveOneOutForestPlot && nullEffectEnabled)
                         width: largest
-                        suggestedValues:
-                          - Favours Experimental
-                          - Favours Control
                       - type: TextBox
                         name: leaveOneOutLabelRight
                         format: string
-                        enable: (leaveOneOut && leaveOneOutForestPlot)
+                        enable: (leaveOneOut && leaveOneOutForestPlot && nullEffectEnabled)
                         width: largest
-                        suggestedValues:
-                          - Favours Experimental
-                          - Favours Control
               - type: Content
                 name: dimensions
                 children:
@@ -921,17 +878,17 @@ children:
                           row: 0
                           column: 0
                       - type: ComboBox
-                        name: leaveOneOutDigitsPval
-                        enable: (leaveOneOut && leaveOneOutForestPlot)
-                        cell:
-                          row: 1
-                          column: 0
-                      - type: ComboBox
                         name: leaveOneOutDigitsI2
                         enable: (leaveOneOut && leaveOneOutForestPlot)
                         cell:
                           row: 0
                           column: 1
+                      - type: ComboBox
+                        name: leaveOneOutDigitsPval
+                        enable: (leaveOneOut && leaveOneOutForestPlot)
+                        cell:
+                          row: 1
+                          column: 0
                       - type: ComboBox
                         name: leaveOneOutDigitsTau2
                         enable: (leaveOneOut && leaveOneOutForestPlot)
@@ -989,19 +946,13 @@ children:
                   - type: TextBox
                     name: cumulativeLabelLeft
                     format: string
-                    enable: (cumulative && cumulativeForestPlot)
+                    enable: (cumulative && cumulativeForestPlot && nullEffectEnabled)
                     width: largest
-                    suggestedValues:
-                      - Favours Experimental
-                      - Favours Control
                   - type: TextBox
                     name: cumulativeLabelRight
                     format: string
-                    enable: (cumulative && cumulativeForestPlot)
+                    enable: (cumulative && cumulativeForestPlot && nullEffectEnabled)
                     width: largest
-                    suggestedValues:
-                      - Favours Experimental
-                      - Favours Control
               - type: Content
                 name: dimensions
                 children:
@@ -1103,17 +1054,17 @@ children:
                           row: 0
                           column: 0
                       - type: ComboBox
-                        name: cumulativeDigitsPval
-                        enable: (cumulative && cumulativeForestPlot)
-                        cell:
-                          row: 1
-                          column: 0
-                      - type: ComboBox
                         name: cumulativeDigitsI2
                         enable: (cumulative && cumulativeForestPlot)
                         cell:
                           row: 0
                           column: 1
+                      - type: ComboBox
+                        name: cumulativeDigitsPval
+                        enable: (cumulative && cumulativeForestPlot)
+                        cell:
+                          row: 1
+                          column: 0
                       - type: ComboBox
                         name: cumulativeDigitsTau2
                         enable: (cumulative && cumulativeForestPlot)
@@ -1140,20 +1091,20 @@ children:
                     enable: (funnelPlot)
                   - type: CheckBox
                     name: funnelContour
-                    enable: (funnelPlot)
+                    enable: (funnelPlot && nullEffectEnabled)
                     children:
                       - type: CheckBox
                         name: funnelLegend
-                        enable: (funnelPlot && funnelContour)
+                        enable: (funnelPlot && funnelContour && nullEffectEnabled)
                         children:
                           - type: ComboBox
                             name: funnelLegendPos
-                            enable: (funnelPlot && funnelContour && funnelLegend)
+                            enable: (funnelPlot && funnelContour && funnelLegend && nullEffectEnabled)
                           - type: TextBox
                             name: funnelLegendCex
                             format: number
                             suffix: "%"
-                            enable: (funnelPlot && funnelContour && funnelLegend)
+                            enable: (funnelPlot && funnelContour && funnelLegend && nullEffectEnabled)
               - type: CheckBox
                 name: asymmetryTest
                 children:
@@ -1194,7 +1145,7 @@ children:
                         enable: (trimFill && trimFillFunnelPlot)
                       - type: CheckBox
                         name: trimFillFunnelContour
-                        enable: (trimFill && trimFillFunnelPlot)
+                        enable: (trimFill && trimFillFunnelPlot && nullEffectEnabled)
                       - type: CheckBox
                         name: trimFillFunnelLegend
                         enable: (trimFill && trimFillFunnelPlot)

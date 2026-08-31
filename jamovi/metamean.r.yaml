@@ -1,5 +1,5 @@
-name: metaBin
-title: Binary Outcomes Meta-Analysis
+name: metaMean
+title: Single Means Meta-Analysis
 jrs: "1.1"
 
 items:
@@ -8,20 +8,17 @@ items:
     visible: (summary)
     clearWith:
       - studyLabel
-      - eventE
-      - nE
-      - eventC
-      - nC
+      - mean
+      - sd
+      - n
       - sm
-      - method
-      - correctionMethod
-      - incr
-      - allstudies
       - model
       - methodTau
       - methodRandomCi
       - prediction
       - confidenceLevel
+      - nullEffectEnabled
+      - nullEffect
     refs:
       - MetaJam
       - metaPackage
@@ -39,20 +36,17 @@ items:
     visible: (forestPlot)
     clearWith:
       - studyLabel
-      - eventE
-      - nE
-      - eventC
-      - nC
+      - mean
+      - sd
+      - n
       - sm
-      - method
-      - correctionMethod
-      - incr
-      - allstudies
       - model
       - methodTau
       - methodRandomCi
       - prediction
       - confidenceLevel
+      - nullEffectEnabled
+      - nullEffect
       - forestLayout
       - sortBy
       - sortDirection
@@ -61,8 +55,6 @@ items:
       - forestDetails
       - forestPrintI2Ci
       - forestPrintTau2Ci
-      - labelE
-      - labelC
       - labelLeft
       - labelRight
       - xlimCustom
@@ -79,6 +71,8 @@ items:
       - colgapForestRight
       - colgapForestRightUnit
       - digitsEffect
+      - digitsMean
+      - digitsSd
       - digitsPval
       - digitsWeight
       - digitsI2
@@ -93,20 +87,17 @@ items:
     hideHeadingOnlyChild: true
     clearWith:
       - studyLabel
-      - eventE
-      - nE
-      - eventC
-      - nC
+      - mean
+      - sd
+      - n
       - sm
-      - method
-      - correctionMethod
-      - incr
-      - allstudies
       - model
       - methodTau
       - methodRandomCi
       - prediction
       - confidenceLevel
+      - nullEffectEnabled
+      - nullEffect
       - subgroupVariables
       - tauCommon
       - predictionSubgroup
@@ -146,8 +137,6 @@ items:
             - subgroupForestPrintI2Ci
             - subgroupForestPrintTau2Ci
             - subgroupForestDetails
-            - subgroupLabelE
-            - subgroupLabelC
             - subgroupLabelLeft
             - subgroupLabelRight
             - subgroupXlimCustom
@@ -164,6 +153,8 @@ items:
             - subgroupColgapForestRight
             - subgroupColgapForestRightUnit
             - subgroupDigitsEffect
+            - subgroupDigitsMean
+            - subgroupDigitsSd
             - subgroupDigitsPval
             - subgroupDigitsWeight
             - subgroupDigitsI2
@@ -178,20 +169,17 @@ items:
     hideHeadingOnlyChild: true
     clearWith:
       - studyLabel
-      - eventE
-      - nE
-      - eventC
-      - nC
+      - mean
+      - sd
+      - n
       - sm
-      - method
-      - correctionMethod
-      - incr
-      - allstudies
       - model
       - methodTau
       - methodRandomCi
       - prediction
       - confidenceLevel
+      - nullEffectEnabled
+      - nullEffect
       - metaRegCovs
       - metaRegFactors
       - metaRegBlocks
@@ -227,20 +215,17 @@ items:
     visible: (leaveOneOut && leaveOneOutSummary)
     clearWith:
       - studyLabel
-      - eventE
-      - nE
-      - eventC
-      - nC
+      - mean
+      - sd
+      - n
       - sm
-      - method
-      - correctionMethod
-      - incr
-      - allstudies
       - model
       - methodTau
       - methodRandomCi
       - prediction
       - confidenceLevel
+      - nullEffectEnabled
+      - nullEffect
       - leaveOneOutPrediction
     refs:
       - MetaJam
@@ -259,20 +244,17 @@ items:
     visible: (leaveOneOut && leaveOneOutForestPlot)
     clearWith:
       - studyLabel
-      - eventE
-      - nE
-      - eventC
-      - nC
+      - mean
+      - sd
+      - n
       - sm
-      - method
-      - correctionMethod
-      - incr
-      - allstudies
       - model
       - methodTau
       - methodRandomCi
       - prediction
       - confidenceLevel
+      - nullEffectEnabled
+      - nullEffect
       - leaveOneOutPrediction
       - leaveOneOutForestLayout
       - leaveOneOutSortBy
@@ -307,20 +289,17 @@ items:
     visible: (cumulative && cumulativeSummary)
     clearWith:
       - studyLabel
-      - eventE
-      - nE
-      - eventC
-      - nC
+      - mean
+      - sd
+      - n
       - sm
-      - method
-      - correctionMethod
-      - incr
-      - allstudies
       - model
       - methodTau
       - methodRandomCi
       - prediction
       - confidenceLevel
+      - nullEffectEnabled
+      - nullEffect
       - cumulativeSortBy
       - cumulativeSortDirection
       - cumulativeSortVariable
@@ -342,20 +321,17 @@ items:
     visible: (cumulative && cumulativeForestPlot)
     clearWith:
       - studyLabel
-      - eventE
-      - nE
-      - eventC
-      - nC
+      - mean
+      - sd
+      - n
       - sm
-      - method
-      - correctionMethod
-      - incr
-      - allstudies
       - model
       - methodTau
       - methodRandomCi
       - prediction
       - confidenceLevel
+      - nullEffectEnabled
+      - nullEffect
       - cumulativeSortBy
       - cumulativeSortDirection
       - cumulativeSortVariable
@@ -394,20 +370,17 @@ items:
     visible: (funnelPlot)
     clearWith:
       - studyLabel
-      - eventE
-      - nE
-      - eventC
-      - nC
+      - mean
+      - sd
+      - n
       - sm
-      - method
-      - correctionMethod
-      - incr
-      - allstudies
       - model
       - methodTau
       - methodRandomCi
       - prediction
       - confidenceLevel
+      - nullEffectEnabled
+      - nullEffect
       - funnelStudyLabel
       - funnelContour
       - funnelLegend
@@ -422,20 +395,17 @@ items:
     visible: (asymmetryTest && asymmetrySummary)
     clearWith:
       - studyLabel
-      - eventE
-      - nE
-      - eventC
-      - nC
+      - mean
+      - sd
+      - n
       - sm
-      - method
-      - correctionMethod
-      - incr
-      - allstudies
       - model
       - methodTau
       - methodRandomCi
       - prediction
       - confidenceLevel
+      - nullEffectEnabled
+      - nullEffect
       - asymmetryMethod
     refs:
       - MetaJam
@@ -447,23 +417,20 @@ items:
     width: 550
     height: 500
     renderFun: .asymmetryPlot
-    visible: (asymmetryTest && asymmetryPlot && !(asymmetryMethod %in% c("Schwarzer", "Macaskill", "Peters")))
+    visible: (asymmetryTest && asymmetryPlot)
     clearWith:
       - studyLabel
-      - eventE
-      - nE
-      - eventC
-      - nC
+      - mean
+      - sd
+      - n
       - sm
-      - method
-      - correctionMethod
-      - incr
-      - allstudies
       - model
       - methodTau
       - methodRandomCi
       - prediction
       - confidenceLevel
+      - nullEffectEnabled
+      - nullEffect
       - asymmetryMethod
     refs:
       - MetaJam
@@ -474,20 +441,17 @@ items:
     visible: (trimFill && trimFillSummary)
     clearWith:
       - studyLabel
-      - eventE
-      - nE
-      - eventC
-      - nC
+      - mean
+      - sd
+      - n
       - sm
-      - method
-      - correctionMethod
-      - incr
-      - allstudies
       - model
       - methodTau
       - methodRandomCi
       - prediction
       - confidenceLevel
+      - nullEffectEnabled
+      - nullEffect
       - trimFillSide
       - trimFillEstimator
     refs:
@@ -503,20 +467,17 @@ items:
     visible: (trimFill && trimFillFunnelPlot)
     clearWith:
       - studyLabel
-      - eventE
-      - nE
-      - eventC
-      - nC
+      - mean
+      - sd
+      - n
       - sm
-      - method
-      - correctionMethod
-      - incr
-      - allstudies
       - model
       - methodTau
       - methodRandomCi
       - prediction
       - confidenceLevel
+      - nullEffectEnabled
+      - nullEffect
       - trimFillSide
       - trimFillEstimator
       - trimFillFunnelStudyLabel
@@ -537,20 +498,17 @@ items:
     visible: (doiPlot)
     clearWith:
       - studyLabel
-      - eventE
-      - nE
-      - eventC
-      - nC
+      - mean
+      - sd
+      - n
       - sm
-      - method
-      - correctionMethod
-      - incr
-      - allstudies
       - model
       - methodTau
       - methodRandomCi
       - prediction
       - confidenceLevel
+      - nullEffectEnabled
+      - nullEffect
       - doiPlotLegend
       - doiPlotLegendPos
       - doiPlotLegendCex
@@ -563,20 +521,17 @@ items:
     visible: (lfkIndex)
     clearWith:
       - studyLabel
-      - eventE
-      - nE
-      - eventC
-      - nC
+      - mean
+      - sd
+      - n
       - sm
-      - method
-      - correctionMethod
-      - incr
-      - allstudies
       - model
       - methodTau
       - methodRandomCi
       - prediction
       - confidenceLevel
+      - nullEffectEnabled
+      - nullEffect
     refs:
       - MetaJam
       - metasensPackage

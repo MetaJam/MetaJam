@@ -28,6 +28,9 @@ the R package [meta](https://cran.r-project.org/package=meta).
     event counts and sample size for the experimental and control groups.
   - **Incidence Rate Outcomes:** Analyze incidence rate outcome data using
     event counts and person-time for the experimental and control groups.
+- **Single-Group Meta-Analysis:**
+  - **Single Means:** Analyze single-group data using mean, standard deviation,
+    and sample size.
 - **Precomputed Effect Sizes Meta-Analysis:** Analyze precomputed effect sizes
   with standard errors or confidence intervals.
 - **Risk of Bias Plots:** Create summary and traffic-light plots from
