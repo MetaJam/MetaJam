@@ -23,14 +23,16 @@ description: >-
   Means:</b> Analyze single-group data using mean, standard deviation, and
   sample size.</li> </ul> </li> <li><b>Precomputed Effect Sizes
   Meta-Analysis:</b> Analyze precomputed effect sizes with standard errors or
-  confidence intervals.</li> </ul> <b>Analysis Options:</b> Common-effect and
-  random-effects models, subgroup analysis, meta-regression, leave-one-out
-  analysis, cumulative meta-analysis, and publication bias.<br><br> <b>For
-  documentation, tutorials, and support, please visit:</b> <a
-  href="https://metajam.pages.dev" target="_blank">metajam.pages.dev</a><br><br>
-  <small><i>* Note: This module is under active development. Future updates will
-  add single proportions, single incidence rates, and correlation meta-analyses,
-  along with advanced meta-analytical extensions.</i></small>
+  confidence intervals.</li> <li><b>Risk of Bias Plots:</b> Create summary and
+  traffic-light plots from risk-of-bias assessments using RoB 2, RoB 2
+  (cluster), ROBINS-I, ROBINS-E, QUADAS-2, and QUIPS.</li> </ul>
+  <b>Meta-Analysis Features:</b> Common-effect and random-effects models,
+  subgroup analysis, meta-regression, leave-one-out analysis, cumulative
+  meta-analysis, and publication bias.<br><br> <b>For documentation, tutorials,
+  and support, please visit:</b> <a href="https://metajam.pages.dev"
+  target="_blank">metajam.pages.dev</a><br><br> <small><i>* Note: This module is
+  under active development. Future updates will add single proportions, single
+  incidence rates, and correlation meta-analyses.</i></small>
 analyses:
   - title: Continuous Outcomes Meta-Analysis
     name: metaCont
@@ -72,6 +74,13 @@ analyses:
     menuSubgroup: Precomputed Effect Sizes Meta-Analysis
     menuTitle: Precomputed Effect Sizes
     menuSubtitle: Effect Size, SE/CI
+  - title: Risk of Bias Plots
+    name: rob
+    ns: MetaJam
+    category: analyses
+    menuGroup: MetaJam
+    menuSubgroup: Supporting Tools
+    menuTitle: Risk of Bias Plots
 datasets:
   - name: Nedocromil Sodium
     path: NedocromilSodium.omv
@@ -131,6 +140,38 @@ datasets:
       - Meta-Analysis
       - Precomputed Effect Sizes
       - Hazard Ratios
+  - name: RoB 2
+    path: RoB2.omv
+    description: Example risk-of-bias assessments for 9 studies using the RoB 2 tool.
+    tags:
+      - Risk of Bias
+  - name: RoB 2 (cluster)
+    path: RoB2Cluster.omv
+    description: >-
+      Example risk-of-bias assessments for 9 studies using RoB 2 for
+      cluster-randomized trials.
+    tags:
+      - Risk of Bias
+  - name: ROBINS-I
+    path: ROBINSI.omv
+    description: Example risk-of-bias assessments for 10 studies using the ROBINS-I tool.
+    tags:
+      - Risk of Bias
+  - name: ROBINS-E
+    path: ROBINSE.omv
+    description: Example risk-of-bias assessments for 10 studies using the ROBINS-E tool.
+    tags:
+      - Risk of Bias
+  - name: QUADAS-2
+    path: QUADAS2.omv
+    description: Example risk-of-bias assessments for 12 studies using the QUADAS-2 tool.
+    tags:
+      - Risk of Bias
+  - name: QUIPS
+    path: QUIPS.omv
+    description: Example risk-of-bias assessments for 12 studies using the QUIPS tool.
+    tags:
+      - Risk of Bias
 usesNative: true
 minApp: 2.7.27
 

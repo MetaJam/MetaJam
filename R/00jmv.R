@@ -35,4 +35,11 @@
         `volume`=36, 
         `issue`=3, 
         `pages`="1-48", 
-        `url`="https://doi.org/10.18637/jss.v036.i03"))
+        `url`="https://doi.org/10.18637/jss.v036.i03"), 
+    `robvisPackage`=list(
+        `type`="article", 
+        `author`="McGuinness, L. A., & Higgins, J. P. T.", 
+        `year`=2020, 
+        `title`="Risk-of-bias VISualization (robvis): An R package and Shiny web app for visualizing risk-of-bias assessments", 
+        `publisher`="Research Synthesis Methods", 
+        `url`="https://doi.org/10.1002/jrsm.1411"))
