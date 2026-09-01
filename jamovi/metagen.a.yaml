@@ -53,8 +53,8 @@ options:
     title: Study Label
     type: Variable
     suggested:
-      - nominal
       - id
+      - nominal
     permitted:
       - factor
       - id
@@ -87,8 +87,8 @@ options:
     title: Study Label
     type: Variable
     suggested:
-      - nominal
       - id
+      - nominal
     permitted:
       - factor
       - id

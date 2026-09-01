@@ -26,10 +26,10 @@ Imports:
     graphics,
     grDevices,
     grid,
-    jmvcore (>= 0.8.5),
-    meta (>= 8.6-0),
+    jmvcore (>= 2.4.7),
+    meta (>= 9.0-0),
     metabook (>= 0.2.0),
-    metasens,
+    metasens (>= 1.5-3),
     patchwork (>= 1.3.0),
     R6,
     robvis (>= 0.3.0.900),
@@ -37,7 +37,7 @@ Imports:
     utils
 Remotes: 
     guido-s/metabook@a6ed112037848941c4b27071a12c4165af6edffd,
-    guido-s/meta@576e9485cd81a910799473018fa98f03b41a69e4,
+    guido-s/meta@97ef09a7e57d4a3c87578e484ef63dcae125ec2e,
     mcguinlu/robvis@70d69aeaf20cb3725b1d4919f23b824095a508b8
 Config/roxygen2/version: 8.1.0
 Encoding: UTF-8

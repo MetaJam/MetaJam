@@ -201,8 +201,8 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "studyLabel",
                 studyLabel,
                 suggested=list(
-                    "nominal",
-                    "id"),
+                    "id",
+                    "nominal"),
                 permitted=list(
                     "factor",
                     "id"))
