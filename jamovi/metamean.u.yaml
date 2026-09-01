@@ -90,7 +90,6 @@ children:
                 name: general
                 children:
                   - type: LayoutBox
-                    fitToGrid: true
                     children:
                       - type: ComboBox
                         name: forestLayout
@@ -112,7 +111,6 @@ children:
                           row: 1
                           column: 1
                   - type: LayoutBox
-                    fitToGrid: true
                     children:
                       - type: CheckBox
                         name: forestTestOverall
@@ -163,7 +161,6 @@ children:
                     enable: (forestPlot)
                     children:
                       - type: LayoutBox
-                        fitToGrid: true
                         children:
                           - type: TextBox
                             name: xlimLower
@@ -189,7 +186,6 @@ children:
                         suffix: rows
                         enable: (forestPlot && addrowsCustom)
                   - type: LayoutBox
-                    fitToGrid: true
                     children:
                       - type: TextBox
                         name: colgapLeft
@@ -247,7 +243,6 @@ children:
                 name: rounding
                 children:
                   - type: LayoutBox
-                    fitToGrid: true
                     children:
                       - type: ComboBox
                         name: digitsEffect
@@ -337,7 +332,6 @@ children:
                           ({return (ui['subgroupVariables'].value() || []).length > 0 &&
                           ui['subgroupForestPlot'].value();})
                   - type: LayoutBox
-                    fitToGrid: true
                     children:
                       - type: ComboBox
                         name: subgroupForestLayout
@@ -372,7 +366,6 @@ children:
                           ({return (ui['subgroupVariables'].value() || []).length > 0 &&
                           ui['subgroupForestPlot'].value();})
                   - type: LayoutBox
-                    fitToGrid: true
                     children:
                       - type: CheckBox
                         name: subgroupForestTestSubgroup
@@ -458,7 +451,6 @@ children:
                       ui['subgroupForestPlot'].value();})
                     children:
                       - type: LayoutBox
-                        fitToGrid: true
                         children:
                           - type: TextBox
                             name: subgroupXlimLower
@@ -495,7 +487,6 @@ children:
                           ui['subgroupForestPlot'].value() &&
                           ui['subgroupAddrowsCustom'].value();})
                   - type: LayoutBox
-                    fitToGrid: true
                     children:
                       - type: TextBox
                         name: subgroupColgapLeft
@@ -569,7 +560,6 @@ children:
                 name: rounding
                 children:
                   - type: LayoutBox
-                    fitToGrid: true
                     children:
                       - type: ComboBox
                         name: subgroupDigitsEffect
@@ -739,7 +729,6 @@ children:
                 name: general
                 children:
                   - type: LayoutBox
-                    fitToGrid: true
                     children:
                       - type: ComboBox
                         name: leaveOneOutForestLayout
@@ -785,7 +774,6 @@ children:
                     enable: (leaveOneOut && leaveOneOutForestPlot)
                     children:
                       - type: LayoutBox
-                        fitToGrid: true
                         children:
                           - type: TextBox
                             name: leaveOneOutXlimLower
@@ -811,7 +799,6 @@ children:
                         suffix: rows
                         enable: (leaveOneOut && leaveOneOutForestPlot && leaveOneOutAddrowsCustom)
                   - type: LayoutBox
-                    fitToGrid: true
                     children:
                       - type: TextBox
                         name: leaveOneOutColgapLeft
@@ -869,7 +856,6 @@ children:
                 name: rounding
                 children:
                   - type: LayoutBox
-                    fitToGrid: true
                     children:
                       - type: ComboBox
                         name: leaveOneOutDigitsEffect
@@ -904,7 +890,6 @@ children:
       - type: CheckBox
         name: cumulative
       - type: LayoutBox
-        fitToGrid: true
         children:
           - type: ComboBox
             name: cumulativeSortBy
@@ -961,7 +946,6 @@ children:
                     enable: (cumulative && cumulativeForestPlot)
                     children:
                       - type: LayoutBox
-                        fitToGrid: true
                         children:
                           - type: TextBox
                             name: cumulativeXlimLower
@@ -987,7 +971,6 @@ children:
                         suffix: rows
                         enable: (cumulative && cumulativeForestPlot && cumulativeAddrowsCustom)
                   - type: LayoutBox
-                    fitToGrid: true
                     children:
                       - type: TextBox
                         name: cumulativeColgapLeft
@@ -1045,7 +1028,6 @@ children:
                 name: rounding
                 children:
                   - type: LayoutBox
-                    fitToGrid: true
                     children:
                       - type: ComboBox
                         name: cumulativeDigitsEffect
