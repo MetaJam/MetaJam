@@ -205,7 +205,9 @@ renderFunnelPlot <- function(self) {
     fun <- meta::funnel(
       model,
       type = "contour",
-      studlab = options$funnelStudyLabel
+      studlab = options$funnelStudyLabel,
+      bg = "gray40",
+      col.contour = c("gray90", "gray80", "gray70")
     )
 
     if (options$funnelLegend) {
@@ -246,7 +248,11 @@ renderFunnelPlot <- function(self) {
       )
     }
   } else {
-    meta::funnel(model, studlab = options$funnelStudyLabel)
+    meta::funnel(
+      model,
+      studlab = options$funnelStudyLabel,
+      bg = "gray40"
+    )
   }
 
   TRUE
@@ -322,9 +328,10 @@ renderTrimFillFunnelPlot <- function(self) {
       studlab = opts$trimFillFunnelStudyLabel,
       # meta uses pch=1 for imputed trim-fill studies, making them
       # transparent. Use pch=21 for both study types so bg controls the fill:
-      # observed remains darkgray, while imputed stays white over contours.
+      # observed is gray40, while imputed stays white over contours.
       pch = 21,
-      bg = ifelse(model$trimfill, "white", "darkgray")
+      bg = ifelse(model$trimfill, "white", "gray40"),
+      col.contour = c("gray90", "gray80", "gray70")
     )
   } else {
     meta::funnel(
@@ -332,9 +339,9 @@ renderTrimFillFunnelPlot <- function(self) {
       studlab = opts$trimFillFunnelStudyLabel,
       # meta uses pch=1 for imputed trim-fill studies, making them
       # transparent. Use pch=21 for both study types so bg controls the fill:
-      # observed remains darkgray, while imputed stays white.
+      # observed is gray40, while imputed stays white.
       pch = 21,
-      bg = ifelse(model$trimfill, "white", "darkgray")
+      bg = ifelse(model$trimfill, "white", "gray40")
     )
   }
 
@@ -343,7 +350,7 @@ renderTrimFillFunnelPlot <- function(self) {
     shape_labels <- c("Observed Studies", "Imputed Studies")
     shape_pch <- c(21, 21)
     shape_col <- c("black", "black")
-    shape_pt_bg <- c("darkgray", "white")
+    shape_pt_bg <- c("gray40", "white")
 
     if (useContour) {
       # Combined legend: shapes + contour bands in one legend call.
