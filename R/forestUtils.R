@@ -180,27 +180,37 @@ prepareForestSortKey <- function(
 }
 
 
-#' Update Forest Plot Size and Cache Dimensions
+#' Update and Cache Forest Plot Dimensions
 #'
-#' Calculates accurate dimensions for a forest-type image, applies them
-#' via `setSize()`, and persists them in a hidden cache element so that
-#' `.postInit()` can restore the size without recomputing.
+#' Measures layout dimensions for a dynamic forest plot during `.run()`, applies
+#' them to the image via `setSize()`, and stores them in a hidden size cache for
+#' `.postInit()` restoration.
 #'
-#' Designed to be called from `.run()` — NOT from `.init()`.
+#' For standalone plots (main, leave-one-out, cumulative), `sizeCacheKey` is
+#' `NULL` and dimensions are stored directly as `list(w, h)`.
+#'
+#' For subgroup analyses, multiple plots share a single top-level cache. Passing
+#' the subgroup variable name as `sizeCacheKey` stores dimensions in a shared
+#' named list (e.g. `list(Country = list(w, h), Age = list(w, h))`). This
+#' preserves the cached dimensions of other subgroup variables while updating
+#' the entry for the current variable.
 #'
 #' @param image A jamovi Image result element (e.g., `self$results$plot`).
-#' @param model A `meta` object. If `NULL`, the function returns early.
-#' @param sizeCache A hidden Group result element with `clearWith: []`
-#'   used to persist the dimensions across engine requests.
+#' @param model A `meta` object. Sizing is skipped if `NULL`.
+#' @param sizeCache A hidden Group result element with `clearWith: []` used to
+#'   persist dimensions across engine requests.
 #' @param renderCall A zero-argument closure that renders the forest plot.
-#' @return `NULL` invisibly. Called for side effects (`setSize`,
-#'   `setState`).
+#' @param sizeCacheKey Optional string specifying the subgroup variable name.
+#'   When `NULL`, dimensions are stored directly in `sizeCache$state`. When
+#'   provided, dimensions are stored under this key in a shared dictionary.
+#' @return `NULL` invisibly. Called for side effects (`setSize`, `setState`).
 #' @noRd
 updateForestSize <- function(
   image,
   model,
   sizeCache,
-  renderCall
+  renderCall,
+  sizeCacheKey = NULL
 ) {
   if (!image$visible || image$isFilled() || is.null(model)) {
     return(invisible(NULL))
@@ -210,7 +220,22 @@ updateForestSize <- function(
   w <- dims$width * 72
   h <- dims$height * 72
   image$setSize(width = w, height = h)
-  sizeCache$setState(list(w = w, h = h))
+
+  size <- list(w = w, h = h)
+
+  # Standalone plots store a single size; subgroup analyses share one cache
+  # keyed by variable
+  if (is.null(sizeCacheKey)) {
+    sizeCache$setState(size)
+  } else {
+    # Subgroup plots share a single top-level cache holding a named list of
+    # dimensions keyed by variable name. Retrieve the existing cache, update the
+    # entry for the current variable, and save it back so other subgroup plots
+    # are preserved.
+    cachedSizes <- sizeCache$state
+    cachedSizes[[sizeCacheKey]] <- size
+    sizeCache$setState(cachedSizes)
+  }
 
   invisible(NULL)
 }
@@ -218,20 +243,35 @@ updateForestSize <- function(
 
 #' Apply Cached Plot Dimensions
 #'
-#' Shared `.postInit()` helper. Restores plot dimensions from a hidden
-#' `clearWith: []` cache element. Skips when the cache is empty (first
-#' run), the plot is hidden, or `clearWith` cleared it (`isFilled()`
-#' is FALSE). Essential for correct save/export sizing since
-#' `fromProtoBuf()` does not restore `widthM`/`heightM`.
+#' Shared `.postInit()` helper. Restores dynamic plot dimensions from a hidden
+#' `clearWith: []` cache element whenever the image is visible. See
+#' `.postInit()` in `rob.b.R` for details on the lifecycle rationale.
+#'
+#' For subgroup analyses, passing `sizeCacheKey` retrieves variable-specific
+#' dimensions from a shared dictionary.
 #'
 #' @param image An Image result element (e.g., `self$results$plot`).
-#' @param sizeCache A Group result element with `clearWith: []`
-#'   (e.g., `self$results$plotSizeCache`).
-#' @return `NULL` invisibly. Called for side effects.
+#' @param sizeCache A Group result element with `clearWith: []` containing
+#'   cached dimensions.
+#' @param sizeCacheKey Optional string specifying the subgroup variable name
+#'   used to look up dimensions from a shared dictionary.
+#' @return `NULL` invisibly. Called for side effects (`setSize`).
 #' @noRd
-applyCachedSize <- function(image, sizeCache) {
+applyCachedSize <- function(image, sizeCache, sizeCacheKey = NULL) {
   size <- sizeCache$state
-  if (!is.null(size) && image$visible && image$isFilled()) {
+
+  # Retrieve variable-specific dimensions from the shared subgroup cache.
+  # Subgroup sizes are keyed by variable name so reordering or removing Array
+  # items cannot associate a cached size with a different subgroup variable.
+  # Entries for removed or renamed variables are intentionally retained: they
+  # contain only dimensions, and pruning them would add complexity for
+  # negligible benefit. If a name is reused, the old size is temporary and used
+  # initially instead of the default size, then replaced in .run().
+  if (!is.null(sizeCacheKey)) {
+    size <- size[[sizeCacheKey]]
+  }
+
+  if (!is.null(size) && image$visible) {
     image$setSize(size$w, size$h)
   }
 

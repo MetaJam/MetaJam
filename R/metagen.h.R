@@ -1894,6 +1894,7 @@ metaGenResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         text = function() private$.items[["text"]],
         plotSizeCache = function() private$.items[["plotSizeCache"]],
         plot = function() private$.items[["plot"]],
+        subgroupPlotSizeCache = function() private$.items[["subgroupPlotSizeCache"]],
         subgroupModels = function() private$.items[["subgroupModels"]],
         metaRegModels = function() private$.items[["metaRegModels"]],
         leaveOneOutText = function() private$.items[["leaveOneOutText"]],
@@ -2009,6 +2010,17 @@ metaGenResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 refs=list(
                     "MetaJam",
                     "metaPackage")))
+            self$add(R6::R6Class(
+                inherit = jmvcore::Group,
+                active = list(),
+                private = list(),
+                public=list(
+                    initialize=function(options) {
+                        super$initialize(
+                            options=options,
+                            name="subgroupPlotSizeCache",
+                            title="no title",
+                            clearWith=list())}))$new(options=options))
             self$add(jmvcore::Array$new(
                 options=options,
                 name="subgroupModels",
@@ -2039,7 +2051,6 @@ metaGenResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     inherit = jmvcore::Group,
                     active = list(
                         subgroupText = function() private$.items[["subgroupText"]],
-                        subgroupPlotSizeCache = function() private$.items[["subgroupPlotSizeCache"]],
                         subgroupPlot = function() private$.items[["subgroupPlot"]]),
                     private = list(),
                     public=list(
@@ -2056,17 +2067,6 @@ metaGenResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                                 refs=list(
                                     "MetaJam",
                                     "metaPackage")))
-                            self$add(R6::R6Class(
-                                inherit = jmvcore::Group,
-                                active = list(),
-                                private = list(),
-                                public=list(
-                                    initialize=function(options) {
-                                        super$initialize(
-                                            options=options,
-                                            name="subgroupPlotSizeCache",
-                                            title="no title",
-                                            clearWith=list())}))$new(options=options))
                             self$add(jmvcore::Image$new(
                                 options=options,
                                 name="subgroupPlot",

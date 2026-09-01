@@ -86,6 +86,12 @@ items:
       - MetaJam
       - metaPackage
 
+  - name: subgroupPlotSizeCache
+    type: Group
+    visible: false
+    clearWith: []
+    items: []
+
   - name: subgroupModels
     title: ""
     type: Array
@@ -119,12 +125,6 @@ items:
           refs:
             - MetaJam
             - metaPackage
-
-        - name: subgroupPlotSizeCache
-          type: Group
-          visible: false
-          clearWith: []
-          items: []
 
         - name: subgroupPlot
           title: Subgroup Analysis Forest Plot

@@ -126,7 +126,11 @@ metaGenClass <- R6::R6Class(
 
       for (i in seq_along(self$options$subgroupVariables)) {
         group <- self$results$subgroupModels$get(key = i)
-        applyCachedSize(group$subgroupPlot, group$subgroupPlotSizeCache)
+        applyCachedSize(
+          image = group$subgroupPlot,
+          sizeCache = self$results$subgroupPlotSizeCache,
+          sizeCacheKey = self$options$subgroupVariables[[i]]
+        )
       }
 
       applyCachedSize(
@@ -180,14 +184,15 @@ metaGenClass <- R6::R6Class(
             updateForestSize(
               image = group$subgroupPlot,
               model = self$subgroupModels[[i]],
-              sizeCache = group$subgroupPlotSizeCache,
+              sizeCache = self$results$subgroupPlotSizeCache,
               renderCall = function() {
                 renderGenSubgroupForest(
                   self,
                   key = i,
                   sortKey = subgroupSortKey
                 )
-              }
+              },
+              sizeCacheKey = self$options$subgroupVariables[[i]]
             )
           }
 
