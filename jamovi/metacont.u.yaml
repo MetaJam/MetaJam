@@ -1175,6 +1175,16 @@ children:
                       - type: ComboBox
                         name: trimFillEstimator
                         enable: (trimFill)
+                  - type: LayoutBox
+                    children:
+                      - type: ComboBox
+                        name: trimFillIterationModel
+                        enable: (trimFill)
+                  - type: LayoutBox
+                    children:
+                      - type: ComboBox
+                        name: trimFillPoolingModel
+                        enable: (trimFill)
                   - type: CheckBox
                     name: trimFillSummary
                     enable: (trimFill)

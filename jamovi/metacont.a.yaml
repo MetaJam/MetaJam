@@ -1480,7 +1480,7 @@ options:
     default: auto
 
   - name: trimFillEstimator
-    title: Estimator
+    title: Estimator of the number of missing studies
     type: List
     options:
       - title: L₀
@@ -1488,6 +1488,28 @@ options:
       - title: R₀
         name: R
     default: L
+
+  - name: trimFillIterationModel
+    title: Model for identifying missing studies
+    type: List
+    options:
+      - title: Random effects
+        name: random
+      - title: Common effect
+        name: common
+    default: common
+
+  - name: trimFillPoolingModel
+    title: Model for pooling results
+    type: List
+    options:
+      - title: Random & common
+        name: both
+      - title: Random effects
+        name: random
+      - title: Common effect
+        name: common
+    default: random
 
   - name: trimFillSummary
     title: Summary

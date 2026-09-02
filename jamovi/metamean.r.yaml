@@ -454,6 +454,8 @@ items:
       - nullEffect
       - trimFillSide
       - trimFillEstimator
+      - trimFillIterationModel
+      - trimFillPoolingModel
     refs:
       - MetaJam
       - metaPackage
@@ -480,6 +482,8 @@ items:
       - nullEffect
       - trimFillSide
       - trimFillEstimator
+      - trimFillIterationModel
+      - trimFillPoolingModel
       - trimFillFunnelStudyLabel
       - trimFillFunnelContour
       - trimFillFunnelLegend

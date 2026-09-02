@@ -32,7 +32,10 @@ computeTrimFillModel <- function(self) {
   tf_model <- meta::trimfill(
     self$model,
     left = side,
-    type = options$trimFillEstimator
+    type = options$trimFillEstimator,
+    ma.common = options$trimFillIterationModel == "common",
+    common = options$trimFillPoolingModel %in% c("both", "common"),
+    random = options$trimFillPoolingModel %in% c("both", "random")
   )
 
   # Cache for next cycle

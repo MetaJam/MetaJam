@@ -178,6 +178,8 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             trimFill = FALSE,
             trimFillSide = "auto",
             trimFillEstimator = "L",
+            trimFillIterationModel = "common",
+            trimFillPoolingModel = "random",
             trimFillSummary = TRUE,
             trimFillFunnelPlot = TRUE,
             trimFillFunnelStudyLabel = FALSE,
@@ -1262,6 +1264,21 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "L",
                     "R"),
                 default="L")
+            private$..trimFillIterationModel <- jmvcore::OptionList$new(
+                "trimFillIterationModel",
+                trimFillIterationModel,
+                options=list(
+                    "random",
+                    "common"),
+                default="common")
+            private$..trimFillPoolingModel <- jmvcore::OptionList$new(
+                "trimFillPoolingModel",
+                trimFillPoolingModel,
+                options=list(
+                    "both",
+                    "random",
+                    "common"),
+                default="random")
             private$..trimFillSummary <- jmvcore::OptionBool$new(
                 "trimFillSummary",
                 trimFillSummary,
@@ -1496,6 +1513,8 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..trimFill)
             self$.addOption(private$..trimFillSide)
             self$.addOption(private$..trimFillEstimator)
+            self$.addOption(private$..trimFillIterationModel)
+            self$.addOption(private$..trimFillPoolingModel)
             self$.addOption(private$..trimFillSummary)
             self$.addOption(private$..trimFillFunnelPlot)
             self$.addOption(private$..trimFillFunnelStudyLabel)
@@ -1681,6 +1700,8 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         trimFill = function() private$..trimFill$value,
         trimFillSide = function() private$..trimFillSide$value,
         trimFillEstimator = function() private$..trimFillEstimator$value,
+        trimFillIterationModel = function() private$..trimFillIterationModel$value,
+        trimFillPoolingModel = function() private$..trimFillPoolingModel$value,
         trimFillSummary = function() private$..trimFillSummary$value,
         trimFillFunnelPlot = function() private$..trimFillFunnelPlot$value,
         trimFillFunnelStudyLabel = function() private$..trimFillFunnelStudyLabel$value,
@@ -1865,6 +1886,8 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..trimFill = NA,
         ..trimFillSide = NA,
         ..trimFillEstimator = NA,
+        ..trimFillIterationModel = NA,
+        ..trimFillPoolingModel = NA,
         ..trimFillSummary = NA,
         ..trimFillFunnelPlot = NA,
         ..trimFillFunnelStudyLabel = NA,
@@ -2426,7 +2449,9 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "prediction",
                     "confidenceLevel",
                     "trimFillSide",
-                    "trimFillEstimator"),
+                    "trimFillEstimator",
+                    "trimFillIterationModel",
+                    "trimFillPoolingModel"),
                 refs=list(
                     "MetaJam",
                     "metaPackage")))
@@ -2455,6 +2480,8 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "confidenceLevel",
                     "trimFillSide",
                     "trimFillEstimator",
+                    "trimFillIterationModel",
+                    "trimFillPoolingModel",
                     "trimFillFunnelStudyLabel",
                     "trimFillFunnelContour",
                     "trimFillFunnelLegend",
@@ -2711,6 +2738,8 @@ metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param trimFill .
 #' @param trimFillSide .
 #' @param trimFillEstimator .
+#' @param trimFillIterationModel .
+#' @param trimFillPoolingModel .
 #' @param trimFillSummary .
 #' @param trimFillFunnelPlot .
 #' @param trimFillFunnelStudyLabel .
@@ -2917,6 +2946,8 @@ metaCont <- function(
     trimFill = FALSE,
     trimFillSide = "auto",
     trimFillEstimator = "L",
+    trimFillIterationModel = "common",
+    trimFillPoolingModel = "random",
     trimFillSummary = TRUE,
     trimFillFunnelPlot = TRUE,
     trimFillFunnelStudyLabel = FALSE,
@@ -3140,6 +3171,8 @@ metaCont <- function(
         trimFill = trimFill,
         trimFillSide = trimFillSide,
         trimFillEstimator = trimFillEstimator,
+        trimFillIterationModel = trimFillIterationModel,
+        trimFillPoolingModel = trimFillPoolingModel,
         trimFillSummary = trimFillSummary,
         trimFillFunnelPlot = trimFillFunnelPlot,
         trimFillFunnelStudyLabel = trimFillFunnelStudyLabel,

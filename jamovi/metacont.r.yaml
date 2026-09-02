@@ -482,6 +482,8 @@ items:
       - confidenceLevel
       - trimFillSide
       - trimFillEstimator
+      - trimFillIterationModel
+      - trimFillPoolingModel
     refs:
       - MetaJam
       - metaPackage
@@ -510,6 +512,8 @@ items:
       - confidenceLevel
       - trimFillSide
       - trimFillEstimator
+      - trimFillIterationModel
+      - trimFillPoolingModel
       - trimFillFunnelStudyLabel
       - trimFillFunnelContour
       - trimFillFunnelLegend
