@@ -7,3 +7,7 @@
 ^analysis-metajam\.svg$
 ^LICENSE\.md$
 ^CITATION\.cff$
+^[.]?air[.]toml$
+^\.vscode$
+^.*\.code-workspace$
+^\.github$
