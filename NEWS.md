@@ -1,3 +1,13 @@
+# MetaJam 0.5.0
+
+- **New Analyses:** Added Single Means Meta-Analysis and Risk of Bias Plots.
+- Added the Depression Severity, RoB 2, RoB 2 (cluster), ROBINS-I, ROBINS-E, QUADAS-2, and QUIPS sample datasets to jamovi's Data Library.
+- Added separate left and right spacing controls for forest plots.
+- Added options to choose the models used to identify missing studies and pool results in trim-and-fill analysis.
+- Improved the appearance and readability of contour-enhanced funnel plots.
+- Fixed an issue where forest plots briefly changed size when updating analysis options.
+- General bug-fixes and improvements.
+
 # MetaJam 0.4.0
 
 - **New Analyses:** Added Precomputed Effect Sizes Meta-Analysis and Incidence Rate Outcomes Meta-Analysis.
