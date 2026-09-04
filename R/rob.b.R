@@ -402,7 +402,7 @@ robClass <- R6::R6Class(
       # patchwork normally aligns grid tracks across plots in the same column.
       # The most visible issue is on the left side: the summary plot's long
       # domain labels force a shared axis alignment that creates unwanted
-      # white space on the left of the traffic-light plot.
+      # white space on the left of the traffic light plot.
       #
       # In addition, un-freed plots retain fixed outer tracks (axes, legends,
       # captions), meaning row 'heights' apply only to the relative panel area

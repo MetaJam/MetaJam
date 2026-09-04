@@ -773,7 +773,7 @@ robResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Image$new(
                 options=options,
                 name="trafficPlot",
-                title="Traffic-Light Plot",
+                title="Traffic Light Plot",
                 renderFun=".trafficPlot",
                 visible="(trafficPlot)",
                 clearWith=list(

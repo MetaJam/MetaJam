@@ -24,7 +24,7 @@ description: >-
   sample size.</li> </ul> </li> <li><b>Precomputed Effect Sizes
   Meta-Analysis:</b> Analyze precomputed effect sizes with standard errors or
   confidence intervals.</li> <li><b>Risk of Bias Plots:</b> Create summary and
-  traffic-light plots from risk-of-bias assessments using RoB 2, RoB 2
+  traffic light plots from risk-of-bias assessments using RoB 2, RoB 2
   (cluster), ROBINS-I, ROBINS-E, QUADAS-2, and QUIPS.</li> </ul>
   <b>Meta-Analysis Features:</b> Common-effect and random-effects models,
   subgroup analysis, meta-regression, leave-one-out analysis, cumulative

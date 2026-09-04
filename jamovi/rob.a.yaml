@@ -462,7 +462,7 @@ options:
     default: true
 
   - name: trafficPlot
-    title: Traffic-light plot
+    title: Traffic light plot
     type: Bool
     default: true
 
@@ -477,7 +477,7 @@ options:
     options:
       - title: Summary plot first
         name: summaryFirst
-      - title: Traffic-light plot first
+      - title: Traffic light plot first
         name: trafficFirst
     default: summaryFirst
 
@@ -506,7 +506,7 @@ options:
     default: cochrane
 
   - name: pointSize
-    title: Traffic-light size
+    title: Traffic light size
     type: Number
     default: 10
     min: 0
