@@ -37,7 +37,7 @@ Imports:
     utils
 Remotes: 
     guido-s/metabook@a6ed112037848941c4b27071a12c4165af6edffd,
-    guido-s/meta@97ef09a7e57d4a3c87578e484ef63dcae125ec2e,
+    guido-s/meta@f0b3e518dc96f95d74372feb6dc1e0aae46628b2,
     mcguinlu/robvis@70d69aeaf20cb3725b1d4919f23b824095a508b8
 Config/roxygen2/version: 8.1.0
 Encoding: UTF-8

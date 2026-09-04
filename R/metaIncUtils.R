@@ -135,9 +135,6 @@ renderIncForest <- function(self, sortKey) {
     args$digits.time <- as.integer(options$digitsTime)
   }
 
-  # TODO: Include "BMJ" after meta::forest() permits centered group headings.
-  # In meta/R/forest.R:11392-11402, BMJ forces both headings to use "left"
-  # instead of the requested just.label.e and just.label.c values.
   if (options$forestLayout %in% c("meta", "RevMan5")) {
     args <- c(
       args,
@@ -191,9 +188,6 @@ renderIncSubgroupForest <- function(self, key, sortKey) {
     args$digits.time <- as.integer(options$subgroupDigitsTime)
   }
 
-  # TODO: Include "BMJ" after meta::forest() permits centered group headings.
-  # In meta/R/forest.R:11392-11402, BMJ forces both headings to use "left"
-  # instead of the requested just.label.e and just.label.c values.
   if (options$subgroupForestLayout %in% c("meta", "RevMan5")) {
     args <- c(
       args,
