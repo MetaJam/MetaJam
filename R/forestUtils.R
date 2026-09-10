@@ -281,7 +281,7 @@ applyCachedSize <- function(image, sizeCache, sizeCacheKey = NULL) {
 
 #' Calculate Forest Plot Dimensions
 #'
-#' Renders the forest plot in a null PDF device and extracts the true
+#' Measures the forest plot on a non-rendering ragg device and extracts
 #' width and height from `meta`'s internal grid layout.
 #'
 #' `meta::forest()` constructs a [grid::grid.layout()] with exact
@@ -289,24 +289,102 @@ applyCachedSize <- function(image, sizeCache, sizeCacheKey = NULL) {
 #' The `figheight` value returned by `meta::forest()` is only a
 #' heuristic row-count estimate (via the internal `gh()` function)
 #' used to size file devices before the layout exists; the grid
-#' layout captured here is the authoritative source of dimensions.
+#' layout captured here supplies the dimensions for the measuring device.
 #'
-#' A small padding is added to account for elements that extend
-#' beyond the grid layout (x-axis tick labels, floating labels such
-#' as `label.left` / `label.right`).
+#' ## Why `ragg` is the Single Source of Truth
+#' In jamovi, dynamic per-device sizing is impossible: `Image$setSize()`
+#' accepts only a single logical size (in 72 units per inch) that jamovi
+#' reuses for both live rendering and all export formats (`saveAs`):
+#' - Live display: `ragg::agg_png` at screen `ppi`
+#' - PNG export: `ragg::agg_png` at 144 PPI
+#' - PDF export: `grDevices::cairo_pdf`
+#' - SVG export: `grDevices::svg`
+#' - EPS export: `grDevices::cairo_ps`
+#' - PPTX export: `export::graph2ppt` (DrawingML via `rvg`)
+#'
+#' Base R's `pdf(file = NULL)` measures text with built-in PostScript Helvetica
+#' AFM metrics rather than resolving the system's generic `sans` font. This
+#' happened to work on Windows and macOS because Helvetica AFM is close in width
+#' to the Arial and Helvetica fonts selected by jamovi's rendering devices on
+#' those systems. It failed in Linux jamovi because the live ragg renderer
+#' resolves generic `sans` through systemfonts/fontconfig to DejaVu Sans, which
+#' measured about 13% wider than Helvetica AFM in the device experiment. The old
+#' PDF measurement therefore underestimated the width required by the live plot.
+#'
+#' Each jamovi output format uses a graphics device, and those devices do not
+#' always select the exact same default font. The experiment found:
+#' - On Windows, ragg (display and PNG) uses Arial, Cairo (PDF, SVG, and EPS)
+#'   uses ArialMT, and PowerPoint uses Arial.
+#' - On macOS, ragg (display and PNG) and Cairo (PDF, SVG, and EPS) use
+#'   Helvetica, while PowerPoint uses Arial.
+#' - On the Ubuntu GitHub runner, ragg (display and PNG) and PowerPoint use
+#'   DejaVu Sans, while Cairo (PDF, SVG, and EPS) uses the narrower Nimbus Sans.
+#'   In the official jamovi Docker image, Cairo (PDF, SVG, and EPS) instead uses
+#'   DejaVu Sans because that image has a different set of installed fonts.
+#'
+#' MetaJam measures with ragg because jamovi uses it for the displayed plot and
+#' PNG export, which are the main output path. Across the tested platforms, most
+#' other export devices used the same default sans font as ragg or a metrically
+#' similar counterpart (such as Arial, ArialMT, and Helvetica). The remaining
+#' devices used narrower fonts, so the ragg measurement plus the existing +0.3
+#' inch width padding also contained those outputs. The experiment found no
+#' new-size containment failures on Windows, Ubuntu, or macOS.
+#'
+#' ## Layout Spacing Note (RevMan Layout on Linux)
+#' In continuous outcomes meta-analysis with `layout = "RevMan5"`, the default
+#' 2 mm `colgap.forest.left` can cause the '95% CI' column header to touch the
+#' 'IV, Fixed...' forest header in Linux jamovi because DejaVu Sans is wider
+#' than the Arial and Helvetica defaults used on Windows and macOS. We keep the
+#' 2 mm default to preserve the compact layout on those systems. Linux users can
+#' adjust spacing in the Dimensions tab, where the UI includes an explicit note:
+#' "If text overlaps in the forest plot, adjust spacing in the Dimensions
+#' tab".
+#'
+#' ## Risk of Bias Traffic Light Plot Footnote Overlap on Linux
+#' `robvis:::get_width()` estimates width from character counts rather than font
+#' metrics. In Linux jamovi, the wider DejaVu Sans can therefore make
+#' long domain footnotes collide with the legend. This occurred for ROB2,
+#' ROB2-Cluster, ROBINS-I, and ROBINS-E in testing, but not for the shorter
+#' QUADAS-2 and QUIPS text. Dynamic font measurement is not justified for this
+#' secondary plot; users can widen it when the overlap occurs.
+#'
+#' ## Future `forestploter` Integration Note
+#' `forestploter::forest()` eagerly evaluates unit conversions (e.g. axis
+#' height, arrow width, title height) during plot construction, and
+#' `forestploter::get_wh()` queries the ambient device. When adding
+#' `forestploter`, the entire sequence:
+#' 1. Open `ragg::agg_record()`,
+#' 2. Construct `forestploter::forest(...)` inside that device,
+#' 3. Call `forestploter::get_wh()` on that object,
+#' 4. Close the device,
+#' must execute within the single `ragg` session to guarantee consistent
+#' metrics.
 #'
 #' @param renderCall A zero-argument closure that renders the forest plot.
 #' @return A list with `width` and `height` in inches.
 #' @noRd
 calcForestDims <- function(renderCall) {
   oldDev <- grDevices::dev.cur()
-  grDevices::pdf(file = NULL)
+
+  # Open a non-rendering ragg device to query systemfonts/textshaping metrics
+  # without allocating an in-memory pixel buffer or creating temporary files.
+  ragg::agg_record()
   on.exit({
     grDevices::dev.off()
     if (oldDev > 1) grDevices::dev.set(oldDev)
   })
 
-  gtree <- grid::grid.grabExpr(renderCall())
+  # Print devices normally initialize the graphics-engine display list with
+  # recording OFF. ragg::agg_record() is different: it deliberately initializes
+  # that display list with recording ON so graphics can be captured later with
+  # recordPlot(). This function does not use recordPlot(). grid::grid.grab()
+  # reads grid's separate display list, which remains available when the
+  # graphics-engine list is inhibited. Turning off the unused engine list here
+  # avoids recording a second copy of the drawing operations in memory.
+  grDevices::dev.control(displaylist = "inhibit")
+
+  renderCall()
+  gtree <- grid::grid.grab()
 
   # The main viewport's layout sits at the vpTree parent
   layout <- gtree$childrenvp[[1]]$parent$layout
