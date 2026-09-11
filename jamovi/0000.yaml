@@ -129,6 +129,14 @@ datasets:
     tags:
       - Meta-Analysis
       - Single Means
+  - name: Prescription Opioid Misuse
+    path: PrescriptionOpioidMisuse.omv
+    description: >-
+      Prevalence of prescription opioid misuse from 15 studies of people aged 11
+      to 30 years in the United States (Jordan et al., 2017).
+    tags:
+      - Meta-Analysis
+      - Single Proportions
   - name: Environmental Tobacco Smoke
     path: EnvironmentalTobaccoSmoke.omv
     description: >-
