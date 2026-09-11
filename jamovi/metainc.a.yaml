@@ -81,9 +81,9 @@ options:
     options:
       - title: No correction
         name: none
-      - title: Only zero-event studies
+      - title: Only studies with zero events
         name: only0
-      - title: All studies if any zero event
+      - title: All studies if any has zero events
         name: if0all
       - title: All studies
         name: all

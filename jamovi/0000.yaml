@@ -15,24 +15,25 @@ description: >-
   <b>MetaJam</b> is a comprehensive <b>meta</b>-analysis module for
   <b>jam</b>ovi, powered by the R package meta.<br><br> <b>Available
   Analyses:</b> <ul> <li><b>Two-Group Meta-Analysis:</b> <ul> <li><b>Continuous
-  Outcomes:</b> Analyze continuous outcome data using mean, standard deviation,
-  and sample size.</li> <li><b>Binary Outcomes:</b> Analyze binary outcome data
-  using event counts and sample size.</li> <li><b>Incidence Rate Outcomes:</b>
-  Analyze incidence rate outcome data using event counts and person-time.</li>
-  </ul> </li> <li><b>Single-Group Meta-Analysis:</b> <ul> <li><b>Single
-  Means:</b> Analyze single-group data using mean, standard deviation, and
-  sample size.</li> </ul> </li> <li><b>Precomputed Effect Sizes
-  Meta-Analysis:</b> Analyze precomputed effect sizes with standard errors or
-  confidence intervals.</li> <li><b>Risk of Bias Plots:</b> Create summary and
-  traffic light plots from risk-of-bias assessments using RoB 2, RoB 2
-  (cluster), ROBINS-I, ROBINS-E, QUADAS-2, and QUIPS.</li> </ul>
-  <b>Meta-Analysis Features:</b> Common-effect and random-effects models,
-  subgroup analysis, meta-regression, leave-one-out analysis, cumulative
-  meta-analysis, and publication bias.<br><br> <b>For documentation, tutorials,
-  and support, please visit:</b> <a href="https://metajam.pages.dev"
-  target="_blank">metajam.pages.dev</a><br><br> <small><i>* Note: This module is
-  under active development. Future updates will add single proportions, single
-  incidence rates, and correlation meta-analyses.</i></small>
+  Outcomes:</b> Analyze continuous outcome data using means, standard
+  deviations, and sample sizes.</li> <li><b>Binary Outcomes:</b> Analyze binary
+  outcome data using event counts and sample sizes.</li> <li><b>Incidence Rate
+  Outcomes:</b> Analyze incidence rate outcome data using event counts and
+  person-time.</li> </ul> </li> <li><b>Single-Group Meta-Analysis:</b> <ul>
+  <li><b>Single Means:</b> Analyze single-group data using means, standard
+  deviations, and sample sizes.</li> <li><b>Single Proportions:</b> Analyze
+  single-group data using event counts and sample sizes.</li> </ul> </li>
+  <li><b>Precomputed Effect Sizes Meta-Analysis:</b> Analyze precomputed effect
+  sizes with standard errors or confidence intervals.</li> <li><b>Risk of Bias
+  Plots:</b> Create summary and traffic light plots from risk-of-bias
+  assessments using RoB 2, RoB 2 (cluster), ROBINS-I, ROBINS-E, QUADAS-2, and
+  QUIPS.</li> </ul> <b>Meta-Analysis Features:</b> Common-effect and
+  random-effects models, subgroup analysis, meta-regression, leave-one-out
+  analysis, cumulative meta-analysis, and publication bias.<br><br> <b>For
+  documentation, tutorials, and support, please visit:</b> <a
+  href="https://metajam.pages.dev" target="_blank">metajam.pages.dev</a><br><br>
+  <small><i>* Note: This module is under active development. Future updates will
+  add single incidence rates and correlations meta-analyses.</i></small>
 analyses:
   - title: Continuous Outcomes Meta-Analysis
     name: metaCont
@@ -66,6 +67,14 @@ analyses:
     menuSubgroup: Single-Group Meta-Analysis
     menuTitle: Single Means
     menuSubtitle: Mean, SD, Total
+  - title: Single Proportions Meta-Analysis
+    name: metaProp
+    ns: MetaJam
+    category: analyses
+    menuGroup: MetaJam
+    menuSubgroup: Single-Group Meta-Analysis
+    menuTitle: Single Proportions
+    menuSubtitle: Events, Total
   - title: Precomputed Effect Sizes Meta-Analysis
     name: metaGen
     ns: MetaJam

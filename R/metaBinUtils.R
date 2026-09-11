@@ -242,28 +242,34 @@ buildBinArgs <- function(self) {
   incr <- options$incr
   method.incr <- options$correctionMethod
 
-  if (method.incr == "none") {
+  # Peto does not use a continuity correction. Although meta sets incr to zero
+  # internally, explicitly force it here to align with the disabled UI.
+  if (options$method == "Peto" || method.incr == "none") {
     incr <- 0
     method.incr <- "only0"
   }
 
   allstudies <- options$allstudies
 
-  if (options$method == "Peto" || incr == 0) {
+  if (options$method == "Peto" || incr == 0 || options$sm == "RD") {
     # meta still reads allstudies for Peto. If TRUE, non-informative
     # rows can be carried further internally (e.g. undefined SEs become
     # Inf), but they still get zero useful weight and the pooled Peto
     # result is unchanged. For Peto this option should be FALSE. Since
     # we disable it in the UI but meta does not fully disable it
-    # internally, force it off here; otherwise meta gives a warning
-    # when the stored value is TRUE.
+    # internally, force it off here to prevent meta from warning on
+    # sparse data when the stored value is TRUE.
     #
     # The same truthfulness issue happens when incr is zero. In meta::metabin(),
     # allstudies=TRUE first marks double-zero / all-event studies as included,
     # but with no continuity correction their effect size or standard error is
-    # still undefined. They then receive zero weight and do not increase k,
-    # while the returned object still stores allstudies=TRUE. Force FALSE so
+    # still undefined. They do not contribute to the pooled estimate or increase
+    # k, while the returned object still stores allstudies=TRUE. Force FALSE so
     # the stored model matches what actually contributed to the estimate.
+    #
+    # For RD, allstudies is not applicable. Leaving it TRUE would not change
+    # the results, but force FALSE to keep the stored model aligned with the
+    # disabled UI.
     allstudies <- FALSE
   }
 

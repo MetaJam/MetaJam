@@ -1,8 +1,8 @@
-name: metaBin
-title: Binary Outcomes Meta-Analysis
+name: metaProp
+title: Single Proportions Meta-Analysis
 menuGroup: MetaJam
-menuSubgroup: Two-Group Meta-Analysis
-menuTitle: Binary Outcomes
+menuSubgroup: Single-Group Meta-Analysis
+menuTitle: Single Proportions
 menuSubtitle: Events, Total
 version: "1.0.0"
 jas: "1.2"
@@ -21,32 +21,16 @@ options:
       - factor
       - id
 
-  - name: eventE
-    title: Events (Experimental)
+  - name: event
+    title: Events
     type: Variable
     suggested:
       - continuous
     permitted:
       - numeric
 
-  - name: nE
-    title: Total (Experimental)
-    type: Variable
-    suggested:
-      - continuous
-    permitted:
-      - numeric
-
-  - name: eventC
-    title: Events (Control)
-    type: Variable
-    suggested:
-      - continuous
-    permitted:
-      - numeric
-
-  - name: nC
-    title: Total (Control)
+  - name: n
+    title: Total
     type: Variable
     suggested:
       - continuous
@@ -54,18 +38,20 @@ options:
       - numeric
 
   - name: sm
-    title: Effect measure
+    title: Transformation
     type: List
     options:
-      - title: Risk ratio (RR)
-        name: RR
-      - title: Odds ratio (OR)
-        name: OR
-      - title: Risk difference (RD)
-        name: RD
-      - title: Vaccine efficacy/effectiveness (VE)
-        name: VE
-    default: RR
+      - title: None
+        name: PRAW
+      - title: Log
+        name: PLN
+      - title: Logit
+        name: PLOGIT
+      - title: Arcsine
+        name: PAS
+      - title: Freeman-Tukey double arcsine
+        name: PFT
+    default: PLOGIT
 
   - name: method
     title: Method
@@ -73,13 +59,9 @@ options:
     options:
       - title: Inverse variance
         name: Inverse
-      - title: Mantel-Haenszel
-        name: MH
-      - title: Peto (OR only)
-        name: Peto
-      - title: Sample size weighting (OR only)
-        name: SSW
-    default: Inverse
+      - title: Generalised linear mixed model (GLMM; logit only)
+        name: GLMM
+    default: GLMM
 
   - name: correctionMethod
     title: Continuity correction
@@ -87,9 +69,9 @@ options:
     options:
       - title: No correction
         name: none
-      - title: Only studies with a zero cell
+      - title: Only studies with zero or all events
         name: only0
-      - title: All studies if any has a zero cell
+      - title: All studies if any has zero or all events
         name: if0all
       - title: All studies
         name: all
@@ -100,11 +82,6 @@ options:
     type: Number
     min: 0
     default: 0.5
-
-  - name: allstudies
-    title: Include studies with zero or all events in both groups
-    type: Bool
-    default: false
 
   - name: model
     title: Model
@@ -122,6 +99,8 @@ options:
     title: Heterogeneity estimator
     type: List
     options:
+      - title: Auto (based on Method)
+        name: auto
       - title: Restricted maximum-likelihood
         name: REML
       - title: Paule-Mandel
@@ -138,7 +117,7 @@ options:
         name: HE
       - title: Empirical Bayes
         name: EB
-    default: REML
+    default: auto
 
   - name: methodRandomCi
     title: Random effects CI method
@@ -161,6 +140,29 @@ options:
     min: 50
     max: 99.9
     default: 95
+
+  - name: nullEffectEnabled
+    title: Test against null value
+    type: Bool
+    default: false
+
+  - name: nullEffect
+    title: Null value
+    type: Number
+    min: 0
+    max: 1
+    default: 0.5
+
+  - name: pscaleEnabled
+    title: Display proportions as events per
+    type: Bool
+    default: false
+
+  - name: pscale
+    title: ""
+    type: Number
+    min: 1
+    default: 1000
 
   - name: summary
     title: Summary
@@ -242,16 +244,6 @@ options:
     type: Bool
     default: false
 
-  - name: labelE
-    title: Experimental label
-    type: String
-    default: Experimental
-
-  - name: labelC
-    title: Control label
-    type: String
-    default: Control
-
   - name: labelLeft
     title: X-axis left label
     type: String
@@ -270,12 +262,12 @@ options:
   - name: xlimLower
     title: Minimum
     type: Number
-    default: 0.1
+    default: 0
 
   - name: xlimUpper
     title: Maximum
     type: Number
-    default: 10
+    default: 1
 
   - name: addrowsCustom
     title: Custom space above footnotes
@@ -567,16 +559,6 @@ options:
     type: Bool
     default: false
 
-  - name: subgroupLabelE
-    title: Experimental label
-    type: String
-    default: Experimental
-
-  - name: subgroupLabelC
-    title: Control label
-    type: String
-    default: Control
-
   - name: subgroupLabelLeft
     title: X-axis left label
     type: String
@@ -595,12 +577,12 @@ options:
   - name: subgroupXlimLower
     title: Minimum
     type: Number
-    default: 0.1
+    default: 0
 
   - name: subgroupXlimUpper
     title: Maximum
     type: Number
-    default: 10
+    default: 1
 
   - name: subgroupAddrowsCustom
     title: Custom space above footnotes
@@ -912,12 +894,12 @@ options:
   - name: leaveOneOutXlimLower
     title: Minimum
     type: Number
-    default: 0.1
+    default: 0
 
   - name: leaveOneOutXlimUpper
     title: Maximum
     type: Number
-    default: 10
+    default: 1
 
   - name: leaveOneOutAddrowsCustom
     title: Custom space above footnotes
@@ -1163,12 +1145,12 @@ options:
   - name: cumulativeXlimLower
     title: Minimum
     type: Number
-    default: 0.1
+    default: 0
 
   - name: cumulativeXlimUpper
     title: Maximum
     type: Number
-    default: 10
+    default: 1
 
   - name: cumulativeAddrowsCustom
     title: Custom space above footnotes
@@ -1383,23 +1365,17 @@ options:
     title: Method
     type: List
     options:
-      - title: Auto (based on Effect measure)
-        name: auto
       - title: Egger
         name: Egger
       - title: Begg
         name: Begg
       - title: Thompson
         name: Thompson
-      - title: Harbord
-        name: Harbord
       - title: Peters
         name: Peters
       - title: Macaskill
         name: Macaskill
-      - title: Schwarzer
-        name: Schwarzer
-    default: auto
+    default: Egger
 
   - name: asymmetrySummary
     title: Summary

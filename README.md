@@ -22,15 +22,17 @@ the R package [meta](https://cran.r-project.org/package=meta).
 
 - **Two-Group Meta-Analysis:**
   - **Continuous Outcomes:** Analyze continuous outcome data using
-    mean, standard deviation, and sample size for the experimental and
+    means, standard deviations, and sample sizes for the experimental and
     control groups.
   - **Binary Outcomes:** Analyze binary outcome data using
-    event counts and sample size for the experimental and control groups.
+    event counts and sample sizes for the experimental and control groups.
   - **Incidence Rate Outcomes:** Analyze incidence rate outcome data using
     event counts and person-time for the experimental and control groups.
 - **Single-Group Meta-Analysis:**
-  - **Single Means:** Analyze single-group data using mean, standard deviation,
-    and sample size.
+  - **Single Means:** Analyze single-group data using means, standard deviations,
+    and sample sizes.
+  - **Single Proportions:** Analyze single-group data using event counts and
+    sample sizes.
 - **Precomputed Effect Sizes Meta-Analysis:** Analyze precomputed effect sizes
   with standard errors or confidence intervals.
 - **Risk of Bias Plots:** Create summary and traffic light plots from

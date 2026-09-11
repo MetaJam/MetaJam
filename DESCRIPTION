@@ -15,11 +15,11 @@ Authors@R: c(
 Description: A comprehensive meta-analysis module for jamovi, powered by
     the R package meta. It features two-group meta-analysis for
     continuous, binary, and incidence rate outcomes, single-group
-    meta-analysis of means, precomputed effect sizes meta-analysis, and
-    risk-of-bias plots. Meta-analysis features include common-effect and
-    random-effects models, subgroup analysis, meta-regression,
-    leave-one-out analysis, cumulative meta-analysis, and publication
-    bias.
+    meta-analysis of means and proportions, precomputed effect sizes
+    meta-analysis, and risk-of-bias plots. Meta-analysis features include
+    common-effect and random-effects models, subgroup analysis,
+    meta-regression, leave-one-out analysis, cumulative meta-analysis, and
+    publication bias.
 License: GPL (>= 2)
 Imports: 
     ggplot2 (>= 3.5.0),
