@@ -194,6 +194,28 @@ buildPropArgs <- function(self) {
     return()
   }
 
+  if (options$method == "GLMM") {
+    # jamovi applies jmvcore::validateSafeFormula(), available from our minimum
+    # supported version (2.7.27) onward, to formulas used by modules. This
+    # affects MetaJam because metafor's GLMM formula uses rep():
+    # https://github.com/jamovi/jamovi/issues/1857
+    # Remove this check when minApp is raised to 28.3.0 after that release
+    # becomes Solid.
+    supportsGLMM <- tryCatch(
+      {
+        jmvcore::validateSafeFormula(rep(0, k) ~ 1)
+        TRUE
+      },
+      error = function(e) FALSE
+    )
+
+    if (!supportsGLMM) {
+      jmvcore::reject(
+        "\"Generalised linear mixed model (GLMM)\" requires jamovi version 28.3.0 or later. Update jamovi or change \"Method\" to \"Inverse variance\"." # nolint
+      )
+    }
+  }
+
   if (options$method == "GLMM" && options$sm != "PLOGIT") {
     jmvcore::reject(
       "\"Generalised linear mixed model (GLMM)\" can only be used when \"Transformation\" is \"Logit\". Change \"Transformation\" or \"Method\"." # nolint
