@@ -1,3 +1,11 @@
+# MetaJam 0.6.0
+
+- **New Analysis:** Added Single Proportions Meta-Analysis.
+- Added the Prescription Opioid Misuse sample dataset to jamovi's Data Library.
+- In jamovi 28.3.0 and later, all plots throughout MetaJam are now rendered as SVG instead of PNG, providing sharper, higher-quality graphics.
+- Fixed an issue on Linux that caused forest plots to appear cropped.
+- General bug-fixes and improvements.
+
 # MetaJam 0.5.0
 
 - **New Analyses:** Added Single Means Meta-Analysis and Risk of Bias Plots.
