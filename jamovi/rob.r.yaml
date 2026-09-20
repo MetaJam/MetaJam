@@ -6,6 +6,7 @@ items:
   - name: summaryPlot
     title: Summary Plot
     type: Image
+    mode: vector
     # TODO: Revisit after https://github.com/mcguinlu/robvis/issues/180.
     # Default ROBINS-E plots have overlap/clipping issues with built-in data:
     # - Traffic light plot has caption and legend overlap at the bottom. Because
@@ -87,6 +88,7 @@ items:
   - name: trafficPlot
     title: Traffic Light Plot
     type: Image
+    mode: vector
     renderFun: .trafficPlot
     visible: (trafficPlot)
     clearWith:
@@ -147,6 +149,7 @@ items:
   - name: combinedPlot
     title: Combined Plot
     type: Image
+    mode: vector
     renderFun: .combinedPlot
     visible: (combinedPlot && tool != "ROB2-Cluster")
     clearWith:

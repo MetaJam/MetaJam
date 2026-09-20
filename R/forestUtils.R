@@ -85,7 +85,10 @@ renderForest <- function(model, options, sortKey, ...) {
     test.overall = options$forestTestOverall && hasReference,
     details = options$forestDetails,
     print.I2.ci = options$forestPrintI2Ci,
-    print.tau2.ci = options$forestPrintTau2Ci,
+    # GLMM does not compute a Tau² confidence interval. Explicitly force it
+    # FALSE here to align with the disabled UI.
+    print.tau2.ci = options$forestPrintTau2Ci &&
+      model$method != "GLMM",
     digits = as.integer(options$digitsEffect),
     digits.pval = as.integer(options$digitsPval),
     digits.pval.Q = as.integer(options$digitsPval),
@@ -150,13 +153,49 @@ prepareForestSortKey <- function(
   sortValue <- switch(
     sortBy,
     none = seq_along(model$TE),
-    effect = if (
-      identical(model$sm, "VE") &&
-        isTRUE(model$backtransf)
-    ) {
+    effect = if (!isTRUE(model$backtransf)) {
+      model$TE
+    } else if (inherits(model, "metaprop")) {
+      # forest.meta() displays the observed event / n for every metaprop study
+      # instead of back-transforming TE. This is necessary for PFT, whose
+      # transformation depends on each study's n, and for PLN/PLOGIT when a
+      # continuity correction makes backtransf(TE) differ from event / n.
+      # Applying the rule to every metaprop measure exactly follows upstream
+      # and is also valid for PRAW and PAS, whose ordering already agrees with
+      # TE. Source: meta/R/forest.R lines 4743-4745 and 6816-6817.
+      model$event / model$n
+    } else if (inherits(model, "metarate")) {
+      # forest.meta() likewise displays the observed event / time for every
+      # metarate study instead of back-transforming TE. This is necessary for
+      # IRFT, whose transformation depends on exposure time, and for IR/IRLN
+      # when a continuity correction makes TE represent a corrected rate.
+      # Applying the rule to every metarate measure exactly follows upstream
+      # and is also valid when transformed and observed rate orderings agree.
+      # Source: meta/R/forest.R lines 4766-4769 and 6818-6819.
+      model$event / model$time
+    } else if (inherits(model, "metainf") && identical(model$sm, "PFT")) {
+      # metainf rows are pooled leave-one-out estimates, not observed studies,
+      # so no single event / n is available. For PFT, forest.meta()
+      # back-transforms each row using its own harmonic n; this can change the
+      # ordering of TE. PRAW, PAS, PLN, and PLOGIT use fixed monotonic
+      # back-transformations for leave-one-out estimates, so their displayed
+      # ordering agrees with TE. Source: meta/R/forest.R lines 6793-6801 and
+      # 6820-6821; meta/R/meta-transf.R lines 219-223.
+      meta::asin2p(model$TE, model$n.harmonic.mean)
+    } else if (inherits(model, "metainf") && identical(model$sm, "IRFT")) {
+      # metainf rows are pooled leave-one-out estimates, not observed studies,
+      # so no single event / time is available. For IRFT, forest.meta()
+      # back-transforms each row using its own harmonic exposure time; this can
+      # change the ordering of TE. IR, IRS, and IRLN preserve TE ordering for
+      # leave-one-out estimates because their inverses are fixed and monotonic.
+      # Source: meta/R/forest.R lines 6793-6801 and 6820-6821;
+      # meta/R/meta-transf.R lines 229-230.
+      meta::asin2ir(model$TE, model$t.harmonic.mean)
+    } else if (identical(model$sm, "VE")) {
       # meta displays VE as 100 * (1 - exp(TE)), which decreases as TE
       # increases. Negating TE therefore gives the same displayed-scale
-      # ordering without calculating the complete back-transformation.
+      # ordering without calculating the full back-transformation.
+      # Source: meta/R/meta-transf.R lines 382-383.
       -model$TE
     } else {
       model$TE

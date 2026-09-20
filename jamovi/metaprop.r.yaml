@@ -1,5 +1,5 @@
-name: metaGen
-title: Precomputed Effect Sizes Meta-Analysis
+name: metaProp
+title: Single Proportions Meta-Analysis
 jrs: "1.1"
 
 items:
@@ -7,23 +7,22 @@ items:
     type: Html
     visible: (summary)
     clearWith:
-      - sm
-      - inputMode
       - studyLabel
-      - effectSize
-      - standardError
-      - total
-      - ciStudyLabel
-      - ciEffectSize
-      - ciLevel
-      - ciLower
-      - ciUpper
-      - ciTotal
+      - event
+      - n
+      - sm
+      - method
+      - correctionMethod
+      - incr
       - model
       - methodTau
       - methodRandomCi
       - prediction
       - confidenceLevel
+      - pscaleEnabled
+      - pscale
+      - nullEffectEnabled
+      - nullEffect
     refs:
       - MetaJam
       - metaPackage
@@ -41,23 +40,22 @@ items:
     renderFun: .forestPlot
     visible: (forestPlot)
     clearWith:
-      - sm
-      - inputMode
       - studyLabel
-      - effectSize
-      - standardError
-      - total
-      - ciStudyLabel
-      - ciEffectSize
-      - ciLevel
-      - ciLower
-      - ciUpper
-      - ciTotal
+      - event
+      - n
+      - sm
+      - method
+      - correctionMethod
+      - incr
       - model
       - methodTau
       - methodRandomCi
       - prediction
       - confidenceLevel
+      - pscaleEnabled
+      - pscale
+      - nullEffectEnabled
+      - nullEffect
       - forestLayout
       - sortBy
       - sortDirection
@@ -82,8 +80,6 @@ items:
       - colgapForestRight
       - colgapForestRightUnit
       - digitsEffect
-      - digitsInputEffect
-      - digitsSe
       - digitsPval
       - digitsWeight
       - digitsI2
@@ -103,23 +99,22 @@ items:
     type: Array
     hideHeadingOnlyChild: true
     clearWith:
-      - sm
-      - inputMode
       - studyLabel
-      - effectSize
-      - standardError
-      - total
-      - ciStudyLabel
-      - ciEffectSize
-      - ciLevel
-      - ciLower
-      - ciUpper
-      - ciTotal
+      - event
+      - n
+      - sm
+      - method
+      - correctionMethod
+      - incr
       - model
       - methodTau
       - methodRandomCi
       - prediction
       - confidenceLevel
+      - pscaleEnabled
+      - pscale
+      - nullEffectEnabled
+      - nullEffect
       - subgroupVariables
       - tauCommon
       - predictionSubgroup
@@ -170,8 +165,6 @@ items:
             - subgroupColgapForestRight
             - subgroupColgapForestRightUnit
             - subgroupDigitsEffect
-            - subgroupDigitsInputEffect
-            - subgroupDigitsSe
             - subgroupDigitsPval
             - subgroupDigitsWeight
             - subgroupDigitsI2
@@ -185,23 +178,22 @@ items:
     type: Array
     hideHeadingOnlyChild: true
     clearWith:
-      - sm
-      - inputMode
       - studyLabel
-      - effectSize
-      - standardError
-      - total
-      - ciStudyLabel
-      - ciEffectSize
-      - ciLevel
-      - ciLower
-      - ciUpper
-      - ciTotal
+      - event
+      - n
+      - sm
+      - method
+      - correctionMethod
+      - incr
       - model
       - methodTau
       - methodRandomCi
       - prediction
       - confidenceLevel
+      - pscaleEnabled
+      - pscale
+      - nullEffectEnabled
+      - nullEffect
       - metaRegCovs
       - metaRegFactors
       - metaRegBlocks
@@ -237,23 +229,22 @@ items:
     type: Html
     visible: (leaveOneOut && leaveOneOutSummary)
     clearWith:
-      - sm
-      - inputMode
       - studyLabel
-      - effectSize
-      - standardError
-      - total
-      - ciStudyLabel
-      - ciEffectSize
-      - ciLevel
-      - ciLower
-      - ciUpper
-      - ciTotal
+      - event
+      - n
+      - sm
+      - method
+      - correctionMethod
+      - incr
       - model
       - methodTau
       - methodRandomCi
       - prediction
       - confidenceLevel
+      - pscaleEnabled
+      - pscale
+      - nullEffectEnabled
+      - nullEffect
       - leaveOneOutPrediction
     refs:
       - MetaJam
@@ -272,23 +263,22 @@ items:
     renderFun: .leaveOneOutForestPlot
     visible: (leaveOneOut && leaveOneOutForestPlot)
     clearWith:
-      - sm
-      - inputMode
       - studyLabel
-      - effectSize
-      - standardError
-      - total
-      - ciStudyLabel
-      - ciEffectSize
-      - ciLevel
-      - ciLower
-      - ciUpper
-      - ciTotal
+      - event
+      - n
+      - sm
+      - method
+      - correctionMethod
+      - incr
       - model
       - methodTau
       - methodRandomCi
       - prediction
       - confidenceLevel
+      - pscaleEnabled
+      - pscale
+      - nullEffectEnabled
+      - nullEffect
       - leaveOneOutPrediction
       - leaveOneOutForestLayout
       - leaveOneOutSortBy
@@ -322,23 +312,22 @@ items:
     type: Html
     visible: (cumulative && cumulativeSummary)
     clearWith:
-      - sm
-      - inputMode
       - studyLabel
-      - effectSize
-      - standardError
-      - total
-      - ciStudyLabel
-      - ciEffectSize
-      - ciLevel
-      - ciLower
-      - ciUpper
-      - ciTotal
+      - event
+      - n
+      - sm
+      - method
+      - correctionMethod
+      - incr
       - model
       - methodTau
       - methodRandomCi
       - prediction
       - confidenceLevel
+      - pscaleEnabled
+      - pscale
+      - nullEffectEnabled
+      - nullEffect
       - cumulativeSortBy
       - cumulativeSortDirection
       - cumulativeSortVariable
@@ -360,23 +349,22 @@ items:
     renderFun: .cumulativeForestPlot
     visible: (cumulative && cumulativeForestPlot)
     clearWith:
-      - sm
-      - inputMode
       - studyLabel
-      - effectSize
-      - standardError
-      - total
-      - ciStudyLabel
-      - ciEffectSize
-      - ciLevel
-      - ciLower
-      - ciUpper
-      - ciTotal
+      - event
+      - n
+      - sm
+      - method
+      - correctionMethod
+      - incr
       - model
       - methodTau
       - methodRandomCi
       - prediction
       - confidenceLevel
+      - pscaleEnabled
+      - pscale
+      - nullEffectEnabled
+      - nullEffect
       - cumulativeSortBy
       - cumulativeSortDirection
       - cumulativeSortVariable
@@ -415,23 +403,22 @@ items:
     renderFun: .funnelPlot
     visible: (funnelPlot)
     clearWith:
-      - sm
-      - inputMode
       - studyLabel
-      - effectSize
-      - standardError
-      - total
-      - ciStudyLabel
-      - ciEffectSize
-      - ciLevel
-      - ciLower
-      - ciUpper
-      - ciTotal
+      - event
+      - n
+      - sm
+      - method
+      - correctionMethod
+      - incr
       - model
       - methodTau
       - methodRandomCi
       - prediction
       - confidenceLevel
+      - pscaleEnabled
+      - pscale
+      - nullEffectEnabled
+      - nullEffect
       - funnelStudyLabel
       - funnelContour
       - funnelLegend
@@ -445,23 +432,22 @@ items:
     type: Html
     visible: (asymmetryTest && asymmetrySummary)
     clearWith:
-      - sm
-      - inputMode
       - studyLabel
-      - effectSize
-      - standardError
-      - total
-      - ciStudyLabel
-      - ciEffectSize
-      - ciLevel
-      - ciLower
-      - ciUpper
-      - ciTotal
+      - event
+      - n
+      - sm
+      - method
+      - correctionMethod
+      - incr
       - model
       - methodTau
       - methodRandomCi
       - prediction
       - confidenceLevel
+      - pscaleEnabled
+      - pscale
+      - nullEffectEnabled
+      - nullEffect
       - asymmetryMethod
     refs:
       - MetaJam
@@ -474,25 +460,24 @@ items:
     width: 550
     height: 500
     renderFun: .asymmetryPlot
-    visible: (asymmetryTest && asymmetryPlot)
+    visible: (asymmetryTest && asymmetryPlot && !(asymmetryMethod %in% c("Macaskill", "Peters")))
     clearWith:
-      - sm
-      - inputMode
       - studyLabel
-      - effectSize
-      - standardError
-      - total
-      - ciStudyLabel
-      - ciEffectSize
-      - ciLevel
-      - ciLower
-      - ciUpper
-      - ciTotal
+      - event
+      - n
+      - sm
+      - method
+      - correctionMethod
+      - incr
       - model
       - methodTau
       - methodRandomCi
       - prediction
       - confidenceLevel
+      - pscaleEnabled
+      - pscale
+      - nullEffectEnabled
+      - nullEffect
       - asymmetryMethod
     refs:
       - MetaJam
@@ -502,23 +487,22 @@ items:
     type: Html
     visible: (trimFill && trimFillSummary)
     clearWith:
-      - sm
-      - inputMode
       - studyLabel
-      - effectSize
-      - standardError
-      - total
-      - ciStudyLabel
-      - ciEffectSize
-      - ciLevel
-      - ciLower
-      - ciUpper
-      - ciTotal
+      - event
+      - n
+      - sm
+      - method
+      - correctionMethod
+      - incr
       - model
       - methodTau
       - methodRandomCi
       - prediction
       - confidenceLevel
+      - pscaleEnabled
+      - pscale
+      - nullEffectEnabled
+      - nullEffect
       - trimFillSide
       - trimFillEstimator
       - trimFillIterationModel
@@ -536,23 +520,22 @@ items:
     renderFun: .trimFillFunnelPlot
     visible: (trimFill && trimFillFunnelPlot)
     clearWith:
-      - sm
-      - inputMode
       - studyLabel
-      - effectSize
-      - standardError
-      - total
-      - ciStudyLabel
-      - ciEffectSize
-      - ciLevel
-      - ciLower
-      - ciUpper
-      - ciTotal
+      - event
+      - n
+      - sm
+      - method
+      - correctionMethod
+      - incr
       - model
       - methodTau
       - methodRandomCi
       - prediction
       - confidenceLevel
+      - pscaleEnabled
+      - pscale
+      - nullEffectEnabled
+      - nullEffect
       - trimFillSide
       - trimFillEstimator
       - trimFillIterationModel
@@ -575,23 +558,22 @@ items:
     renderFun: .doiPlot
     visible: (doiPlot)
     clearWith:
-      - sm
-      - inputMode
       - studyLabel
-      - effectSize
-      - standardError
-      - total
-      - ciStudyLabel
-      - ciEffectSize
-      - ciLevel
-      - ciLower
-      - ciUpper
-      - ciTotal
+      - event
+      - n
+      - sm
+      - method
+      - correctionMethod
+      - incr
       - model
       - methodTau
       - methodRandomCi
       - prediction
       - confidenceLevel
+      - pscaleEnabled
+      - pscale
+      - nullEffectEnabled
+      - nullEffect
       - doiPlotLegend
       - doiPlotLegendPos
       - doiPlotLegendCex
@@ -603,23 +585,22 @@ items:
     type: Html
     visible: (lfkIndex)
     clearWith:
-      - sm
-      - inputMode
       - studyLabel
-      - effectSize
-      - standardError
-      - total
-      - ciStudyLabel
-      - ciEffectSize
-      - ciLevel
-      - ciLower
-      - ciUpper
-      - ciTotal
+      - event
+      - n
+      - sm
+      - method
+      - correctionMethod
+      - incr
       - model
       - methodTau
       - methodRandomCi
       - prediction
       - confidenceLevel
+      - pscaleEnabled
+      - pscale
+      - nullEffectEnabled
+      - nullEffect
     refs:
       - MetaJam
       - metasensPackage
