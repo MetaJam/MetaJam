@@ -32,6 +32,7 @@ items:
   - name: plot
     title: Meta-Analysis Forest Plot
     type: Image
+    mode: vector
     renderFun: .forestPlot
     visible: (forestPlot)
     clearWith:
@@ -122,6 +123,7 @@ items:
         - name: subgroupPlot
           title: Subgroup Analysis Forest Plot
           type: Image
+          mode: vector
           renderFun: .subgroupForestPlot
           visible: (subgroupForestPlot && length(subgroupVariables) > 0)
           clearWith:
@@ -199,6 +201,7 @@ items:
         - name: bubblePlot
           title: Bubble Plot
           type: Image
+          mode: vector
           width: 700
           height: 500
           renderFun: .bubblePlot
@@ -240,6 +243,7 @@ items:
   - name: leaveOneOutPlot
     title: Leave-One-Out Analysis Forest Plot
     type: Image
+    mode: vector
     renderFun: .leaveOneOutForestPlot
     visible: (leaveOneOut && leaveOneOutForestPlot)
     clearWith:
@@ -317,6 +321,7 @@ items:
   - name: cumulativePlot
     title: Cumulative Meta-Analysis Forest Plot
     type: Image
+    mode: vector
     renderFun: .cumulativeForestPlot
     visible: (cumulative && cumulativeForestPlot)
     clearWith:
@@ -364,6 +369,7 @@ items:
   - name: funnelPlot
     title: Funnel Plot
     type: Image
+    mode: vector
     width: 550
     height: 500
     renderFun: .funnelPlot
@@ -414,6 +420,7 @@ items:
   - name: asymmetryPlot
     title: Plot (Test for Funnel Plot Asymmetry)
     type: Image
+    mode: vector
     width: 550
     height: 500
     renderFun: .asymmetryPlot
@@ -463,6 +470,7 @@ items:
   - name: trimFillFunnelPlot
     title: Trim-and-Fill Analysis Funnel Plot
     type: Image
+    mode: vector
     width: 550
     height: 500
     renderFun: .trimFillFunnelPlot
@@ -496,6 +504,7 @@ items:
   - name: doiPlot
     title: Doi Plot
     type: Image
+    mode: vector
     width: 550
     height: 500
     renderFun: .doiPlot
