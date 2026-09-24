@@ -25,15 +25,18 @@ runSafe <- function(expr, collector) {
   withCallingHandlers(
     expr,
     warning = function(w) {
-      msg <- w$message
+      msg <- conditionMessage(w)
       if (!grepl("C:/Rtools/home/builder", msg, fixed = TRUE)) {
         collector$warnings <- c(collector$warnings, trimws(msg))
       }
       invokeRestart("muffleWarning")
     },
     message = function(m) {
-      msg <- m$message
-      collector$messages <- c(collector$messages, trimws(msg))
+      msg <- conditionMessage(m)
+      # Package startup output is dependency-loading noise, not analysis feedback.
+      if (!inherits(m, "packageStartupMessage")) {
+        collector$messages <- c(collector$messages, trimws(msg))
+      }
       invokeRestart("muffleMessage")
     }
   )
