@@ -1,5 +1,5 @@
-name: metaProp
-title: Single Proportions Meta-Analysis
+name: metaRate
+title: Single Incidence Rates Meta-Analysis
 jus: "3.0"
 stage: 0
 compilerMode: tame
@@ -28,7 +28,7 @@ children:
       - type: TargetLayoutBox
         children:
           - type: VariablesListBox
-            name: n
+            name: time
             maxItemCount: 1
             isTarget: true
 
@@ -49,14 +49,14 @@ children:
         children:
           - type: ComboBox
             name: correctionMethod
-            enable: (!(sm:PAS || sm:PFT))
+            enable: (!(sm:IRS || sm:IRFT))
             cell:
               row: 0
               column: 0
           - type: TextBox
             name: incr
             format: number
-            enable: (!(sm:PAS || sm:PFT) && !(correctionMethod:none))
+            enable: (!(sm:IRS || sm:IRFT) && !(correctionMethod:none))
             width: normal
             cell:
               row: 0
@@ -94,20 +94,23 @@ children:
       - type: LayoutBox
         children:
           - type: CheckBox
-            name: pscaleEnabled
+            name: irscaleEnabled
             cell:
               row: 0
               column: 0
           - type: TextBox
-            name: pscale
+            name: irscale
             format: number
-            enable: (pscaleEnabled)
+            enable: (irscaleEnabled)
             width: large
             cell:
               row: 0
               column: 1
-          - type: Label
-            label: observations
+          - type: TextBox
+            name: irunit
+            format: string
+            enable: (irscaleEnabled)
+            width: large
             cell:
               row: 0
               column: 2
@@ -285,17 +288,23 @@ children:
                           row: 0
                           column: 0
                       - type: ComboBox
+                        name: digitsTime
+                        enable: (forestPlot)
+                        cell:
+                          row: 1
+                          column: 0
+                      - type: ComboBox
+                        name: digitsPval
+                        enable: (forestPlot)
+                        cell:
+                          row: 2
+                          column: 0
+                      - type: ComboBox
                         name: digitsWeight
                         enable: (forestPlot)
                         cell:
                           row: 0
                           column: 1
-                      - type: ComboBox
-                        name: digitsPval
-                        enable: (forestPlot)
-                        cell:
-                          row: 1
-                          column: 0
                       - type: ComboBox
                         name: digitsI2
                         enable: (forestPlot)
@@ -593,6 +602,22 @@ children:
                           row: 0
                           column: 0
                       - type: ComboBox
+                        name: subgroupDigitsTime
+                        enable: >
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
+                          ui['subgroupForestPlot'].value();})
+                        cell:
+                          row: 1
+                          column: 0
+                      - type: ComboBox
+                        name: subgroupDigitsPval
+                        enable: >
+                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
+                          ui['subgroupForestPlot'].value();})
+                        cell:
+                          row: 2
+                          column: 0
+                      - type: ComboBox
                         name: subgroupDigitsWeight
                         enable: >
                           ({return (ui['subgroupVariables'].value() || []).length > 0 &&
@@ -600,14 +625,6 @@ children:
                         cell:
                           row: 0
                           column: 1
-                      - type: ComboBox
-                        name: subgroupDigitsPval
-                        enable: >
-                          ({return (ui['subgroupVariables'].value() || []).length > 0 &&
-                          ui['subgroupForestPlot'].value();})
-                        cell:
-                          row: 1
-                          column: 0
                       - type: ComboBox
                         name: subgroupDigitsI2
                         enable: >
@@ -1105,10 +1122,7 @@ children:
                     enable: (asymmetryTest)
                   - type: CheckBox
                     name: asymmetryPlot
-                    enable: >
-                      (asymmetryTest &&
-                      !(asymmetryMethod:Macaskill ||
-                      asymmetryMethod:Peters))
+                    enable: (asymmetryTest)
           - type: Content
             name: trimFill
             children:

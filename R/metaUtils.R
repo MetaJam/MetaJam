@@ -102,10 +102,10 @@ prepareModelForImages <- function(model, images) {
 #' R's `do.call()` injects entire function closures into the model's `$call`
 #' when we invoke the functions dynamically. Additionally, the `meta` package
 #' internally creates environments and closures for certain components (like
-#' GLMM fits in metaprop/metabin). This utility strips these heavy closures and
-#' formula environments out before caching the model to prevent massive
-#' serialization size bloat. It applies to base `meta` objects (metacont,
-#' metabin, metaprop, etc.).
+#' GLMM fits in metaprop/metabin/metarate). This utility strips these heavy
+#' closures and formula environments out before caching the model to prevent
+#' massive serialization size bloat. It applies to base `meta` objects
+#' (metacont, metabin, metaprop, metarate, etc.).
 #'
 #' @param model A `meta` object.
 #' @return The cleaned model.
