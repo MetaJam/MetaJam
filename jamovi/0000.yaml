@@ -147,6 +147,15 @@ datasets:
     tags:
       - Meta-Analysis
       - Single Proportions
+  - name: Catheter-Related Bloodstream Infections
+    path: CatheterRelatedBloodstreamInfections.omv
+    description: >-
+      Incidence rate of catheter-related bloodstream infections from 9 studies
+      of patients receiving standard central venous catheters for total
+      parenteral nutrition or chemotherapy (Niel-Weise et al., 2008).
+    tags:
+      - Meta-Analysis
+      - Single Incidence Rates
   - name: Environmental Tobacco Smoke
     path: EnvironmentalTobaccoSmoke.omv
     description: >-
