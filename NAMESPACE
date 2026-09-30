@@ -2,6 +2,7 @@
 
 export(metaBin)
 export(metaCont)
+export(metaCor)
 export(metaGen)
 export(metaInc)
 export(metaMean)

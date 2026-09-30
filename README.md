@@ -35,6 +35,8 @@ the R package [meta](https://cran.r-project.org/package=meta).
     sample sizes.
   - **Single Incidence Rates:** Analyze single-group data using event counts and
     person-time.
+- **Correlations Meta-Analysis:** Analyze correlation coefficients with sample
+  sizes.
 - **Precomputed Effect Sizes Meta-Analysis:** Analyze precomputed effect sizes
   with standard errors or confidence intervals.
 - **Risk of Bias Plots:** Create summary and traffic light plots from

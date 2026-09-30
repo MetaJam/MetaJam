@@ -97,7 +97,10 @@ renderLeaveOneOutForest <- function(self, sortKey) {
   }
 
   hasReference <-
-    !inherits(self$model, c("metamean", "metaprop", "metarate")) ||
+    !inherits(
+      self$model,
+      c("metamean", "metaprop", "metarate", "metacor")
+    ) ||
     !is.na(self$model$null.effect)
 
   colgap.left <- paste0(

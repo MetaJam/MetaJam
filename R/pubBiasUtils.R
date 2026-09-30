@@ -201,7 +201,10 @@ renderFunnelPlot <- function(self) {
   }
 
   useContour <- options$funnelContour &&
-    (!inherits(model, c("metamean", "metaprop", "metarate")) ||
+    (!inherits(
+      model,
+      c("metamean", "metaprop", "metarate", "metacor")
+    ) ||
       !is.na(model$null.effect))
 
   if (useContour) {
@@ -321,7 +324,10 @@ renderTrimFillFunnelPlot <- function(self) {
 
   opts <- self$options
   useContour <- opts$trimFillFunnelContour &&
-    (!inherits(self$model, c("metamean", "metaprop", "metarate")) ||
+    (!inherits(
+      self$model,
+      c("metamean", "metaprop", "metarate", "metacor")
+    ) ||
       !is.na(self$model$null.effect))
 
   if (useContour) {

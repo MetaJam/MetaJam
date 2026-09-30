@@ -16,7 +16,7 @@
 renderForest <- function(model, options, sortKey, ...) {
   extraArgs <- list(...)
   hasReference <-
-    !inherits(model, c("metamean", "metaprop", "metarate")) ||
+    !inherits(model, c("metamean", "metaprop", "metarate", "metacor")) ||
     !is.na(model$null.effect)
 
   # Format numeric gaps into strings with units (e.g. "2mm")
@@ -81,7 +81,8 @@ renderForest <- function(model, options, sortKey, ...) {
       isTRUE(model$common) &&
       isTRUE(model$random) &&
       isTRUE(extraArgs$test.effect.subgroup),
-    # Single-arm models only test overall effect when a null value is specified
+    # Single-arm and correlation models only test overall effect when a null
+    # value is specified
     test.overall = options$forestTestOverall && hasReference,
     details = options$forestDetails,
     print.I2.ci = options$forestPrintI2Ci,
