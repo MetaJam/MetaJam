@@ -163,6 +163,15 @@ datasets:
     tags:
       - Meta-Analysis
       - Single Incidence Rates
+  - name: Health and Well-Being
+    path: HealthAndWellbeing.omv
+    description: >-
+      Correlations between health status and subjective well-being from 29
+      studies, with well-being measured as life satisfaction or happiness
+      (Ngamaba et al., 2017).
+    tags:
+      - Meta-Analysis
+      - Correlations
   - name: Environmental Tobacco Smoke
     path: EnvironmentalTobaccoSmoke.omv
     description: >-
