@@ -16,13 +16,14 @@ Description: A comprehensive meta-analysis module for jamovi, powered by
     the R package meta. It features two-group meta-analysis for
     continuous, binary, and incidence rate outcomes, single-group
     meta-analysis of means, proportions, and incidence rates, correlations
-    meta-analysis, precomputed effect sizes meta-analysis, and
-    risk-of-bias plots. Meta-analysis features include common-effect and
-    random-effects models, subgroup analysis, meta-regression,
-    leave-one-out analysis, cumulative meta-analysis, and publication
-    bias.
+    meta-analysis, precomputed effect sizes meta-analysis, customizable
+    forest plots, and risk-of-bias plots. Meta-analysis features include
+    common-effect and random-effects models, subgroup analysis,
+    meta-regression, leave-one-out analysis, cumulative meta-analysis, and
+    publication bias.
 License: GPL (>= 2)
 Imports: 
+    forestploter (>= 1.2.0),
     ggplot2 (>= 3.5.0),
     graphics,
     grDevices,
@@ -38,6 +39,7 @@ Imports:
     stats,
     utils
 Remotes: 
+    adayim/forestploter@0e04d9dc911867328ab4271f2a69119df4d65565,
     guido-s/metabook@a6ed112037848941c4b27071a12c4165af6edffd,
     guido-s/meta@f0b3e518dc96f95d74372feb6dc1e0aae46628b2,
     mcguinlu/robvis@70d69aeaf20cb3725b1d4919f23b824095a508b8

@@ -27,14 +27,15 @@ description: >-
   person-time.</li> </ul> </li> <li><b>Correlations Meta-Analysis:</b> Analyze
   correlation coefficients with sample sizes.</li> <li><b>Precomputed Effect
   Sizes Meta-Analysis:</b> Analyze precomputed effect sizes with standard errors
-  or confidence intervals.</li> <li><b>Risk of Bias Plots:</b> Create summary
-  and traffic light plots from risk-of-bias assessments using RoB 2, RoB 2
-  (cluster), ROBINS-I, ROBINS-E, QUADAS-2, and QUIPS.</li> </ul>
-  <b>Meta-Analysis Features:</b> Common-effect and random-effects models,
-  subgroup analysis, meta-regression, leave-one-out analysis, cumulative
-  meta-analysis, and publication bias.<br><br> <b>For documentation, tutorials,
-  and support, please visit:</b> <a href="https://metajam.pages.dev"
-  target="_blank">metajam.pages.dev</a>
+  or confidence intervals.</li> <li><b>Forest Plot Builder:</b> Create
+  customizable forest plots from effect sizes and confidence intervals.</li>
+  <li><b>Risk of Bias Plots:</b> Create summary and traffic light plots from
+  risk-of-bias assessments using RoB 2, RoB 2 (cluster), ROBINS-I, ROBINS-E,
+  QUADAS-2, and QUIPS.</li> </ul> <b>Meta-Analysis Features:</b> Common-effect
+  and random-effects models, subgroup analysis, meta-regression, leave-one-out
+  analysis, cumulative meta-analysis, and publication bias.<br><br> <b>For
+  documentation, tutorials, and support, please visit:</b> <a
+  href="https://metajam.pages.dev" target="_blank">metajam.pages.dev</a>
 analyses:
   - title: Continuous Outcomes Meta-Analysis
     name: metaCont
@@ -100,6 +101,13 @@ analyses:
     menuSubgroup: Precomputed Effect Sizes Meta-Analysis
     menuTitle: Precomputed Effect Sizes
     menuSubtitle: Effect Size, SE/CI
+  - title: Forest Plot Builder
+    name: forestPlot
+    ns: MetaJam
+    category: analyses
+    menuGroup: MetaJam
+    menuSubgroup: Supporting Tools
+    menuTitle: Forest Plot Builder
   - title: Risk of Bias Plots
     name: rob
     ns: MetaJam

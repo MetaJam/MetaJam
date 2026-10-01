@@ -39,6 +39,8 @@ the R package [meta](https://cran.r-project.org/package=meta).
   sizes.
 - **Precomputed Effect Sizes Meta-Analysis:** Analyze precomputed effect sizes
   with standard errors or confidence intervals.
+- **Forest Plot Builder:** Create customizable forest plots from effect sizes
+  and confidence intervals.
 - **Risk of Bias Plots:** Create summary and traffic light plots from
   risk-of-bias assessments using RoB 2, RoB 2 (cluster), ROBINS-I, ROBINS-E,
   QUADAS-2, and QUIPS.

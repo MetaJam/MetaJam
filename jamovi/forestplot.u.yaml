@@ -1,0 +1,42 @@
+name: forestPlot
+title: Forest Plot Builder
+jus: "3.0"
+stage: 0
+compilerMode: tame
+children:
+  - type: VariableSupplier
+    persistentItems: true
+    stretchFactor: 1
+    permitted:
+      - numeric
+      - factor
+      - id
+    children:
+      - type: TargetLayoutBox
+        children:
+          - type: VariablesListBox
+            name: effectSize
+            maxItemCount: 1
+            isTarget: true
+      - type: TargetLayoutBox
+        children:
+          - type: VariablesListBox
+            name: ciLower
+            maxItemCount: 1
+            isTarget: true
+      - type: TargetLayoutBox
+        children:
+          - type: VariablesListBox
+            name: ciUpper
+            maxItemCount: 1
+            isTarget: true
+      - type: TargetLayoutBox
+        children:
+          - type: VariablesListBox
+            name: leftColumns
+            isTarget: true
+      - type: TargetLayoutBox
+        children:
+          - type: VariablesListBox
+            name: rightColumns
+            isTarget: true
