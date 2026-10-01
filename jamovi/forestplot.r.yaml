@@ -1,0 +1,25 @@
+name: forestPlot
+title: Forest Plot Builder
+jrs: "1.1"
+
+items:
+  - name: plotSizeCache
+    type: Group
+    visible: false
+    clearWith: []
+    items: []
+
+  - name: plot
+    title: Forest Plot
+    type: Image
+    mode: vector
+    renderFun: .forestPlot
+    clearWith:
+      - effectSize
+      - ciLower
+      - ciUpper
+      - leftColumns
+      - rightColumns
+    refs:
+      - MetaJam
+      - forestploterPackage

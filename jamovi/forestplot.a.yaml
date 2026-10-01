@@ -1,0 +1,51 @@
+name: forestPlot
+title: Forest Plot Builder
+menuGroup: MetaJam
+menuSubgroup: Supporting Tools
+menuTitle: Forest Plot Builder
+version: "1.0.0"
+jas: "1.2"
+
+options:
+  - name: data
+    type: Data
+
+  - name: effectSize
+    title: Effect Size
+    type: Variable
+    suggested:
+      - continuous
+    permitted:
+      - numeric
+
+  - name: ciLower
+    title: Lower Confidence Limit
+    type: Variable
+    suggested:
+      - continuous
+    permitted:
+      - numeric
+
+  - name: ciUpper
+    title: Upper Confidence Limit
+    type: Variable
+    suggested:
+      - continuous
+    permitted:
+      - numeric
+
+  - name: leftColumns
+    title: Left Columns (optional)
+    type: Variables
+    permitted:
+      - id
+      - factor
+      - numeric
+
+  - name: rightColumns
+    title: Right Columns (optional)
+    type: Variables
+    permitted:
+      - id
+      - factor
+      - numeric

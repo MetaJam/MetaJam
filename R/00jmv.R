@@ -36,6 +36,13 @@
         `issue`=3, 
         `pages`="1-48", 
         `url`="https://doi.org/10.18637/jss.v036.i03"), 
+    `forestploterPackage`=list(
+        `type`="software", 
+        `author`="Dayimu, A.", 
+        `year`=2026, 
+        `title`="forestploter: Create a Flexible Forest Plot", 
+        `publisher`="[R package]. Retrieved from https://github.com/adayim/forestploter", 
+        `url`="https://github.com/adayim/forestploter"), 
     `robvisPackage`=list(
         `type`="article", 
         `author`="McGuinness, L. A., & Higgins, J. P. T.", 

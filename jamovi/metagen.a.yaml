@@ -109,7 +109,7 @@ options:
     default: 95
 
   - name: ciLower
-    title: Lower confidence limit
+    title: Lower Confidence Limit
     type: Variable
     suggested:
       - continuous
@@ -117,7 +117,7 @@ options:
       - numeric
 
   - name: ciUpper
-    title: Upper confidence limit
+    title: Upper Confidence Limit
     type: Variable
     suggested:
       - continuous
