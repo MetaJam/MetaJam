@@ -128,7 +128,19 @@ forestPlotClass <- R6::R6Class(
       }
 
       plot <- private$.buildPlot(image$state)
-      plot(plot)
+      # Grid starts its first page automatically when drawing or measuring
+      # needs it. Calling .buildPlot() already starts that first page, because
+      # forestploter's measurements (such as convertHeight and convertWidth)
+      # query the active device. Even without those calls, grid.draw() would
+      # start the first page itself, so no grid.newpage() is needed here.
+      # While grid.newpage() is useful to clear an earlier plot or start
+      # another page when reusing a device, we do neither here.
+      # Therefore, we use grid.draw() directly. forestploter's plot() and
+      # print() methods simply wrap grid.draw() with an extra grid.newpage(),
+      # forcing a second page. That pushes the plot behind a blank first page
+      # in PDFs and causes PowerPoint export to fail because its device
+      # supports only one page.
+      grid::grid.draw(plot)
       TRUE
     }
   )
