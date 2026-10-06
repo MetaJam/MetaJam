@@ -64,6 +64,78 @@ hasRequiredVars <- function(options, vars) {
 }
 
 
+#' Omit Rows Where All Required Variables Are Empty
+#'
+#' Omits rows where all required variables are missing. Labels, moderators,
+#' sorting variables, and optional variables do not determine whether a row is
+#' empty, and partially complete rows are retained. Emits an informational
+#' message listing the omitted rows by row name, or stops with an error if all
+#' rows are empty.
+#'
+#' This supports keeping several outcomes in one datasheet with a shared
+#' study label column. A study may have data for one outcome but none for
+#' another. For each analysis, rows with no data in any required variable
+#' are omitted from the analysis. The original datasheet is unchanged,
+#' so those studies can still be used for other outcomes.
+#'
+#' Temporarily assign the returned data frame to `private$.data` in `.run()` so
+#' all downstream models, subgroups, and sorting use the same filtered rows.
+#'
+#' We omit rows at the start of `.run()` because it is currently the only
+#' lifecycle stage in MetaJam with access to the dataset. Other stages do not
+#' have access to the full data: `.init()` and `.postInit()` only receive column
+#' metadata, while image rendering and export run with `self$data` set to `NULL`
+#' because plots rely on cached models rather than requesting raw data
+#' (`requiresData` is not enabled). If another stage accesses raw data in the
+#' future, apply the same row omission there.
+#'
+#' @param self The jamovi analysis object.
+#' @param requiredVars Character vector of option names for the variables
+#'   required by this analysis, such as `c("eventE", "nE", "eventC", "nC")`.
+#' @return The data frame with empty rows omitted.
+#' @noRd
+omitEmptyRows <- function(self, requiredVars) {
+  data <- self$data
+  options <- self$options
+  emptyRows <- rep(TRUE, nrow(data))
+
+  for (optionName in requiredVars) {
+    column <- data[[options[[optionName]]]]
+    emptyRows <- emptyRows & is.na(jmvcore::toNumeric(column))
+  }
+
+  if (all(emptyRows)) {
+    jmvcore::reject("All required variables are empty.")
+  }
+
+  if (!any(emptyRows)) {
+    return(data)
+  }
+
+  omitted <- sum(emptyRows)
+  message(
+    "Omitted ",
+    omitted,
+    " row",
+    if (omitted == 1) "" else "s",
+    " (",
+    paste(rownames(data)[emptyRows], collapse = ", "),
+    ") because all required variables are empty in ",
+    if (omitted == 1) "this row." else "these rows."
+  )
+
+  filteredData <- data[!emptyRows, , drop = FALSE]
+
+  # Like jmvcore::naOmit(), restore column attributes after row subsetting.
+  # This preserves jamovi's numeric value mappings for downstream conversion.
+  for (columnName in names(data)) {
+    attributes(filteredData[[columnName]]) <- attributes(data[[columnName]])
+  }
+
+  filteredData
+}
+
+
 #' Prepare Model Objects for Fixed-Size Images
 #'
 #' Fixed-size images do not pass through `updateForestSize()`. Forest images

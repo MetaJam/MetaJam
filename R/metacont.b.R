@@ -148,6 +148,13 @@ metaContClass <- R6::R6Class(
       collector <- newCollector()
       runSafe(
         {
+          # Save the original data before omitting empty rows.
+          # Restore it when .run() exits.
+          originalData <- self$data
+          on.exit(private$.data <- originalData, add = TRUE)
+
+          private$.data <- omitEmptyRows(self, private$.requiredVars)
+
           sortKey <- prepareForestSortKey(
             image = self$results$plot,
             model = self$model,
