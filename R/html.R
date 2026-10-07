@@ -102,6 +102,15 @@ asHtml <- function(..., title = NULL, modifier = NULL) {
     return(titleHtml)
   }
 
+  # Update note: jamovi 28.8.0 (commit 5ec9db87, issue #1850) adds
+  # min-width: min-content, so the default box can grow beyond 500px
+  # but does not shrink below it. Relying on this fix would require
+  # minApp: 28.8.0.
+  #
+  # We still keep the override below so table-like output fits its
+  # content, including shorter output without unused space, while
+  # preserving our current minApp.
+  #
   # 1. Scoped Style: Forces this result container to max-content width
   #    using :has() (default is 500px, too narrow for wide summary output)
   # 2. Structure: Title div (with bottom line) + Content div (with bottom
