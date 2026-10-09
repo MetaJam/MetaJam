@@ -15,6 +15,18 @@ children:
       - type: TargetLayoutBox
         children:
           - type: VariablesListBox
+            name: rowLabel
+            maxItemCount: 1
+            isTarget: true
+      - type: TargetLayoutBox
+        children:
+          - type: VariablesListBox
+            name: rowType
+            maxItemCount: 1
+            isTarget: true
+      - type: TargetLayoutBox
+        children:
+          - type: VariablesListBox
             name: effectSize
             maxItemCount: 1
             isTarget: true

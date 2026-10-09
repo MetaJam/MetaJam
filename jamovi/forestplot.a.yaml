@@ -10,6 +10,24 @@ options:
   - name: data
     type: Data
 
+  - name: rowLabel
+    title: Row Label (optional)
+    type: Variable
+    suggested:
+      - id
+      - nominal
+    permitted:
+      - id
+      - factor
+
+  - name: rowType
+    title: Row Type (optional)
+    type: Variable
+    suggested:
+      - nominal
+    permitted:
+      - factor
+
   - name: effectSize
     title: Effect Size
     type: Variable

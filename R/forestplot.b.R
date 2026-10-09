@@ -3,7 +3,8 @@ forestPlotClass <- R6::R6Class(
   inherit = forestPlotBase,
 
   private = list(
-    # This analysis always displays its plot, so no visibility checks are needed.
+    # This analysis always displays its plot, so no visibility checks are
+    # needed.
     .postInit = function() {
       image <- self$results$plot
       size <- self$results$plotSizeCache$state
@@ -42,11 +43,29 @@ forestPlotClass <- R6::R6Class(
       }
 
       data <- self$data
-      left <- self$options$leftColumns
+      left <- c(self$options$rowLabel, self$options$leftColumns)
       right <- self$options$rightColumns
 
+      # Normalize and match row types, ignoring blank or missing values.
+      rowTypes <- rep("", nrow(data))
+      if (!is.null(self$options$rowType)) {
+        values <- trimws(tolower(data[[self$options$rowType]]))
+        hasType <- !is.na(values) & nzchar(values)
+        choices <- c("heading", "item", "summary")
+        matches <- pmatch(values[hasType], choices, duplicates.ok = TRUE)
+
+        if (anyNA(matches)) {
+          jmvcore::reject(
+            '"Row Type" values must be "heading", "item", "summary", or blank.'
+          )
+        }
+
+        rowTypes[hasType] <- choices[matches]
+      }
+
       # Convert display columns to text and show missing values as blanks.
-      # Check the original values: converting NaN to text gives the literal "NaN".
+      # Check the original values: converting NaN to text gives the literal
+      # "NaN".
       displayColumns <- lapply(c(left, right), function(variable) {
         column <- data[[variable]]
         ifelse(is.na(column), "", as.character(column))
@@ -55,8 +74,8 @@ forestPlotClass <- R6::R6Class(
       # Use spaces to size the CI column, following forestploter's examples.
       # The target is inspired by meta's standard 6 cm plotting area.
       # With default settings on a Windows ragg device, 48 spaces measured about
-      # 5.64 cm; table padding added 0.40 cm, giving a column about 6.04 cm wide.
-      # The physical width varies with the font and device.
+      # 5.64 cm; table padding added 0.40 cm, giving a column about 6.04 cm
+      # wide. The physical width varies with the font and device.
       nLeftColumns <- length(left)
       plotColumns <- c(
         displayColumns[seq_len(nLeftColumns)],
@@ -66,21 +85,66 @@ forestPlotClass <- R6::R6Class(
       plotData <- as.data.frame(plotColumns)
       names(plotData) <- c(left, " ", right)
 
-      # Store the display table and numeric inputs in image state below so rendering
-      # and export can construct the plot without reloading the raw dataset.
+      # Prepare row styling before forestploter constructs and measures the
+      # table, so bold labels and indentation contribute to its dimensions.
+      #
+      # Font faces follow grid::gpar(): 1 = plain, 2 = bold.
+      #
+      # Create a fontface matrix with the same number of rows and columns as
+      # plotData. Each matrix entry controls the text in the corresponding
+      # table cell. Start with plain text in every cell.
+      #
+      # For summary rows, set every cell in the row to bold.
+      # For heading rows, set only the row-label cell to bold. When selected,
+      # the row-label column is always the first column of plotData.
+      # Item rows keep plain text; their labels are indented separately below.
+      #
+      # gridExtra needs these font faces as a vector in core$fg_params, with
+      # one value for each body cell. The values must follow its cell order:
+      # down the first column, then down the second column, and so on.
+      #
+      # gridExtra pairs each formatting value with the corresponding table
+      # label, reading the labels column by column. It applies that formatting
+      # when creating the cell's text grob, then arranges the grobs into a
+      # matrix column by column (byrow = FALSE), matching the table layout.
+      #
+      # We work backwards from that layout: start with a fontface matrix
+      # matching the displayed table, where row and cell styling is easy to
+      # assign, then flatten it column by column with as.vector(fontface).
+      # This produces the vector gridExtra needs to reconstruct the intended
+      # cell formatting. Store this vector in state for measurement and drawing.
+      # Source: gridExtra R/tableGrob.r, gtable_table().
+      isSummary <- rowTypes == "summary"
+      fontface <- matrix(1L, nrow = nrow(plotData), ncol = ncol(plotData))
+      fontface[isSummary, ] <- 2L
+      if (!is.null(self$options$rowLabel)) {
+        fontface[rowTypes == "heading", 1L] <- 2L
+        itemRows <- rowTypes == "item"
+        plotData[[1L]][itemRows] <- paste0(
+          strrep(" ", 4L),
+          plotData[[1L]][itemRows]
+        )
+      }
+
+      # Store the display table and numeric inputs in image state below so
+      # rendering and export can construct the plot without reloading the raw
+      # dataset.
       state <- list(
         data = plotData,
         est = jmvcore::toNumeric(data[[self$options$effectSize]]),
         lower = jmvcore::toNumeric(data[[self$options$ciLower]]),
         upper = jmvcore::toNumeric(data[[self$options$ciUpper]]),
-        ci_column = nLeftColumns + 1L
+        ci_column = nLeftColumns + 1L,
+        is_summary = isSummary,
+        fontface = as.vector(fontface)
       )
 
       # Measure the plot dimensions.
       oldDev <- grDevices::dev.cur()
 
-      # Open a non-rendering ragg device to query systemfonts/textshaping metrics
-      # without allocating an in-memory pixel buffer or creating temporary files.
+      # Open a non-rendering ragg device to query systemfonts/textshaping
+      # metrics without allocating an in-memory pixel buffer or creating
+      # temporary files.
       ragg::agg_record()
       on.exit({
         grDevices::dev.off()
@@ -88,12 +152,13 @@ forestPlotClass <- R6::R6Class(
       })
 
       # Print devices normally initialize the graphics-engine display list with
-      # recording OFF. ragg::agg_record() is different: it deliberately initializes
-      # that display list with recording ON so graphics can be captured later with
-      # recordPlot(). This function does not use recordPlot(). grid::grid.grab()
-      # reads grid's separate display list, which remains available when the
-      # graphics-engine list is inhibited. Turning off the unused engine list here
-      # avoids recording a second copy of the drawing operations in memory.
+      # recording OFF. ragg::agg_record() is different: it deliberately
+      # initializes that display list with recording ON so graphics can be
+      # captured later with recordPlot(). This function does not use
+      # recordPlot(). grid::grid.grab() reads grid's separate display list,
+      # which remains available when the graphics-engine list is inhibited.
+      # Turning off the unused engine list here avoids recording a second copy
+      # of the drawing operations in memory.
       grDevices::dev.control(displaylist = "inhibit")
 
       # Construct and measure on the same device: forestploter resolves some
@@ -113,12 +178,34 @@ forestPlotClass <- R6::R6Class(
     },
 
     .buildPlot = function(state) {
+      # forest_style() prepares settings; it does not construct a plot.
+      # Pass the settings directly to forest() so the table is constructed
+      # and measured with its final text formatting. This avoids a later
+      # set_style() rebuild or edit_plot() edits to existing grobs.
+      # edit_plot() changes the grobs without recalculating column widths.
+      #
+      # forest_style() accepts gridExtra table settings through ...:
+      # core controls body cells; colhead controls column headings.
+      # Each part can specify fg_params (text), bg_params (background),
+      # padding, and the drawing functions fg_fun and bg_fun.
+      # forestploter merges these settings into the theme used by tableGrob().
+      #
+      # With the default drawing functions, fg_params are passed to
+      # gridExtra:::text_grob() and bg_params to gridExtra:::rect_grob().
+      # Inspect formals() on those helpers for accepted parameter names.
+      # Full cell-formatting vectors use column-wise order, as prepared above.
+      # Source: gridExtra R/tableGrob.r (theme structure and cell order).
+      style <- forestploter::forest_style(
+        core = list(fg_params = list(fontface = state$fontface))
+      )
       forestploter::forest(
         data = state$data,
         est = state$est,
         lower = state$lower,
         upper = state$upper,
-        ci_column = state$ci_column
+        ci_column = state$ci_column,
+        is_summary = state$is_summary,
+        style = style
       )
     },
 

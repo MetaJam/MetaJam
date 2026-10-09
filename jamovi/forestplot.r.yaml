@@ -15,6 +15,8 @@ items:
     mode: vector
     renderFun: .forestPlot
     clearWith:
+      - rowLabel
+      - rowType
       - effectSize
       - ciLower
       - ciUpper
@@ -22,4 +24,4 @@ items:
       - rightColumns
     refs:
       - MetaJam
-      - forestploterPackage
+      - forestploter

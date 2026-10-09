@@ -6,6 +6,8 @@ forestPlotOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     inherit = jmvcore::Options,
     public = list(
         initialize = function(
+            rowLabel = NULL,
+            rowType = NULL,
             effectSize = NULL,
             ciLower = NULL,
             ciUpper = NULL,
@@ -18,6 +20,22 @@ forestPlotOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 requiresData=TRUE,
                 ...)
 
+            private$..rowLabel <- jmvcore::OptionVariable$new(
+                "rowLabel",
+                rowLabel,
+                suggested=list(
+                    "id",
+                    "nominal"),
+                permitted=list(
+                    "id",
+                    "factor"))
+            private$..rowType <- jmvcore::OptionVariable$new(
+                "rowType",
+                rowType,
+                suggested=list(
+                    "nominal"),
+                permitted=list(
+                    "factor"))
             private$..effectSize <- jmvcore::OptionVariable$new(
                 "effectSize",
                 effectSize,
@@ -54,6 +72,8 @@ forestPlotOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "factor",
                     "numeric"))
 
+            self$.addOption(private$..rowLabel)
+            self$.addOption(private$..rowType)
             self$.addOption(private$..effectSize)
             self$.addOption(private$..ciLower)
             self$.addOption(private$..ciUpper)
@@ -61,12 +81,16 @@ forestPlotOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..rightColumns)
         }),
     active = list(
+        rowLabel = function() private$..rowLabel$value,
+        rowType = function() private$..rowType$value,
         effectSize = function() private$..effectSize$value,
         ciLower = function() private$..ciLower$value,
         ciUpper = function() private$..ciUpper$value,
         leftColumns = function() private$..leftColumns$value,
         rightColumns = function() private$..rightColumns$value),
     private = list(
+        ..rowLabel = NA,
+        ..rowType = NA,
         ..effectSize = NA,
         ..ciLower = NA,
         ..ciUpper = NA,
@@ -105,6 +129,8 @@ forestPlotResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 mode="vector",
                 renderFun=".forestPlot",
                 clearWith=list(
+                    "rowLabel",
+                    "rowType",
                     "effectSize",
                     "ciLower",
                     "ciUpper",
@@ -112,7 +138,7 @@ forestPlotResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "rightColumns"),
                 refs=list(
                     "MetaJam",
-                    "forestploterPackage")))}))
+                    "forestploter")))}))
 
 forestPlotBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "forestPlotBase",
@@ -139,6 +165,8 @@ forestPlotBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'
 #' 
 #' @param data .
+#' @param rowLabel .
+#' @param rowType .
 #' @param effectSize .
 #' @param ciLower .
 #' @param ciUpper .
@@ -152,6 +180,8 @@ forestPlotBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @export
 forestPlot <- function(
     data,
+    rowLabel,
+    rowType,
     effectSize,
     ciLower,
     ciUpper,
@@ -161,6 +191,8 @@ forestPlot <- function(
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("forestPlot requires jmvcore to be installed (restart may be required)")
 
+    if ( ! missing(rowLabel)) rowLabel <- jmvcore::resolveQuo(jmvcore::enquo(rowLabel))
+    if ( ! missing(rowType)) rowType <- jmvcore::resolveQuo(jmvcore::enquo(rowType))
     if ( ! missing(effectSize)) effectSize <- jmvcore::resolveQuo(jmvcore::enquo(effectSize))
     if ( ! missing(ciLower)) ciLower <- jmvcore::resolveQuo(jmvcore::enquo(ciLower))
     if ( ! missing(ciUpper)) ciUpper <- jmvcore::resolveQuo(jmvcore::enquo(ciUpper))
@@ -169,14 +201,19 @@ forestPlot <- function(
     if (missing(data))
         data <- jmvcore::marshalData(
             parent.frame(),
+            `if`( ! missing(rowLabel), rowLabel, NULL),
+            `if`( ! missing(rowType), rowType, NULL),
             `if`( ! missing(effectSize), effectSize, NULL),
             `if`( ! missing(ciLower), ciLower, NULL),
             `if`( ! missing(ciUpper), ciUpper, NULL),
             `if`( ! missing(leftColumns), leftColumns, NULL),
             `if`( ! missing(rightColumns), rightColumns, NULL))
 
+    for (v in rowType) if (v %in% names(data)) data[[v]] <- as.factor(data[[v]])
 
     options <- forestPlotOptions$new(
+        rowLabel = rowLabel,
+        rowType = rowType,
         effectSize = effectSize,
         ciLower = ciLower,
         ciUpper = ciUpper,

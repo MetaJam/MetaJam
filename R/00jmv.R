@@ -36,7 +36,7 @@
         `issue`=3, 
         `pages`="1-48", 
         `url`="https://doi.org/10.18637/jss.v036.i03"), 
-    `forestploterPackage`=list(
+    `forestploter`=list(
         `type`="software", 
         `author`="Dayimu, A.", 
         `year`=2026, 
