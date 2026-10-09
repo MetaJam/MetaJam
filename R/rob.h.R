@@ -759,7 +759,7 @@ robResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "colour"),
                 refs=list(
                     "MetaJam",
-                    "robvisPackage")))
+                    "robvis")))
             self$add(R6::R6Class(
                 inherit = jmvcore::Group,
                 active = list(),
@@ -831,7 +831,7 @@ robResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "pointSize"),
                 refs=list(
                     "MetaJam",
-                    "robvisPackage")))
+                    "robvis")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="combinedPlot",
@@ -891,7 +891,7 @@ robResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "combinedTags"),
                 refs=list(
                     "MetaJam",
-                    "robvisPackage")))}))
+                    "robvis")))}))
 
 robBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "robBase",

@@ -77,7 +77,7 @@ items:
       - colour
     refs:
       - MetaJam
-      - robvisPackage
+      - robvis
 
   - name: trafficPlotSizeCache
     type: Group
@@ -144,7 +144,7 @@ items:
       - pointSize
     refs:
       - MetaJam
-      - robvisPackage
+      - robvis
 
   - name: combinedPlot
     title: Combined Plot
@@ -204,4 +204,4 @@ items:
       - combinedTags
     refs:
       - MetaJam
-      - robvisPackage
+      - robvis

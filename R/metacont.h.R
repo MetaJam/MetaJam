@@ -1953,7 +1953,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "confidenceLevel"),
                 refs=list(
                     "MetaJam",
-                    "metaPackage")))
+                    "meta")))
             self$add(R6::R6Class(
                 inherit = jmvcore::Group,
                 active = list(),
@@ -2021,7 +2021,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "digitsTau2"),
                 refs=list(
                     "MetaJam",
-                    "metaPackage")))
+                    "meta")))
             self$add(R6::R6Class(
                 inherit = jmvcore::Group,
                 active = list(),
@@ -2075,7 +2075,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                                 clearWith=list(),
                                 refs=list(
                                     "MetaJam",
-                                    "metaPackage")))
+                                    "meta")))
                             self$add(jmvcore::Image$new(
                                 options=options,
                                 name="subgroupPlot",
@@ -2122,7 +2122,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                                     "subgroupDigitsTau2"),
                                 refs=list(
                                     "MetaJam",
-                                    "metaPackage")))}))$new(options=options)))
+                                    "meta")))}))$new(options=options)))
             self$add(jmvcore::Array$new(
                 options=options,
                 name="metaRegModels",
@@ -2166,7 +2166,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                                 clearWith=list(),
                                 refs=list(
                                     "MetaJam",
-                                    "metaPackage")))
+                                    "meta")))
                             self$add(jmvcore::Image$new(
                                 options=options,
                                 name="bubblePlot",
@@ -2181,7 +2181,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                                     "bubbleStudyLabel"),
                                 refs=list(
                                     "MetaJam",
-                                    "metaPackage")))}))$new(options=options)))
+                                    "meta")))}))$new(options=options)))
             self$add(jmvcore::Html$new(
                 options=options,
                 name="leaveOneOutText",
@@ -2204,7 +2204,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "leaveOneOutPrediction"),
                 refs=list(
                     "MetaJam",
-                    "metaPackage")))
+                    "meta")))
             self$add(R6::R6Class(
                 inherit = jmvcore::Group,
                 active = list(),
@@ -2265,7 +2265,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "leaveOneOutDigitsTau2"),
                 refs=list(
                     "MetaJam",
-                    "metaPackage")))
+                    "meta")))
             self$add(jmvcore::Html$new(
                 options=options,
                 name="cumulativeText",
@@ -2291,7 +2291,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "cumulativePrediction"),
                 refs=list(
                     "MetaJam",
-                    "metaPackage")))
+                    "meta")))
             self$add(R6::R6Class(
                 inherit = jmvcore::Group,
                 active = list(),
@@ -2352,7 +2352,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "cumulativeDigitsTau2"),
                 refs=list(
                     "MetaJam",
-                    "metaPackage")))
+                    "meta")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="funnelPlot",
@@ -2384,7 +2384,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "funnelLegendCex"),
                 refs=list(
                     "MetaJam",
-                    "metaPackage")))
+                    "meta")))
             self$add(jmvcore::Html$new(
                 options=options,
                 name="asymmetryTestText",
@@ -2407,7 +2407,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "asymmetryMethod"),
                 refs=list(
                     "MetaJam",
-                    "metaPackage")))
+                    "meta")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="asymmetryPlot",
@@ -2435,7 +2435,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "asymmetryMethod"),
                 refs=list(
                     "MetaJam",
-                    "metaPackage")))
+                    "meta")))
             self$add(jmvcore::Html$new(
                 options=options,
                 name="trimFillText",
@@ -2461,7 +2461,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "trimFillPoolingModel"),
                 refs=list(
                     "MetaJam",
-                    "metaPackage")))
+                    "meta")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="trimFillFunnelPlot",
@@ -2497,7 +2497,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "trimFillFunnelLegendCex"),
                 refs=list(
                     "MetaJam",
-                    "metaPackage")))
+                    "meta")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="doiPlot",
@@ -2527,7 +2527,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "doiPlotLegendCex"),
                 refs=list(
                     "MetaJam",
-                    "metasensPackage")))
+                    "metasens")))
             self$add(jmvcore::Html$new(
                 options=options,
                 name="lfkIndexText",
@@ -2549,7 +2549,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "confidenceLevel"),
                 refs=list(
                     "MetaJam",
-                    "metasensPackage")))}))
+                    "metasens")))}))
 
 metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "metaContBase",

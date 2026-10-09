@@ -23,7 +23,7 @@ items:
       - confidenceLevel
     refs:
       - MetaJam
-      - metaPackage
+      - meta
 
   - name: plotSizeCache
     type: Group
@@ -85,7 +85,7 @@ items:
       - digitsTau2
     refs:
       - MetaJam
-      - metaPackage
+      - meta
 
   - name: subgroupPlotSizeCache
     type: Group
@@ -125,7 +125,7 @@ items:
           clearWith: []
           refs:
             - MetaJam
-            - metaPackage
+            - meta
 
         - name: subgroupPlot
           title: Subgroup Analysis Forest Plot
@@ -171,7 +171,7 @@ items:
             - subgroupDigitsTau2
           refs:
             - MetaJam
-            - metaPackage
+            - meta
 
   - name: metaRegModels
     title: ""
@@ -206,7 +206,7 @@ items:
           clearWith: []
           refs:
             - MetaJam
-            - metaPackage
+            - meta
 
         - name: bubblePlot
           title: Bubble Plot
@@ -221,7 +221,7 @@ items:
             - bubbleStudyLabel
           refs:
             - MetaJam
-            - metaPackage
+            - meta
 
   - name: leaveOneOutText
     type: Html
@@ -244,7 +244,7 @@ items:
       - leaveOneOutPrediction
     refs:
       - MetaJam
-      - metaPackage
+      - meta
 
   - name: leaveOneOutPlotSizeCache
     type: Group
@@ -300,7 +300,7 @@ items:
       - leaveOneOutDigitsTau2
     refs:
       - MetaJam
-      - metaPackage
+      - meta
 
   - name: cumulativeText
     type: Html
@@ -326,7 +326,7 @@ items:
       - cumulativePrediction
     refs:
       - MetaJam
-      - metaPackage
+      - meta
 
   - name: cumulativePlotSizeCache
     type: Group
@@ -382,7 +382,7 @@ items:
       - cumulativeDigitsTau2
     refs:
       - MetaJam
-      - metaPackage
+      - meta
 
   - name: funnelPlot
     title: Funnel Plot
@@ -414,7 +414,7 @@ items:
       - funnelLegendCex
     refs:
       - MetaJam
-      - metaPackage
+      - meta
 
   - name: asymmetryTestText
     type: Html
@@ -437,7 +437,7 @@ items:
       - asymmetryMethod
     refs:
       - MetaJam
-      - metaPackage
+      - meta
 
   - name: asymmetryPlot
     title: Plot (Test for Funnel Plot Asymmetry)
@@ -465,7 +465,7 @@ items:
       - asymmetryMethod
     refs:
       - MetaJam
-      - metaPackage
+      - meta
 
   - name: trimFillText
     type: Html
@@ -491,7 +491,7 @@ items:
       - trimFillPoolingModel
     refs:
       - MetaJam
-      - metaPackage
+      - meta
 
   - name: trimFillFunnelPlot
     title: Trim-and-Fill Analysis Funnel Plot
@@ -527,7 +527,7 @@ items:
       - trimFillFunnelLegendCex
     refs:
       - MetaJam
-      - metaPackage
+      - meta
 
   - name: doiPlot
     title: Doi Plot
@@ -557,7 +557,7 @@ items:
       - doiPlotLegendCex
     refs:
       - MetaJam
-      - metasensPackage
+      - metasens
 
   - name: lfkIndexText
     type: Html
@@ -579,4 +579,4 @@ items:
       - confidenceLevel
     refs:
       - MetaJam
-      - metasensPackage
+      - metasens

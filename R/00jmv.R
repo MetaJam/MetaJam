@@ -9,7 +9,7 @@
         `year`=2026, 
         `publisher`="https://doi.org/10.5281/zenodo.21226177", 
         `url`="https://doi.org/10.5281/zenodo.21226177"), 
-    `metaPackage`=list(
+    `meta`=list(
         `type`="article", 
         `author`="Balduzzi, S., R\u00FCcker, G., & Schwarzer, G.", 
         `year`=2019, 
@@ -19,14 +19,14 @@
         `issue`=4, 
         `pages`="153-160", 
         `url`="https://doi.org/10.1136/ebmental-2019-300117"), 
-    `metasensPackage`=list(
+    `metasens`=list(
         `type`="software", 
         `author`="Schwarzer, G., Carpenter, J. R., & R\u00FCcker, G.", 
         `year`=2025, 
         `title`="metasens: Statistical Methods for Sensitivity Analysis in Meta-Analysis", 
         `publisher`="[R package]. Retrieved from https://cran.r-project.org/package=metasens", 
         `url`="https://cran.r-project.org/package=metasens"), 
-    `metaforPackage`=list(
+    `metafor`=list(
         `type`="article", 
         `author`="Viechtbauer, W.", 
         `year`=2010, 
@@ -36,7 +36,7 @@
         `issue`=3, 
         `pages`="1-48", 
         `url`="https://doi.org/10.18637/jss.v036.i03"), 
-    `robvisPackage`=list(
+    `robvis`=list(
         `type`="article", 
         `author`="McGuinness, L. A., & Higgins, J. P. T.", 
         `year`=2020, 

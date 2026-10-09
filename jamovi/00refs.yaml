@@ -7,7 +7,7 @@ refs:
         publisher: "https://doi.org/10.5281/zenodo.21226177"
         url: https://doi.org/10.5281/zenodo.21226177
 
-    metaPackage:
+    meta:
         type: "article"
         author: "Balduzzi, S., Rücker, G., & Schwarzer, G."
         year: 2019
@@ -18,7 +18,7 @@ refs:
         pages: 153-160
         url: https://doi.org/10.1136/ebmental-2019-300117
 
-    metasensPackage:
+    metasens:
         type: "software"
         author: "Schwarzer, G., Carpenter, J. R., & Rücker, G."
         year: 2025
@@ -26,7 +26,7 @@ refs:
         publisher: "[R package]. Retrieved from https://cran.r-project.org/package=metasens"
         url: https://cran.r-project.org/package=metasens
 
-    metaforPackage:
+    metafor:
         type: "article"
         author: "Viechtbauer, W."
         year: 2010
@@ -37,7 +37,7 @@ refs:
         pages: 1-48
         url: https://doi.org/10.18637/jss.v036.i03
 
-    robvisPackage:
+    robvis:
         type: "article"
         author: "McGuinness, L. A., & Higgins, J. P. T."
         year: 2020
