@@ -126,6 +126,21 @@ forestPlotClass <- R6::R6Class(
         )
       }
 
+      # Prepare optional numeric weights for marker scaling. NULL means no
+      # Weight input was selected, so the plot uses equal-size markers.
+      weight <- NULL
+      if (!is.null(self$options$weight)) {
+        weight <- jmvcore::toNumeric(data[[self$options$weight]])
+
+        # Summary weights are excluded from scaling and receive the maximum
+        # size. Supply a positive drawing placeholder for missing summary
+        # weights so users can leave those cells blank without losing the
+        # diamond. Any positive value works here: forestploter excludes it
+        # before normalizing study weights and then assigns the summary the
+        # maximum marker size.
+        weight[isSummary & is.na(weight)] <- 1
+      }
+
       # Store the display table and numeric inputs in image state below so
       # rendering and export can construct the plot without reloading the raw
       # dataset.
@@ -134,6 +149,7 @@ forestPlotClass <- R6::R6Class(
         est = jmvcore::toNumeric(data[[self$options$effectSize]]),
         lower = jmvcore::toNumeric(data[[self$options$ciLower]]),
         upper = jmvcore::toNumeric(data[[self$options$ciUpper]]),
+        weight = weight,
         ci_column = nLeftColumns + 1L,
         is_summary = isSummary,
         fontface = as.vector(fontface)
@@ -198,15 +214,51 @@ forestPlotClass <- R6::R6Class(
       style <- forestploter::forest_style(
         core = list(fg_params = list(fontface = state$fontface))
       )
-      forestploter::forest(
+
+      # Use 0.8 for equal-size markers and as the maximum when weights are
+      # supplied. This is within forestploter's documented useful range of
+      # about 0.2 to 1.5, giving more prominent squares than its default of
+      # 0.4 while leaving room above and below the summary diamonds.
+      plot <- forestploter::forest(
         data = state$data,
         est = state$est,
         lower = state$lower,
         upper = state$upper,
+        sizes = if (is.null(state$weight)) 0.8 else state$weight,
         ci_column = state$ci_column,
         is_summary = state$is_summary,
         style = style
       )
+
+      # Read the supplied values as weights, rather than raw marker sizes.
+      # "proportional" scaling follows meta's largest-weight normalization:
+      # the largest study gets size 0.8, and square roots of relative weights
+      # determine the smaller marker dimensions. Equal study weights therefore
+      # give equal sizes of 0.8, matching the default without a Weight input.
+      # Unlike "range" scaling, this does not stretch nearly equal weights to
+      # opposite ends of the size range.
+      #
+      # Missing summary weights have a drawing placeholder from preparation;
+      # otherwise keep forestploter's handling of missing and summary weights.
+      # Its "proportional" method also has a visibility floor of 0.35 times
+      # the maximum of 0.8, so very small study markers stop at 0.28.
+      # Keep the package's default lower range value of 0.2; "proportional"
+      # uses only the upper value for sizing and applies its built-in floor.
+      # scale_sizes() rebuilds the plot, but the package reuses its cached
+      # table when the display data and table theme have not changed. Accept
+      # the rebuild to use this public helper rather than maintaining our own
+      # scaling logic solely to avoid it.
+      # Sources: forestploter R/scale_sizes.R, R/helper.R, R/draw_forest.R
+      # and R/forest.R, cached_table().
+      if (!is.null(state$weight)) {
+        plot <- forestploter::scale_sizes(
+          plot,
+          method = "proportional",
+          range = c(0.2, 0.8)
+        )
+      }
+
+      plot
     },
 
     .forestPlot = function(image, ...) {

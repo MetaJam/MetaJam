@@ -20,6 +20,7 @@ items:
       - effectSize
       - ciLower
       - ciUpper
+      - weight
       - leftColumns
       - rightColumns
     refs:

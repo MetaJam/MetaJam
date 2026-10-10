@@ -52,6 +52,14 @@ options:
     permitted:
       - numeric
 
+  - name: weight
+    title: Weight (optional)
+    type: Variable
+    suggested:
+      - continuous
+    permitted:
+      - numeric
+
   - name: leftColumns
     title: Left Columns (optional)
     type: Variables

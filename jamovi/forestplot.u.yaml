@@ -45,6 +45,12 @@ children:
       - type: TargetLayoutBox
         children:
           - type: VariablesListBox
+            name: weight
+            maxItemCount: 1
+            isTarget: true
+      - type: TargetLayoutBox
+        children:
+          - type: VariablesListBox
             name: leftColumns
             isTarget: true
       - type: TargetLayoutBox

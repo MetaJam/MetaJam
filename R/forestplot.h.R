@@ -11,6 +11,7 @@ forestPlotOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             effectSize = NULL,
             ciLower = NULL,
             ciUpper = NULL,
+            weight = NULL,
             leftColumns = NULL,
             rightColumns = NULL, ...) {
 
@@ -57,6 +58,13 @@ forestPlotOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "continuous"),
                 permitted=list(
                     "numeric"))
+            private$..weight <- jmvcore::OptionVariable$new(
+                "weight",
+                weight,
+                suggested=list(
+                    "continuous"),
+                permitted=list(
+                    "numeric"))
             private$..leftColumns <- jmvcore::OptionVariables$new(
                 "leftColumns",
                 leftColumns,
@@ -77,6 +85,7 @@ forestPlotOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..effectSize)
             self$.addOption(private$..ciLower)
             self$.addOption(private$..ciUpper)
+            self$.addOption(private$..weight)
             self$.addOption(private$..leftColumns)
             self$.addOption(private$..rightColumns)
         }),
@@ -86,6 +95,7 @@ forestPlotOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         effectSize = function() private$..effectSize$value,
         ciLower = function() private$..ciLower$value,
         ciUpper = function() private$..ciUpper$value,
+        weight = function() private$..weight$value,
         leftColumns = function() private$..leftColumns$value,
         rightColumns = function() private$..rightColumns$value),
     private = list(
@@ -94,6 +104,7 @@ forestPlotOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..effectSize = NA,
         ..ciLower = NA,
         ..ciUpper = NA,
+        ..weight = NA,
         ..leftColumns = NA,
         ..rightColumns = NA)
 )
@@ -134,6 +145,7 @@ forestPlotResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "effectSize",
                     "ciLower",
                     "ciUpper",
+                    "weight",
                     "leftColumns",
                     "rightColumns"),
                 refs=list(
@@ -170,6 +182,7 @@ forestPlotBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param effectSize .
 #' @param ciLower .
 #' @param ciUpper .
+#' @param weight .
 #' @param leftColumns .
 #' @param rightColumns .
 #' @return A results object containing:
@@ -185,6 +198,7 @@ forestPlot <- function(
     effectSize,
     ciLower,
     ciUpper,
+    weight,
     leftColumns,
     rightColumns) {
 
@@ -196,6 +210,7 @@ forestPlot <- function(
     if ( ! missing(effectSize)) effectSize <- jmvcore::resolveQuo(jmvcore::enquo(effectSize))
     if ( ! missing(ciLower)) ciLower <- jmvcore::resolveQuo(jmvcore::enquo(ciLower))
     if ( ! missing(ciUpper)) ciUpper <- jmvcore::resolveQuo(jmvcore::enquo(ciUpper))
+    if ( ! missing(weight)) weight <- jmvcore::resolveQuo(jmvcore::enquo(weight))
     if ( ! missing(leftColumns)) leftColumns <- jmvcore::resolveQuo(jmvcore::enquo(leftColumns))
     if ( ! missing(rightColumns)) rightColumns <- jmvcore::resolveQuo(jmvcore::enquo(rightColumns))
     if (missing(data))
@@ -206,6 +221,7 @@ forestPlot <- function(
             `if`( ! missing(effectSize), effectSize, NULL),
             `if`( ! missing(ciLower), ciLower, NULL),
             `if`( ! missing(ciUpper), ciUpper, NULL),
+            `if`( ! missing(weight), weight, NULL),
             `if`( ! missing(leftColumns), leftColumns, NULL),
             `if`( ! missing(rightColumns), rightColumns, NULL))
 
@@ -217,6 +233,7 @@ forestPlot <- function(
         effectSize = effectSize,
         ciLower = ciLower,
         ciUpper = ciUpper,
+        weight = weight,
         leftColumns = leftColumns,
         rightColumns = rightColumns)
 
