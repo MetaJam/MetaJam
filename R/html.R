@@ -44,7 +44,7 @@ asHtml <- function(..., title = NULL, modifier = NULL) {
   titleHtml <- ""
   if (!is.null(title)) {
     titleHtml <- paste0(
-      "<div style=\"",
+      "<div class='metajam-title' style=\"",
       # The line under the title
       "border-bottom: 1px solid #333333;",
       # Vertical spacing around title text
@@ -67,18 +67,7 @@ asHtml <- function(..., title = NULL, modifier = NULL) {
     )
   }
 
-  # --- CSS Definitions ---
-
-  # Container style matches jamovi table borders:
-  # border-bottom: 2px is the same as the table last-row border
-  # padding: 8px 0 gives 8px top and bottom spacing inside the box
-  bodyCss <- "
-    background-color: transparent;
-    border-bottom: 2px solid #333333;
-    padding: 8px 0;
-  "
-
-  # Text style (Inner Pre)
+  # Summary body styles
   # Use jamovi's native monospace stack:
   # jamovi/jamovi/client/resultsview/main.css:693
   # Size/color are intentionally stronger than jamovi's inherited 12px/#333:
@@ -86,48 +75,69 @@ asHtml <- function(..., title = NULL, modifier = NULL) {
   # CSS-screen equivalents 13px and #212121 here.
   # https://m1.material.io/components/data-tables.html
   # white-space: pre keeps the printed spacing/alignment from summary().
-  preCss <- "
+  # Summary body border and spacing:
+  # border-bottom: 2px is the same as the table last-row border
+  # padding: 8px 0 gives 8px top and bottom spacing inside the box
+  bodyCss <- "
+    background-color: transparent;
+    border-bottom: 2px solid #333333;
+    padding: 8px 0;
     font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
     font-size: 13px;
     color: #212121;
     line-height: 1.5;
     white-space: pre;
     margin: 0;
-    overflow-x: auto;
   "
 
   # --- HTML Construction ---
 
-  if (text == "") {
-    return(titleHtml)
+  # Include the body only when text exists; otherwise show the title alone.
+  bodyHtml <- ""
+  if (text != "") {
+    bodyHtml <- paste0(
+      "<pre style=\"",
+      bodyCss,
+      "\">",
+      text,
+      "</pre>"
+    )
   }
 
-  # Update note: jamovi 28.8.0 (commit 5ec9db87, issue #1850) adds
-  # min-width: min-content, so the default box can grow beyond 500px
-  # but does not shrink below it. Relying on this fix would require
-  # minApp: 28.8.0.
-  #
-  # We still keep the override below so table-like output fits its
+  # jamovi gives Html results a default width of 500px.
+  # jamovi 28.8.0 (commit 5ec9db87, issue #1850) adds min-width: min-content,
+  # allowing wider output to expand beyond 500px, while shorter output
+  # still retains the default 500px width. Relying on this change would
+  # require minApp: 28.8.0.
+  # We keep our scoped max-content override so table-like output fits its
   # content, including shorter output without unused space, while
-  # preserving our current minApp.
+  # preserving our minApp of 2.7.27.
   #
-  # 1. Scoped Style: Forces this result container to max-content width
-  #    using :has() (default is 500px, too narrow for wide summary output)
-  # 2. Structure: Title div (with bottom line) + Content div (with bottom
-  #    border) containing PRE (monospace text)
+  # Our width override makes the result fit its content in jamovi, but
+  # this sizing does not carry over to HTML/PDF exports because they omit
+  # jamovi's outer container. To preserve the same sizing in exports,
+  # we wrap the title and summary together in our own max-content container.
+  #
+  # jamovi's HTML exporter (client/main/formatio/htmlify.ts) uses
+  # break-inside: avoid for both tables and <pre>. Keep jamovi's default
+  # page-break behavior so summaries stay together when they fit on a page,
+  # while longer summaries can still continue across pages when necessary.
+  # We add break-after: avoid on the title to keep it with the beginning
+  # of the summary.
+  # Include the legacy page-break-after property for compatibility.
   htmlContent <- paste0(
     "<style>
-      .jmv-results-html:has(.metajam-output) { width: max-content !important; }
+      .jmv-results-html:has(.metajam-output) { width: max-content; }
+      @media print {
+        .metajam-output > .metajam-title {
+          break-after: avoid;
+          page-break-after: avoid;
+        }
+      }
     </style>",
+    "<div class='metajam-output' style='width: max-content;'>",
     titleHtml,
-    "<div class='metajam-output' style=\"",
-    bodyCss,
-    "\">",
-    "<pre style=\"",
-    preCss,
-    "\">",
-    text,
-    "</pre>",
+    bodyHtml,
     "</div>"
   )
 
