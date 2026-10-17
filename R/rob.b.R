@@ -430,9 +430,10 @@ robClass <- R6::R6Class(
       # their proportions.
       #
       # We calculate the fixed margin height in jamovi's 72-units-per-inch scale
-      # (grid defines 72.27 pt per inch) and subtract it from each target height.
-      # This ensures that once grid adds the fixed margins back during rendering,
-      # the total height of each child row matches its exact standalone target:
+      # (grid defines 72.27 pt per inch) and subtract it from each target
+      # height. This ensures that once grid adds the fixed margins back during
+      # rendering, the total height of each child row matches its exact
+      # standalone target:
       plotMarginHeight <- 2 * 5.5 * 72 / 72.27
 
       if (state$order == "summaryFirst") {
@@ -472,7 +473,8 @@ robClass <- R6::R6Class(
         combinedPlot <- combinedPlot &
           ggplot2::theme(
             plot.tag = ggplot2::element_text(
-              # Keep panel tags clearly above robvis's 6 to 10 pt text hierarchy.
+              # Keep panel tags clearly above robvis's 6 to 10 pt
+              # text hierarchy.
               size = 18,
               face = "bold",
               # Default is 0 margin (no extra padding around tag text)
