@@ -23,6 +23,14 @@ items:
       - weight
       - leftColumns
       - rightColumns
+      - effectCi
+      - effectCiLayout
+      - effectCiPosition
+      - effectCiDigits
+      - effectHeader
+      - ciHeader
+      - ciBrackets
+      - ciSeparator
     refs:
       - MetaJam
       - forestploter

@@ -58,3 +58,41 @@ children:
           - type: VariablesListBox
             name: rightColumns
             isTarget: true
+
+  - type: CollapseBox
+    label: Effect Size & CI
+    collapsed: true
+    stretchFactor: 1
+    children:
+      - type: CheckBox
+        name: effectCi
+        children:
+          - type: ComboBox
+            name: effectCiLayout
+            enable: (effectCi)
+          - type: ComboBox
+            name: effectCiPosition
+            enable: (effectCi)
+          - type: ComboBox
+            name: effectCiDigits
+            enable: (effectCi)
+          - type: TextBox
+            name: effectHeader
+            format: string
+            width: large
+            enable: (effectCi)
+          - type: TextBox
+            name: ciHeader
+            format: string
+            width: large
+            enable: (effectCi)
+            suggestedValues:
+              - 90% CI
+              - 95% CI
+              - 99% CI
+          - type: ComboBox
+            name: ciBrackets
+            enable: (effectCi && effectCiLayout:combined)
+          - type: ComboBox
+            name: ciSeparator
+            enable: (effectCi)

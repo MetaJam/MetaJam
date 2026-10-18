@@ -75,3 +75,80 @@ options:
       - id
       - factor
       - numeric
+
+  - name: effectCi
+    title: Effect size & CI columns
+    type: Bool
+    default: true
+
+  - name: effectCiLayout
+    title: Layout
+    type: List
+    options:
+      - name: combined
+        title: Combined (1 column)
+      - name: separate
+        title: Separate (2 columns)
+    default: combined
+
+  - name: effectCiPosition
+    title: Position
+    type: List
+    options:
+      - name: right
+        title: Right of plot
+      - name: left
+        title: Left of plot
+    default: right
+
+  - name: effectCiDigits
+    title: Decimal places
+    type: List
+    options:
+      - name: "0"
+        title: "0"
+      - name: "1"
+        title: "1"
+      - name: "2"
+        title: "2"
+      - name: "3"
+        title: "3"
+      - name: "4"
+        title: "4"
+      - name: "5"
+        title: "5"
+    default: "2"
+
+  - name: effectHeader
+    title: Effect size header
+    type: String
+    default: Effect Size
+
+  - name: ciHeader
+    title: CI header
+    type: String
+    default: 95% CI
+
+  - name: ciBrackets
+    title: CI brackets
+    type: List
+    options:
+      - name: round
+        title: "( )"
+      - name: square
+        title: "[ ]"
+    default: round
+
+  - name: ciSeparator
+    title: CI separator
+    type: List
+    options:
+      - name: comma
+        title: ","
+      - name: semicolon
+        title: ";"
+      - name: enDash
+        title: "–"
+      - name: to
+        title: to
+    default: comma

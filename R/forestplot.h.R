@@ -13,7 +13,15 @@ forestPlotOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             ciUpper = NULL,
             weight = NULL,
             leftColumns = NULL,
-            rightColumns = NULL, ...) {
+            rightColumns = NULL,
+            effectCi = TRUE,
+            effectCiLayout = "combined",
+            effectCiPosition = "right",
+            effectCiDigits = "2",
+            effectHeader = "Effect Size",
+            ciHeader = "95% CI",
+            ciBrackets = "round",
+            ciSeparator = "comma", ...) {
 
             super$initialize(
                 package="MetaJam",
@@ -79,6 +87,59 @@ forestPlotOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "id",
                     "factor",
                     "numeric"))
+            private$..effectCi <- jmvcore::OptionBool$new(
+                "effectCi",
+                effectCi,
+                default=TRUE)
+            private$..effectCiLayout <- jmvcore::OptionList$new(
+                "effectCiLayout",
+                effectCiLayout,
+                options=list(
+                    "combined",
+                    "separate"),
+                default="combined")
+            private$..effectCiPosition <- jmvcore::OptionList$new(
+                "effectCiPosition",
+                effectCiPosition,
+                options=list(
+                    "right",
+                    "left"),
+                default="right")
+            private$..effectCiDigits <- jmvcore::OptionList$new(
+                "effectCiDigits",
+                effectCiDigits,
+                options=list(
+                    "0",
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"),
+                default="2")
+            private$..effectHeader <- jmvcore::OptionString$new(
+                "effectHeader",
+                effectHeader,
+                default="Effect Size")
+            private$..ciHeader <- jmvcore::OptionString$new(
+                "ciHeader",
+                ciHeader,
+                default="95% CI")
+            private$..ciBrackets <- jmvcore::OptionList$new(
+                "ciBrackets",
+                ciBrackets,
+                options=list(
+                    "round",
+                    "square"),
+                default="round")
+            private$..ciSeparator <- jmvcore::OptionList$new(
+                "ciSeparator",
+                ciSeparator,
+                options=list(
+                    "comma",
+                    "semicolon",
+                    "enDash",
+                    "to"),
+                default="comma")
 
             self$.addOption(private$..rowLabel)
             self$.addOption(private$..rowType)
@@ -88,6 +149,14 @@ forestPlotOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..weight)
             self$.addOption(private$..leftColumns)
             self$.addOption(private$..rightColumns)
+            self$.addOption(private$..effectCi)
+            self$.addOption(private$..effectCiLayout)
+            self$.addOption(private$..effectCiPosition)
+            self$.addOption(private$..effectCiDigits)
+            self$.addOption(private$..effectHeader)
+            self$.addOption(private$..ciHeader)
+            self$.addOption(private$..ciBrackets)
+            self$.addOption(private$..ciSeparator)
         }),
     active = list(
         rowLabel = function() private$..rowLabel$value,
@@ -97,7 +166,15 @@ forestPlotOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ciUpper = function() private$..ciUpper$value,
         weight = function() private$..weight$value,
         leftColumns = function() private$..leftColumns$value,
-        rightColumns = function() private$..rightColumns$value),
+        rightColumns = function() private$..rightColumns$value,
+        effectCi = function() private$..effectCi$value,
+        effectCiLayout = function() private$..effectCiLayout$value,
+        effectCiPosition = function() private$..effectCiPosition$value,
+        effectCiDigits = function() private$..effectCiDigits$value,
+        effectHeader = function() private$..effectHeader$value,
+        ciHeader = function() private$..ciHeader$value,
+        ciBrackets = function() private$..ciBrackets$value,
+        ciSeparator = function() private$..ciSeparator$value),
     private = list(
         ..rowLabel = NA,
         ..rowType = NA,
@@ -106,7 +183,15 @@ forestPlotOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..ciUpper = NA,
         ..weight = NA,
         ..leftColumns = NA,
-        ..rightColumns = NA)
+        ..rightColumns = NA,
+        ..effectCi = NA,
+        ..effectCiLayout = NA,
+        ..effectCiPosition = NA,
+        ..effectCiDigits = NA,
+        ..effectHeader = NA,
+        ..ciHeader = NA,
+        ..ciBrackets = NA,
+        ..ciSeparator = NA)
 )
 
 forestPlotResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -147,7 +232,15 @@ forestPlotResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "ciUpper",
                     "weight",
                     "leftColumns",
-                    "rightColumns"),
+                    "rightColumns",
+                    "effectCi",
+                    "effectCiLayout",
+                    "effectCiPosition",
+                    "effectCiDigits",
+                    "effectHeader",
+                    "ciHeader",
+                    "ciBrackets",
+                    "ciSeparator"),
                 refs=list(
                     "MetaJam",
                     "forestploter")))}))
@@ -185,6 +278,14 @@ forestPlotBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param weight .
 #' @param leftColumns .
 #' @param rightColumns .
+#' @param effectCi .
+#' @param effectCiLayout .
+#' @param effectCiPosition .
+#' @param effectCiDigits .
+#' @param effectHeader .
+#' @param ciHeader .
+#' @param ciBrackets .
+#' @param ciSeparator .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
@@ -200,7 +301,15 @@ forestPlot <- function(
     ciUpper,
     weight,
     leftColumns,
-    rightColumns) {
+    rightColumns,
+    effectCi = TRUE,
+    effectCiLayout = "combined",
+    effectCiPosition = "right",
+    effectCiDigits = "2",
+    effectHeader = "Effect Size",
+    ciHeader = "95% CI",
+    ciBrackets = "round",
+    ciSeparator = "comma") {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("forestPlot requires jmvcore to be installed (restart may be required)")
@@ -235,7 +344,15 @@ forestPlot <- function(
         ciUpper = ciUpper,
         weight = weight,
         leftColumns = leftColumns,
-        rightColumns = rightColumns)
+        rightColumns = rightColumns,
+        effectCi = effectCi,
+        effectCiLayout = effectCiLayout,
+        effectCiPosition = effectCiPosition,
+        effectCiDigits = effectCiDigits,
+        effectHeader = effectHeader,
+        ciHeader = ciHeader,
+        ciBrackets = ciBrackets,
+        ciSeparator = ciSeparator)
 
     analysis <- forestPlotClass$new(
         options = options,
