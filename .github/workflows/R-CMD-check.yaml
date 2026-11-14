@@ -54,6 +54,13 @@ jobs:
           # Use Posit Public Package Manager for the selected CRAN snapshot.
           cran: https://packagemanager.posit.co/cran/${{ matrix.config.snapshot }}
 
+      # jmvcore pulls in gdtools and rvg through its optional export dependency.
+      # Their macOS builds failed because libintl and png.h were not found.
+      # Install the system libraries needed to build these R packages.
+      - name: Prepare macOS system dependencies
+        if: runner.os == 'macOS'
+        uses: r-hub/actions/setup-r-sysreqs@v1
+
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           # Added: use the jmvcore revision selected in the matrix.
