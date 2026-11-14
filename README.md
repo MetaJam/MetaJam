@@ -8,6 +8,8 @@
 
 [![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.21226177-blue.svg)](https://doi.org/10.5281/zenodo.21226177)
 [![License: GPL ≥ 2](https://img.shields.io/badge/License-GPL%20%E2%89%A5%202-blue.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
+[![R-CMD-check](https://github.com/MetaJam/MetaJam/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/MetaJam/MetaJam/actions/workflows/R-CMD-check.yaml)
+[![Codecov test coverage](https://codecov.io/gh/MetaJam/MetaJam/graph/badge.svg)](https://app.codecov.io/gh/MetaJam/MetaJam)
 
 <!-- badges: end -->
 

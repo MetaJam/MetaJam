@@ -37,10 +37,13 @@ Imports:
     robvis (>= 0.3.0.900),
     stats,
     utils
+Suggests:
+    testthat (>= 3.0.0)
 Remotes: 
     guido-s/metabook@a6ed112037848941c4b27071a12c4165af6edffd,
     guido-s/meta@f0b3e518dc96f95d74372feb6dc1e0aae46628b2,
     mcguinlu/robvis@70d69aeaf20cb3725b1d4919f23b824095a508b8
-Config/roxygen2/version: 8.1.0
+Config/roxygen2/version: 8.1.1
+Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true

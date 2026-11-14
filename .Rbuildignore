@@ -11,3 +11,7 @@
 ^\.vscode$
 ^.*\.code-workspace$
 ^\.github$
+^\.lintr$
+^\.covrignore$
+^data$
+^\.cache$
